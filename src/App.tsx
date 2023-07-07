@@ -11,9 +11,9 @@ function App() {
   return (
     <>
       {/* <Navbar/> */}
-      {/* <LoginPage/> */}
+      <LoginPage/>
       {/* <SignupPage/> */}
-      <ForgetPwPage/>
+      <ForgetPwPage/> 
     </>
   )
 }
