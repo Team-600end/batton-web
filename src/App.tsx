@@ -8,6 +8,8 @@ import MainNavbar from './components/MainNavbar';
 import IssueBoardPage from './pages/IssueBoardPage';
 import IssueBadge from './components/IssueBadge';
 import IssueCard from './components/IssueCard';
+import Notice from './components/Notice';
+import NoticeDetailPage from './pages/NoticeDetailPage';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -19,8 +21,13 @@ function App() {
       {/* <LoginPage/>
       <SignupPage/>
       <ForgetPwPage/>  */}
-      <IssueBoardPage/>
+      {/* <IssueBoardPage/> */}
       {/* <IssueCard/> */}
+      <Navbar/>
+      {/*<NoticeDetailPage/>*/}
+      {/*<LoginPage/>*/}
+      {/*<SignupPage/>*/}
+      {/*<ForgetPwPage/>*/}
     </>
   )
 }
