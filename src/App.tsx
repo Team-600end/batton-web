@@ -11,27 +11,30 @@ import IssueCard from './components/IssueCard';
 import Notice from './components/Notice';
 import NoticeDetailPage from './pages/NoticeDetailPage';
 import ReleaseNoteEditPage from './pages/RnoteEditPage';
+import PjCard from "./components/PjCard";
+import DbMember from "./components/DbMember";
+import DbIssueLog from "./components/DbIssueLog";
+import MainPage from './pages/MainPage';
+
 
 function App() {
   // const [count, setCount] = useState(0)
 
   return (
     <>
-      {/* <Navbar/>
-      <MainNavbar/> */}
-      {/* <LoginPage/>
-      <SignupPage/>
-      <ForgetPwPage/>  */}
-      {/* <IssueBoardPage/> */}
-      {/* <IssueCard/> */}
-      {/* <Navbar/> */}
-      {/*<NoticeDetailPage/>*/}
-      {/*<LoginPage/>*/}
-      {/*<SignupPage/>*/}
-      {/*<ForgetPwPage/>*/}
-      <ReleaseNoteEditPage/>
+      {/* <ReleaseNoteEditPage/> */}
+      <MainPage />
+      {/* <Navbar /> */}
+      {/* <LoginPage /> */}
+      {/* <SignupPage/> */}
+      {/* <ForgetPwPage /> */}
+
+      {/* ---아래는 지울것--- */}
+      {/* <PjCard /> */}
+      {/* <DbMember /> */}
+      {/* <DbIssueLog /> */}
     </>
-  )
+  );
 }
 
-export default App
+export default App;
