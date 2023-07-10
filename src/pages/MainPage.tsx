@@ -1,11 +1,10 @@
-import React, { useState, useCallback } from "react";
-import styled from "styled-components";
+import React from "react";
+import Navbar from "../components/Navbar";
 
 export default function MainPage() {
-  
   return (
-    <div className="grid">
-      
-    </div>
-  ); 
+    <>
+      <Navbar />
+    </>
+  );
 }
