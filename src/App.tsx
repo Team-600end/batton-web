@@ -10,6 +10,7 @@ import IssueBadge from './components/IssueBadge';
 import IssueCard from './components/IssueCard';
 import Notice from './components/Notice';
 import NoticeDetailPage from './pages/NoticeDetailPage';
+import ReleaseNoteEditPage from './pages/RnoteEditPage';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -23,11 +24,12 @@ function App() {
       <ForgetPwPage/>  */}
       {/* <IssueBoardPage/> */}
       {/* <IssueCard/> */}
-      <Navbar/>
+      {/* <Navbar/> */}
       {/*<NoticeDetailPage/>*/}
       {/*<LoginPage/>*/}
       {/*<SignupPage/>*/}
       {/*<ForgetPwPage/>*/}
+      <ReleaseNoteEditPage/>
     </>
   )
 }

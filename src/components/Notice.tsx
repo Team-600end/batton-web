@@ -5,20 +5,20 @@ import eye from "../assets/images/eye.png";
 function Notice() {
     return (
         <div className="flex justify-end sticky top-0">
-            <div id="dropdownNotification" className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-800" aria-labelledby="dropdownNotificationButton">
-                <div className="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50 dark:bg-gray-800">
+            <div id="dropdownNotification" className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow" aria-labelledby="dropdownNotificationButton">
+                <div className="block px-4 py-2 font-medium text-center text-gray-700 rounded-t-lg bg-gray-50">
                     알림
                 </div>
-                <div className="mb-4 border-b border-gray-700">
+                <div className="mb-4 border-b border-[#5AAE8A]">
                     <ul className="flex flex-wrap -mb-px text-sm font-medium text-center" id="myTab" data-tabs-toggle="#myTabContent" role="tablist">
                         <li className="ml-14" role="presentation">
                             <button className="inline-block p-4 border-b-2 rounded-t-lg" id="total" data-tabs-target="#profile" type="button" role="tab" aria-controls="profile" aria-selected="false">전체</button>
                         </li>
                         <li className="ml-9" role="presentation">
-                            <button className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">이슈</button>
+                            <button className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-[#5AAE8A] hover:border-[#5AAE8A]" id="dashboard-tab" data-tabs-target="#dashboard" type="button" role="tab" aria-controls="dashboard" aria-selected="false">이슈</button>
                         </li>
                         <li className="ml-9" role="presentation">
-                            <button className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-gray-600 hover:border-gray-300" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">프로젝트</button>
+                            <button className="inline-block p-4 border-b-2 border-transparent rounded-t-lg hover:text-[#5AAE8A] hover:border-[#5AAE8A]" id="settings-tab" data-tabs-target="#settings" type="button" role="tab" aria-controls="settings" aria-selected="false">프로젝트</button>
                         </li>
                     </ul>
                 </div>
