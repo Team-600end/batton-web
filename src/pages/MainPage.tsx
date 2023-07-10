@@ -9,6 +9,7 @@ import left_control_img from "../assets/images/mainPage/left_control.svg";
 import right_control_img from "../assets/images/mainPage/right_control.svg";
 import chevorn_img from "../assets/images/common/chevron-down-outline.png";
 import search_img from "../assets/images/common/search-outline.png";
+import Navbar from "../components/Navbar";
 
 export default function MainPage() {
   return (
