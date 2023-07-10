@@ -6,6 +6,7 @@ import SignupPage from './pages/SingupPage';
 import ForgetPwPage from './pages/ForgetPwPage';
 import Notice from './components/Notice';
 import NoticeDetailPage from './pages/NoticeDetailPage';
+import DonutSection from './components/DonutSection';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -13,6 +14,7 @@ function App() {
   return (
     <>
       <Navbar/>
+      <DonutSection userName ='승희' />
       {/*<NoticeDetailPage/>*/}
       {/*<LoginPage/>*/}
       {/*<SignupPage/>*/}
