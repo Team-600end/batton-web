@@ -11,6 +11,7 @@ import IssueCard from './components/IssueCard';
 import Notice from './components/Notice';
 import NoticeDetailPage from './pages/NoticeDetailPage';
 import DonutSection from './components/DonutSection';
+import BoardPage from './pages/BoardPage';
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -25,7 +26,8 @@ function App() {
       {/* <IssueBoardPage/> */}
       {/* <IssueCard/> */}
       <Navbar/>
-      <DonutSection userName ='승희' />
+      <BoardPage/>
+      {/*<DonutSection userName ='승희' />*/}
       {/*<NoticeDetailPage/>*/}
       {/*<LoginPage/>*/}
       {/*<SignupPage/>*/}
