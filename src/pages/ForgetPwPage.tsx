@@ -14,7 +14,7 @@ export default function ForgetPwPage() {
               <label id="email" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">이메일</label>
               <input type="email" name="email" id="email" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" placeholder="6oo@kakao.com" required />
           </div>
-          <button type="submit" className="w-full text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-medium rounded-lg text-sm px-5 py-2.5 text-center">로그인</button>
+          <button type="submit" className="w-full text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-medium rounded-lg text-sm px-5 py-2.5 text-center">비밀번호 재설정 이메일 받기</button>
           </form>
         </div>
       </div>
