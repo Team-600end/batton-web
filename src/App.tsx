@@ -11,6 +11,7 @@ import MainNavbar from "./components/MainNavbar";
 import IssueBoardPage from "./pages/IssueBoardPage";
 import IssueBadge from "./components/IssueBadge";
 import IssueCard from "./components/IssueCard";
+import WriteIssueReport from "./pages/WriteIssueReport";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -18,7 +19,7 @@ function App() {
   return (
     <>
       {/* <ForgetPwPage /> */}
-      <ReleaseNote />
+      {/* <ReleaseNote /> */}
       {/* <Release /> */}
       {/* <MainPage /> */}
       {/* <Navbar/> */}
@@ -28,6 +29,7 @@ function App() {
       {/* <ForgetPwPage/>  */}
       {/* <IssueBoardPage /> */}
       {/* <IssueCard/> */}
+      <WriteIssueReport />
     </>
   );
 }
