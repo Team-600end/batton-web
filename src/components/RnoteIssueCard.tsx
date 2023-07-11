@@ -8,12 +8,13 @@ type IssueCardProps = {
   issue: Issue;
 };
 
-export default function IssueCard(props: IssueCardProps) {
+export default function RnoteIssueCard(props: IssueCardProps) {
   return (
     <div className="rounded-md border border-gray-300 w-[16.5vw] h-[14vh] mb-[2vh] p-[1vw] shadow">
+      <div className="bg-[#FFED8F] w-[0.5vw] rounded-l-lg"/>
       <div className="flex items-center justify-between mb-[1vh]">
         <IssueBadge issueType={props.issue.type} />
-        <img src={kebap_img} style={{ marginRight: "-0.3vw" , cursor: "pointer" }}/>
+        <img src={kebap_img} style={{ marginRight: "-0.3vw" }}/>
       </div>
       <p className="text-sm">
         {props.issue.title}
