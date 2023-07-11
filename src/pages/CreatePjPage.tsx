@@ -1,7 +1,47 @@
-import React from "react";
+import React, { useState, useCallback, useEffect}  from "react";
 import profile_img from "../assets/images/myPage/profile_icon.png";
+import { Dropdown } from "flowbite";
+import type { DropdownOptions, DropdownInterface } from "flowbite";
 
 export default function CreatePjPage() {
+  
+  useEffect(() => {
+
+  // set the dropdown menu element
+  const $targetEl = document.getElementById('dropdownMenu') as HTMLDivElement;
+  
+  // set the element that trigger the dropdown menu on click
+  const $triggerEl = document.getElementById('dropdownButton') as HTMLButtonElement | null;
+  
+  // options with default values
+  const options: DropdownOptions = {
+    placement: 'bottom',
+    triggerType: 'click',
+    offsetSkidding: 0,
+    offsetDistance: 10,
+    delay: 300,
+    onHide: () => {
+        console.log('dropdown has been hidden');
+    },
+    onShow: () => {
+        console.log('dropdown has been shown');
+    },
+    onToggle: () => {
+        console.log('dropdown has been toggled');
+    }
+  };
+  
+  /*
+  * targetEl: required
+  * triggerEl: required
+  * options: optional
+  */
+  const dropdown: DropdownInterface = new Dropdown($targetEl, $triggerEl, options);
+  
+  // show the dropdown
+  dropdown.show();
+
+  }, []);
 
   return (
     <>
@@ -113,8 +153,8 @@ export default function CreatePjPage() {
 
               {/* 권한 드롭다운 버튼 */}
               <button
-                id="dropdownRadioBgHoverButton"
-                data-dropdown-toggle="dropdownRadioBgHover"
+                id="dropdownButton"
+                data-dropdown-toggle="dropdownMenu"
                 className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-[20px] justify-center"
                 type="button"
                 style={{ width: "86px", height: "40px", marginTop: "4.0733vh" }}
@@ -151,15 +191,15 @@ export default function CreatePjPage() {
             {/*  */}
             <div className="relative flex flex-col">
               <div
-                id="dropdownRadioBgHover"
-                className="z-20 w-[150px] bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                id="dropdownMenu"
+                className="z-20 hidden w-[150px] bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
                 style={{
                   marginLeft: "22.1vw",
                 }}
               >
                 <ul
                   className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
-                  aria-labelledby="dropdownRadioBgHoverButton"
+                  aria-labelledby="dropdownButton"
                 >
                   <li>
                     <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
