@@ -59,7 +59,7 @@ const reviewingIssues: Issue[] = [
   },
 ];
 
-const completeIssues: Issue[] = [
+const completedIssues: Issue[] = [
   {
     type: "Feature",
     title: "새로운 이슈",
@@ -144,9 +144,9 @@ export default function IssueBoardPage() {
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
                   <h1 className="text-lg font-bold text-[#323232]">완료</h1>
-                  <h2 className="ml-[0.8vw]">{completeIssues.length}</h2>
+                  <h2 className="ml-[0.8vw]">{completedIssues.length}</h2>
                 </div>
-                {completeIssues.map((issue, index) => (
+                {completedIssues.map((issue, index) => (
                   <IssueCard key={index} issue={issue} />
                 ))}
               </div>
