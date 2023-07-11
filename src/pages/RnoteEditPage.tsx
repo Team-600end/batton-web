@@ -56,13 +56,13 @@ export default function RnoteEditPage() {
               type="button"
               className="focus:outline-none text-white bg-[#AAAAAA] hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-6 py-2 mr-2 mb-2"
             >
-              Green
+              취소하기
             </button>
             <button
               type="button"
               className="focus:outline-none text-white bg-[#5AAE8A] hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-sm px-6 py-2 mr-2 mb-2"
             >
-              Green
+              저장하기
             </button>
           </div>
           <div>
@@ -70,13 +70,13 @@ export default function RnoteEditPage() {
               <input
                 type="text"
                 placeholder="버전"
-                className="border-none outline-none w-full resize-none"
+                className="border-none outline-none w-full h-full resize-none"
               />
             </div>
             <div className="border border-gray-400 rounded-lg p-[1vw] h-[80vh]">
               <textarea
                 placeholder="내용"
-                className="border-none outline-none w-full resize-none"
+                className="border-none outline-none w-full h-full resize-none"
               ></textarea>
             </div>
           </div>

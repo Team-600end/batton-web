@@ -1,14 +1,16 @@
 import React from "react";
 import Navbar from "../components/Navbar";
-import MainNavbar from "../components/MainNavbar";
+import ProjectNavbar from "../components/ProjectNavbar";
 import block from "../assets/images/releaseBlockImg.svg";
 import rvector from "../assets/images/rightVector.svg";
+import MilestoneNavbar from "../components/MilestoneNavbar";
 
 export default function ReleaseNote() {
   return (
     <>
       <Navbar />
-      <MainNavbar />
+      <MilestoneNavbar />
+      <ProjectNavbar />
       <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">
         <div className="max-w-screen-xl flex items-start flex-wrap justify-flex-end mx-auto p-4">
           <div className="flex-column">

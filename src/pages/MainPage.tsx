@@ -13,12 +13,15 @@ import Navbar from "../components/Navbar";
 
 export default function MainPage() {
   return (
-    <>
+    <div className="mt-[7vh]">
+      <Navbar />
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
         <div className="h-10"></div>
         <div className="flex flex-row items-center justify-left w-full px-8 ml-40">
           <img className="mr-2" src={titleBox_img} />
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mr-4">참여 중인 프로젝트</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mr-4">
+            참여 중인 프로젝트
+          </h1>
 
           <button
             type="button"
@@ -28,7 +31,11 @@ export default function MainPage() {
           </button>
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
-          <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
+          <Carousel
+            theme={customCarouselTheme}
+            leftControl={<img src={left_control_img} />}
+            rightControl={<img src={right_control_img} />}
+          >
             <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
               <PjCard />
               <PjCard />
@@ -42,7 +49,9 @@ export default function MainPage() {
         </div>
         <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
           <img className="mr-2" src={titleBox_img} />
-          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mr-4">내 작업 이슈들</h1>
+          <h1 className="text-2xl font-bold text-gray-900 dark:text-white mr-4">
+            내 작업 이슈들
+          </h1>
         </div>
         {/* table */}
         {/* <div className="items-center justify-center w-4/5 h-[300px] p-1"> */}
@@ -56,7 +65,11 @@ export default function MainPage() {
                 type="button"
               >
                 전체
-                <img className="w-2.5 h-2.5 ml-2.5" area-hidden="true" src={chevorn_img} />
+                <img
+                  className="w-2.5 h-2.5 ml-2.5"
+                  area-hidden="true"
+                  src={chevorn_img}
+                />
               </button>
 
               {/* Dropdown menu */}
@@ -66,9 +79,17 @@ export default function MainPage() {
                 data-popper-reference-hidden=""
                 data-popper-escaped=""
                 data-popper-placement="top"
-                style={{ position: "absolute", inset: "auto auto 0px 0px", margin: "0px", transform: "translate3d(522.5px, 3847.5px, 0px)" }}
+                style={{
+                  position: "absolute",
+                  inset: "auto auto 0px 0px",
+                  margin: "0px",
+                  transform: "translate3d(522.5px, 3847.5px, 0px)",
+                }}
               >
-                <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownRadioButton">
+                <ul
+                  className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
+                  aria-labelledby="dropdownRadioButton"
+                >
                   <li>
                     <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                       <input
@@ -79,7 +100,10 @@ export default function MainPage() {
                         name="filter-radio"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-800 dark:focus:ring-offset-gray-800 focus:ring-2 dark:bg-gray-700 dark:border-gray-600"
                       />
-                      <label htmlFor="filter-radio-example-1" className="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
+                      <label
+                        htmlFor="filter-radio-example-1"
+                        className="w-full ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                      >
                         전체
                       </label>
                     </div>
@@ -94,7 +118,11 @@ export default function MainPage() {
             </label>
             <div className="relative">
               <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                <img className="w-5 h-5 text-gray-500 dark:text-gray-400" area-hidden="true" src={search_img} />
+                <img
+                  className="w-5 h-5 text-gray-500 dark:text-gray-400"
+                  area-hidden="true"
+                  src={search_img}
+                />
               </div>
               <input
                 type="text"
@@ -128,7 +156,10 @@ export default function MainPage() {
             </thead>
             <tbody>
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
                   Apple MacBook Pro 17"
                 </th>
                 <td className="px-6 py-4">Silver</td>
@@ -137,7 +168,10 @@ export default function MainPage() {
                 <td className="px-6 py-4">상태</td>
               </tr>
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
                   Apple MacBook Pro 17"
                 </th>
                 <td className="px-6 py-4">Silver</td>
@@ -146,7 +180,10 @@ export default function MainPage() {
                 <td className="px-6 py-4">상태</td>
               </tr>
               <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+                <th
+                  scope="row"
+                  className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white"
+                >
                   Apple MacBook Pro 17"
                 </th>
                 <td className="px-6 py-4">Silver</td>
@@ -160,7 +197,10 @@ export default function MainPage() {
             </tbody>
           </table>
 
-          <nav className="flex items-center justify-center p-2" aria-label="Table navigation">
+          <nav
+            className="flex items-center justify-center p-2"
+            aria-label="Table navigation"
+          >
             <ul className="flex items-center justify-center -space-x-px text-sm h-8">
               <li>
                 <a
@@ -207,15 +247,17 @@ export default function MainPage() {
           </nav>
         </div>
       </div>
-    </>
+    </div>
   );
 }
 
 const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
   root: {
     base: "relative h-[270px] w-full mx-4",
-    leftControl: "absolute top-0 left-0 flex h-full items-center justify-center px-4 focus:outline-none",
-    rightControl: "absolute top-0 right-0 flex h-full items-center justify-center px-4 focus:outline-none",
+    leftControl:
+      "absolute top-0 left-0 flex h-full items-center justify-center px-4 focus:outline-none",
+    rightControl:
+      "absolute top-0 right-0 flex h-full items-center justify-center px-4 focus:outline-none",
   },
   indicators: {
     active: {
