@@ -13,11 +13,11 @@ export default function SignupPage() {
       <img className="relative z-10 mb-4" src={batton_logo_img} />
       <div className="flex flex-col space-y-6 relative z-10 items-center justify-center w-[38vw] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
         <form className="space-y-6 w-[30vw]">
-          <h4 className="text-2xl font-medium text-gray-900">회원가입</h4>
+          <h4 className="text-2xl font-suitM text-gray-900">회원가입</h4>
           <div>
             <label
               id="email"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-suitM text-gray-900 dark:text-white"
             >
               이메일
             </label>
@@ -33,7 +33,7 @@ export default function SignupPage() {
           <div>
             <label
               id="nickname"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-suitM text-gray-900 dark:text-white"
             >
               닉네임
             </label>
@@ -49,7 +49,7 @@ export default function SignupPage() {
           <div>
             <label
               id="password"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-suitM text-gray-900 dark:text-white"
             >
               비밀번호
             </label>
@@ -65,7 +65,7 @@ export default function SignupPage() {
           <div className="pb-[3vh]">
             <label
               id="password-check"
-              className="block mb-2 text-sm font-medium text-gray-900 dark:text-white"
+              className="block mb-2 text-sm font-suitM text-gray-900 dark:text-white"
             >
               비밀번호 확인
             </label>
@@ -80,7 +80,7 @@ export default function SignupPage() {
           </div>
           <button
             type="submit"
-            className="w-full text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+            className="w-full text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-5 py-2.5 text-center"
           >
             회원가입
           </button>

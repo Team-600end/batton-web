@@ -126,7 +126,7 @@ export default function IssueBoardPage() {
       <div>
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">
           <div className="flex justify-end mr-[2.5vw] mt-[2vw]"> {/*here*/}
-            <button className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md text-sm">
+            <button className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL">
               <img src={plus_img} className="mr-[0.2vw]" />
               이슈 생성
             </button>
@@ -136,8 +136,8 @@ export default function IssueBoardPage() {
               <div className="bg-[#FFED8F] h-[0.5vw] rounded-t-lg" />
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
-                  <h1 className="text-lg font-bold text-[#323232]">대기</h1>
-                  <h2 className="ml-[0.8vw]">{watingIssues.length}</h2>
+                  <h1 className="text-lg font-suitB text-[#323232]">대기</h1>
+                  <h2 className="ml-[0.8vw] font-suitB">{watingIssues.length}</h2>
                 </div>
                 {watingIssues.map((issue, index) => (
                   <IssueCard key={index} issue={issue} />
@@ -148,8 +148,8 @@ export default function IssueBoardPage() {
               <div className="bg-[#8FB5FF] h-[0.5vw] rounded-t-lg" />
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
-                  <h1 className="text-lg font-bold text-[#323232]">진행</h1>
-                  <h2 className="ml-[0.8vw]">{proceedingIssues.length}</h2>
+                  <h1 className="text-lg font-suitB text-[#323232]">진행</h1>
+                  <h2 className="ml-[0.8vw] font-suitB">{proceedingIssues.length}</h2>
                 </div>
                 {proceedingIssues.map((issue, index) => (
                   <IssueCard key={index} issue={issue} />
@@ -160,8 +160,8 @@ export default function IssueBoardPage() {
               <div className="bg-[#FF8F8F] h-[0.5vw] rounded-t-lg" />
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
-                  <h1 className="text-lg font-bold text-[#323232]">검토</h1>
-                  <h2 className="ml-[0.8vw]">{reviewingIssues.length}</h2>
+                  <h1 className="text-lg font-suitB text-[#323232]">검토</h1>
+                  <h2 className="ml-[0.8vw] font-suitB">{reviewingIssues.length}</h2>
                 </div>
                 {reviewingIssues.map((issue, index) => (
                   <IssueCard key={index} issue={issue} />
@@ -172,8 +172,8 @@ export default function IssueBoardPage() {
               <div className="bg-[#83CE9B] h-[0.5vw] rounded-t-lg" />
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
-                  <h1 className="text-lg font-bold text-[#323232]">완료</h1>
-                  <h2 className="ml-[0.8vw]">{completedIssues.length}</h2>
+                  <h1 className="text-lg font-suitB text-[#323232]">완료</h1>
+                  <h2 className="ml-[0.8vw] font-suitB">{completedIssues.length}</h2>
                 </div>
                 {completedIssues.map((issue, index) => (
                   <IssueCard key={index} issue={issue} />

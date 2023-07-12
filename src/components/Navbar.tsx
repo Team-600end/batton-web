@@ -20,11 +20,11 @@ export default function Navbar() {
           style={{ cursor: "pointer", marginLeft: "-2vw" }}
         >
           <img src={batton_logo_img} className="h-8 mr-3" alt="Flowbite Logo" />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap"></span>
+          <span className="self-center text-2xl font-suitSB whitespace-nowrap"></span>
         </a>
       </div>
       <div className="items-center justify-between hidden w-full md:flex md:w-auto">
-        <ul className="flex flex-col font-medium p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-[4vw] md:mt-0 md:border-0 md:bg-white">
+        <ul className="flex flex-col font-suitM p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-[4vw] md:mt-0 md:border-0 md:bg-white">
           <li>
             <a
               href="#"
@@ -55,7 +55,7 @@ export default function Navbar() {
             </button>
             <div
               id="dropdownNavbar"
-              className="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+              className="z-10 hidden font-suitL bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
             >
               <ul
                 className="py-2 text-sm text-gray-700 dark:text-gray-400"
@@ -102,7 +102,7 @@ export default function Navbar() {
         <button
           id="dropdownNotificationButton"
           data-dropdown-toggle="dropdownNotification"
-          className="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none mr-3"
+          className="inline-flex items-center text-sm font-suitM text-center text-gray-500 hover:text-gray-900 focus:outline-none mr-3"
           type="button"
           onClick={handleDropdownToggle}
         >

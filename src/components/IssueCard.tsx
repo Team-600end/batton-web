@@ -15,15 +15,15 @@ export default function IssueCard(props: IssueCardProps) {
         <IssueBadge issueType={props.issue.type} />
         <img src={kebap_img} style={{ marginRight: "-0.3vw" , cursor: "pointer" }}/>
       </div>
-      <p className="text-sm">
+      <p className="text-sm font-suitM">
         {props.issue.title}
       </p>
       <div className="flex items-center justify-between mt-[1.7vh]">
-        <p className="text-xs text-gray-400">
+        <p className="text-xs font-suitM text-gray-400">
             {props.issue.team}-{props.issue.index}
         </p>
         {props.issue.manager && (<img src={props.issue.manager?.profileImg ?? default_avatar_img} className="ml-[5vw]"/>)}
-        <p className="text-xs text-gray-700">
+        <p className="text-xs font-suitM text-gray-700">
             {props.issue.manager?.name}
         </p>
       </div>
