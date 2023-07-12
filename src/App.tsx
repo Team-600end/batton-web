@@ -10,6 +10,8 @@ import RnoteEditPage from "./pages/RnoteEditPage";
 import ReleaseNote from "./pages/ReleaseNote";
 import MainPage from "./pages/MainPage";
 import IssueBoardPage from "./pages/IssueBoardPage";
+import BoardPage from "./pages/BoardPage";
+import IssueHistoryPage from "./pages/IssueHistoryPage";
 
 function App() {
   return (
@@ -19,10 +21,12 @@ function App() {
           <Route path="/" Component={MainPage} />
           <Route path="/signup" Component={SignupPage} />
           <Route path="/forget-pw" Component={ForgetPwPage} />
+          <Route path="/board" Component={BoardPage} />
           <Route path="/project/0/issueboard" Component={IssueBoardPage} />
           <Route path="/project/0/releasenote" Component={ReleaseNote} />
           <Route path="/project/0/releasenote/0" Component={Release} />
-          <Route path="/release/edit" Component={RnoteEditPage} />
+          <Route path="/project/0/releasenote/write" Component={RnoteEditPage} />
+          <Route path="/dev" Component={IssueHistoryPage} />
           <Route path="*" Component={LoginPage} />
         </Routes>
       </BrowserRouter>

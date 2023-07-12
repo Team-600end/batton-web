@@ -125,14 +125,14 @@ export default function IssueBoardPage() {
       <ProjectNavbar />
       <div>
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">
-          <div className="flex justify-end mr-[2vw] mt-[2vw]">
-            <button className="rounded-lg bg-[#5AAE8A] text-white flex p-[0.8vh] items-center shadow-md">
+          <div className="flex justify-end mr-[2.5vw] mt-[2vw]"> {/*here*/}
+            <button className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md text-sm">
               <img src={plus_img} className="mr-[0.2vw]" />
               이슈 생성
             </button>
           </div>
           <div className="flex m-[1.5vw] justify-center">
-            <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col">
+            <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit">
               <div className="bg-[#FFED8F] h-[0.5vw] rounded-t-lg" />
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
@@ -144,7 +144,7 @@ export default function IssueBoardPage() {
                 ))}
               </div>
             </div>
-            <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col">
+            <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit">
               <div className="bg-[#8FB5FF] h-[0.5vw] rounded-t-lg" />
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
@@ -156,7 +156,7 @@ export default function IssueBoardPage() {
                 ))}
               </div>
             </div>
-            <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col">
+            <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit">
               <div className="bg-[#FF8F8F] h-[0.5vw] rounded-t-lg" />
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
@@ -168,7 +168,7 @@ export default function IssueBoardPage() {
                 ))}
               </div>
             </div>
-            <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col">
+            <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit">
               <div className="bg-[#83CE9B] h-[0.5vw] rounded-t-lg" />
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
