@@ -7,7 +7,7 @@ export default function DbIssueLog() {
       <div className="w-[1000px] h-[400px] p-[10px] mx-[100px] my-[100px] shadow-[2px_6px_10px_-2px_rgba(0,0,0,0.3)] border-[0.3px] bg-white rounded-lg shadow mx-2 dark:bg-gray-800 dark:hover:bg-gray-700">
         {/* 테이블 */}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
-          <thead className="text-xs text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
+          <thead className="text-xs font-suitL text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
             <tr>
               <th scope="col" className="px-6 py-3">
                 프로젝트
@@ -28,7 +28,7 @@ export default function DbIssueLog() {
           </thead>
           <tbody>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap dark:text-white">
                 Apple MacBook Pro 17"
               </th>
               <td className="px-6 py-4">Silver</td>
@@ -37,7 +37,7 @@ export default function DbIssueLog() {
               <td className="px-6 py-4">상태</td>
             </tr>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap dark:text-white">
                 Apple MacBook Pro 17"
               </th>
               <td className="px-6 py-4">Silver</td>
@@ -46,7 +46,7 @@ export default function DbIssueLog() {
               <td className="px-6 py-4">상태</td>
             </tr>
             <tr className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-              <th scope="row" className="px-6 py-4 font-medium text-gray-900 whitespace-nowrap dark:text-white">
+              <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap dark:text-white">
                 Apple MacBook Pro 17"
               </th>
               <td className="px-6 py-4">Silver</td>
@@ -61,7 +61,7 @@ export default function DbIssueLog() {
         </table>
 
         <nav className="flex items-center justify-center p-2" aria-label="Table navigation">
-          <ul className="flex items-center justify-center -space-x-px text-sm h-8">
+          <ul className="flex items-center justify-center font-suitM -space-x-px text-sm h-8">
             <li>
               <a
                 href="#"

@@ -5,8 +5,8 @@ export default function BoardPage() {
     return (
             <div className="flex flex-col items-center mx-[200px] my-[100px] shadow-[2px_6px_10px_-2px_rgba(0,0,0,0.3)] border-[0.3px] bg-white rounded-lg shadow mx-2">
                 {/* 테이블 */}
-                <table className="w-full text-sm text-left text-gray-500">
-                    <thead className="text-center text-xs text-white uppercase bg-[#285F43]">
+                <table className="w-full text-smtext-left text-gray-500">
+                    <thead className="text-center font-suitL text-xs text-white uppercase bg-[#285F43]">
                         <tr>
                             <th scope="col" className="py-3">
                                 프로젝트
@@ -26,8 +26,8 @@ export default function BoardPage() {
                         </tr>
                     </thead>
                     <tbody>
-                        <tr className="text-center bg-white border-b hover:bg-gray-50">
-                            <th scope="row" className="py-4 font-medium text-gray-900 whitespace-nowrap">
+                        <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
+                            <th scope="row" className="py-4">
                                 600&
                             </th>
                             <td className="py-4">v1.0.1</td>
@@ -38,8 +38,8 @@ export default function BoardPage() {
                             <td className="py-4">2023.07.10</td>
                             <td className="py-4">harry</td>
                         </tr>
-                        <tr className="text-center bg-white border-b hover:bg-gray-50">
-                            <th scope="row" className="py-4 font-medium text-gray-900 whitespace-nowrap">
+                        <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
+                            <th scope="row" className="py-4">
                                 밴드의 시대
                             </th>
                             <td className="py-4">v1.0.1</td>
@@ -49,8 +49,8 @@ export default function BoardPage() {
                             <td className="py-4">2023.07.10</td>
                             <td className="py-4">harry</td>
                         </tr>
-                        <tr className="text-center bg-white border-b hover:bg-gray-50">
-                            <th scope="row" className="py-4 font-medium text-gray-900 whitespace-nowrap">
+                        <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
+                            <th scope="row" className="py-4">
                                 Survein
                             </th>
                             <td className="py-4">v1.0.1</td>
@@ -69,7 +69,7 @@ export default function BoardPage() {
                     </tbody>
                 </table>
 
-                <nav className="flex items-center justify-center p-2" aria-label="Table navigation">
+                <nav className="flex items-center font-suitM justify-center p-2" aria-label="Table navigation">
                     <ul className="flex items-center justify-center -space-x-px text-sm h-8">
                         <li>
                             <a

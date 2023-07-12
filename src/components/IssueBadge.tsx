@@ -41,7 +41,7 @@ function IssueBadge(props: IssueBadgeProps) {
   return (
     <span
       style={{ backgroundColor, color: textColor, borderColor: borderColor }}
-      className="text-xs font-medium mr-2 px-2.5 py-0.5 rounded-md border"
+      className="text-xs font-suitM mr-2 px-2.5 py-0.5 rounded-md border"
     >
       {props.issueType}
     </span>
