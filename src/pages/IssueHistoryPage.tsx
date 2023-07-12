@@ -73,7 +73,6 @@ const releasedIssues: Issue[] = [
 export default function IssueHistoryPage() {
   return (
     <div className="flex flex-col overflow-hidden">
-      <Navbar />
       <MilestoneNavbar />
       <ProjectNavbar />
       <div>

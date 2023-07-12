@@ -7,7 +7,6 @@ import MilestoneNavbar from "../components/MilestoneNavbar";
 export default function Release() {
   return (
     <>
-      <Navbar />
       <MilestoneNavbar />
       <ProjectNavbar />
       <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">

@@ -14,7 +14,6 @@ import Navbar from "../components/Navbar";
 export default function MainPage() {
   return (
     <div className="mt-[7vh]">
-      <Navbar />
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
         <div className="h-10"></div>
         <div className="flex flex-row items-center justify-left w-full px-8 ml-40">
