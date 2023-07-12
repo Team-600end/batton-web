@@ -9,6 +9,7 @@ export default function DbMember() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
+  
   return (
     <>
       <div className="w-[220px] h-[400px] p-[10px] mx-[100px] my-[100px] shadow-[2px_6px_10px_-2px_rgba(0,0,0,0.3)] border-[0.3px] bg-white rounded-lg shadow mx-2 dark:bg-gray-800 dark:hover:bg-gray-700">

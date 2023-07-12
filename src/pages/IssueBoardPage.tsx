@@ -120,7 +120,6 @@ const completedIssues: Issue[] = [
 export default function IssueBoardPage() {
   return (
     <div className="flex flex-col overflow-hidden">
-      <Navbar />
       <MilestoneNavbar />
       <ProjectNavbar />
       <div>

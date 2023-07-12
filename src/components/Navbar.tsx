@@ -1,11 +1,13 @@
 import React, { useState, useCallback } from "react";
 import batton_logo_img from "../assets/images/batton_logo.svg";
 import Notice from "./Notice";
+import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
   const [projectDropdown, setProjectDropdown] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const navigate = useNavigate();
 
   const handleDropdownToggle = () => {
     setDropdownVisible(!isDropdownVisible);
@@ -26,13 +28,12 @@ export default function Navbar() {
       <div className="items-center justify-between hidden w-full md:flex md:w-auto">
         <ul className="flex flex-col font-suitM p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-[4vw] md:mt-0 md:border-0 md:bg-white">
           <li>
-            <a
-              href="#"
+            <button
               className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-[#5AAE8A] md:p-0"
-              aria-current="page"
+              onClick={() => navigate("/main")}
             >
               메인
-            </a>
+            </button>
           </li>
           <li>
             <button data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#5AAE8A] md:p-0 md:w-auto">
@@ -88,12 +89,12 @@ export default function Navbar() {
             </div>
           </li>
           <li>
-            <a
-              href="#"
+            <button
               className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#5AAE8A] md:p-0"
+              onClick={() => navigate("/board")}
             >
               게시판
-            </a>
+            </button>
           </li>
         </ul>
       </div>
