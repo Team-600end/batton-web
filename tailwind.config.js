@@ -7,6 +7,7 @@ export default {
   ],
   theme: {
     colors: {
+      'black' : '000000',
       'primary-1' : '#1D4D4F',
       'primary-2' : '#285F43',
       'primary-3' : '#4AA366',
@@ -32,7 +33,12 @@ export default {
       'blue-4' : '#CBCDFF',
     },
     extend: {
-      
+      fontFamily:{
+        suitB: ['SUIT-Bold'],
+        suitSB: ['SUIT-SemiBold'],
+        suitM: ['SUIT-Medium'],
+        suitL: ['SUIT-Light'],
+      },
     },
   },
   plugins: [

@@ -13,7 +13,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white border-gray-200 fixed top-0 left-0 right-0 bg-white z-50 shadow-sm h-[8vh]">
+    <nav className="bg-white border-gray-200 fixed top-0 left-0 right-0 bg-white z-50 shadow-sm">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a
           href="#####"
@@ -25,7 +25,7 @@ export default function Navbar() {
             className="h-8 mr-3"
             alt="Flowbite Logo"
           />
-          <span className="self-center text-2xl font-semibold whitespace-nowrap"></span>
+          <span className="self-center text-2xl font-suitSB whitespace-nowrap"></span>
         </a>
         <div className="flex items-center md:order-2 mr-3">
 
@@ -33,7 +33,7 @@ export default function Navbar() {
           <button
             id="dropdownNotificationButton"
             data-dropdown-toggle="dropdownNotification"
-            className="inline-flex items-center text-sm font-medium text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400  mr-3"
+            className="inline-flex items-center text-sm font-suitM text-center text-gray-500 hover:text-gray-900 focus:outline-none dark:hover:text-white dark:text-gray-400  mr-3"
             type="button"
             onClick={handleDropdownToggle}
           >
@@ -135,7 +135,7 @@ export default function Navbar() {
           className="items-center justify-between hidden w-full md:flex md:w-auto md:order-1"
           id="navbar-user"
         >
-          <ul className="flex flex-col font-medium p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+          <ul className="flex flex-col font-suitM p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
             <li>
               <a
                 href="#"
@@ -170,7 +170,7 @@ export default function Navbar() {
               </button>
               <div
                 id="dropdownNavbar"
-                className="z-10 hidden font-normal bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+                className="z-10 hidden font-suitB bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
               >
                 <ul
                   className="py-2 text-sm text-gray-700 dark:text-gray-400"
