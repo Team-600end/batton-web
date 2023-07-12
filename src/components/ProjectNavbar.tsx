@@ -1,25 +1,13 @@
 import React from "react";
-import right_arrow from "../assets/images/nav/right.svg";
 
-export default function MainNavbar() {
+export default function ProjectNavbar() {
   return (
-    <div className="mt-[10vh]">
-      <span className="flex ml-[5vw] m-[1vw]">
-        프로젝트
-        <img src={right_arrow}/>
-        <a
-          href="#####"
-          className="flex items-center"
-          style={{ cursor: "pointer" }}
-        >
-          600&
-        </a>
-      </span>
+    <div className="">
       <div
         className="items-center justify-center ml-[3vw] w-full md:flex md:w-auto md:order-1"
         id="navbar-user"
       >
-        <ul className="flex flex-col font-medium text-lg p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
+        <ul className="flex flex-col font-suitM text-lg p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
           <li>
             <a
               href="#"
