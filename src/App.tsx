@@ -1,5 +1,6 @@
 // import { useState } from 'react';
-import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
+
+import { BrowserRouter, Routes, Route } from "react-router-dom";
 import "./assets/index.css";
 import { RecoilRoot } from "recoil";
 import LoginPage from "./pages/LoginPage";
@@ -14,12 +15,12 @@ import BoardPage from "./pages/BoardPage";
 import IssueHistoryPage from "./pages/IssueHistoryPage";
 import NoticeDetailPage from "./pages/NoticeDetailPage";
 import Navbar from "./components/Navbar";
-import ProjectNavbar from "./components/ProjectNavbar";
 
 function App() {
   const showNavbar = !['/signup', '/login', '/forget-pw'].includes(window.location.pathname);
 
   return (
+
     <RecoilRoot>
       <BrowserRouter>
       {showNavbar && <Navbar/>}
