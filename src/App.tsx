@@ -4,6 +4,7 @@ import "./assets/index.css";
 import WriteIssueReport from "./pages/WriteIssueReport";
 import Release from "./pages/Release";
 import IssueBoardPage from "./pages/IssueBoardPage";
+import IssueReport from "./pages/IssueReport";
 
 function App() {
   // const [count, setCount] = useState(0)
@@ -11,9 +12,10 @@ function App() {
   return (
     <>
       {/* <Navbar /> */}
-      <WriteIssueReport />
+      {/* <WriteIssueReport /> */}
       {/* <Release /> */}
       {/* <IssueBoardPage /> */}
+      <IssueReport />
     </>
   );
 }
