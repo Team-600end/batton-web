@@ -3,7 +3,7 @@ import styled from "styled-components";
 import avatar_img from "../assets/images/common/avatar.png";
 import vertical_dots_img from "../assets/images/common/dots-vertical-outline.png";
 
-export default function DbMember() {
+export default function PjMemberList() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
   const toggleDropdown = () => {
