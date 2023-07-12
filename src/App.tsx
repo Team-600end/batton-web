@@ -1,12 +1,10 @@
 // import { useState } from 'react';
 import Navbar from './components/Navbar';
 import './assets/index.css';
-import LoginPage from './pages/LoginPage';
-import SignupPage from './pages/SingupPage';
-import ForgetPwPage from './pages/ForgetPwPage';
-import MyPage from './pages/MyPage';
 import CreatePjPage from './pages/CreatePjPage';
-import CreateIsModal from './components/CreateIssueModal';
+
+import IssueEditPage from './pages/IssueEditPage';
+import MyPage from './pages/MyPage';
 import IssueManagePage from './pages/IssueManagePage';
 
 

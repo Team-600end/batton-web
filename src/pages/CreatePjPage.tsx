@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect}  from "react";
 import profile_img from "../assets/images/myPage/profile_icon.png";
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
+import Navbar from "../components/Navbar";
 
 export default function CreatePjPage() {
   
@@ -45,10 +46,11 @@ export default function CreatePjPage() {
 
   return (
     <>
-      <div className="relative w-screen h-screen flex flex-col overflow-hidden">
+    <Navbar/>
+      <div className="relative w-screen h-screen flex flex-col mt-12">
         {/* 프로젝트 생성하기 타이틀 */}
         <div
-          className="flex flex-row items-center mt-[40px]"
+          className="flex flex-row items-center mt-12"
           style={{ marginLeft: "16.9312vw" }}
         >
           <div className="w-[10px] h-[27px] bg-primary-5 mr-[10px]"></div>
@@ -64,8 +66,8 @@ export default function CreatePjPage() {
             className="flex flex-col"
             style={{
               width: "15vw",
-              marginLeft: "28.2159vw",
-              marginTop: "8.9613vh",
+              marginLeft: "24.2159vw",
+              marginTop: "4.9613vh",
             }}
           >
             <p className="text-[20px] font-medium text-gray-900">프로젝트명</p>
@@ -87,7 +89,8 @@ export default function CreatePjPage() {
           {/* 인풋들 모음 */}
           <div
             className="flex flex-col  w-screen"
-            style={{ marginLeft: "10.2159vw", marginTop: "8.9613vh" }}
+            style={{ marginLeft: "10.2159vw", 
+              marginTop: "4.9613vh", }}
           >
             {/* 제목 입력 */}
             <input

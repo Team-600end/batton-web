@@ -13,7 +13,7 @@ export default function Navbar() {
   };
 
   return (
-    <nav className="bg-white border-gray-200 fixed top-0 left-0 right-0 bg-white z-50 shadow-sm">
+    <nav className="bg-white border-gray-200 fixed top-0 left-0 right-0 bg-white z-50 shadow-sm h-[8vh]">
       <div className="max-w-screen-xl flex flex-wrap items-center justify-between mx-auto p-4">
         <a
           href="#####"
