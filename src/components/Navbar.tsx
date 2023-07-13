@@ -4,11 +4,12 @@ import Notice from "./Notice";
 import { useNavigate } from "react-router-dom";
 
 export default function Navbar() {
+  const navigate = useNavigate();
+
   const [projectDropdown, setProjectDropdown] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  const navigate = useNavigate();
-
+  
   const handleDropdownToggle = () => {
     setDropdownVisible(!isDropdownVisible);
   };
@@ -16,14 +17,14 @@ export default function Navbar() {
   return (
     <nav className="bg-white border-gray-200 fixed top-0 w-screen bg-white z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]">
       <div className="flex items-center p-4">
-        <a
-          href="#####"
+        <button
           className="flex items-center flex-1"
           style={{ cursor: "pointer", marginLeft: "-2vw" }}
+          onClick={() => navigate("/main")}
         >
           <img src={batton_logo_img} className="h-8 mr-3" alt="Flowbite Logo" />
           <span className="self-center text-2xl font-suitSB whitespace-nowrap"></span>
-        </a>
+        </button>
       </div>
       <div className="items-center justify-between hidden w-full md:flex md:w-auto">
         <ul className="flex flex-col font-suitM p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-[4vw] md:mt-0 md:border-0 md:bg-white">
@@ -36,7 +37,11 @@ export default function Navbar() {
             </button>
           </li>
           <li>
-            <button data-dropdown-toggle="dropdownNavbar" className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#5AAE8A] md:p-0 md:w-auto">
+            <button
+              data-dropdown-toggle="dropdownNavbar"
+              className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#5AAE8A] md:p-0 md:w-auto"
+              onClick={() => navigate("/project/0/issueboard")}
+            >
               프로젝트{" "}
               <svg
                 className="w-2.5 h-2.5 ml-2.5"
