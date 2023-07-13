@@ -17,14 +17,14 @@ export default function Navbar() {
   return (
     <nav className="bg-white border-gray-200 fixed top-0 w-screen bg-white z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]">
       <div className="flex items-center p-4">
-        <a
-          href="#####"
+        <button
           className="flex items-center flex-1"
           style={{ cursor: "pointer", marginLeft: "-2vw" }}
+          onClick={() => navigate("/main")}
         >
           <img src={batton_logo_img} className="h-8 mr-3" alt="Flowbite Logo" />
           <span className="self-center text-2xl font-suitSB whitespace-nowrap"></span>
-        </a>
+        </button>
       </div>
       <div className="items-center justify-between hidden w-full md:flex md:w-auto">
         <ul className="flex flex-col font-suitM p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-[4vw] md:mt-0 md:border-0 md:bg-white">
