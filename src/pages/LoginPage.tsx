@@ -4,6 +4,7 @@ import login_righthand_img from "../assets/images/loginPage/login_righthand.svg"
 import batton_logo_img from "../assets/images/batton_logo_auth.svg";
 import kakao_logo_img from "../assets/images/loginPage/kakao_logo.svg";
 import google_logo_img from "../assets/images/loginPage/google_logo.svg";
+import { useCookies } from "react-cookie";
 
 export default function LoginPage() {
   return (
