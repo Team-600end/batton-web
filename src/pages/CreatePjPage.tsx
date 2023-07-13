@@ -113,7 +113,6 @@ export default function CreatePjPage() {
 
             {/* 설명 입력 */}
             <textarea
-              type="pj_title"
               name="pj_title"
               id="pj_title"
               placeholder=""
@@ -147,7 +146,7 @@ export default function CreatePjPage() {
                   placeholder=" "
                 />
                 <label
-                  for="floating_standard"
+                  htmlFor="floating_standard"
                   className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
                 >
                   이메일 검색하기
@@ -214,8 +213,8 @@ export default function CreatePjPage() {
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
-                        for="default-radio-4"
-                        class="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300"
+                        htmlFor="default-radio-4"
+                        className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         프로젝트 리더
                       </label>
@@ -232,8 +231,8 @@ export default function CreatePjPage() {
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
-                        for="default-radio-5"
-                        class="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300"
+                        htmlFor="default-radio-5"
+                        className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         프로젝트 팀원
                       </label>
@@ -297,7 +296,7 @@ export default function CreatePjPage() {
                     </div>
                   </li>
 
-                  <li class="py-3 sm:py-4">
+                  <li className="py-3 sm:py-4">
                     <div className="flex items-center space-x-7">
                       <div className="flex-shrink-0">
                         <img
@@ -319,7 +318,7 @@ export default function CreatePjPage() {
                       </div>
                     </div>
                   </li>
-                  <li class="py-3 sm:py-4">
+                  <li className="py-3 sm:py-4">
                     <div className="flex items-center space-x-7">
                       <div className="flex-shrink-0">
                         <img
