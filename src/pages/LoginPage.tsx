@@ -7,6 +7,7 @@ import google_logo_img from "../assets/images/loginPage/google_logo.svg";
 import { useCookies } from "react-cookie";
 
 export default function LoginPage() {
+  
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
       <img className="absolute z-0" src={login_lefthand_img} style={{marginTop: '20vh', marginLeft: '-92vw'}}/>

@@ -9,7 +9,15 @@ export default function Navbar() {
   const [projectDropdown, setProjectDropdown] = useState(false);
   const [profileDropdown, setProfileDropdown] = useState(false);
   const [isDropdownVisible, setDropdownVisible] = useState(false);
-  
+
+  const handleProjectDropdown = () => {
+    setProjectDropdown(!projectDropdown);
+  };
+
+  const handleProfileDropdown = () => {
+    setProfileDropdown(!profileDropdown);
+  };
+
   const handleDropdownToggle = () => {
     setDropdownVisible(!isDropdownVisible);
   };
@@ -19,18 +27,17 @@ export default function Navbar() {
       <div className="flex items-center p-4">
         <button
           className="flex items-center flex-1"
-          style={{ cursor: "pointer", marginLeft: "-2vw" }}
-          onClick={() => navigate("/main")}
+          style={{ marginLeft: "-2vw" }}
+          onClick={() => navigate("/")}
         >
           <img src={batton_logo_img} className="h-8 mr-3" alt="Flowbite Logo" />
-          <span className="self-center text-2xl font-suitSB whitespace-nowrap"></span>
         </button>
       </div>
-      <div className="items-center justify-between hidden w-full md:flex md:w-auto">
-        <ul className="flex flex-col font-suitM p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-[4vw] md:mt-0 md:border-0 md:bg-white">
+      <div className="items-center justify-between w-full md:flex md:w-auto">
+        <ul className="flex flex-row font-suitM rounded-lg space-x-[4vw]">
           <li>
             <button
-              className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-[#5AAE8A] md:p-0"
+              className="bg-blue-700 rounded md:bg-transparent text-[#5AAE8A]"
               onClick={() => navigate("/main")}
             >
               메인
@@ -38,9 +45,8 @@ export default function Navbar() {
           </li>
           <li>
             <button
-              data-dropdown-toggle="dropdownNavbar"
-              className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:border-0 md:hover:text-[#5AAE8A] md:p-0 md:w-auto"
-              onClick={() => navigate("/project/0/issueboard")}
+              className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 hover:bg-transparent md:hover:text-[#5AAE8A] md:p-0 md:w-auto"
+              onClick={handleProjectDropdown}
             >
               프로젝트{" "}
               <svg
@@ -59,39 +65,6 @@ export default function Navbar() {
                 />
               </svg>
             </button>
-            <div
-              id="dropdownNavbar"
-              className="z-10 hidden font-suitL bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
-            >
-              <ul
-                className="py-2 text-sm text-gray-700 dark:text-gray-400"
-                aria-labelledby="dropdownLargeButton"
-              >
-                <li>
-                  <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                    Dashboard
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                    Settings
-                  </a>
-                </li>
-                <li>
-                  <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                    Earnings
-                  </a>
-                </li>
-              </ul>
-              <div className="py-1">
-                <a
-                  href="#"
-                  className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-                >
-                  Sign out
-                </a>
-              </div>
-            </div>
           </li>
           <li>
             <button
@@ -212,6 +185,35 @@ export default function Navbar() {
           </svg>
         </button>
       </div>
+      {projectDropdown && (
+        <div
+          id="dropdownNavbar"
+          className="z-20 mt-[40vh] font-suitL bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
+        >
+          <ul className="py-2 text-sm text-gray-700">
+            <li>
+              <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                Dashboard
+              </a>
+            </li>
+            <li>
+              <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                Settings
+              </a>
+            </li>
+            <li>
+              <a href="#" className="block px-4 py-2 hover:bg-gray-100">
+                Earnings
+              </a>
+            </li>
+          </ul>
+          <div className="py-1">
+            <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              Sign out
+            </button>
+          </div>
+        </div>
+      )}
       {isDropdownVisible && (
         <div className="absolute right-16 w-[410px] bg-white">
           <div className="p-4">{<Notice />}</div>

@@ -1,4 +1,4 @@
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "./assets/index.css";
 import { RecoilRoot } from "recoil";
 import LoginPage from "./pages/LoginPage";
@@ -15,44 +15,31 @@ import NoticeDetailPage from "./pages/NoticeDetailPage";
 import Navbar from "./components/Navbar";
 import { CookiesProvider } from "react-cookie";
 import LandingPage from "./pages/LandingPage";
+import Layout from "./Layout";
+import NotFoundPage from "./pages/NotFoundPage";
 
 function App() {
-  const showNavbar = !["/", "/signup", "/login", "/forget-pw"].includes(
-    window.location.pathname
-  );
-
   return (
     <CookiesProvider>
       <RecoilRoot>
         <BrowserRouter>
-          {showNavbar && <Navbar />}
           <Routes>
-            <Route path="/" Component={LandingPage} />
-            <Route path="/signup" Component={SignupPage} />
-            <Route path="/forget-pw" Component={ForgetPwPage} />
-            <Route path="/main" Component={MainPage} />
-            <Route path="/project/0/issueboard" Component={IssueBoardPage} />
-            <Route path="/project/0/releasenote" Component={ReleaseNote} />
-            <Route path="/project/0/releasenote/0" Component={Release} />
-            <Route path="/project/0/releasenote/write" Component={RnoteEditPage} />
-            {/* <Route
-              path="/project/issueboard/:projectId"
-              Component={IssueBoardPage}
-            />
-            <Route
-              path="/project/releasenote/:projectId"
-              Component={ReleaseNote}
-            />
-            <Route path="/project/release/:releaseId" Component={Release} />
-            <Route
-              path="/project/release/write/:projectId"
-              Component={RnoteEditPage}
-            /> */}
-            <Route path="/myinfo-edit" />
-            <Route path="/new-project" />
-            <Route path="/board" Component={BoardPage} />
-            <Route path="/notifications" Component={NoticeDetailPage} />
-            <Route path="*" Component={LoginPage} />
+            <Route path="/" element={<LandingPage />} />
+            <Route path="/login" element={<LoginPage />} />
+            <Route path="/signup" element={<SignupPage />} />
+            <Route path="/forget-pw" element={<ForgetPwPage />} />
+            <Route path="*" element={<NotFoundPage/>} />
+            <Route element={<Layout />}>
+              <Route path="/main" element={<MainPage />} />
+              <Route path="/project/0/issueboard" element={<IssueBoardPage />} />
+              <Route path="/project/0/releasenote" element={<ReleaseNote />} />
+              <Route path="/project/0/releasenote/0" element={<Release />} />
+              <Route path="/project/0/releasenote/write" element={<RnoteEditPage />} />
+              <Route path="/myinfo-edit" />
+              <Route path="/new-project" />
+              <Route path="/board" element={<BoardPage/>} />
+              <Route path="/notifications" element={<NoticeDetailPage/>} />
+            </Route>
           </Routes>
         </BrowserRouter>
       </RecoilRoot>
