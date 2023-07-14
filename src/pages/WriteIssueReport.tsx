@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/nav/Navbar";
 import right_arrow from "../assets/images/nav/right.svg";
 
 export default function WriteIssueReport() {

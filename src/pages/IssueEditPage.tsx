@@ -1,7 +1,7 @@
 import React, { useState, useCallback } from "react";
 import Tag from "../components/IssueBadge.tsx";
 import profile_img from "../assets/images/myPage/profile_icon.png";
-import Navbar from "../components/Navbar.tsx";
+import Navbar from "../components/nav/Navbar.tsx";
 
 export default function IssueEditPage() {
   return (

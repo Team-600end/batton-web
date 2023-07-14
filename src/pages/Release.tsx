@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/nav/Navbar";
 import block from "../assets/images/releaseBlockImg.svg";
 import ProjectNavbar from "../components/ProjectNavbar";
 import MilestoneNavbar from "../components/MilestoneNavbar";

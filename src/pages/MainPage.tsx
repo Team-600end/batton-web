@@ -1,19 +1,28 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useCallback, useEffect, useRef } from "react";
 import styled from "styled-components";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
-
 import PjCard from "../components/PjCard";
 import titleBox_img from "../assets/images/title_box.svg";
 import left_control_img from "../assets/images/mainPage/left_control.svg";
 import right_control_img from "../assets/images/mainPage/right_control.svg";
 import chevorn_img from "../assets/images/common/chevron-down-outline.png";
 import search_img from "../assets/images/common/search-outline.png";
-import Navbar from "../components/Navbar";
+import { useRecoilState } from "recoil";
+import { navbarProjectDropdown } from "../State/ModalState";
 
 export default function MainPage() {
+  const [projectDropdown, setProjectDropdown] = useRecoilState(
+    navbarProjectDropdown
+  );
+
   return (
-    <div className="mt-[7vh]">
+    <div
+      className="mt-[7vh]"
+      onClick={(e) => {
+        setProjectDropdown(false);
+      }}
+    >
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
         <div className="h-10"></div>
         <div className="flex flex-row items-center justify-left w-full px-8 ml-40">

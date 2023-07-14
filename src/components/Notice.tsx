@@ -4,8 +4,8 @@ import eye from "../assets/images/eye.png";
 
 function Notice() {
     return (
-        <div className="flex justify-end sticky top-0">
-            <div id="dropdownNotification" className="z-20 w-full max-w-sm bg-white divide-y divide-gray-100 rounded-lg shadow" aria-labelledby="dropdownNotificationButton">
+        <div className="flex]">
+            <div id="dropdownNotification" className="z-20 w-full bg-white divide-y divide-gray-100 rounded-lg shadow-lg">
                 <div className="block px-4 py-2 font-suitM text-center text-gray-700 rounded-t-lg bg-gray-50">
                     알림
                 </div>

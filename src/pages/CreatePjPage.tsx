@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect}  from "react";
 import profile_img from "../assets/images/myPage/profile_icon.png";
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/nav/Navbar";
 
 export default function CreatePjPage() {
   

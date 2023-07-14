@@ -1,5 +1,5 @@
 import React from "react";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/nav/Navbar";
 import Issue from "../types/Issue";
 import RnoteIssueCard from "../components/RnoteIssueCard";
 import refresh_img from "../assets/images/icons/refresh.svg";

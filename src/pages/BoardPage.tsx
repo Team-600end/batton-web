@@ -53,7 +53,7 @@ export default function BoardPage() {
             </tr>
             <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
               <th scope="row" className="py-4">
-                Survein
+                Surveine
               </th>
               <td className="py-4">v1.0.1</td>
               <td className="py-4">

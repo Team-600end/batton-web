@@ -1,13 +1,16 @@
-import Navbar from "./components/Navbar";
+import Navbar from "./components/nav/Navbar";
+import React, { useRef } from "react";
 import { Outlet } from "react-router-dom";
+import { useRecoilState } from "recoil";
+import { navbarProjectDropdown } from "./State/ModalState";
 
 function Layout() {
-    return (
-        <>
-            <Navbar/>
-            <Outlet/>
-        </>
-    );
+  return (
+    <div>
+      <Navbar />
+      <Outlet />
+    </div>
+  );
 }
 
 export default Layout;

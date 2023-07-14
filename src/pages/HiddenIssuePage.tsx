@@ -1,6 +1,6 @@
 import React from "react";
 import ProjectNavbar from "../components/ProjectNavbar";
-import Navbar from "../components/Navbar";
+import Navbar from "../components/nav/Navbar";
 import plus_img from "../assets/images/icons/plus.svg";
 import Issue from "../types/Issue";
 import IssueCard from "../components/IssueCard";

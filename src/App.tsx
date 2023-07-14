@@ -12,7 +12,7 @@ import IssueBoardPage from "./pages/IssueBoardPage";
 import BoardPage from "./pages/BoardPage";
 import IssueHistoryPage from "./pages/IssueHistoryPage";
 import NoticeDetailPage from "./pages/NoticeDetailPage";
-import Navbar from "./components/Navbar";
+import Navbar from "./components/nav/Navbar";
 import { CookiesProvider } from "react-cookie";
 import LandingPage from "./pages/LandingPage";
 import Layout from "./Layout";

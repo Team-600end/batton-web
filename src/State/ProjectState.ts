@@ -1,16 +1,11 @@
 import { atom } from "recoil";
 import { recoilPersist } from 'recoil-persist';
+import { ProjectS } from "../types/project";
 
 const { persistAtom } = recoilPersist();
 
-export interface Project {
-    id: number;
-    name: string;
-    myGrade: string;
-}
-
-export const projects = atom<Project[]>({
+export const projects = atom<ProjectS[]>({
     key: 'projects',
     default: [],
     effects_UNSTABLE: [persistAtom]
-})
+});
