@@ -1,10 +1,10 @@
 import React from "react";
-import DonutSection from "@components/DonutSection";
-import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
-import ProjectNavbar from "@src/components/nav/ProjectNavbar";
-import ReleasePuzzle from "@src/components/project/release/ReleasePuzzle";
-import PjMemberList from "@src/components/project/dashboard/PjMemberList";
-import IssueLog from "@src/components/project/issue/IssueLog";
+import DonutSection from "@components/project/dashboard/DonutSection";
+import MilestoneNavbar from "@components/nav/MilestoneNavbar";
+import ProjectNavbar from "@components/nav/ProjectNavbar";
+import ReleasePuzzle from "@components/project/release/ReleasePuzzle";
+import PjMemberList from "@components/project/dashboard/PjMemberList";
+import IssueLog from "@components/project/issue/IssueLog";
 
 export default function DashBoardPage() {
   return (

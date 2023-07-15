@@ -1,8 +1,8 @@
 import React from "react";
-import Navbar from "../../../components/nav/Navbar";
-import Issue from "../../../types/Issue";
-import RnoteIssueCard from "../../../components/RnoteIssueCard";
-import refresh_img from "../assets/images/icons/refresh.svg";
+import Navbar from "@components/nav/Navbar";
+import Issue from "@typess/Issue";
+import RnoteIssueCard from "@components/project/release/RnoteIssueCard";
+import refresh_img from "@assets/images/icons/refresh.svg";
 
 const completedIssues: Issue[] = [
   {

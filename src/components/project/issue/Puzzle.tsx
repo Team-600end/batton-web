@@ -1,7 +1,7 @@
 import React from "react";
 import styled from "styled-components";
 
-import puzzle_img from "../assets/images/puzzle.svg";
+import puzzle_img from "@assets/images/puzzle.svg";
 
 export default function Puzzle() {
   return (

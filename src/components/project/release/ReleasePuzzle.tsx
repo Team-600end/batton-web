@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import changed_version_img from "@assets/images/changed_version.svg";
 import puzzle_img from "@assets/images/puzzle.svg";
-import Puzzle from "@components/Puzzle";
+import Puzzle from "@components/project/issue/Puzzle";
 
 export default function ReleasePuzzle() {
   return (

@@ -1,22 +1,22 @@
 import { BrowserRouter, Routes, Route, useLocation } from "react-router-dom";
 import "@assets/index.css";
 import { RecoilRoot } from "recoil";
-import LoginPage from "@pages/LoginPage";
-import ForgetPwPage from "@pages/ForgetPwPage";
-import SignupPage from "@pages/SingupPage";
-import Release from "@src/pages/project/release/Release";
-import RnoteEditPage from "@src/pages/project/release/RnoteEditPage";
-import ReleaseNote from "@src/pages/project/release/ReleaseNote";
-import MainPage from "@src/pages/main/MainPage";
+import LoginPage from "@pages/common/LoginPage";
+import ForgetPwPage from "@pages/common/ForgetPwPage";
+import SignupPage from "@pages/common/SingupPage";
+import Release from "@pages/project/release/Release";
+import RnoteEditPage from "@pages/project/release/RnoteEditPage";
+import ReleaseNote from "@pages/project/release/ReleaseNote";
+import MainPage from "@pages/main/MainPage";
 import IssueBoardPage from "@pages/project/issue/IssueBoardPage";
-import BoardPage from "@src/pages/board/BoardPage";
+import BoardPage from "@pages/board/BoardPage";
 import IssueHistoryPage from "@pages/project/issue/IssueHistoryPage";
 import NoticeDetailPage from "@pages/NoticeDetailPage";
 import { CookiesProvider } from "react-cookie";
-import LandingPage from "@pages/LandingPage";
+import LandingPage from "@pages/common/LandingPage";
 import Layout from "@src/Layout";
-import NotFoundPage from "@pages/NotFoundPage";
-import DashBoardPage from "@src/pages/project/dashboard/DashBoardPage";
+import NotFoundPage from "@pages/common/NotFoundPage";
+import DashBoardPage from "@pages/project/dashboard/DashBoardPage";
 
 function App() {
   return (

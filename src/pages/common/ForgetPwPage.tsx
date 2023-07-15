@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
-import signup_hand_image from "../assets/images/signupPage/signup_hand3.svg";
-import batton_logo_img from "../assets/images/batton_logo_auth.svg";
+import signup_hand_image from "@assets/images/signupPage/signup_hand3.svg";
+import batton_logo_img from "@assets/images/batton_logo_auth.svg";
 
 export default function ForgetPwPage() {
     return (
