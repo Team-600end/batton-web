@@ -2,7 +2,48 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import changed_version_img from "../assets/images/changed_version.svg";
 import puzzle_img from "../assets/images/puzzle.svg";
-import Puzzle from "./Puzzle";
+import PuzzleView from "./PuzzleView";
+import Puzzle from "../types/Puzzle";
+
+// Dummy data
+const puzzles: Puzzle[] = [
+  {
+    version: "v1.0.0",
+    index: 1,
+  },
+  {
+    version: "v1.0.1",
+    index: 2,
+  },
+  {
+    version: "v1.0.1",
+    index: 3,
+  },
+  {
+    version: "v1.0.1",
+    index: 4,
+  },
+  {
+    version: "v1.0.0",
+    index: 1,
+  },
+  {
+    version: "v1.0.1",
+    index: 2,
+  },
+  {
+    version: "v1.0.1",
+    index: 3,
+  },
+  {
+    version: "v1.0.1",
+    index: 4,
+  },
+  {
+    version: "v1.0.1",
+    index: 4,
+  },
+];
 
 export default function ReleasePuzzle() {
   return (
@@ -13,8 +54,9 @@ export default function ReleasePuzzle() {
           <img src={changed_version_img} alt="changed_version_img" className="p-2 mb-1 mt-1" />
         </div>
         <div className="relative flex ml-[20px]">
-          <Puzzle />
-          <Puzzle />
+          {puzzles.map((puzzle, index) => (
+            <PuzzleView key={index} version={puzzle.version} />
+          ))}
         </div>
       </div>
     </>

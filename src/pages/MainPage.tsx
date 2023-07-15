@@ -28,7 +28,7 @@ export default function MainPage() {
           </button>
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
-          <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
+          {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
             <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
               <PjCard />
               <PjCard />
@@ -37,6 +37,17 @@ export default function MainPage() {
             <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
               <PjCard />
               <PjCard />
+            </div>
+          </Carousel> */}
+          <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
+            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
+              {Array.from({ length: Math.ceil(pjCards.length / 3) }).map((_, index) => (
+                <div key={index} className="flex flex-row">
+                  {pjCards.slice(index * 3, (index + 1) * 3).map((pjCard, cardIndex) => (
+                    <PjCard key={cardIndex} />
+                  ))}
+                </div>
+              ))}
             </div>
           </Carousel>
         </div>
