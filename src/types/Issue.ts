@@ -1,6 +1,6 @@
 export type IssueType = "New" | "Changed" | "Feature" | "Fixed" | "Deprecated";
 
-interface Manager {
+export interface Manager {
     name: string;
     profileImg?: string;
 }
