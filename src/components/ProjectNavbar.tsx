@@ -13,8 +13,8 @@ export default function ProjectNavbar() {
         <ul className="flex flex-col font-suitM text-lg p-4 mr-[5vw] md:p-0 mt-4 border border-gray-100 rounded-lg bg-gray-50 md:flex-row md:space-x-8 md:mt-0 md:border-0 md:bg-white">
           <li>
             <button
+              onClick={() => navigate("/project/0/dashboard")}
               className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-[#5AAE8A] md:p-0"
-              aria-current="page"
             >
               대시보드
             </button>
@@ -39,4 +39,4 @@ export default function ProjectNavbar() {
       </div>
     </div>
   );
-}
+};

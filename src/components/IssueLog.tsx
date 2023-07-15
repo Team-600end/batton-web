@@ -4,7 +4,7 @@ import styled from "styled-components";
 export default function IssueLog() {
   return (
     <>
-      <div className="w-[1000px] h-[400px] p-[10px] mx-[100px] my-[100px] shadow-[2px_6px_10px_-2px_rgba(0,0,0,0.3)] border-[0.3px] bg-white rounded-lg shadow mx-2 dark:bg-gray-800 dark:hover:bg-gray-700">
+      <div className="w-[1000px] h-[400px] p-[10px] border-[0.3px] bg-white rounded-lg shadow">
         {/* 테이블 */}
         <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400">
           <thead className="text-xs font-suitL text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">

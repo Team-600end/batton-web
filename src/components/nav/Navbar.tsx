@@ -9,17 +9,17 @@ import { navbarNoticeDropdown, navbarProjectDropdown } from "../../State/ModalSt
 
 const userProjects: ProjectS[] = [
   {
-    id: 1,
+    id: 0,
     name: "Batton",
     grade: "Master",
   },
   {
-    id: 2,
+    id: 1,
     name: "SurVeine",
     grade: "Member",
   },
   {
-    id: 3,
+    id: 2,
     name: "GwangGoNuri",
     grade: "Member",
   },

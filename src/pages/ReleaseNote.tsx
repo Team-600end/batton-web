@@ -1,5 +1,4 @@
 import React from "react";
-import Navbar from "../components/nav/Navbar";
 import ProjectNavbar from "../components/ProjectNavbar";
 import block from "../assets/images/releaseBlockImg.svg";
 import rvector from "../assets/images/rightVector.svg";
@@ -7,13 +6,13 @@ import MilestoneNavbar from "../components/MilestoneNavbar";
 
 export default function ReleaseNote() {
   return (
-    <>
+    <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
       <ProjectNavbar />
       <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">
         <div className="max-w-screen-xl flex items-start flex-wrap justify-flex-end mx-auto p-4">
           <div className="flex-column">
-            <span className="bg-green-100 text-green-400 text-xs font-suitM mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-green-400 border border-green-400">
+            <span className="bg-green-100 text-green-400 text-xs font-suitM mr-2 px-2.5 py-0.5 rounded-full border border-green-400">
               Latest
             </span>
             <p className="text-4xl font-suitB text-black dark:text-white">
@@ -95,6 +94,6 @@ export default function ReleaseNote() {
           </a>
         </div>
       </div>
-    </>
+    </div>
   );
 }

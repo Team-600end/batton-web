@@ -72,7 +72,7 @@ function DonutSection(props: { userName: string }) {
   };
 
   return (
-    <div className="w-[690px] h-[320px] mt-[120px] ml-[50px] relative bg-white rounded-xl shadow-md">
+    <div className="w-[690px] h-[320px] relative bg-white rounded-xl shadow-md">
       <div className="pt-[20px] ml-[20px] text-black text-base font-suitB">업무 리포트</div>
       <div className="flex flex-row">
         <div className="ml-[10px]">
@@ -95,7 +95,7 @@ function DonutSection(props: { userName: string }) {
             />
           )}
         </div>
-        <div className="flex flex-col ml-[50px] mt-[30px]">
+        <div className="flex flex-col">
           <div className="flex flex-row">
             <div className="text-neutral-400 text-sm font-suitB text-[#AAAAAA]">총 이슈:</div>
             <div className="ml-[10px] text-black text-sm font-suitB">30</div>

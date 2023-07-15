@@ -1,5 +1,6 @@
 import React from 'react';
 import { ProjectS } from '../types/project';
+import { useNavigate } from "react-router-dom";
 import default_team_logo  from "../assets/images/nav/team_default.png";
 import grade_master_logo from "../assets/images/nav/crown.svg";
 
@@ -8,8 +9,9 @@ type NavPjBottonProps = {
 };
 
 export default function NavPjBotton(props: NavPjBottonProps) {
+    const navigate = useNavigate();
     return (
-        <button className="block px-4 py-2 hover:bg-gray-100 w-full">
+        <button className="block px-4 py-2 hover:bg-gray-100 w-full" onClick={() => navigate(`/project/${props.project.id}/dashboard`)}>
             <div className='flex items-center'>
                 <img className="w-[2vw] h-[2vw] border rounded-full mr-[1vw]" src={props.project.logo ?? default_team_logo} />
                 <p className='font-suitL text-[#6B7280] mr-[0.3vw]'>{props.project.name}</p>
