@@ -1,11 +1,11 @@
 import React, { useState, useCallback, useRef } from "react";
-import batton_logo_img from "../../assets/images/batton_logo.svg";
-import Notice from "../Notice";
+import batton_logo_img from "@assets/images/batton_logo.svg";
+import Notice from "@src/components/nav/Notice";
 import { useNavigate } from "react-router-dom";
-import NavPjBotton from "../NavPjBotton";
-import { ProjectS } from "../../types/project";
+import NavPjBotton from "@src/components/nav/NavPjBotton";
+import { ProjectS } from "@typess/project";
 import { useRecoilState } from "recoil";
-import { navbarNoticeDropdown, navbarProjectDropdown } from "../../State/ModalState";
+import { navbarNoticeDropdown, navbarProjectDropdown } from "@state/ModalState";
 
 const userProjects: ProjectS[] = [
   {

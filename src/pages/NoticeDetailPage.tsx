@@ -1,6 +1,6 @@
 import React, { useState } from "react";
-import arrow_left from "../assets/images/arrow_left.png";
-import jindol from "../assets/images/jindol.jpg";
+import arrow_left from "@assets/images/arrow_left.png";
+import jindol from "@assets/images/jindol.jpg";
 
 export default function NoticeDetailPage() {
     return (
