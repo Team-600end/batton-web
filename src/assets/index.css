@@ -1,3 +1,20 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+@font-face {
+    font-family: 'SUIT-Bold';
+    src: url('./fonts/SUIT-Bold.ttf');
+}
+@font-face {
+    font-family: 'SUIT-SemiBold';
+    src: url('./fonts/SUIT-SemiBold.ttf');
+}
+@font-face {
+    font-family: 'SUIT-Medium';
+    src: url('./fonts/SUIT-Medium.ttf');
+}
+@font-face {
+    font-family: 'SUIT-Light';
+    src: url('./fonts/SUIT-Light.ttf');
+}
