@@ -1,6 +1,14 @@
 import React, { useState, useCallback } from "react";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
 
+interface BoardS {
+  projecttId: number;
+  releaseId: string;
+  releaseTitle: string;
+  issueTags: string[];
+  releaseDate: Date;
+}
+
 export default function BoardPage() {
   return (
     <>
@@ -21,9 +29,6 @@ export default function BoardPage() {
               <th scope="col" className="py-3">
                 최종 수정 날짜
               </th>
-              <th scope="col" className="py-3">
-                작성자
-              </th>
             </tr>
           </thead>
           <tbody>
@@ -38,7 +43,6 @@ export default function BoardPage() {
                 <IssueBadge issueType="Changed" />
               </td>
               <td className="py-4">2023.07.10</td>
-              <td className="py-4">harry</td>
             </tr>
             <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
               <th scope="row" className="py-4">
@@ -49,7 +53,6 @@ export default function BoardPage() {
                 <IssueBadge issueType="Feature" />
               </td>
               <td className="py-4">2023.07.10</td>
-              <td className="py-4">harry</td>
             </tr>
             <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
               <th scope="row" className="py-4">
@@ -63,7 +66,6 @@ export default function BoardPage() {
                 <IssueBadge issueType="Deprecated" />
               </td>
               <td className="py-4">2023.07.10</td>
-              <td className="py-4">harry</td>
             </tr>
             {/* ... */}
             {/* 나머지 테이블 내용 */}

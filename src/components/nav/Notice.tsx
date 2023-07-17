@@ -16,7 +16,7 @@ const notices: NoticeS[] = [
   {
     contentId: 1,
     noticeType: "INVITE",
-    noticeContent: "hi",
+    noticeContent: "hidddddddddddddddddddddddddddddddddddddddddddddddddddddd",
     noticeDate: "10분 전",
     senderProfileImage: jindol,
   },
@@ -99,7 +99,7 @@ function Notice() {
                 <img className="rounded-full w-11 h-11" src={notice.senderProfileImage} />
               </div>
               <div className="w-full pl-3">
-                <div className="text-gray-500 font-suitM text-sm mb-1.5">{notice.noticeContent}</div>
+                <div className="text-gray-500 break-all font-suitM text-sm mb-1.5">{notice.noticeContent}</div>
                 <div className="text-green-500 font-suitL text-xs">{notice.noticeDate}</div>
               </div>
             </a>
