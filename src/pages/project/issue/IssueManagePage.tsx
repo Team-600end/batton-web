@@ -6,7 +6,7 @@ import Navbar from "@components/nav/Navbar.tsx";
 export default function IssueManagePage() {
   return (
     <>
-      <Navbar/>
+      <Navbar />
       <div className="flex flex-col mb-20">
         {/* 경로 */}
         <nav className="flex p-5" aria-label="Breadcrumb">
@@ -178,7 +178,7 @@ export default function IssueManagePage() {
                 data-dropdown-toggle="dropdown"
                 className="w-full text-gray-900 bg-gray-100 hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-7 py-2.5 text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 justify-between"
                 type="button"
-                style={{ width: "26.3139vw", height:"6vh"}}
+                style={{ width: "26.3139vw", height: "6vh" }}
               >
                 [BTFP-3]대시보드 퍼블리싱
                 <svg
@@ -209,7 +209,7 @@ export default function IssueManagePage() {
                 style={{ width: "26.3139vw" }}
               >
                 <div className="p-3">
-                  <label className="sr-only">
+                  <label htmlFor="input-group-search" className="sr-only">
                     Search
                   </label>
                   <div className="relative">
@@ -251,6 +251,7 @@ export default function IssueManagePage() {
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
+                        htmlFor="checkbox-item-11"
                         className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         Bonnie Green
@@ -267,6 +268,7 @@ export default function IssueManagePage() {
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
+                        htmlFor="checkbox-item-12"
                         className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         Jese Leos
@@ -282,6 +284,7 @@ export default function IssueManagePage() {
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
+                        htmlFor="checkbox-item-13"
                         className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         Michael Gough
@@ -297,6 +300,7 @@ export default function IssueManagePage() {
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
+                        htmlFor="checkbox-item-14"
                         className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         Robert Wall
@@ -312,6 +316,7 @@ export default function IssueManagePage() {
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
+                        htmlFor="checkbox-item-15"
                         className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         Joseph Mcfall
@@ -327,6 +332,7 @@ export default function IssueManagePage() {
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
+                        htmlFor="checkbox-item-16"
                         className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         Leslie Livingston
@@ -342,6 +348,7 @@ export default function IssueManagePage() {
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label
+                        htmlFor="checkbox-item-17"
                         className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
                       >
                         Roberta Casas
@@ -365,8 +372,10 @@ export default function IssueManagePage() {
                   Delete user
                 </a>
               </div>
-              <button className="w-20 h-13 text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-4"
-               style={{width:"8vw", height:"5vh"}}>
+              <button
+                className="w-20 h-13 text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-4"
+                style={{ width: "8vw", height: "5vh" }}
+              >
                 설정
               </button>
             </div>

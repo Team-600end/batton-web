@@ -111,7 +111,7 @@ export default function IssueEditPage() {
 
           <div
             className="flex flex-col items-top  mt-20"
-            style={{  width: "63.2275vw" }}
+            style={{ width: "63.2275vw" }}
           >
             <button
               id="dropdownButton"
@@ -137,7 +137,7 @@ export default function IssueEditPage() {
                 />
               </svg>
             </button>
-          
+
             <input
               type="pj_title"
               name="pj_title"
@@ -151,45 +151,43 @@ export default function IssueEditPage() {
             />
 
             <div className="space-x-5 mt-10 ml-16">
-                <Tag issueType="New"/>
-                <Tag issueType="Feature"/>
-                <Tag issueType="Fixed"/>
-                <Tag issueType="Changed"/>
-                <Tag issueType="Deprecated"/>
-
+              <Tag issueType="New" />
+              <Tag issueType="Feature" />
+              <Tag issueType="Fixed" />
+              <Tag issueType="Changed" />
+              <Tag issueType="Deprecated" />
             </div>
 
             <button
-                id="dropdownButton"
-                data-dropdown-toggle="dropdownMenu"
-                className="mt-14 w-[8.7vw] h-[5vh] border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-16 justify-center"
-                type="button"
+              id="dropdownButton"
+              data-dropdown-toggle="dropdownMenu"
+              className="mt-14 w-[8.7vw] h-[5vh] border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-16 justify-center"
+              type="button"
+            >
+              <img
+                id="manager_icon"
+                src={profile_img}
+                className="w-6 h-6 ml-4 mr-3"
+              />
+              이서현
+              <svg
+                className="w-2.5 h-2.5 ml-3 mr-4"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
               >
-                <img 
-                    id="manager_icon" 
-                    src={profile_img} 
-                    className="w-6 h-6 ml-4 mr-3"/>
-                이서현
-                <svg
-                  className="w-2.5 h-2.5 ml-3 mr-4"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 4 4 4-4"
-                  />
-                </svg>
-              </button>
-
-            
+                <path
+                  stroke="currentColor"
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  stroke-width="2"
+                  d="m1 1 4 4 4-4"
+                />
+              </svg>
+            </button>
+          </div>
         </div>
-      </div>
       </div>
     </>
   );

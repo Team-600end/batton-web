@@ -1,6 +1,8 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
+
 import PjCard from "@components/main/PjCard";
 import titleBox_img from "@assets/images/title_box.svg";
 import left_control_img from "@assets/images/mainPage/left_control.svg";
@@ -10,8 +12,10 @@ import search_img from "@assets/images/common/search-outline.png";
 import { useRecoilState } from "recoil";
 import { navbarProjectDropdown } from "@src/state/ModalState";
 
+
 export default function MainPage() {
   const [projectDropdown, setProjectDropdown] = useRecoilState(navbarProjectDropdown);
+  const navigate = useNavigate();
 
   return (
     <div
@@ -29,6 +33,7 @@ export default function MainPage() {
           <button
             type="button"
             className="focus:outline-none text-primary-4 bg-white border border-primary-4 hover:bg-green-100 focus:ring-4 focus:ring-green-300 font-suitM rounded-lg text-sm px-5 py-2.5"
+            onClick={() => navigate("/new-project")}
           >
             + 새 프로젝트 생성
           </button>
