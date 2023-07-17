@@ -15,6 +15,8 @@ import NoticeDetailPage from "./pages/NoticeDetailPage";
 import Navbar from "./components/Navbar";
 import { CookiesProvider } from "react-cookie";
 import LandingPage from "./pages/LandingPage";
+import CreatePjPage from "./pages/CreatePjPage";
+import MyPage from "./pages/MyPage";
 
 function App() {
   const showNavbar = !["/", "/signup", "/login", "/forget-pw"].includes(
@@ -48,8 +50,8 @@ function App() {
               path="/project/release/write/:projectId"
               Component={RnoteEditPage}
             /> */}
-            <Route path="/myinfo-edit" />
-            <Route path="/new-project" />
+            <Route path="/myinfo-edit" Component={MyPage}/>
+            <Route path="/new-project" Component={CreatePjPage}/>
             <Route path="/board" Component={BoardPage} />
             <Route path="/notifications" Component={NoticeDetailPage} />
             <Route path="*" Component={LoginPage} />

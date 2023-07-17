@@ -2,6 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
 
 import PjCard from "../components/PjCard";
 import titleBox_img from "../assets/images/title_box.svg";
@@ -12,6 +13,9 @@ import search_img from "../assets/images/common/search-outline.png";
 import Navbar from "../components/Navbar";
 
 export default function MainPage() {
+
+  const navigate = useNavigate();
+
   return (
     <div className="mt-[7vh]">
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
@@ -25,6 +29,7 @@ export default function MainPage() {
           <button
             type="button"
             className="focus:outline-none text-primary-4 bg-white border border-primary-4 hover:bg-green-100 focus:ring-4 focus:ring-green-300 font-suitM rounded-lg text-sm px-5 py-2.5"
+            onClick={() => navigate("/new-project")}
           >
             + 새 프로젝트 생성
           </button>

@@ -3,20 +3,28 @@ import "../assets/index.css";
 import profile_img from "../assets/images/myPage/profile_icon.png";
 import Tag from "./IssueBadge.tsx";
 
-export default function CreateIssueModal() {
+export default function CreateIssueModal({visible, onClose}) {
+
+  const handleOnClose = ()  => { onClose();
+  };
+
+  if (!visible) return null;
+
   return (
     <>
       {/* <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
         style={{ width: "36.3757vw", minHeight: "51.9348vh" }}
        */}
+       
       <div
         id="defaultModal"
         tabIndex={-1 as number}
         aria-hidden="true"
-        className="fixed top-0 left-0 right-0 z-50 p-4 overflow-x-hidden overflow-y-auto md:inset-0 w-full h-[calc(100%-1rem)] max-h-full"
+        onClick={handleOnClose}
+        className="fixed justify-center flex items-center bg-black bg-opacity-30 top-0 left-0 right-0 bottom-0 z-50 p-4 backdrop-blur-sm overflow-x-hidden overflow-y-hidden md:inset-0 w-full h-full max-h-full"
       >
-        <div className="relative w-full max-w-2xl max-h-full">
-          <div className="relative bg-white rounded-lg shadow dark:bg-gray-700">
+        <div className="flex w-full max-w-2xl max-h-full mr-auto ml-auto">
+          <div className="bg-white rounded-lg shadow dark:bg-gray-700">
             {/* 모달 헤더 */}
             <div className="flex items-start justify-between p-10 rounded-t dark:border-gray-600">
               <h3 className="text-[24px] font-bold text-gray-900 dark:text-white">
@@ -24,8 +32,8 @@ export default function CreateIssueModal() {
               </h3>
               <button
                 type="button"
+                onClick={handleOnClose}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
-                data-modal-hide="defaultModal"
               >
                 <svg
                   className="w-3 h-3"
@@ -128,15 +136,15 @@ export default function CreateIssueModal() {
             {/* 생성하기 버튼 푸터 */}
             <div className="flex items-center justify-end px-14 py-10 space-x-2 rounded-b ">
               <button
-                data-modal-hide="defaultModal"
                 type="button"
+                onClick={handleOnClose}
                 className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
               >
                 생성하기
               </button>
               <button
-                data-modal-hide="defaultModal"
                 type="button"
+                onClick={handleOnClose}
                 className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
               >
                 취소

@@ -1,10 +1,17 @@
 import React, { useState, useCallback, useEffect}  from "react";
+import { useNavigate } from "react-router-dom";
 import profile_img from "../assets/images/myPage/profile_icon.png";
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
 import Navbar from "../components/Navbar";
 
 export default function CreatePjPage() {
+
+  const navigate = useNavigate();
+
+  const goBack = () => {
+    navigate(-1); // 이전 페이지로 이동
+  };
   
   useEffect(() => {
 
@@ -349,6 +356,7 @@ export default function CreatePjPage() {
               <button
                 className="ml-auto w-[128px] h-[40px] text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-medium rounded-lg text-sm mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5"
                 style={{ marginTop: "4.8vh", marginRight: "16.3511vw" }}
+                onClick={goBack}
               >
                 생성하기
               </button>
