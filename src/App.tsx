@@ -6,7 +6,7 @@ import ForgetPwPage from "@pages/common/ForgetPwPage";
 import SignupPage from "@pages/common/SingupPage";
 import Releases from "@src/pages/project/releases/Releases";
 import RnoteEditPage from "@src/pages/project/releases/RnoteEditPage";
-import ReleaseNote from "@src/pages/project/releases/ReleaseNote";
+import ReleasesNote from "@src/pages/project/releases/ReleasesNote";
 import MainPage from "@pages/main/MainPage";
 import IssueBoardPage from "@pages/project/issue/IssueBoardPage";
 import BoardPage from "@pages/board/BoardPage";
@@ -31,7 +31,7 @@ function App() {
             />
             <Route
               path="/project/releasesnote/:projectId"
-              Component={ReleaseNote}
+              Component={ReleasesNote}
             />
             <Route path="/project/releases/:releasesId" Component={Releases} />
             <Route
@@ -47,7 +47,7 @@ function App() {
               <Route path="/main" element={<MainPage />} />
               <Route path="/project/:projectId/dashboard" element={<DashBoardPage />} />
               <Route path="/project/:projectId/issueboard" element={<IssueBoardPage />} />
-              <Route path="/project/:projectId/releasesnote" element={<ReleaseNote />} />
+              <Route path="/project/:projectId/releasesnote" element={<ReleasesNote />} />
               <Route path="/project/:projectId/releasesnote/0" element={<Releases />} />
               <Route path="/project/:projectId/releasesnote/write" element={<RnoteEditPage />} />
               <Route path="/myinfo-edit" element={<MyPage />} />

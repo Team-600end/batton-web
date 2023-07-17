@@ -1,14 +1,14 @@
 import React from "react";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
-import issue from "@src/types/issue";
+import Issue from "@typess/issue";
 import kebap_img from "@assets/images/icons/kebap_black.svg";
 import default_avatar_img from "@images/common/default_profile.svg";
 
-type issueCardProps = {
-  issue: issue;
+type IssueCardProps = {
+  issue: Issue;
 };
 
-export default function IssueCard(props: issueCardProps) {
+export default function IssueCard(props: IssueCardProps) {
   return (
     <div className="rounded-md border border-gray-300 w-[16.5vw] h-[14vh] mb-[2vh] p-[1vw] shadow">
       <div className="flex items-center justify-between mb-[1vh]">

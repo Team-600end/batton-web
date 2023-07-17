@@ -1,6 +1,6 @@
 export type GradeType = "Member" | "Leader" | "Master";
 
-export interface projectNav {
+export interface ProjectNav {
   id: number;
   name: string;
   logo?: string;
@@ -8,7 +8,7 @@ export interface projectNav {
 }
 
 //MainPage-PjCard
-export interface projectCard {
+export interface ProjectCard {
   number: number;
   name: string;
   version: string;
@@ -22,6 +22,6 @@ export interface projectCard {
   membernum: number;
 }
 
-export interface projectCardMember {
+export interface ProjectCardMember {
   img?: string;
 }

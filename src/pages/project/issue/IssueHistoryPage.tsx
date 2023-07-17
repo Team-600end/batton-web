@@ -2,7 +2,7 @@ import React from "react";
 import ProjectNavbar from "@src/components/nav/ProjectNavbar";
 import Navbar from "@components/nav/Navbar";
 import plus_img from "@assets/images/icons/plus.svg";
-import issue from "@src/types/issue";
+import issue from "@typess/issue";
 import IssueCard from "@src/components/project/issue/IssueCard";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 

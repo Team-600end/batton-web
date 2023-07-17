@@ -3,11 +3,11 @@ import batton_logo_img from "@images/common/batton_logo_medium.svg";
 import Notice from "@components/nav/Notice";
 import { useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
-import { projectNav } from "@typess/project";
+import { ProjectNav } from "@typess/project";
 import { useRecoilState } from "recoil";
 import { navbarNoticeDropdown, navbarProjectDropdown } from "@src/state/modalState";
 
-const userProjectNav: projectNav[] = [
+const userProjectNav: ProjectNav[] = [
   {
     id: 0,
     name: "Batton",
@@ -73,7 +73,7 @@ export default function Navbar() {
             >
               프로젝트{" "}
               <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
               </svg>
             </button>
           </li>

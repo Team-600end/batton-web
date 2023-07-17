@@ -11,7 +11,7 @@ import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
 import { useRecoilState } from "recoil";
 import { navbarProjectDropdown } from "@src/state/modalState";
-import { ProjectCard } from "@src/types/project";
+import { ProjectCard } from "@typess/project";
 
 // Dummy data
 // const pjCards: ProjectCard[] = [

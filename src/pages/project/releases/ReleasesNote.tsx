@@ -4,7 +4,7 @@ import block from "@images/releasesPuzzle/releasesBlockImg.svg";
 import rvector from "@images/common/rightVector.svg";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 
-export default function ReleaseNote() {
+export default function ReleasesNote() {
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />

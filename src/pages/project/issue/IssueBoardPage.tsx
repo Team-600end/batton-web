@@ -1,14 +1,14 @@
 import React, { useState } from "react";
 import ProjectNavbar from "@components/nav/ProjectNavbar";
 import plus_img from "@assets/images/icons/plus.svg";
-import issue from "@src/types/issue";
+import Issue from "@typess/issue";
 import IssueCard from "@components/project/issue/IssueCard";
 import MilestoneNavbar from "@components/nav/MilestoneNavbar";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
 import CreateIssueModal from "@components/project/issue/CreateIssueModal";
 
-const watingIssues: issue[] = [
+const watingIssues: Issue[] = [
   {
     type: "New",
     title: "새로운 이슈",
@@ -24,7 +24,7 @@ const watingIssues: issue[] = [
   },
 ];
 
-const proceedingIssues: issue[] = [
+const proceedingIssues: Issue[] = [
   {
     type: "New",
     title: "새로운 이슈",
@@ -40,7 +40,7 @@ const proceedingIssues: issue[] = [
   },
 ];
 
-const reviewingIssues: issue[] = [
+const reviewingIssues: Issue[] = [
   {
     type: "Deprecated",
     title: "새로운 이슈",
@@ -62,7 +62,7 @@ const reviewingIssues: issue[] = [
   },
 ];
 
-const completedIssues: issue[] = [
+const completedIssues: Issue[] = [
   {
     type: "Feature",
     title: "새로운 이슈",

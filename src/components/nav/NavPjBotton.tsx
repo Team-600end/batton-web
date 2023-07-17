@@ -1,11 +1,11 @@
 import React from "react";
-import { projectNav } from "@typess/project";
+import { ProjectNav } from "@typess/project";
 import { useNavigate } from "react-router-dom";
 import default_team_logo from "@images/common/team_default.png";
 import grade_master_logo from "@images/common/crown.svg";
 
 type NavPjBottonProps = {
-  project: projectNav;
+  project: ProjectNav;
 };
 
 export default function NavPjBotton(props: NavPjBottonProps) {
