@@ -9,6 +9,7 @@ export interface ProjectS {
 
 //MainPage-PjCard
 export interface ProjectCard {
+  number: number;
   name: string;
   version: string;
   index: number;

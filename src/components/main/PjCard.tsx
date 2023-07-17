@@ -5,11 +5,12 @@ import pj_latest_img from "@assets/images/mainPage/pj_card_latest.png";
 import default_avatar_img from "@assets/images/icons/default_avatar.svg";
 import { ProjectCard } from "@src/types/project";
 
-type PjCardProps = {
-  pjCard: ProjectCard;
-};
+// type PjCardProps = {
+//   pjCard: ProjectCard;
+// };
 
-export default function PjCard(props: PjCardProps) {
+// export default function PjCard(props: PjCardProps) {
+export default function PjCard() {
   return (
     <>
       <div className="flex w-[350px] h-[250px] p-[10px] shadow-[2px_6px_6px_-2px_rgba(0,0,0,0.3)] bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mx-2 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
