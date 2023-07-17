@@ -1,14 +1,37 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import batton_logo_img from "@assets/images/batton_logo.svg";
-import Notice from "./nav/Notice";
+import Notice from "@components/nav/Notice";
 import { useNavigate } from "react-router-dom";
+import NavPjBotton from "@components/nav/NavPjBotton";
+import { ProjectS } from "@typess/project";
+import { useRecoilState } from "recoil";
+import { navbarNoticeDropdown, navbarProjectDropdown } from "@src/state/ModalState";
+
+const userProjects: ProjectS[] = [
+  {
+    id: 0,
+    name: "Batton",
+    grade: "Master",
+  },
+  {
+    id: 1,
+    name: "SurVeine",
+    grade: "Member",
+  },
+  {
+    id: 2,
+    name: "GwangGoNuri",
+    grade: "Member",
+  },
+];
 
 export default function Navbar() {
   const navigate = useNavigate();
+  const outside = useRef<HTMLDivElement>(null);
 
-  const [projectDropdown, setProjectDropdown] = useState(false);
+  const [projectDropdown, setProjectDropdown] = useRecoilState(navbarProjectDropdown);
   const [profileDropdown, setProfileDropdown] = useState(false);
-  const [isDropdownVisible, setDropdownVisible] = useState(false);
+  const [noticeDropdown, setNoticeDropdown] = useRecoilState(navbarNoticeDropdown);
 
   const handleProjectDropdown = () => {
     setProjectDropdown(!projectDropdown);
@@ -18,12 +41,19 @@ export default function Navbar() {
     setProfileDropdown(!profileDropdown);
   };
 
-  const handleDropdownToggle = () => {
-    setDropdownVisible(!isDropdownVisible);
+  const handleNoticeDropdown = () => {
+    setNoticeDropdown(!noticeDropdown);
   };
 
   return (
-    <nav className="bg-white border-gray-200 fixed top-0 w-screen bg-white z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]">
+    <nav
+      className="bg-white border-gray-200 fixed top-0 w-screen bg-white z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]"
+      ref={outside}
+      onClick={(e) => {
+        if (e.target == outside.current) setProjectDropdown(false);
+        if (e.target == outside.current) setNoticeDropdown(false);
+      }}
+    >
       <div className="flex items-center p-4">
         <button
           className="flex items-center flex-1"
@@ -83,7 +113,7 @@ export default function Navbar() {
           data-dropdown-toggle="dropdownNotification"
           className="inline-flex items-center text-sm font-suitM text-center text-gray-500 hover:text-gray-900 focus:outline-none mr-3"
           type="button"
-          onClick={handleDropdownToggle}
+          onClick={handleNoticeDropdown}
         >
           <svg
             className="w-5 h-5"
@@ -186,37 +216,35 @@ export default function Navbar() {
         </button>
       </div>
       {projectDropdown && (
-        <div
-          id="dropdownNavbar"
-          className="z-20 mt-[40vh] font-suitL bg-white divide-y divide-gray-100 rounded-lg shadow w-44"
-        >
-          <ul className="py-2 text-sm text-gray-700">
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                Settings
-              </a>
-            </li>
-            <li>
-              <a href="#" className="block px-4 py-2 hover:bg-gray-100">
-                Earnings
-              </a>
-            </li>
+        <div className="absolute z-20 font-suitL top-[6.5vh] left-1/2 translate-x-[-50%] mr-[1.3vw] bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+          <ul className="flex flex-col py-2 text-sm text-gray-700 justify-center">
+            {userProjects.map((project, index) => (
+              <li>
+                <NavPjBotton key={index} project={project} />
+              </li>
+            ))}
           </ul>
           <div className="py-1">
-            <button className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
-              Sign out
+            <button className="block px-4 py-2 hover:bg-gray-100 w-full">
+              <div className="flex items-center">
+                <p className="font-suitL text-sm text-[#6B7280]">
+                  모든 프로젝트 보기
+                </p>
+              </div>
+            </button>
+            <button className="block px-4 py-2 hover:bg-gray-100 w-full">
+              <div className="flex items-center">
+                <p className="font-suitL text-sm text-[#6B7280]">
+                  프로젝트 생성하기
+                </p>
+              </div>
             </button>
           </div>
         </div>
       )}
-      {isDropdownVisible && (
-        <div className="absolute right-16 w-[410px] bg-white">
-          <div className="p-4">{<Notice />}</div>
+      {noticeDropdown && (
+        <div className="absolute right-[3vh] top-[6.5vh] w-[27vw] bg-white">
+          <Notice />
         </div>
       )}
     </nav>
