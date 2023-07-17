@@ -3,6 +3,43 @@ import Navbar from "../components/Navbar";
 import block from "../assets/images/releaseBlockImg.svg";
 import ProjectNavbar from "../components/ProjectNavbar";
 import MilestoneNavbar from "../components/MilestoneNavbar";
+import IssueBadge from "../components/IssueBadge";
+import { IssueType } from "../types/Issue";
+
+// const dummyData = [
+//   {
+//     issueType: "Changed" as const,
+//     description: "포트폴리오 영상 3분 이내 등록 가능",
+//   },
+//   {
+//     issueType: "Deprecated" as const,
+//     description: "포트폴리오 영상 3분 이내 등록 가능",
+//   },
+//   {
+//     issueType: "Deprecated" as const,
+//     description: "포트폴리오 영상 3분 이내 등록 가능",
+//   },
+// ];
+
+interface DummyData {
+  issueType: IssueType;
+  description: string;
+}
+
+const dummyData: DummyData[] = [
+  {
+    issueType: "Changed",
+    description: "포트폴리오 영상 3분 이내 등록 가능1",
+  },
+  {
+    issueType: "Deprecated",
+    description: "포트폴리오 영상 3분 이내 등록 가능2",
+  },
+  {
+    issueType: "Deprecated",
+    description: "포트폴리오 영상 3분 이내 등록 가능3",
+  },
+];
 
 export default function Release() {
   return (
@@ -30,38 +67,54 @@ export default function Release() {
               <p className="text-4xl font-suitB text-black dark:text-white mb-3">
                 v.2.7.14
               </p>
-              <p className="text-xl font-suitB text-black dark:text-white">
+              <p
+                className="text-xl font-suitB text-black dark:text-white mb-3"
+                style={{ alignSelf: "flex-end" }}
+              >
                 2023. 07. 05
               </p>
             </div>
-            <hr className="h-1.5 my-5 bg-green-500 border-0 dark:bg-gray-700"></hr>
-            <div className="flex flex-row my-2">
-              <span className="bg-yellow-100 text-yellow-800 text-xs font-suitM mr-2 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 border border-yellow-300">
-                Changed
-              </span>
+            <hr className="h-1.5 mb-5 bg-green-500 border-0 dark:bg-gray-700"></hr>
+            {dummyData.map((item, index) => (
+              <>
+                <div className="flex flex-row my-2" key={index}>
+                  <div className="w-24 flex justify-center">
+                    <IssueBadge issueType={item.issueType} />
+                  </div>
+                  <p className="text-base font-suitM text-black dark:text-white">
+                    {item.description}
+                  </p>
+                </div>
+                <hr className="h-px my-0 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+              </>
+            ))}
+            {/* <div className="flex flex-row my-2">
+              <div className="w-24 flex justify-center">
+                <IssueBadge issueType="Changed" />
+              </div>
               <p className="text-base font-suitM text-black dark:text-white">
                 포트폴리오 영상 3분 이내 등록 가능
               </p>
             </div>
             <hr className="h-px my-0 bg-gray-200 border-0 dark:bg-gray-700"></hr>
             <div className="flex flex-row my-2">
-              <span className="bg-gray-100 text-gray-800 text-xs font-suitM mr-2 px-2.5 py-0.5 rounded border border-gray-300">
-                Deprecated
-              </span>
+              <div className="w-24 flex justify-center">
+                <IssueBadge issueType="Deprecated" />
+              </div>
               <p className="text-base font-suitM text-black dark:text-white">
                 포트폴리오 영상 3분 이내 등록 가능
               </p>
             </div>
             <hr className="h-px my-0 bg-gray-200 border-0 dark:bg-gray-700"></hr>
             <div className="flex flex-row my-2">
-              <span className="bg-gray-100 text-gray-800 text-xs font-suitM mr-2 px-2.5 py-0.5 rounded border border-gray-300">
-                Deprecated
-              </span>
+              <div className="w-24 flex justify-center">
+                <IssueBadge issueType="Deprecated" />
+              </div>
               <p className="text-base font-suitM text-black dark:text-white">
                 포트폴리오 영상 3분 이내 등록 가능
               </p>
-            </div>
-            <hr className="h-px my-0 bg-gray-200 border-0 dark:bg-gray-700"></hr>
+            </div> */}
+            {/* <hr className="h-px my-0 bg-gray-200 border-0 dark:bg-gray-700"></hr> */}
             <p className="text-3xl font-suitSB text-black dark:text-white my-6">
               포트폴리오 영상 3분 이상 등록 가능
             </p>
