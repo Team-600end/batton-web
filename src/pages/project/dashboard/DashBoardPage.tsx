@@ -2,7 +2,7 @@ import React from "react";
 import DonutSection from "@components/project/dashboard/DonutSection";
 import MilestoneNavbar from "@components/nav/MilestoneNavbar";
 import ProjectNavbar from "@components/nav/ProjectNavbar";
-import ReleasePuzzle from "@components/project/release/ReleasePuzzle";
+import ReleasePuzzle from "@src/components/project/releases/ReleasePuzzle";
 import PjMemberList from "@components/project/dashboard/PjMemberList";
 import IssueLog from "@components/project/issue/IssueLog";
 
@@ -13,12 +13,12 @@ export default function DashBoardPage() {
       <ProjectNavbar />
       <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col p-[3vw] space-y-[2vw]">
         <div className="flex space-x-[2vw]">
-            <DonutSection userName="jin" />
-            <ReleasePuzzle/>
+          <DonutSection userName="jin" />
+          <ReleasePuzzle />
         </div>
         <div className="flex space-x-[2vw]">
-            <PjMemberList/>
-            <IssueLog/>
+          <PjMemberList />
+          <IssueLog />
         </div>
       </div>
     </div>
