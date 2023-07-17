@@ -127,8 +127,6 @@ export default function MyPage() {
                 </label>
               </div>
             </div>
-          </div>
-        </div>
         <div
           className="flex flex-row justify-center space-x-5"
           style={{ marginTop: "6.2159vh" }}
@@ -146,7 +144,6 @@ export default function MyPage() {
             수정하기
           </button>
         </div>
-      </div>
     </>
   );
 }

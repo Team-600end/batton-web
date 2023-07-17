@@ -2,16 +2,16 @@ import React, { useState } from "react";
 
 import { Modal } from "flowbite";
 import type { ModalOptions, ModalInterface } from "flowbite";
-import Tag from "../components/IssueBadge";
-import profile_img from "../assets/images/myPage/profile_icon.png";
+import Tag from "@components/project/issue/IssueBadge";
+import profile_img from "@assets/images/myPage/profile_icon.png";
 
-import ProjectNavbar from "../components/ProjectNavbar";
-import Navbar from "../components/Navbar";
+import ProjectNavbar from "@components/nav/ProjectNavbar";
+import Navbar from "@components/nav/Navbar";
 import plus_img from "../assets/images/icons/plus.svg";
 import Issue from "../types/Issue";
-import IssueCard from "../components/IssueCard";
-import MilestoneNavbar from "../components/MilestoneNavbar";
-import CreateIssueModal from "../components/CreateIssueModal";
+import IssueCard from "@components/project/issue/IssueCard";
+import MilestoneNavbar from "@components/nav/MilestoneNavbar";
+import CreateIssueModal from "@components/project/issue/CreateIssueModal";
 
 const watingIssues: Issue[] = [
   {
