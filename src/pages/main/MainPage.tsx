@@ -35,11 +35,7 @@ export default function MainPage() {
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
           {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}> */}
-          <Carousel
-            theme={customCarouselTheme}
-            leftControl={<img src={left_control_img} />}
-            rightControl={<img src={right_control_img} />}
-          >
+          <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
             <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
               <PjCard />
               <PjCard />

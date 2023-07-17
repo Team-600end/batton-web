@@ -1,7 +1,7 @@
 import React from "react";
 import Navbar from "@components/nav/Navbar";
 import Issue from "@typess/Issue";
-import RnoteIssueCard from "@components/project/release/RnoteIssueCard";
+import RnoteIssueCard from "@src/components/project/releases/RnoteIssueCard";
 import refresh_img from "@assets/images/icons/refresh.svg";
 
 const completedIssues: Issue[] = [
@@ -67,17 +67,10 @@ export default function RnoteEditPage() {
           </div>
           <div>
             <div className="border border-gray-400 rounded-lg p-[1vw] mb-[1vh]">
-              <input
-                type="text"
-                placeholder="버전"
-                className="border-none font-suitM outline-none w-full h-full resize-none"
-              />
+              <input type="text" placeholder="버전" className="border-none font-suitM outline-none w-full h-full resize-none" />
             </div>
             <div className="border font-suitM border-gray-400 rounded-lg p-[1vw] h-[80vh]">
-              <textarea
-                placeholder="내용"
-                className="border-none outline-none w-full h-full resize-none"
-              ></textarea>
+              <textarea placeholder="내용" className="border-none outline-none w-full h-full resize-none"></textarea>
             </div>
           </div>
         </div>
