@@ -1,8 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
-import styled from "styled-components";
-import pj_img from "../assets/images/mainPage/kea_pj_img.png";
-import pj_latest_img from "../assets/images/mainPage/pj_card_latest.png";
-import avatar from "../assets/images/common/Avatar.png";
+import pj_img from "@assets/images/mainPage/kea_pj_img.png";
+import pj_latest_img from "@assets/images/mainPage/pj_card_latest.png";
+import avatar from "@assets/images/common/avatar.png";
 
 export default function PjCard() {
   return (

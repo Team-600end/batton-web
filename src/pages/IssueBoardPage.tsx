@@ -1,10 +1,17 @@
-import React from "react";
-import ProjectNavbar from "../components/ProjectNavbar";
-import Navbar from "../components/Navbar";
+import React, { useState } from "react";
+
+import { Modal } from "flowbite";
+import type { ModalOptions, ModalInterface } from "flowbite";
+import Tag from "@components/project/issue/IssueBadge";
+import profile_img from "@assets/images/myPage/profile_icon.png";
+
+import ProjectNavbar from "@components/nav/ProjectNavbar";
+import Navbar from "@components/nav/Navbar";
 import plus_img from "../assets/images/icons/plus.svg";
 import Issue from "../types/Issue";
-import IssueCard from "../components/IssueCard";
-import MilestoneNavbar from "../components/MilestoneNavbar";
+import IssueCard from "@components/project/issue/IssueCard";
+import MilestoneNavbar from "@components/nav/MilestoneNavbar";
+import CreateIssueModal from "@components/project/issue/CreateIssueModal";
 
 const watingIssues: Issue[] = [
   {
@@ -118,17 +125,36 @@ const completedIssues: Issue[] = [
 ];
 
 export default function IssueBoardPage() {
+  // const [isCreateIssueModalOpen, setCreateIssueModalOpen] = useState(false);
+
+  // const toggleCreateIssueModal = () => {
+  //   setCreateIssueModalOpen(!isCreateIssueModalOpen);
+  // };
+
+  const [showModal, setShowModal] = useState(false);
+  const handleOnClose = () => setShowModal(false);
+
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
       <ProjectNavbar />
       <div>
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">
-          <div className="flex justify-end mr-[2.5vw] mt-[2vw]"> {/*here*/}
-            <button className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL">
+          <div className="flex justify-end mr-[2.5vw] mt-[2vw]">
+            {" "}
+            {/*here*/}
+            <button
+              type="button"
+              onClick={() => setShowModal(true)}
+              className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL">
               <img src={plus_img} className="mr-[0.2vw]" />
               이슈 생성
             </button>
+
+            <CreateIssueModal onClose={handleOnClose} visible={showModal} />
+            
+                    
+                  
           </div>
           <div className="flex m-[1.5vw] justify-center">
             <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit">
@@ -136,7 +162,9 @@ export default function IssueBoardPage() {
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
                   <h1 className="text-lg font-suitB text-[#323232]">대기</h1>
-                  <h2 className="ml-[0.8vw] font-suitB">{watingIssues.length}</h2>
+                  <h2 className="ml-[0.8vw] font-suitB">
+                    {watingIssues.length}
+                  </h2>
                 </div>
                 {watingIssues.map((issue, index) => (
                   <IssueCard key={index} issue={issue} />
@@ -148,7 +176,9 @@ export default function IssueBoardPage() {
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
                   <h1 className="text-lg font-suitB text-[#323232]">진행</h1>
-                  <h2 className="ml-[0.8vw] font-suitB">{proceedingIssues.length}</h2>
+                  <h2 className="ml-[0.8vw] font-suitB">
+                    {proceedingIssues.length}
+                  </h2>
                 </div>
                 {proceedingIssues.map((issue, index) => (
                   <IssueCard key={index} issue={issue} />
@@ -160,7 +190,9 @@ export default function IssueBoardPage() {
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
                   <h1 className="text-lg font-suitB text-[#323232]">검토</h1>
-                  <h2 className="ml-[0.8vw] font-suitB">{reviewingIssues.length}</h2>
+                  <h2 className="ml-[0.8vw] font-suitB">
+                    {reviewingIssues.length}
+                  </h2>
                 </div>
                 {reviewingIssues.map((issue, index) => (
                   <IssueCard key={index} issue={issue} />
@@ -172,7 +204,9 @@ export default function IssueBoardPage() {
               <div className="mx-auto">
                 <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
                   <h1 className="text-lg font-suitB text-[#323232]">완료</h1>
-                  <h2 className="ml-[0.8vw] font-suitB">{completedIssues.length}</h2>
+                  <h2 className="ml-[0.8vw] font-suitB">
+                    {completedIssues.length}
+                  </h2>
                 </div>
                 {completedIssues.map((issue, index) => (
                   <IssueCard key={index} issue={issue} />
