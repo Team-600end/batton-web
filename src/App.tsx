@@ -19,6 +19,7 @@ import LandingPage from "@pages/common/LandingPage";
 import Layout from "@src/Layout";
 import NotFoundPage from "@pages/common/NotFoundPage";
 import DashBoardPage from "@pages/project/dashboard/DashBoardPage";
+import HiddenIssuePage from "./pages/project/issue/HiddenIssuePage";
 function App() {
   return (
     <CookiesProvider>
@@ -47,6 +48,8 @@ function App() {
               <Route path="/main" element={<MainPage />} />
               <Route path="/project/:projectId/dashboard" element={<DashBoardPage />} />
               <Route path="/project/:projectId/issueboard" element={<IssueBoardPage />} />
+              <Route path="/project/:projectId/issue-history" element={<IssueHistoryPage />} />
+              <Route path="/project/:projectId/hidden-issue" element={<HiddenIssuePage />} />
               <Route path="/project/:projectId/releasesnote" element={<ReleasesNote />} />
               <Route path="/project/:projectId/releasesnote/0" element={<Releases />} />
               <Route path="/project/:projectId/releasesnote/write" element={<RnoteEditPage />} />

@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProjectNavbar from "@components/nav/ProjectNavbar";
 import plus_img from "@assets/images/icons/plus.svg";
-import Issue from "@typess/issue";
+import Issue, { IssueStatus } from "@typess/issue";
 import IssueCard from "@components/project/issue/IssueCard";
 import MilestoneNavbar from "@components/nav/MilestoneNavbar";
 import {
@@ -10,84 +10,75 @@ import {
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import CreateIssueModal from "@components/project/issue/CreateIssueModal";
 
-const watingIssues: Issue[] = [
+const todoIssues: Issue[] = [
   {
     type: "New",
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 1,
     id: 0,
   },
   {
     type: "New",
     title: "변경된 이슈",
     team: "600&",
-    index: 2,
     id: 1,
   },
 ];
 
-const proceedingIssues: Issue[] = [
+const progressIssues: Issue[] = [
   {
     type: "New",
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 1,
     id: 2,
   },
   {
     type: "Changed",
     title: "변경된 이슈",
     team: "600&",
-    index: 2,
     id: 3,
   },
 ];
 
-const reviewingIssues: Issue[] = [
+const reviewIssues: Issue[] = [
   {
     type: "Deprecated",
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 1,
     id: 4,
   },
   {
     type: "Fixed",
     title: "변경된 이슈",
     team: "600&",
-    index: 2,
     id: 5,
   },
   {
     type: "Fixed",
     title: "변경된 이슈",
     team: "600&",
-    index: 50,
     id: 6,
   },
 ];
 
-const completedIssues: Issue[] = [
+const doneIssues: Issue[] = [
   {
     type: "Feature",
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 1,
     id: 7,
   },
   {
     type: "New",
     title: "변경된 이슈",
     team: "600&",
-    index: 2,
     id: 8,
   },
   {
@@ -95,7 +86,6 @@ const completedIssues: Issue[] = [
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 10,
     id: 9,
   },
   {
@@ -103,7 +93,6 @@ const completedIssues: Issue[] = [
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 14,
     id: 10,
   },
   {
@@ -111,14 +100,12 @@ const completedIssues: Issue[] = [
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 1,
     id: 11,
   },
   {
     type: "New",
     title: "변경된 이슈",
     team: "600&",
-    index: 2,
     id: 12,
   },
   {
@@ -126,7 +113,6 @@ const completedIssues: Issue[] = [
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 10,
     id: 13,
   },
   {
@@ -134,30 +120,56 @@ const completedIssues: Issue[] = [
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 14,
     id: 14,
   },
 ];
 
+const checkIssueList = (locationId: string) => {
+  switch (locationId) {
+    case "Todo":
+      return todoIssues;
+    case "Progress":
+      return progressIssues;
+    case "Review":
+      return reviewIssues;
+    case "Done":
+      return doneIssues;
+  }
+};
+
 export default function IssueBoardPage() {
   let { projectId } = useParams();
+  const navigate = useNavigate();
 
-  const handleDragEnd = async (initial: { draggableId: string }) => {};
-  const handleDragStart = async (initial: { draggableId: string }) => {};
-  const handleDragUpdate = async (initial: { draggableId: string }) => {};
+  const handleDragEnd = ({ source, destination }: DropResult) => {
+    // 유효하지 않는 곳으로 drag시 이벤트를 종료한다.
+    if (!destination) return;
+
+    const sourceList = checkIssueList(source.droppableId);
+    const destinationList = checkIssueList(destination.droppableId);
+    const sourceIndex = source.index;
+    const destinationIndex = destination.index;
+
+    if (sourceList && destinationList) {
+      if (source.droppableId !== destination.droppableId) {
+        // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 다른 경우
+        const sourceItem = sourceList[sourceIndex];
+        sourceList.splice(sourceIndex, 1);
+        destinationList.splice(destinationIndex, 0, sourceItem);
+      } else {
+        // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 동일한 경우
+        if (sourceIndex !== destinationIndex) {
+          const sourceItem = sourceList[sourceIndex];
+          sourceList.splice(sourceIndex, 1); // 원래 위치에서 제거
+          sourceList.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
+        }
+      }
+      // 저장 axios
+    }
+  };
 
   const [showModal, setShowModal] = useState(false);
   const handleOnClose = () => setShowModal(false);
-
-  // const handleListDragStyle = (isDraggingOver: boolean, listSize: number) => {
-  //   if (isDraggingOver) {
-  //     const adjustedHeight = `${(listSize + 1) * 16.2 + 7.5}vh`;
-  //     const style = {
-  //       height: adjustedHeight,
-  //     };
-  //     return style;
-  //   } else return {};
-  // };
 
   return (
     <div className="flex flex-col overflow-hidden">
@@ -165,9 +177,19 @@ export default function IssueBoardPage() {
       <ProjectNavbar />
       <div>
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">
-          <div className="flex justify-end mr-[2.5vw] mt-[2vw]">
-            {" "}
-            {/*here*/}
+          <div className="flex justify-end mr-[2.5vw] mt-[2vw] space-x-2">
+            <button
+              onClick={() => navigate(`/project/${projectId}/issue-history`)}
+              className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
+            >
+              히스토리
+            </button>
+            <button
+              onClick={() => navigate(`/project/${projectId}/hidden-issue`)}
+              className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
+            >
+              숨긴 이슈
+            </button>
             <button
               onClick={() => setShowModal(true)}
               className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
@@ -179,11 +201,9 @@ export default function IssueBoardPage() {
           </div>
           <DragDropContext
             onDragEnd={handleDragEnd}
-            onDragStart={handleDragStart}
-            onDragUpdate={handleDragUpdate}
           >
             <div className="flex m-[1.5vw] justify-center">
-              <Droppable droppableId="wating" key="wating">
+              <Droppable droppableId="Todo" key="Todo">
                 {(provided) => (
                   <div
                     className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit"
@@ -197,10 +217,10 @@ export default function IssueBoardPage() {
                           대기
                         </h1>
                         <h2 className="ml-[0.8vw] font-suitB">
-                          {watingIssues.length}
+                          {todoIssues.length}
                         </h2>
                       </div>
-                      {watingIssues.map((issue, index) => (
+                      {todoIssues.map((issue, index) => (
                         <Draggable
                           draggableId={issue.id.toString()}
                           key={issue.id.toString()}
@@ -222,8 +242,8 @@ export default function IssueBoardPage() {
                   </div>
                 )}
               </Droppable>
-              <Droppable droppableId="Proceeding">
-                {(provided, snapshot) => (
+              <Droppable droppableId="Progress" key="Progress">
+                {(provided) => (
                   <div
                     className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit"
                     ref={provided.innerRef}
@@ -236,10 +256,10 @@ export default function IssueBoardPage() {
                           진행
                         </h1>
                         <h2 className="ml-[0.8vw] font-suitB">
-                          {proceedingIssues.length}
+                          {progressIssues.length}
                         </h2>
                       </div>
-                      {proceedingIssues.map((issue, index) => (
+                      {progressIssues.map((issue, index) => (
                         <Draggable
                           draggableId={issue.id.toString()}
                           key={issue.id.toString()}
@@ -261,8 +281,8 @@ export default function IssueBoardPage() {
                   </div>
                 )}
               </Droppable>
-              <Droppable droppableId="Reviewing">
-                {(provided, snapshot) => (
+              <Droppable droppableId="Review" key="Review">
+                {(provided) => (
                   <div
                     className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit"
                     ref={provided.innerRef}
@@ -275,10 +295,10 @@ export default function IssueBoardPage() {
                           검토
                         </h1>
                         <h2 className="ml-[0.8vw] font-suitB">
-                          {reviewingIssues.length}
+                          {reviewIssues.length}
                         </h2>
                       </div>
-                      {reviewingIssues.map((issue, index) => (
+                      {reviewIssues.map((issue, index) => (
                         <Draggable
                           draggableId={issue.id.toString()}
                           key={issue.id.toString()}
@@ -300,7 +320,7 @@ export default function IssueBoardPage() {
                   </div>
                 )}
               </Droppable>
-              <Droppable droppableId="Completed">
+              <Droppable droppableId="Done" key="Done">
                 {(provided) => (
                   <div
                     className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit"
@@ -314,10 +334,10 @@ export default function IssueBoardPage() {
                           완료
                         </h1>
                         <h2 className="ml-[0.8vw] font-suitB">
-                          {completedIssues.length}
+                          {doneIssues.length}
                         </h2>
                       </div>
-                      {completedIssues.map((issue, index) => (
+                      {doneIssues.map((issue, index) => (
                         <Draggable
                           draggableId={issue.id.toString()}
                           key={issue.id.toString()}
@@ -335,7 +355,7 @@ export default function IssueBoardPage() {
                         </Draggable>
                       ))}
                     </div>
-                    
+                    {provided.placeholder}
                   </div>
                 )}
               </Droppable>

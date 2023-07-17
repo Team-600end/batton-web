@@ -1,5 +1,7 @@
 export type IssueType = "New" | "Changed" | "Feature" | "Fixed" | "Deprecated";
 
+export type IssueStatus = "Todo" | "Progress" | "Review" | "Done";
+
 export interface Manager {
   name: string;
   profileImg?: string;
