@@ -1,4 +1,4 @@
-import React from "react";
+import React, {useState} from "react";
 import ProjectNavbar from "@components/nav/ProjectNavbar";
 import plus_img from "@assets/images/icons/plus.svg";
 import Issue from "@typess/Issue";
@@ -11,6 +11,7 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import { useParams } from "react-router-dom";
+import CreateIssueModal from "@components/project/issue/CreateIssueModal";
 
 const watingIssues: Issue[] = [
   {
@@ -129,6 +130,10 @@ export default function IssueBoardPage() {
   const handleDragEnd = async (initial: { draggableId: string }) => {};
   const handleDragStart = async (initial: { draggableId: string }) => {};
 
+  const [showModal, setShowModal] = useState(false);
+  const handleOnClose = () => setShowModal(false);
+
+
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
@@ -138,10 +143,12 @@ export default function IssueBoardPage() {
           <div className="flex justify-end mr-[2.5vw] mt-[2vw]">
             {" "}
             {/*here*/}
-            <button className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL">
+            <button onClick={()=>setShowModal(true)} className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL">
               <img src={plus_img} className="mr-[0.2vw]" />
               이슈 생성
             </button>
+
+            <CreateIssueModal onClose={handleOnClose} visible={showModal} />
           </div>
           <DragDropContext
             onDragEnd={handleDragEnd}

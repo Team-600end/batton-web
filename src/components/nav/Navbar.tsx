@@ -5,7 +5,7 @@ import { useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
 import { ProjectS } from "@typess/project";
 import { useRecoilState } from "recoil";
-import { navbarNoticeDropdown, navbarProjectDropdown } from "@src/state/ModalState";
+import { navbarNoticeDropdown, navbarProjectDropdown } from "@src/state/StateModalState";
 
 const userProjects: ProjectS[] = [
   {
