@@ -7,7 +7,7 @@ type PuzzleProps = {
   version: String;
 };
 
-export default function Puzzle(props: PuzzleProps) {
+export default function PuzzleView(props: PuzzleProps) {
   return (
     <>
       <div className="relative w-[80px] h-[70px] -mx-[8.5px] dark:bg-gray-800 dark:hover:bg-gray-700">

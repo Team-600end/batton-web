@@ -31,11 +31,11 @@ function App() {
             <Route path="*" element={<NotFoundPage/>} />
             <Route element={<Layout />}>
               <Route path="/main" element={<MainPage />} />
-              <Route path="/project/0/dashboard" element={<DashBoardPage />} />
-              <Route path="/project/0/issueboard" element={<IssueBoardPage />} />
-              <Route path="/project/0/releasenote" element={<ReleaseNote />} />
-              <Route path="/project/0/releasenote/0" element={<Release />} />
-              <Route path="/project/0/releasenote/write" element={<RnoteEditPage />} />
+              <Route path="/project/:projectId/dashboard" element={<DashBoardPage />} />
+              <Route path="/project/:projectId/issueboard" element={<IssueBoardPage />} />
+              <Route path="/project/:projectId/releasenote" element={<ReleaseNote />} />
+              <Route path="/project/:projectId/releasenote/0" element={<Release />} />
+              <Route path="/project/:projectId/releasenote/write" element={<RnoteEditPage />} />
               <Route path="/myinfo-edit" />
               <Route path="/new-project" />
               <Route path="/board" element={<BoardPage/>} />

@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import styled from "styled-components";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
 import PjCard from "@components/main/PjCard";
@@ -35,23 +34,19 @@ export default function MainPage() {
           </button>
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
-          {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
-          <Carousel
-            theme={customCarouselTheme}
-            leftControl={<img src={left_control_img} />}
-            rightControl={<img src={right_control_img} />}
-          >
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              <PjCard />
-              <PjCard />
-              <PjCard />
-            </div>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              <PjCard />
-              <PjCard />
-            </div>
-          </Carousel> */}
+          {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}> */}
           <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
+            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
+              <PjCard />
+              <PjCard />
+              <PjCard />
+            </div>
+            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
+              <PjCard />
+              <PjCard />
+            </div>
+          </Carousel>
+          {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
             <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
               {Array.from({ length: Math.ceil(pjCards.length / 3) }).map((_, index) => (
                 <div key={index} className="flex flex-row">
@@ -61,7 +56,7 @@ export default function MainPage() {
                 </div>
               ))}
             </div>
-          </Carousel>
+          </Carousel> */}
         </div>
         <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
           <img className="mr-2" src={titleBox_img} />
