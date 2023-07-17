@@ -11,4 +11,5 @@ export default interface Issue {
   manager?: Manager;
   team: string;
   index: number;
+  id: number;
 }

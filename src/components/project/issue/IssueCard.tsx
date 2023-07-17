@@ -10,7 +10,7 @@ type IssueCardProps = {
 
 export default function IssueCard(props: IssueCardProps) {
   return (
-    <div className="rounded-md border border-gray-300 w-[16.5vw] h-[14vh] mb-[2vh] p-[1vw] shadow">
+    <div className="rounded-md border border-gray-300 w-[16.5vw] h-[14vh] mb-[2vh] p-[1vw] shadow bg-white">
       <div className="flex items-center justify-between mb-[1vh]">
         <IssueBadge issueType={props.issue.type} />
         <img src={kebap_img} style={{ marginRight: "-0.3vw", cursor: "pointer" }} />
