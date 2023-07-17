@@ -1,69 +1,61 @@
-import React, { useState, useCallback, useEffect}  from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import profile_img from "@assets/images/myPage/profile_icon.png";
+import profile_img from "@images/common/default_profile.png";
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
 import Navbar from "@components/nav/Navbar";
 
 export default function CreatePjPage() {
-
   const navigate = useNavigate();
 
   const goBack = () => {
     navigate(-1); // 이전 페이지로 이동
   };
-  
+
   useEffect(() => {
+    // set the dropdown menu element
+    const $targetEl = document.getElementById("dropdownMenu") as HTMLDivElement;
 
-  // set the dropdown menu element
-  const $targetEl = document.getElementById('dropdownMenu') as HTMLDivElement;
-  
-  // set the element that trigger the dropdown menu on click
-  const $triggerEl = document.getElementById('dropdownButton') as HTMLButtonElement | null;
-  
-  // options with default values
-  const options: DropdownOptions = {
-    placement: 'bottom',
-    triggerType: 'click',
-    offsetSkidding: 0,
-    offsetDistance: 10,
-    delay: 300,
-    onHide: () => {
-        console.log('dropdown has been hidden');
-    },
-    onShow: () => {
-        console.log('dropdown has been shown');
-    },
-    onToggle: () => {
-        console.log('dropdown has been toggled');
-    }
-  };
-  
-  /*
-  * targetEl: required
-  * triggerEl: required
-  * options: optional
-  */
-  const dropdown: DropdownInterface = new Dropdown($targetEl, $triggerEl, options);
-  
-  // show the dropdown
-  dropdown.show();
+    // set the element that trigger the dropdown menu on click
+    const $triggerEl = document.getElementById("dropdownButton") as HTMLButtonElement | null;
 
+    // options with default values
+    const options: DropdownOptions = {
+      placement: "bottom",
+      triggerType: "click",
+      offsetSkidding: 0,
+      offsetDistance: 10,
+      delay: 300,
+      onHide: () => {
+        console.log("dropdown has been hidden");
+      },
+      onShow: () => {
+        console.log("dropdown has been shown");
+      },
+      onToggle: () => {
+        console.log("dropdown has been toggled");
+      },
+    };
+
+    /*
+     * targetEl: required
+     * triggerEl: required
+     * options: optional
+     */
+    const dropdown: DropdownInterface = new Dropdown($targetEl, $triggerEl, options);
+
+    // show the dropdown
+    dropdown.show();
   }, []);
 
   return (
     <>
-    <Navbar/>
+      <Navbar />
       <div className="relative w-screen h-screen flex flex-col mt-12">
         {/* 프로젝트 생성하기 타이틀 */}
-        <div
-          className="flex flex-row items-center mt-12"
-          style={{ marginLeft: "16.9312vw" }}
-        >
+        <div className="flex flex-row items-center mt-12" style={{ marginLeft: "16.9312vw" }}>
           <div className="w-[10px] h-[27px] bg-primary-5 mr-[10px]"></div>
-          <p className="text-[28px] font-bold text-gray-900">
-            프로젝트 생성하기
-          </p>
+          <p className="text-[28px] font-bold text-gray-900">프로젝트 생성하기</p>
         </div>
 
         <div className="flex flex-row w-screen">
@@ -78,27 +70,17 @@ export default function CreatePjPage() {
             }}
           >
             <p className="text-[20px] font-medium text-gray-900">프로젝트명</p>
-            <p
-              className="text-[20px] font-medium text-gray-900"
-              style={{ marginTop: "9.7760vh" }}
-            >
+            <p className="text-[20px] font-medium text-gray-900" style={{ marginTop: "9.7760vh" }}>
               프로젝트 설명
             </p>
-            <p
-              className="text-[20px] font-medium text-gray-900"
-              style={{ marginTop: "18.3299vh" }}
-            >
+            <p className="text-[20px] font-medium text-gray-900" style={{ marginTop: "18.3299vh" }}>
               팀원 추가하기
             </p>
           </div>
 
           {/* 프로젝트 생성하기 오른쪽 컨테이너 */}
           {/* 인풋들 모음 */}
-          <div
-            className="flex flex-col  w-screen"
-            style={{ marginLeft: "10.2159vw", 
-              marginTop: "4.9613vh", }}
-          >
+          <div className="flex flex-col  w-screen" style={{ marginLeft: "10.2159vw", marginTop: "4.9613vh" }}>
             {/* 제목 입력 */}
             <input
               type="pj_title"
@@ -111,10 +93,7 @@ export default function CreatePjPage() {
               }}
               required
             />
-            <p
-              className="font-medium text-[14px] text-gray-400 text-right mt-[4px]"
-              style={{ width: "31.0847vw" }}
-            >
+            <p className="font-medium text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
               0/20
             </p>
 
@@ -128,24 +107,18 @@ export default function CreatePjPage() {
                 verticalAlign: "top",
                 width: "31.0847vw",
                 marginTop: "5.7026vh",
-                minHeight: "14.6640vh"
+                minHeight: "14.6640vh",
               }}
               required
             />
 
-            <p
-              className="font-medium text-[14px] text-gray-400 text-right mt-[4px]"
-              style={{ width: "31.0847vw" }}
-            >
+            <p className="font-medium text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
               0/200
             </p>
 
             {/* 팀원 추가하기 */}
             <div className="flex flex-row">
-              <div
-                className="relative z-0"
-                style={{ marginTop: "4.0733vh", width: "24.8vw" }}
-              >
+              <div className="relative z-0" style={{ marginTop: "4.0733vh", width: "24.8vw" }}>
                 <input
                   type="text"
                   id="floating_standard"
@@ -169,20 +142,8 @@ export default function CreatePjPage() {
                 style={{ width: "86px", height: "40px", marginTop: "4.0733vh" }}
               >
                 권한
-                <svg
-                  className="w-2.5 h-2.5 ml-2.5"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 10 6"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 4 4 4-4"
-                  />
+                <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                  <path stroke="currentColor" stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="m1 1 4 4 4-4" />
                 </svg>
               </button>
 
@@ -206,10 +167,7 @@ export default function CreatePjPage() {
                   marginLeft: "22.1vw",
                 }}
               >
-                <ul
-                  className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200"
-                  aria-labelledby="dropdownButton"
-                >
+                <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownButton">
                   <li>
                     <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                       <input
@@ -219,10 +177,7 @@ export default function CreatePjPage() {
                         name="default-radio"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
-                      <label
-                        htmlFor="default-radio-4"
-                        className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300"
-                      >
+                      <label htmlFor="default-radio-4" className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300">
                         프로젝트 리더
                       </label>
                     </div>
@@ -237,10 +192,7 @@ export default function CreatePjPage() {
                         name="default-radio"
                         className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
-                      <label
-                        htmlFor="default-radio-5"
-                        className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300"
-                      >
+                      <label htmlFor="default-radio-5" className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300">
                         프로젝트 팀원
                       </label>
                     </div>
@@ -260,91 +212,51 @@ export default function CreatePjPage() {
                   <li className="pb-3 sm:pb-4">
                     <div className="flex items-center space-x-7">
                       <div className="flex-shrink-0">
-                        <img
-                          className="w-8 h-8 rounded-full"
-                          src={profile_img}
-                          alt="Neil image"
-                        />
+                        <img className="w-8 h-8 rounded-full" src={profile_img} alt="Neil image" />
                       </div>
                       <div className="flex flex-1 flex-row min-w-0">
-                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">
-                          이서현
-                        </p>
-                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">
-                          email@flowbite.com
-                        </p>
+                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">이서현</p>
+                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">email@flowbite.com</p>
                       </div>
-                      <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">
-                        프로젝트 팀원
-                      </div>
+                      <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">프로젝트 팀원</div>
                     </div>
                   </li>
 
                   <li className="py-3 sm:py-4">
                     <div className="flex items-center space-x-7">
                       <div className="flex-shrink-0">
-                        <img
-                          className="w-8 h-8 rounded-full"
-                          src={profile_img}
-                          alt="Neil image"
-                        />
+                        <img className="w-8 h-8 rounded-full" src={profile_img} alt="Neil image" />
                       </div>
                       <div className="flex flex-1 flex-row min-w-0">
-                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">
-                          정현진
-                        </p>
-                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">
-                          email@flowbite.com
-                        </p>
+                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">정현진</p>
+                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">email@flowbite.com</p>
                       </div>
-                      <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">
-                        프로젝트 팀원
-                      </div>
+                      <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">프로젝트 팀원</div>
                     </div>
                   </li>
 
                   <li className="py-3 sm:py-4">
                     <div className="flex items-center space-x-7">
                       <div className="flex-shrink-0">
-                        <img
-                          className="w-8 h-8 rounded-full"
-                          src={profile_img}
-                          alt="Neil image"
-                        />
+                        <img className="w-8 h-8 rounded-full" src={profile_img} alt="Neil image" />
                       </div>
                       <div className="flex flex-1 flex-row min-w-0">
-                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">
-                          이승희
-                        </p>
-                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">
-                          email@flowbite.com
-                        </p>
+                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">이승희</p>
+                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">email@flowbite.com</p>
                       </div>
-                      <div className="inline-flex text-[14px] font-medium text-primary-4 dark:text-white ">
-                        프로젝트 리더
-                      </div>
+                      <div className="inline-flex text-[14px] font-medium text-primary-4 dark:text-white ">프로젝트 리더</div>
                     </div>
                   </li>
                   <li className="py-3 sm:py-4">
                     <div className="flex items-center space-x-7">
                       <div className="flex-shrink-0">
-                        <img
-                          className="w-8 h-8 rounded-full"
-                          src={profile_img}
-                          alt="Neil image"
-                        />
+                        <img className="w-8 h-8 rounded-full" src={profile_img} alt="Neil image" />
                       </div>
                       <div className="flex flex-1 flex-row min-w-0">
-                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">
-                          임혜균
-                        </p>
-                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">
-                          email@flowbite.com
-                        </p>
+                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">임혜균</p>
+                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">email@flowbite.com</p>
                       </div>
-                      <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">
-                        프로젝트 팀원
-                      </div>
+                      <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">프로젝트 팀원</div>
                     </div>
                   </li>
                 </ul>
@@ -365,9 +277,5 @@ export default function CreatePjPage() {
         </div>
       </div>
     </>
-
-    
   );
-
-  
 }

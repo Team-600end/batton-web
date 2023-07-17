@@ -4,9 +4,9 @@ import { RecoilRoot } from "recoil";
 import LoginPage from "@pages/common/LoginPage";
 import ForgetPwPage from "@pages/common/ForgetPwPage";
 import SignupPage from "@pages/common/SingupPage";
-import Release from "@pages/project/release/Release";
-import RnoteEditPage from "@pages/project/release/RnoteEditPage";
-import ReleaseNote from "@pages/project/release/ReleaseNote";
+import Releases from "@src/pages/project/releases/Releases";
+import RnoteEditPage from "@src/pages/project/releases/RnoteEditPage";
+import ReleaseNote from "@src/pages/project/releases/ReleaseNote";
 import MainPage from "@pages/main/MainPage";
 import IssueBoardPage from "@pages/project/issue/IssueBoardPage";
 import BoardPage from "@pages/board/BoardPage";
@@ -30,30 +30,30 @@ function App() {
               Component={IssueBoardPage}
             />
             <Route
-              path="/project/releasenote/:projectId"
+              path="/project/releasesnote/:projectId"
               Component={ReleaseNote}
             />
-            <Route path="/project/release/:releaseId" Component={Release} />
+            <Route path="/project/releases/:releasesId" Component={Releases} />
             <Route
-              path="/project/release/write/:projectId"
+              path="/project/releases/write/:projectId"
               Component={RnoteEditPage}
             /> */}
             <Route path="/" element={<LandingPage />} />
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/forget-pw" element={<ForgetPwPage />} />
-            <Route path="*" element={<NotFoundPage/>} />
+            <Route path="*" element={<NotFoundPage />} />
             <Route element={<Layout />}>
               <Route path="/main" element={<MainPage />} />
               <Route path="/project/:projectId/dashboard" element={<DashBoardPage />} />
               <Route path="/project/:projectId/issueboard" element={<IssueBoardPage />} />
-              <Route path="/project/:projectId/releasenote" element={<ReleaseNote />} />
-              <Route path="/project/:projectId/releasenote/0" element={<Release />} />
-              <Route path="/project/:projectId/releasenote/write" element={<RnoteEditPage />} />
-              <Route path="/myinfo-edit" element={<MyPage/>}/>
-              <Route path="/new-project" element={<CreatePjPage />}/>
-              <Route path="/board" element={<BoardPage/>} />
-              <Route path="/notifications" element={<NoticeDetailPage/>} />
+              <Route path="/project/:projectId/releasesnote" element={<ReleaseNote />} />
+              <Route path="/project/:projectId/releasesnote/0" element={<Releases />} />
+              <Route path="/project/:projectId/releasesnote/write" element={<RnoteEditPage />} />
+              <Route path="/myinfo-edit" element={<MyPage />} />
+              <Route path="/new-project" element={<CreatePjPage />} />
+              <Route path="/board" element={<BoardPage />} />
+              <Route path="/notifications" element={<NoticeDetailPage />} />
             </Route>
           </Routes>
         </BrowserRouter>

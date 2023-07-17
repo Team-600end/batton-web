@@ -4,13 +4,13 @@ import { Carousel } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 
 import PjCard from "@components/main/PjCard";
-import titleBox_img from "@assets/images/title_box.svg";
-import left_control_img from "@assets/images/mainPage/left_control.svg";
-import right_control_img from "@assets/images/mainPage/right_control.svg";
-import chevorn_img from "@assets/images/common/chevron-down-outline.png";
-import search_img from "@assets/images/common/search-outline.png";
+import titleBox_img from "@images/common/title_box.svg";
+import left_control_img from "@images/icons/left_control.svg";
+import right_control_img from "@images/icons/right_control.svg";
+import chevorn_img from "@images/common/chevron_down.png";
+import search_img from "@images/icons/search_outline.png";
 import { useRecoilState } from "recoil";
-import { navbarProjectDropdown } from "@state/StateModalState";
+import { navbarProjectDropdown } from "@src/state/modalState";
 import { ProjectCard } from "@src/types/project";
 
 // Dummy data

@@ -2,11 +2,11 @@ import React from "react";
 import ProjectNavbar from "@src/components/nav/ProjectNavbar";
 import Navbar from "@components/nav/Navbar";
 import plus_img from "@assets/images/icons/plus.svg";
-import Issue from "@typess/Issue";
+import issue from "@src/types/issue";
 import IssueCard from "@src/components/project/issue/IssueCard";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 
-const hiddenIssues: Issue[] = [
+const hiddenIssues: issue[] = [
   {
     type: "Feature",
     title: "새로운 이슈",
@@ -86,7 +86,7 @@ export default function HiddenIssuePage() {
               </div>
               <div className="mx-auto grid grid-cols-4 mb-[3vh]">
                 {hiddenIssues.map((issue, index) => (
-                  <IssueCard key={index} issue={issue}/>
+                  <IssueCard key={index} issue={issue} />
                 ))}
               </div>
             </div>

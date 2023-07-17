@@ -10,10 +10,11 @@
     "paths": {
       "@src/*": ["src/*"],
       "@assets/*": ["src/assets/*"],
+      "@images/*": ["src/assets/images/*"],
       "@components/*": ["src/components/*"],
       "@pages/*": ["src/pages/*"],
       "@state/*": ["src/state/*"],
-      "@typess/*": ["src/types/*"],
+      "@typess/*": ["src/types/*"]
     },
 
     /* Bundler mode */

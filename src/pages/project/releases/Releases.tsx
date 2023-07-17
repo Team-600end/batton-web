@@ -1,10 +1,10 @@
 import React from "react";
 import Navbar from "@components/nav/Navbar";
-import block from "@assets/images/releaseBlockImg.svg";
+import block from "@images/releasesPuzzle/releasesBlockImg.svg";
 import ProjectNavbar from "@src/components/nav/ProjectNavbar";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 
-export default function Release() {
+export default function Releases() {
   return (
     <>
       <MilestoneNavbar />
@@ -27,12 +27,8 @@ export default function Release() {
           </div>
           <div className="max-w-screen-xl flex-column items-start flex-wrap mx-auto p-4 mt-3 mb-3 w-[50vw]">
             <div className="flex flex-row mb-0 justify-between">
-              <p className="text-4xl font-suitB text-black dark:text-white mb-3">
-                v.2.7.14
-              </p>
-              <p className="text-xl font-suitB text-gray-900 mt-5 dark:text-white">
-                2023. 07. 05
-              </p>
+              <p className="text-4xl font-suitB text-black dark:text-white mb-3">v.2.7.14</p>
+              <p className="text-xl font-suitB text-gray-900 mt-5 dark:text-white">2023. 07. 05</p>
             </div>
             <hr className="h-1.5 mb-5 bg-green-500 border-0 dark:bg-gray-700"></hr>
             <div className="flex flex-row my-2">
@@ -48,15 +44,9 @@ export default function Release() {
                 </span>
               </div>
               <div className="flex flex-col">
-                <p className="text-base font-medium text-gray-900 dark:text-white my-2">
-                  포트폴리오 영상 3분 이내 등록 가능
-                </p>
-                <p className="text-base font-medium text-gray-900 dark:text-white my-2">
-                  포트폴리오 영상 3분 이내 등록 가능
-                </p>
-                <p className="text-base font-medium text-gray-900 dark:text-white my-2">
-                  포트폴리오 영상 3분 이내 등록 가능
-                </p>
+                <p className="text-base font-medium text-gray-900 dark:text-white my-2">포트폴리오 영상 3분 이내 등록 가능</p>
+                <p className="text-base font-medium text-gray-900 dark:text-white my-2">포트폴리오 영상 3분 이내 등록 가능</p>
+                <p className="text-base font-medium text-gray-900 dark:text-white my-2">포트폴리오 영상 3분 이내 등록 가능</p>
               </div>
             </div>
             {/* <div className="flex flex-row my-2">

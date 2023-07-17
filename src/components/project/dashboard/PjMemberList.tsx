@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
-import avatar_img from "@assets/images/common/avatar.png";
-import vertical_dots_img from "@assets/images/common/dots-vertical-outline.png";
+import avatar_img from "@images/common/default_profile.png";
+import vertical_dots_img from "@images/icons/kebap_grey.png";
 
 export default function PjMemberList() {
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -8,7 +8,7 @@ export default function PjMemberList() {
   const toggleDropdown = () => {
     setIsDropdownOpen(!isDropdownOpen);
   };
-  
+
   return (
     <>
       <div className="w-[220px] h-[400px] border-[0.3px] bg-white rounded-lg shadow">
@@ -69,4 +69,4 @@ export default function PjMemberList() {
       </div>
     </>
   );
-};
+}

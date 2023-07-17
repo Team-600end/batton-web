@@ -1,9 +1,8 @@
 import React, { useState, useCallback, useEffect } from "react";
-import styled from "styled-components";
-import pj_img from "@assets/images/mainPage/kea_pj_img.png";
-import pj_latest_img from "@assets/images/mainPage/pj_card_latest.png";
-import default_avatar_img from "@assets/images/icons/default_avatar.svg";
-import { ProjectCard } from "@src/types/project";
+import pj_img from "@assets/images/common/default_teamlogo.png";
+import latest_img from "@images/common/latest.png";
+import default_avatar_img from "@images/common/default_profile.svg";
+import { ProjectCard } from "@typess/project";
 
 // type PjCardProps = {
 //   pjCard: ProjectCard;
@@ -24,7 +23,7 @@ export default function PjCard() {
             <div className="flex-col ml-[20px] mt-[5px]">
               <p className="text-[#5AAE8A] text-2xl font-suitB">이름</p>
               <div className="flex flex-row items-center justify-center mt-[2px]">
-                <img className="w-[50px] h-[18px] mt-[2px]" src={pj_latest_img} alt="pj_latest_img" />
+                <img className="w-[50px] h-[18px] mt-[2px]" src={latest_img} alt="pj_latest_img" />
                 <p className="ml-[5px] text-[#707070] font-suitSB">v 1.0.0</p>
               </div>
             </div>

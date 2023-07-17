@@ -1,13 +1,13 @@
 import React, { useState, useCallback, useEffect } from "react";
 import styled from "styled-components";
-import changed_version_img from "@assets/images/changed_version.svg";
-import puzzle_img from "@assets/images/puzzle.svg";
+import changed_version_img from "@images/common/changed_version.svg";
+import puzzle_img from "@images/puzzle.svg";
 
 import PuzzleView from "@components/project/releases/PuzzleView";
-import Puzzle from "@src/types/Puzzle";
+import puzzle from "@src/types/puzzle";
 
 // Dummy data
-const puzzles: Puzzle[] = [
+const puzzles: puzzle[] = [
   {
     version: "v1.0.0",
     index: 1,
@@ -34,7 +34,7 @@ const puzzles: Puzzle[] = [
   },
 ];
 
-export default function ReleasePuzzle() {
+export default function ReleasesPuzzle() {
   return (
     <>
       <div className="w-[690px] h-[320px] relative bg-white rounded-xl shadow-md">

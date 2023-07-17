@@ -1,10 +1,10 @@
 import React from "react";
 import Navbar from "@components/nav/Navbar";
-import Issue from "@typess/Issue";
+import issue from "@src/types/issue";
 import RnoteIssueCard from "@src/components/project/releases/RnoteIssueCard";
 import refresh_img from "@assets/images/icons/refresh.svg";
 
-const completedIssues: Issue[] = [
+const completedIssues: issue[] = [
   {
     type: "Feature",
     title: "새로운 이슈",
