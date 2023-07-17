@@ -1,5 +1,5 @@
 import React, { useState, useCallback } from "react";
-import "../assets/index.css";
+import "@assets/index.css";
 import profile_img from "@assets/images/myPage/profile_icon.png";
 import Tag from "@src/components/project/issue/IssueBadge";
 
