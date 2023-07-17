@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from 'react-router-dom';
 import jindol from "@assets/images/jindol.jpg";
 import { useRecoilState } from "recoil";
-import { navbarNoticeDropdown } from "@src/state/ModalState";
+import { navbarNoticeDropdown } from "@state/StateModalState";
 
 interface NoticeS {
     contentId: number;

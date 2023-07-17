@@ -10,7 +10,7 @@ import right_control_img from "@assets/images/mainPage/right_control.svg";
 import chevorn_img from "@assets/images/common/chevron-down-outline.png";
 import search_img from "@assets/images/common/search-outline.png";
 import { useRecoilState } from "recoil";
-import { navbarProjectDropdown } from "@src/state/ModalState";
+import { navbarProjectDropdown } from "@state/StateModalState";
 
 
 export default function MainPage() {
