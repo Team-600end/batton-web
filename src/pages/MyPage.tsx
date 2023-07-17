@@ -1,6 +1,6 @@
 import React from "react"
-import profile_img from "../assets/images/myPage/profile_icon.png";
-import Navbar from "../components/Navbar";
+import profile_img from "@assets/images/myPage/profile_icon.png";
+import Navbar from "@components/nav/Navbar";
 
 export default function MyPage() {
 
