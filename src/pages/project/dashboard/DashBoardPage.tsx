@@ -5,8 +5,11 @@ import ProjectNavbar from "@components/nav/ProjectNavbar";
 import ReleasePuzzle from "@src/components/project/releases/ReleasePuzzle";
 import PjMemberList from "@components/project/dashboard/PjMemberList";
 import IssueLog from "@components/project/issue/IssueLog";
+import { useParams } from "react-router-dom";
 
 export default function DashBoardPage() {
+  let { projectId } = useParams();
+  
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />

@@ -1,7 +1,8 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import styled from "styled-components";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
+import { useNavigate } from "react-router-dom";
+
 import PjCard from "@components/main/PjCard";
 import titleBox_img from "@assets/images/title_box.svg";
 import left_control_img from "@assets/images/mainPage/left_control.svg";
@@ -9,27 +10,29 @@ import right_control_img from "@assets/images/mainPage/right_control.svg";
 import chevorn_img from "@assets/images/common/chevron-down-outline.png";
 import search_img from "@assets/images/common/search-outline.png";
 import { useRecoilState } from "recoil";
-import { navbarProjectDropdown } from "@state/ModalState";
+import { navbarProjectDropdown } from "@state/StateModalState";
 import { ProjectCard } from "@src/types/project";
 
 // Dummy data
-const pjCards: ProjectCard[] = [
-  {
-    name: "프로젝트 이름",
-    version: "v1.0.0",
-    index: 1,
-    // logo: "https://images.unsplash.com/photo-1622837137190-4f8b9e2b0b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y29sb3IlMjBwcm9qZWN0JTIwc2VydmljZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-    todoissue: 1,
-    doingissue: 2,
-    myissue: 3,
-    doneissue: 4,
-    leader: "김김김",
-    membernum: 5,
-  },
-];
+// const pjCards: ProjectCard[] = [
+//   {
+//     number: 1,
+//     name: "프로젝트 이름",
+//     version: "v1.0.0",
+//     index: 1,
+//     // logo: "https://images.unsplash.com/photo-1622837137190-4f8b9e2b0b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y29sb3IlMjBwcm9qZWN0JTIwc2VydmljZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+//     todoissue: 1,
+//     doingissue: 2,
+//     myissue: 3,
+//     doneissue: 4,
+//     leader: "김김김",
+//     membernum: 5,
+//   },
+// ];
 
 export default function MainPage() {
   const [projectDropdown, setProjectDropdown] = useRecoilState(navbarProjectDropdown);
+  const navigate = useNavigate();
 
   return (
     <div
@@ -47,23 +50,24 @@ export default function MainPage() {
           <button
             type="button"
             className="focus:outline-none text-primary-4 bg-white border border-primary-4 hover:bg-green-100 focus:ring-4 focus:ring-green-300 font-suitM rounded-lg text-sm px-5 py-2.5"
+            onClick={() => navigate("/new-project")}
           >
             + 새 프로젝트 생성
           </button>
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
-          {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              <PjCard />
-              <PjCard />
-              <PjCard />
-            </div>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              <PjCard />
-              <PjCard />
-            </div>
-          </Carousel> */}
           <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
+            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
+              <PjCard />
+              <PjCard />
+              <PjCard />
+            </div>
+            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
+              <PjCard />
+              <PjCard />
+            </div>
+          </Carousel>
+          {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
             <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
               {Array.from({ length: Math.ceil(pjCards.length / 3) }).map((_, index) => (
                 <div key={index} className="flex flex-row">
@@ -73,7 +77,7 @@ export default function MainPage() {
                 </div>
               ))}
             </div>
-          </Carousel>
+          </Carousel> */}
         </div>
         <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
           <img className="mr-2" src={titleBox_img} />
