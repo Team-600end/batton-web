@@ -1,6 +1,6 @@
 import React from "react";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
-import Issue from "@typess/issue";
+import Issue from "@typess/Issue";
 import kebap_img from "@assets/images/icons/kebap_black.svg";
 import default_avatar_img from "@images/common/default_profile.svg";
 

@@ -37,7 +37,7 @@ export default function MainPage() {
   return (
     <div
       className="mt-[7vh]"
-      onClick={(e) => {
+      onClick={() => {
         setProjectDropdown(false);
       }}
     >

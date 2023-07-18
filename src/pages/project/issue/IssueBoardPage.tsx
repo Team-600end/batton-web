@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProjectNavbar from "@components/nav/ProjectNavbar";
 import plus_img from "@assets/images/icons/plus.svg";
-import Issue, { IssueStatus } from "@typess/issue";
+import Issue, { IssueStatus } from "@typess/Issue";
 import IssueCard from "@components/project/issue/IssueCard";
 import MilestoneNavbar from "@components/nav/MilestoneNavbar";
 import {
@@ -150,22 +150,21 @@ export default function IssueBoardPage() {
     const sourceIndex = source.index;
     const destinationIndex = destination.index;
 
-    if (sourceList && destinationList) {
       if (source.droppableId !== destination.droppableId) {
         // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 다른 경우
-        const sourceItem = sourceList[sourceIndex];
-        sourceList.splice(sourceIndex, 1);
-        destinationList.splice(destinationIndex, 0, sourceItem);
+        const sourceItem = sourceList![sourceIndex];
+        sourceList!.splice(sourceIndex, 1);
+        destinationList!.splice(destinationIndex, 0, sourceItem);
       } else {
         // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 동일한 경우
         if (sourceIndex !== destinationIndex) {
-          const sourceItem = sourceList[sourceIndex];
-          sourceList.splice(sourceIndex, 1); // 원래 위치에서 제거
-          sourceList.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
+          const sourceItem = sourceList![sourceIndex];
+          sourceList!.splice(sourceIndex, 1); // 원래 위치에서 제거
+          sourceList!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
         }
       }
+
       // 저장 axios
-    }
   };
 
   const [showModal, setShowModal] = useState(false);

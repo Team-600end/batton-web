@@ -1,38 +1,66 @@
 import React from "react";
 import Navbar from "@components/nav/Navbar";
-import Issue from "@typess/issue";
+import Issue from "@typess/Issue";
 import RnoteIssueCard from "@src/components/project/releases/RnoteIssueCard";
 import refresh_img from "@assets/images/icons/refresh.svg";
 
-const completedIssues: Issue[] = [
+const doneIssues: Issue[] = [
   {
     type: "Feature",
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 1,
+    id: 7,
   },
   {
     type: "New",
     title: "변경된 이슈",
     team: "600&",
-    index: 2,
+    id: 8,
   },
   {
     type: "Feature",
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 10,
+    id: 9,
   },
   {
     type: "Feature",
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
-    index: 14,
+    id: 10,
+  },
+  {
+    type: "Feature",
+    title: "새로운 이슈",
+    manager: { name: "John Doe" },
+    team: "600&",
+    id: 11,
+  },
+  {
+    type: "New",
+    title: "변경된 이슈",
+    team: "600&",
+    id: 12,
+  },
+  {
+    type: "Feature",
+    title: "새로운 이슈",
+    manager: { name: "John Doe" },
+    team: "600&",
+    id: 13,
+  },
+  {
+    type: "Feature",
+    title: "새로운 이슈",
+    manager: { name: "John Doe" },
+    team: "600&",
+    id: 14,
   },
 ];
+
 
 export default function RnoteEditPage() {
   return (
@@ -45,7 +73,7 @@ export default function RnoteEditPage() {
             <img src={refresh_img} />
           </div>
           <div className="p-[2vw]">
-            {completedIssues.map((issue, index) => (
+            {doneIssues.map((issue, index) => (
               <RnoteIssueCard key={index} issue={issue} />
             ))}
           </div>

@@ -2,7 +2,7 @@ import React from "react";
 import ProjectNavbar from "@src/components/nav/ProjectNavbar";
 import Navbar from "@components/nav/Navbar";
 import plus_img from "@assets/images/icons/plus.svg";
-import issue from "@typess/issue";
+import issue from "@typess/Issue";
 import IssueCard from "@src/components/project/issue/IssueCard";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 import { useNavigate, useParams } from "react-router-dom";
@@ -48,7 +48,7 @@ export default function IssueHistoryPage() {
           <div className="flex m-[1.5vw] justify-center">
             <div className="w-[80vw] bg-white mx-[1.4vw] rounded-lg shadow-lg px-[3vw]">
               <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
-                <h1 className="text-lg font-bold text-[#323232]">대기</h1>
+                <h1 className="text-lg font-bold text-[#323232]">이슈 히스토리</h1>
                 <h2 className="ml-[0.8vw]">{releasedIssues.length}</h2>
               </div>
               <div className="mx-auto grid grid-cols-4 mb-[3vh]">
