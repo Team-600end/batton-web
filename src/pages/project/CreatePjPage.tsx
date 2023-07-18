@@ -50,7 +50,6 @@ export default function CreatePjPage() {
 
   return (
     <>
-      <Navbar />
       <div className="relative w-screen h-screen flex flex-col mt-12">
         {/* 프로젝트 생성하기 타이틀 */}
         <div className="flex flex-row items-center mt-12" style={{ marginLeft: "16.9312vw" }}>

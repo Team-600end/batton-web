@@ -2,7 +2,6 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-
 import PjCard from "@components/main/PjCard";
 import titleBox_img from "@images/common/title_box.svg";
 import left_control_img from "@images/icons/left_control.svg";
