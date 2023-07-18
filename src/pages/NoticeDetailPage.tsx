@@ -71,7 +71,7 @@ export default function NoticeDetailPage() {
             <div className="pl-5 py-3 border-b border-gray-200 items-center gap-7 inline-flex">
               <img className="w-11 h-11 relative rounded-full" src={notice.senderProfileImage} />
               <div className="flex justify-start items-center gap-1.5">
-                <div className="w-[430px] text-[0.850rem] font-suitM">{notice.noticeContent}</div>
+                <div className="w-[430px] break-all text-[0.850rem] font-suitM">{notice.noticeContent}</div>
                 <div className="w-24 text-right text-primary-4 text-xs font-suitL leading-none flex">{notice.noticeDate}</div>
               </div>
             </div>

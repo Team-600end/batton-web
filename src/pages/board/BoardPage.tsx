@@ -1,73 +1,95 @@
 import React, { useState, useCallback } from "react";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
+import { IssueType } from "@src/types/issue";
+
+interface BoardS {
+  projecttId: number;
+  releaseId: number;
+  projectTitle: string;
+  releaseVersion: string;
+  issueTags: IssueType[];
+  releaseDate: Date;
+}
+
+const boards: BoardS[] = [
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "600& 프로젝트",
+    releaseVersion: "v1.0.0",
+    issueTags: [
+      "New", "Feature"
+    ],
+    releaseDate: new Date(2023, 7, 18)
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "600& 프로젝트",
+    releaseVersion: "v1.0.0",
+    issueTags: [
+      "New", "Feature"
+    ],
+    releaseDate: new Date(2023, 7, 18)
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "600& 프로젝트",
+    releaseVersion: "v1.0.0",
+    issueTags: [
+      "New", "Feature"
+    ],
+    releaseDate: new Date(2023, 7, 18)
+  },
+]
+
+function getFullDate(delimiter: string, year: number, month: number, date: number): string {
+  return  `${year}${delimiter}${month.toString().padStart(2, '0')}${delimiter}${date.toString().padStart(2, '0')}`
+}
+
 
 export default function BoardPage() {
   return (
     <>
-      <div className="flex flex-col items-center mx-[200px] my-[100px] shadow-[2px_6px_10px_-2px_rgba(0,0,0,0.3)] border-[0.3px] bg-white rounded-lg shadow mx-2">
+      <div className="flex flex-col items-center mx-[300px] my-[100px] shadow-[2px_6px_10px_-2px_rgba(0,0,0,0.3)] border-[0.3px] bg-white rounded-lg shadow mx-2">
         {/* 테이블 */}
-        <table className="w-full text-smtext-left text-gray-500">
+        <table className="w-full text-sm text-gray-500">
+          <colgroup>
+            <col className="w-1/6" /> {/* 첫 번째 열 너비를 1/6로 지정 */}
+            <col className="w-1/6" /> {/* 두 번째 열 너비를 1/6로 지정 */}
+            <col className="w-1/3" /> {/* 세 번째 열 너비를 1/3로 지정 */}
+            <col className="w-1/6" /> {/* 네 번째 열 너비를 1/6로 지정 */}
+          </colgroup>
           <thead className="text-center font-suitL text-xs text-white uppercase bg-[#285F43]">
             <tr>
-              <th scope="col" className="py-3">
+              <th scope="col" className="w-1/7 py-3">
                 프로젝트
               </th>
-              <th scope="col" className="py-3">
+              <th scope="col" className="w-1/7 py-3">
                 버전
               </th>
-              <th scope="col" className="py-3">
+              <th scope="col" className="w-3/7 py-3">
                 이슈 태그
               </th>
-              <th scope="col" className="py-3">
+              <th scope="col" className="w-2/7  py-3">
                 최종 수정 날짜
-              </th>
-              <th scope="col" className="py-3">
-                작성자
               </th>
             </tr>
           </thead>
           <tbody>
-            <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
-              <th scope="row" className="py-4">
-                600&
-              </th>
-              <td className="py-4">v1.0.1</td>
-              <td className="py-4">
-                <IssueBadge issueType="New" />
-                <IssueBadge issueType="Feature" />
-                <IssueBadge issueType="Changed" />
-              </td>
-              <td className="py-4">2023.07.10</td>
-              <td className="py-4">harry</td>
-            </tr>
-            <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
-              <th scope="row" className="py-4">
-                밴드의 시대
-              </th>
-              <td className="py-4">v1.0.1</td>
-              <td className="py-4">
-                <IssueBadge issueType="Feature" />
-              </td>
-              <td className="py-4">2023.07.10</td>
-              <td className="py-4">harry</td>
-            </tr>
-            <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
-              <th scope="row" className="py-4">
-                Surveine
-              </th>
-              <td className="py-4">v1.0.1</td>
-              <td className="py-4">
-                <IssueBadge issueType="Deprecated" />
-                <IssueBadge issueType="Deprecated" />
-                <IssueBadge issueType="Deprecated" />
-                <IssueBadge issueType="Deprecated" />
-              </td>
-              <td className="py-4">2023.07.10</td>
-              <td className="py-4">harry</td>
-            </tr>
-            {/* ... */}
-            {/* 나머지 테이블 내용 */}
-            {/* ... */}
+            {boards.map((board) => (
+              <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
+                <th scope="row" className="py-4">{board.projectTitle}</th>
+                <td className="py-4">{board.releaseVersion}</td>
+                <td className="py-4">
+                  {board.issueTags.map((issue) => (
+                    <IssueBadge issueType={issue} />
+                  ))}
+                </td>
+                <td className="py-4">{getFullDate(". ", board.releaseDate.getFullYear(), board.releaseDate.getMonth(), board.releaseDate.getDate() )}</td>
+              </tr>
+            ))}
           </tbody>
         </table>
 

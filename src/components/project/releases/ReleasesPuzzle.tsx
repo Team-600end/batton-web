@@ -4,7 +4,7 @@ import changed_version_img from "@images/common/changed_version.svg";
 import puzzle_img from "@images/puzzle.svg";
 
 import PuzzleView from "@components/project/releases/PuzzleView";
-import puzzle from "@typess/puzzle";
+import puzzle from "@typess/Puzzle";
 
 // Dummy data
 const puzzles: puzzle[] = [
