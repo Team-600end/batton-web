@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
 import { ProjectNav } from "@typess/project";
 import { useRecoilState } from "recoil";
-import { navbarNoticeDropdown, navbarProjectDropdown } from "@src/state/modalState";
+import {
+  navbarNoticeDropdown,
+  navbarProjectDropdown,
+} from "@src/state/modalState";
 
 const userProjectNav: ProjectNav[] = [
   {
@@ -29,9 +32,12 @@ export default function Navbar() {
   const navigate = useNavigate();
   const outside = useRef<HTMLDivElement>(null);
 
-  const [projectDropdown, setProjectDropdown] = useRecoilState(navbarProjectDropdown);
+  const [projectDropdown, setProjectDropdown] = useRecoilState(
+    navbarProjectDropdown
+  );
   const [profileDropdown, setProfileDropdown] = useState(false);
-  const [noticeDropdown, setNoticeDropdown] = useRecoilState(navbarNoticeDropdown);
+  const [noticeDropdown, setNoticeDropdown] =
+    useRecoilState(navbarNoticeDropdown);
 
   const handleProjectDropdown = () => {
     setProjectDropdown(!projectDropdown);
@@ -55,14 +61,21 @@ export default function Navbar() {
       }}
     >
       <div className="flex items-center p-4">
-        <button className="flex items-center flex-1" style={{ marginLeft: "-2vw" }} onClick={() => navigate("/")}>
+        <button
+          className="flex items-center flex-1"
+          style={{ marginLeft: "-2vw" }}
+          onClick={() => navigate("/")}
+        >
           <img src={batton_logo_img} className="h-8 mr-3" alt="Flowbite Logo" />
         </button>
       </div>
       <div className="items-center justify-between w-full md:flex md:w-auto">
         <ul className="flex flex-row font-suitM rounded-lg space-x-[4vw]">
           <li>
-            <button className="bg-blue-700 rounded md:bg-transparent text-[#5AAE8A]" onClick={() => navigate("/main")}>
+            <button
+              className="bg-blue-700 rounded md:bg-transparent text-[#5AAE8A]"
+              onClick={() => navigate("/main")}
+            >
               메인
             </button>
           </li>
@@ -72,8 +85,20 @@ export default function Navbar() {
               onClick={handleProjectDropdown}
             >
               프로젝트{" "}
-              <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
+              <svg
+                className="w-2.5 h-2.5 ml-2.5"
+                aria-hidden="true"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 10 6"
+              >
+                <path
+                  stroke="currentColor"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
+                  strokeWidth="2"
+                  d="m1 1 4 4 4-4"
+                />
               </svg>
             </button>
           </li>
@@ -96,7 +121,13 @@ export default function Navbar() {
           type="button"
           onClick={handleNoticeDropdown}
         >
-          <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 14 20">
+          <svg
+            className="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="currentColor"
+            viewBox="0 0 14 20"
+          >
             <path d="M12.133 10.632v-1.8A5.406 5.406 0 0 0 7.979 3.57.946.946 0 0 0 8 3.464V1.1a1 1 0 0 0-2 0v2.364a.946.946 0 0 0 .021.106 5.406 5.406 0 0 0-4.154 5.262v1.8C1.867 13.018 0 13.614 0 14.807 0 15.4 0 16 .538 16h12.924C14 16 14 15.4 14 14.807c0-1.193-1.867-1.789-1.867-4.175ZM3.823 17a3.453 3.453 0 0 0 6.354 0H3.823Z" />
           </svg>
           <div className="relative flex">
@@ -112,31 +143,50 @@ export default function Navbar() {
           data-dropdown-placement="bottom"
         >
           <span className="sr-only">Open user menu</span>
-          <img className="w-8 h-8 rounded-full" src="https://flowbite.com/docs/images/logo.svg" alt="user photo" />
+          <img
+            className="w-8 h-8 rounded-full"
+            src="https://flowbite.com/docs/images/logo.svg"
+            alt="user photo"
+          />
         </button>
-        <div className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow" id="user-dropdown">
+        <div
+          className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow"
+          id="user-dropdown"
+        >
           <div className="px-4 py-3">
             <span className="block text-sm text-gray-900">Bonnie Green</span>
-            <span className="block text-sm  text-gray-500 truncate dark:text-gray-400">name@flowbite.com</span>
+            <span className="block text-sm  text-gray-500 truncate">name@flowbite.com</span>
           </div>
           <ul className="py-2" aria-labelledby="user-menu-button">
             <li>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              <a
+                href="#"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
                 Dashboard
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              <a
+                href="#"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
                 Settings
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              <a
+                href="#"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
                 Earnings
               </a>
             </li>
             <li>
-              <a href="#" className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100">
+              <a
+                href="#"
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
+              >
                 Sign out
               </a>
             </li>
@@ -150,8 +200,20 @@ export default function Navbar() {
           aria-expanded="false"
         >
           <span className="sr-only">Open main menu</span>
-          <svg className="w-5 h-5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 17 14">
-            <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1h15M1 7h15M1 13h15" />
+          <svg
+            className="w-5 h-5"
+            aria-hidden="true"
+            xmlns="http://www.w3.org/2000/svg"
+            fill="none"
+            viewBox="0 0 17 14"
+          >
+            <path
+              stroke="currentColor"
+              strokeLinecap="round"
+              strokeLinejoin="round"
+              strokeWidth="2"
+              d="M1 1h15M1 7h15M1 13h15"
+            />
           </svg>
         </button>
       </div>
@@ -167,12 +229,16 @@ export default function Navbar() {
           <div className="py-1">
             <button className="block px-4 py-2 hover:bg-gray-100 w-full">
               <div className="flex items-center">
-                <p className="font-suitL text-sm text-[#6B7280]">모든 프로젝트 보기</p>
+                <p className="font-suitL text-sm text-[#6B7280]">
+                  모든 프로젝트 보기
+                </p>
               </div>
             </button>
             <button className="block px-4 py-2 hover:bg-gray-100 w-full">
               <div className="flex items-center">
-                <p className="font-suitL text-sm text-[#6B7280]">프로젝트 생성하기</p>
+                <p className="font-suitL text-sm text-[#6B7280]">
+                  프로젝트 생성하기
+                </p>
               </div>
             </button>
           </div>
