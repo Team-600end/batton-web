@@ -2,7 +2,7 @@ import React from "react";
 import ProjectNavbar from "@src/components/nav/ProjectNavbar";
 import Navbar from "@components/nav/Navbar";
 import plus_img from "@assets/images/icons/plus.svg";
-import Issue from "@typess/Issue";
+import { Issue } from "@typess/Issue";
 import IssueCard from "@src/components/project/issue/IssueCard";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 import { useNavigate, useParams } from "react-router-dom";

@@ -19,7 +19,7 @@ import LandingPage from "@pages/common/LandingPage";
 import Layout from "@src/Layout";
 import NotFoundPage from "@pages/common/NotFoundPage";
 import DashBoardPage from "@pages/project/dashboard/DashBoardPage";
-import HiddenIssuePage from "./pages/project/issue/HiddenIssuePage";
+import HiddenIssuePage from "@pages/project/issue/HiddenIssuePage";
 function App() {
   return (
     <CookiesProvider>

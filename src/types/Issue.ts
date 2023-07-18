@@ -6,11 +6,19 @@ export interface Manager {
   name: string;
   profileImg?: string;
 }
-
-export default interface Issue {
+export interface Issue {
   type: IssueType;
   title: string;
   manager?: Manager;
   team: string;
   id: number;
 }
+export interface DoneIssue {
+  type: IssueType;
+  title: string;
+  manager?: Manager;
+  team: string;
+  id: number;
+  isUsed: boolean;
+}
+

@@ -8,3 +8,6 @@ export const nickname = atom({
     default: '',
     effects_UNSTABLE: [persistAtom]
 });
+
+
+// 닉네임, 이메일, 프로필 사진

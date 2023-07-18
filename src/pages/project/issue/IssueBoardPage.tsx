@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import ProjectNavbar from "@components/nav/ProjectNavbar";
 import plus_img from "@assets/images/icons/plus.svg";
-import Issue, { IssueStatus } from "@typess/Issue";
+import { Issue, IssueStatus } from "@typess/Issue";
 import IssueCard from "@components/project/issue/IssueCard";
 import MilestoneNavbar from "@components/nav/MilestoneNavbar";
 import {
@@ -164,7 +164,7 @@ export default function IssueBoardPage() {
         }
       }
 
-      // 저장 axios
+      // 저장 axios 추가해야됨!
   };
 
   const [showModal, setShowModal] = useState(false);

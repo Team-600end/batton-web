@@ -1,14 +1,17 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import batton_logo_img from "@images/common/batton_logo_medium.svg";
+import default_proflie_img from "@images/common/default_profile.svg";
 import Notice from "@components/nav/Notice";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
 import { ProjectNav } from "@typess/project";
 import { useRecoilState } from "recoil";
 import {
-  navbarNoticeDropdown,
-  navbarProjectDropdown,
+  navbarNoticeDd,
+  navbarProfileDd,
+  navbarProjectDd,
 } from "@src/state/modalState";
+import { projectNavs } from "@src/state/projectState";
 
 const userProjectNav: ProjectNav[] = [
   {
@@ -31,33 +34,50 @@ const userProjectNav: ProjectNav[] = [
 export default function Navbar() {
   const navigate = useNavigate();
   const outside = useRef<HTMLDivElement>(null);
+  const location = useLocation();
 
-  const [projectDropdown, setProjectDropdown] = useRecoilState(
-    navbarProjectDropdown
-  );
-  const [profileDropdown, setProfileDropdown] = useState(false);
-  const [noticeDropdown, setNoticeDropdown] =
-    useRecoilState(navbarNoticeDropdown);
+  const [projects, setProjects] = useRecoilState(projectNavs)
+  const [projectDd, setProjectDd] = useRecoilState(navbarProjectDd);
+  const [profileDd, setProfileDd] = useRecoilState(navbarProfileDd);
+  const [noticeDd, setNoticeDd] = useRecoilState(navbarNoticeDd);
 
-  const handleProjectDropdown = () => {
-    setProjectDropdown(!projectDropdown);
+  const handleProjectDd = () => {
+    setProjectDd(!projectDd);
+    setNoticeDd(false);
+    setProfileDd(false);
   };
 
-  const handleProfileDropdown = () => {
-    setProfileDropdown(!profileDropdown);
+  const handleProfileDd = () => {
+    setProfileDd(!profileDd);
+    setNoticeDd(false);
+    setProjectDd(false);
   };
 
-  const handleNoticeDropdown = () => {
-    setNoticeDropdown(!noticeDropdown);
+  const handleNoticeDd = () => {
+    setNoticeDd(!noticeDd);
+    setProjectDd(false);
+    setProfileDd(false);
   };
+
+  const handleAllDdOff = () => {
+    setNoticeDd(false);
+    setProjectDd(false);
+    setProfileDd(false);
+  };
+
+  const pathArr = location.pathname.split("/", 2);
+
+  useEffect(() => {
+    setProjects(userProjectNav);
+  });
 
   return (
     <nav
-      className="bg-white border-gray-200 fixed top-0 w-screen bg-white z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]"
+      className="bg-white border-gray-200 fixed top-0 w-screen z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]"
       ref={outside}
       onClick={(e) => {
-        if (e.target == outside.current) setProjectDropdown(false);
-        if (e.target == outside.current) setNoticeDropdown(false);
+        if (e.target == outside.current) setProjectDd(false);
+        if (e.target == outside.current) setNoticeDd(false);
       }}
     >
       <div className="flex items-center p-4">
@@ -73,7 +93,11 @@ export default function Navbar() {
         <ul className="flex flex-row font-suitM rounded-lg space-x-[4vw]">
           <li>
             <button
-              className="bg-blue-700 rounded md:bg-transparent text-[#5AAE8A]"
+              className={
+                pathArr[1] === "main"
+                  ? "text-[#5AAE8A] hover:text-[#5AAE8A]"
+                  : "text-gray-900 hover:text-[#5AAE8A]"
+              }
               onClick={() => navigate("/main")}
             >
               메인
@@ -81,8 +105,12 @@ export default function Navbar() {
           </li>
           <li>
             <button
-              className="flex items-center justify-between w-full py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 hover:bg-transparent md:hover:text-[#5AAE8A] md:p-0 md:w-auto"
-              onClick={handleProjectDropdown}
+              className={
+                pathArr[1] === "project"
+                  ? "flex items-center justify-between text-[#5AAE8A] hover:text-[#5AAE8A]"
+                  : "flex items-center justify-between text-gray-900 hover:text-[#5AAE8A]"
+              }
+              onClick={handleProjectDd}
             >
               프로젝트{" "}
               <svg
@@ -104,7 +132,11 @@ export default function Navbar() {
           </li>
           <li>
             <button
-              className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#5AAE8A] md:p-0"
+              className={
+                pathArr[1] === "board"
+                  ? "rounded bg-transparent text-[#5AAE8A] hover:text-[#5AAE8A]"
+                  : "rounded bg-transparent text-gray-900 hover:text-[#5AAE8A]"
+              }
               onClick={() => navigate("/board")}
             >
               게시판
@@ -119,7 +151,7 @@ export default function Navbar() {
           data-dropdown-toggle="dropdownNotification"
           className="inline-flex items-center text-sm font-suitM text-center text-gray-500 hover:text-gray-900 focus:outline-none mr-3"
           type="button"
-          onClick={handleNoticeDropdown}
+          onClick={handleNoticeDd}
         >
           <svg
             className="w-5 h-5"
@@ -134,90 +166,18 @@ export default function Navbar() {
             <div className="relative inline-flex w-3 h-3 bg-red-500 border-2 border-white rounded-full -top-2 right-2.5"></div>
           </div>
         </button>
+
+        {/* 유저 버튼 */}
         <button
           type="button"
           className="flex text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
-          id="user-menu-button"
-          aria-expanded="false"
-          data-dropdown-toggle="user-dropdown"
-          data-dropdown-placement="bottom"
+          onClick={handleProfileDd}
         >
           <span className="sr-only">Open user menu</span>
-          <img
-            className="w-8 h-8 rounded-full"
-            src="https://flowbite.com/docs/images/logo.svg"
-            alt="user photo"
-          />
-        </button>
-        <div
-          className="z-50 hidden my-4 text-base list-none bg-white divide-y divide-gray-100 rounded-lg shadow"
-          id="user-dropdown"
-        >
-          <div className="px-4 py-3">
-            <span className="block text-sm text-gray-900">Bonnie Green</span>
-            <span className="block text-sm  text-gray-500 truncate">name@flowbite.com</span>
-          </div>
-          <ul className="py-2" aria-labelledby="user-menu-button">
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Dashboard
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Settings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Earnings
-              </a>
-            </li>
-            <li>
-              <a
-                href="#"
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100"
-              >
-                Sign out
-              </a>
-            </li>
-          </ul>
-        </div>
-        <button
-          data-collapse-toggle="navbar-user"
-          type="button"
-          className="inline-flex items-center p-2 w-10 h-10 justify-center text-sm text-gray-500 rounded-lg md:hidden hover:bg-gray-100 focus:outline-none focus:ring-2 focus:ring-gray-200"
-          aria-controls="navbar-user"
-          aria-expanded="false"
-        >
-          <span className="sr-only">Open main menu</span>
-          <svg
-            className="w-5 h-5"
-            aria-hidden="true"
-            xmlns="http://www.w3.org/2000/svg"
-            fill="none"
-            viewBox="0 0 17 14"
-          >
-            <path
-              stroke="currentColor"
-              strokeLinecap="round"
-              strokeLinejoin="round"
-              strokeWidth="2"
-              d="M1 1h15M1 7h15M1 13h15"
-            />
-          </svg>
+          <img className="w-8 h-8 rounded-full" src={default_proflie_img} />
         </button>
       </div>
-      {projectDropdown && (
+      {projectDd && (
         <div className="absolute z-20 font-suitL top-[6.5vh] left-1/2 translate-x-[-50%] mr-[1.3vw] bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
           <ul className="flex flex-col py-2 text-sm text-gray-700 justify-center">
             {userProjectNav.map((project, index) => (
@@ -227,14 +187,20 @@ export default function Navbar() {
             ))}
           </ul>
           <div className="py-1">
-            <button className="block px-4 py-2 hover:bg-gray-100 w-full">
+            <button
+              className="block px-4 py-2 hover:bg-gray-100 w-full"
+              onClick={handleAllDdOff}
+            >
               <div className="flex items-center">
                 <p className="font-suitL text-sm text-[#6B7280]">
                   모든 프로젝트 보기
                 </p>
               </div>
             </button>
-            <button className="block px-4 py-2 hover:bg-gray-100 w-full">
+            <button
+              className="block px-4 py-2 hover:bg-gray-100 w-full"
+              onClick={handleAllDdOff}
+            >
               <div className="flex items-center">
                 <p className="font-suitL text-sm text-[#6B7280]">
                   프로젝트 생성하기
@@ -244,9 +210,48 @@ export default function Navbar() {
           </div>
         </div>
       )}
-      {noticeDropdown && (
+      {noticeDd && (
         <div className="absolute right-[3vh] top-[6.5vh] w-[27vw] bg-white">
           <Notice />
+        </div>
+      )}
+      {profileDd && (
+        <div className="absolute z-20 right-[3vh] top-[6.5vh] bg-white divide-y divide-gray-100 rounded-lg shadow">
+          <div className="px-4 py-3">
+            <span className="block text-sm text-gray-900 mb-1">정정정</span>
+            <span className="block text-sm  text-gray-500 truncate">
+              jeong@gachon.ac.kr
+            </span>
+          </div>
+          <ul className="py-2">
+            <li>
+              <button
+                onClick={() => {handleAllDdOff(); navigate("/myinfo-edit")}}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+              >
+                내 정보 수정
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={handleAllDdOff}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+              >
+                프로젝트 관리
+              </button>
+            </li>
+            <li>
+              <button
+                onClick={handleAllDdOff}
+                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
+              >
+                이용약관
+              </button>
+            </li>
+          </ul>
+          <button onClick={() => {handleAllDdOff(); navigate("/login")}} className="block text-sm text-error-2 w-full text-left px-4 py-3 hover:bg-gray-100">
+            로그아웃
+          </button>
         </div>
       )}
     </nav>

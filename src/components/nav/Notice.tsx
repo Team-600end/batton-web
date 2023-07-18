@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { Link } from "react-router-dom";
 import jindol from "@images/common/jindol.jpg";
 import { useRecoilState } from "recoil";
-import { navbarNoticeDropdown } from "@src/state/modalState";
+import { navbarNoticeDd } from "@src/state/modalState";
 
 interface NoticeS {
   contentId: number;
@@ -45,7 +45,7 @@ const notices: NoticeS[] = [
 
 function Notice() {
   const [activeButton, setActiveButton] = useState<string>("전체");
-  const [noticeDropdown, setNoticeDropdown] = useRecoilState(navbarNoticeDropdown);
+  const [noticeDropdown, setNoticeDropdown] = useRecoilState(navbarNoticeDd);
 
   const handleClick = (text: string) => {
     setActiveButton(text);
