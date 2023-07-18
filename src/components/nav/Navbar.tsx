@@ -5,7 +5,10 @@ import { useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
 import { ProjectS } from "@typess/project";
 import { useRecoilState } from "recoil";
-import { navbarNoticeDropdown, navbarProjectDropdown } from "@src/state/StateModalState";
+import {
+  navbarNoticeDropdown,
+  navbarProjectDropdown,
+} from "@src/state/StateModalState";
 
 const userProjects: ProjectS[] = [
   {
@@ -29,9 +32,12 @@ export default function Navbar() {
   const navigate = useNavigate();
   const outside = useRef<HTMLDivElement>(null);
 
-  const [projectDropdown, setProjectDropdown] = useRecoilState(navbarProjectDropdown);
+  const [projectDropdown, setProjectDropdown] = useRecoilState(
+    navbarProjectDropdown
+  );
   const [profileDropdown, setProfileDropdown] = useState(false);
-  const [noticeDropdown, setNoticeDropdown] = useRecoilState(navbarNoticeDropdown);
+  const [noticeDropdown, setNoticeDropdown] =
+    useRecoilState(navbarNoticeDropdown);
 
   const handleProjectDropdown = () => {
     setProjectDropdown(!projectDropdown);

@@ -3,7 +3,7 @@ import Navbar from "@components/nav/Navbar";
 import block from "@assets/images/releaseBlockImg.svg";
 import ProjectNavbar from "@src/components/nav/ProjectNavbar";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
-import IssueBadge from "@src/components/IssueBadge";
+import IssueBadge from "@src/components/project/issue/IssueBadge";
 import { IssueType } from "@src/types/Issue";
 
 interface DummyData {
