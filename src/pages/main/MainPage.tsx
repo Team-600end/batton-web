@@ -4,14 +4,31 @@ import { Carousel } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
 
 import PjCard from "@components/main/PjCard";
-import titleBox_img from "@assets/images/title_box.svg";
-import left_control_img from "@assets/images/mainPage/left_control.svg";
-import right_control_img from "@assets/images/mainPage/right_control.svg";
-import chevorn_img from "@assets/images/common/chevron-down-outline.png";
-import search_img from "@assets/images/common/search-outline.png";
+import titleBox_img from "@images/common/title_box.svg";
+import left_control_img from "@images/icons/left_control.svg";
+import right_control_img from "@images/icons/right_control.svg";
+import chevorn_img from "@images/common/chevron_down.png";
+import search_img from "@images/icons/search_outline.png";
 import { useRecoilState } from "recoil";
-import { navbarProjectDropdown } from "@state/StateModalState";
+import { navbarProjectDropdown } from "@src/state/modalState";
+import { ProjectCard } from "@typess/project";
 
+// Dummy data
+// const pjCards: ProjectCard[] = [
+//   {
+//     number: 1,
+//     name: "프로젝트 이름",
+//     version: "v1.0.0",
+//     index: 1,
+//     // logo: "https://images.unsplash.com/photo-1622837137190-4f8b9e2b0b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y29sb3IlMjBwcm9qZWN0JTIwc2VydmljZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
+//     todoissue: 1,
+//     doingissue: 2,
+//     myissue: 3,
+//     doneissue: 4,
+//     leader: "김김김",
+//     membernum: 5,
+//   },
+// ];
 
 export default function MainPage() {
   const [projectDropdown, setProjectDropdown] = useRecoilState(navbarProjectDropdown);
@@ -39,7 +56,6 @@ export default function MainPage() {
           </button>
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
-          {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}> */}
           <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
             <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
               <PjCard />

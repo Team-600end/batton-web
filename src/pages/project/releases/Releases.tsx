@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "@components/nav/Navbar";
-import block from "@assets/images/releaseBlockImg.svg";
+import block from "@images/releasesPuzzle/releasesBlockImg.svg";
 import ProjectNavbar from "@src/components/nav/ProjectNavbar";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
@@ -26,7 +26,7 @@ const dummyData: DummyData[] = [
   },
 ];
 
-export default function Release() {
+export default function Releases() {
   return (
     <>
       <MilestoneNavbar />

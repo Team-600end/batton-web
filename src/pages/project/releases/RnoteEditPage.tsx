@@ -1,6 +1,6 @@
 import React from "react";
 import Navbar from "@components/nav/Navbar";
-import Issue from "@typess/Issue";
+import Issue from "@typess/issue";
 import RnoteIssueCard from "@src/components/project/releases/RnoteIssueCard";
 import refresh_img from "@assets/images/icons/refresh.svg";
 

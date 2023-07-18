@@ -1,6 +1,6 @@
 import React, { useState, useCallback } from "react";
 import "@assets/index.css";
-import profile_img from "@assets/images/myPage/profile_icon.png";
+import profile_img from "@images/common/default_profile.png";
 import Tag from "@src/components/project/issue/IssueBadge";
 
 export default function CreateIssueModal({ visible, onClose }) {
@@ -27,28 +27,14 @@ export default function CreateIssueModal({ visible, onClose }) {
           <div className="bg-white rounded-lg shadow dark:bg-gray-700">
             {/* 모달 헤더 */}
             <div className="flex items-start justify-between p-10 rounded-t dark:border-gray-600">
-              <h3 className="text-[24px] font-bold text-gray-900 dark:text-white">
-                이슈 생성하기
-              </h3>
+              <h3 className="text-[24px] font-bold text-gray-900 dark:text-white">이슈 생성하기</h3>
               <button
                 type="button"
                 onClick={handleOnClose}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               >
-                <svg
-                  className="w-3 h-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    stroke-linecap="round"
-                    stroke-linejoin="round"
-                    stroke-width="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
+                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                 </svg>
                 <span className="sr-only">Close modal</span>
               </button>
@@ -56,9 +42,7 @@ export default function CreateIssueModal({ visible, onClose }) {
 
             {/* 모달 내용 */}
             <div className="px-14">
-              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">
-                이슈태그
-              </p>
+              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">이슈태그</p>
 
               <div className="flex items-center space-x-3 mt-4">
                 <Tag issueType="New" />
@@ -68,9 +52,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                 <Tag issueType="Deprecated" />
               </div>
 
-              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">
-                이슈 제목
-              </p>
+              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">이슈 제목</p>
               <input
                 type="pj_title"
                 name="pj_title"
@@ -82,9 +64,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                 }}
                 required
               />
-              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">
-                이슈 설명
-              </p>
+              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">이슈 설명</p>
               <input
                 type="pj_title"
                 name="pj_title"
@@ -98,9 +78,7 @@ export default function CreateIssueModal({ visible, onClose }) {
               />
 
               <div className="flex items-center mt-6">
-                <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">
-                  담당자
-                </p>
+                <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">담당자</p>
                 <button
                   id="dropdownButton"
                   data-dropdown-toggle="dropdownMenu"
@@ -108,26 +86,10 @@ export default function CreateIssueModal({ visible, onClose }) {
                   type="button"
                   style={{ height: "40px" }}
                 >
-                  <img
-                    id="manager_icon"
-                    src={profile_img}
-                    className="w-6 h-6 ml-4 mr-3"
-                  />
+                  <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" />
                   이서현
-                  <svg
-                    className="w-2.5 h-2.5 ml-3 mr-4"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 10 6"
-                  >
-                    <path
-                      stroke="currentColor"
-                      stroke-linecap="round"
-                      stroke-linejoin="round"
-                      stroke-width="2"
-                      d="m1 1 4 4 4-4"
-                    />
+                  <svg className="w-2.5 h-2.5 ml-3 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                   </svg>
                 </button>
               </div>

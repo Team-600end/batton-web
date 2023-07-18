@@ -1,5 +1,5 @@
 import React from "react";
-import right_arrow from "@assets/images/nav/right.svg";
+import right_arrow from "@images/common/chevron_right.svg";
 
 export default function MilestoneNavbar() {
   return (
@@ -7,11 +7,7 @@ export default function MilestoneNavbar() {
       <span className="flex ml-[5vw] m-[1vw] mb-0 font-suitM">
         프로젝트
         <img src={right_arrow} />
-        <a
-          href="#####"
-          className="flex items-center"
-          style={{ cursor: "pointer" }}
-        >
+        <a href="#####" className="flex items-center" style={{ cursor: "pointer" }}>
           600&
         </a>
       </span>

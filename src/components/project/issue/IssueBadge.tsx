@@ -1,5 +1,5 @@
 import React from "react";
-import { IssueType } from "@typess/Issue";
+import { IssueType } from "@typess/issue";
 
 type IssueBadgeProps = {
   issueType: IssueType;
@@ -39,10 +39,7 @@ function IssueBadge(props: IssueBadgeProps) {
   }
 
   return (
-    <span
-      style={{ backgroundColor, color: textColor, borderColor: borderColor }}
-      className="text-xs font-suitM mr-2 px-2.5 py-0.5 rounded-md border"
-    >
+    <span style={{ backgroundColor, color: textColor, borderColor: borderColor }} className="text-xs font-suitM mr-2 px-2.5 py-0.5 rounded-md border">
       {props.issueType}
     </span>
   );
