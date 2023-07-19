@@ -4,9 +4,9 @@ import latest_img from "@images/common/latest.png";
 import default_avatar_img from "@images/common/default_profile.svg";
 import { ProjectCard } from "@typess/project";
 
-// type PjCardProps = {
-//   pjCard: ProjectCard;
-// };
+type PjCardProps = {
+  pjCard: ProjectCard;
+};
 
 // export default function PjCard(props: PjCardProps) {
 export default function PjCard() {
