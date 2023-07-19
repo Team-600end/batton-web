@@ -8,3 +8,18 @@ export const nickname = atom({
     default: '',
     effects_UNSTABLE: [persistAtom]
 });
+
+export const profileImg = atom({
+    key: 'profileImg',
+    default: '',
+    effects_UNSTABLE: [persistAtom]
+});
+
+export const email = atom({
+    key: 'nickname',
+    default: '',
+    effects_UNSTABLE: [persistAtom]
+})
+
+
+// 닉네임, 이메일, 프로필 사진 필요

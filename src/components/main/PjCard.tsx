@@ -12,7 +12,7 @@ import { ProjectCard } from "@typess/project";
 export default function PjCard() {
   return (
     <>
-      <div className="flex w-[350px] h-[250px] p-[10px] shadow-[2px_6px_6px_-2px_rgba(0,0,0,0.3)] bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mx-2 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+      <div className="flex w-[350px] h-[250px] p-[10px] shadow-[2px_6px_6px_-2px_rgba(0,0,0,0.3)] bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-100 mx-2">
         <div className="relative w-[350px] h-[250px] flex flex-col items-center justify-start">
           {/* 최상단 아이콘과 팀이름 */}
           <div className="relative w-[300px] h-[70px] mt-[10px] flex flex-row">
