@@ -7,7 +7,6 @@ import { ProjectNav } from "@src/types/project";
 
 export default function MilestoneNavbar() {
   const navagate = useNavigate();
-  const location = useLocation();
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectId } = useParams();
 

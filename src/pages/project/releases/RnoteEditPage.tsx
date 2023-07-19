@@ -4,13 +4,13 @@ import { DoneIssue, Issue, IssueType, Manager } from "@typess/Issue";
 import RnoteIssueCard from "@src/components/project/releases/RnoteIssueCard";
 import refresh_img from "@assets/images/icons/refresh.svg";
 import ContentEditable from "react-contenteditable";
+
 import {
   DragDropContext,
   Draggable,
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
-
 
 const doneIssues: DoneIssue[] = [
   {
@@ -96,7 +96,6 @@ export default function RnoteEditPage() {
       const sourceItem = doneIssues![sourceIndex];
       doneIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거
       doneIssues!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
-
     } else {
       // 이슈 작성을 시도할 경우
       doneIssues![source.index].isUsed = true;
@@ -167,18 +166,22 @@ export default function RnoteEditPage() {
                   className="border-none font-suitM outline-none w-full h-full resize-none"
                 />
               </div>
-              <div className="border font-suitM border-gray-400 rounded-lg p-[1vw] h-[80vh]">
-                <Droppable droppableId="Editor" key="Editor">
-                  {(provided) => (
-                    <div ref={provided.innerRef} {...provided.droppableProps}>
+              <Droppable droppableId="Editor" key="Editor">
+                {(provided) => (
+                  <div
+                    className="border font-suitM border-gray-400 rounded-lg p-[1vw] h-[80vh]"
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
+                    <div>
                       <textarea
                         placeholder="내용"
                         className="border-none outline-none w-full h-full resize-none"
                       />
                     </div>
-                  )}
-                </Droppable>
-              </div>
+                  </div>
+                )}
+              </Droppable>
             </div>
           </div>
         </DragDropContext>
