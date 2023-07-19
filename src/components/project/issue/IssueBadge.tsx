@@ -1,5 +1,5 @@
 import React from "react";
-import { IssueType } from "@typess/issue";
+import { IssueType } from "@typess/Issue";
 
 type IssueBadgeProps = {
   issueType: IssueType;

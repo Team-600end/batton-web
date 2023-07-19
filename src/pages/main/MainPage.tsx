@@ -2,15 +2,12 @@ import React, { useState, useCallback, useEffect, useRef } from "react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
-
 import PjCard from "@components/main/PjCard";
 import titleBox_img from "@images/common/title_box.svg";
 import left_control_img from "@images/icons/left_control.svg";
 import right_control_img from "@images/icons/right_control.svg";
 import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
-import { useRecoilState } from "recoil";
-import { navbarProjectDropdown } from "@src/state/modalState";
 import { ProjectCard } from "@typess/project";
 
 // Dummy data
@@ -31,15 +28,11 @@ import { ProjectCard } from "@typess/project";
 // ];
 
 export default function MainPage() {
-  const [projectDropdown, setProjectDropdown] = useRecoilState(navbarProjectDropdown);
   const navigate = useNavigate();
 
   return (
     <div
       className="mt-[7vh]"
-      onClick={(e) => {
-        setProjectDropdown(false);
-      }}
     >
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
         <div className="h-10"></div>

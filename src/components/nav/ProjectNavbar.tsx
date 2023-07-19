@@ -1,8 +1,11 @@
 import React from "react";
-import { useNavigate } from "react-router-dom";
+import { useLocation, useNavigate, useParams } from "react-router-dom";
 
 export default function ProjectNavbar() {
   const navigate = useNavigate();
+  const location = useLocation();
+
+  const pathArr = location.pathname.split("/", 4);
 
   return (
     <div className="">
@@ -11,7 +14,7 @@ export default function ProjectNavbar() {
           <li>
             <button
               onClick={() => navigate("/project/0/dashboard")}
-              className="block py-2 pl-3 pr-4 text-white bg-blue-700 rounded md:bg-transparent md:text-[#5AAE8A] md:p-0"
+              className={pathArr[3] === "dashboard" ? "block text-[#5AAE8A] hover:text-[#5AAE8A]" : "block text-gray-900 hover:text-[#5AAE8A]"}
             >
               대시보드
             </button>
@@ -19,7 +22,7 @@ export default function ProjectNavbar() {
           <li>
             <button
               onClick={() => navigate("/project/0/issueboard")}
-              className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#5AAE8A] md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              className={pathArr[3] === "issueboard" ? "block text-[#5AAE8A] hover:text-[#5AAE8A]" : "block text-gray-900 hover:text-[#5AAE8A]"}
             >
               이슈 보드
             </button>
@@ -27,7 +30,7 @@ export default function ProjectNavbar() {
           <li>
             <button
               onClick={() => navigate("/project/0/releasesnote")}
-              className="block py-2 pl-3 pr-4 text-gray-900 rounded hover:bg-gray-100 md:hover:bg-transparent md:hover:text-[#5AAE8A] md:p-0 dark:text-white md:dark:hover:text-blue-500 dark:hover:bg-gray-700 dark:hover:text-white md:dark:hover:bg-transparent dark:border-gray-700"
+              className={pathArr[3] === "releasesnote" ? "block text-[#5AAE8A] hover:text-[#5AAE8A]" : "block text-gray-900 hover:text-[#5AAE8A]"}
             >
               릴리즈 노트
             </button>

@@ -5,7 +5,6 @@ import Navbar from "@components/nav/Navbar";
 export default function MyPage() {
   return (
     <>
-      <Navbar />
       <div className="relative w-screen h-screen flex flex-col mt-12">
         <div className="flex flex-row items-center mt-[40px]" style={{ marginLeft: "16.9312vw" }}>
           <div className="w-[10px] h-[27px] bg-primary-5 mr-[10px]"></div>
