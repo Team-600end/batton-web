@@ -138,7 +138,7 @@ const checkIssueList = (locationId: string) => {
 };
 
 export default function IssueBoardPage() {
-  let { projectId } = useParams();
+  const { projectId } = useParams();
   const navigate = useNavigate();
 
   const handleDragEnd = ({ source, destination }: DropResult) => {
@@ -211,7 +211,7 @@ export default function IssueBoardPage() {
                   >
                     <div className="bg-[#FFED8F] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
-                      <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
+                    <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
                           대기
                         </h1>
@@ -250,7 +250,7 @@ export default function IssueBoardPage() {
                   >
                     <div className="bg-[#8FB5FF] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
-                      <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
+                    <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
                           진행
                         </h1>
@@ -289,7 +289,7 @@ export default function IssueBoardPage() {
                   >
                     <div className="bg-[#FF8F8F] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
-                      <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
+                      <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
                           검토
                         </h1>
@@ -328,7 +328,7 @@ export default function IssueBoardPage() {
                   >
                     <div className="bg-[#83CE9B] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
-                      <div className="flex mb-4 ml-[0.3vw] mt-[3vh] items-center">
+                    <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
                           완료
                         </h1>

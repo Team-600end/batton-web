@@ -13,12 +13,13 @@ export interface Issue {
   team: string;
   id: number;
 }
-export interface DoneIssue {
-  type: IssueType;
-  title: string;
-  manager?: Manager;
-  team: string;
-  id: number;
-  isUsed: boolean;
+
+export interface DoneIssue extends Issue {
+  content?: string;
 }
 
+export interface UsedIssue {
+  type: IssueType;
+  title: string;
+  id: number;
+}

@@ -24,7 +24,7 @@ const hiddenIssues: Issue[] = [
 ];
 
 export default function HiddenIssuePage() {
-  let { projectId } = useParams();
+  const { projectId } = useParams();
   const navigate = useNavigate();
 
   return (
