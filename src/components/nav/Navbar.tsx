@@ -1,7 +1,7 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import batton_logo_img from "@images/common/batton_logo_medium.svg";
 import default_proflie_img from "@images/common/default_profile.svg";
-import Notice from "@components/nav/Notice";
+import Notice from "@components/nav/NoticeNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
 import { ProjectNav } from "@typess/project";
@@ -12,6 +12,7 @@ import {
   navbarProjectDd,
 } from "@src/state/modalState";
 import { projectNavs } from "@src/state/projectState";
+import { ConnectRabbit } from "@src/ConnectRabbit";
 
 const userProjectNav: ProjectNav[] = [
   {
@@ -69,7 +70,8 @@ export default function Navbar() {
 
   useEffect(() => {
     setProjects(userProjectNav);
-  });
+    ConnectRabbit(1);
+  },);
 
   return (
     <nav

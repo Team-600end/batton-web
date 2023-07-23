@@ -3,16 +3,9 @@ import { Link } from "react-router-dom";
 import jindol from "@images/common/jindol.jpg";
 import { useRecoilState } from "recoil";
 import { navbarNoticeDd } from "@src/state/modalState";
+import { NoticeMessage } from "@typess/Notice";
 
-interface NoticeS {
-  contentId: number;
-  noticeType: string;
-  noticeContent: string;
-  noticeDate: string;
-  senderProfileImage: string;
-}
-
-const notices: NoticeS[] = [
+const notices: NoticeMessage[] = [
   {
     contentId: 1,
     noticeType: "INVITE",
