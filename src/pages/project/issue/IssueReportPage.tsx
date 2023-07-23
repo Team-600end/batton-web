@@ -1,10 +1,9 @@
 import React from "react";
 import Navbar from "@components/nav/Navbar";
 
-export default function IssueReport() {
+export default function IssueReportPage() {
   return (
     <>
-      <Navbar />
       <div className="w-[90vw] m-auto mt-[10vh] flex flex-col">
         <div className="flex justify-end mt-5 mr-10">
           <button

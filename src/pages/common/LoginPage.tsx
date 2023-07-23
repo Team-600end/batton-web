@@ -5,8 +5,12 @@ import batton_logo_img from "@images/common/batton_logo_big.svg";
 import kakao_logo_img from "@assets/images/loginPage/kakao_logo.svg";
 import google_logo_img from "@assets/images/loginPage/google_logo.svg";
 import { useCookies } from "react-cookie";
+import { postData } from "@src/types/AxiosInterface";
 
 export default function LoginPage() {
+  const data: any[] = [];
+  // const response = postData("/api/auth/login", data)
+  
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
       <img className="absolute z-0" src={login_lefthand_img} style={{ marginTop: "20vh", marginLeft: "-92vw" }} />

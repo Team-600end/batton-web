@@ -20,6 +20,9 @@ import Layout from "@src/Layout";
 import NotFoundPage from "@pages/common/NotFoundPage";
 import DashBoardPage from "@pages/project/dashboard/DashBoardPage";
 import HiddenIssuePage from "@pages/project/issue/HiddenIssuePage";
+import WriteIssueReport from "./pages/project/issue/WriteIssueReport";
+import IssueManagePage from "./pages/project/issue/IssueManagePage";
+import IssueReportPage from "./pages/project/issue/IssueReportPage";
 function App() {
   return (
     <CookiesProvider>
@@ -43,11 +46,15 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/forget-pw" element={<ForgetPwPage />} />
+            <Route path="/dev" />
             <Route path="*" element={<NotFoundPage />} />
             <Route element={<Layout />}>
               <Route path="/main" element={<MainPage />} />
               <Route path="/project/:projectId/dashboard" element={<DashBoardPage />} />
               <Route path="/project/:projectId/issueboard" element={<IssueBoardPage />} />
+              <Route path="/project/:projectId/issue/:issueId/write" element={<WriteIssueReport/>} />
+              <Route path="/project/:projectId/issue/:issueId/edit" element={<IssueManagePage/>} />
+              <Route path="/project/:projectId/issue/:issueId" element={<IssueReportPage/>} />
               <Route path="/project/:projectId/issue-history" element={<IssueHistoryPage />} />
               <Route path="/project/:projectId/hidden-issue" element={<HiddenIssuePage />} />
               <Route path="/project/:projectId/releasesnote" element={<ReleasesNote />} />

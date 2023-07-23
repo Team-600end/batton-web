@@ -6,7 +6,6 @@ import Navbar from "@components/nav/Navbar.tsx";
 export default function IssueManagePage() {
   return (
     <>
-      <Navbar />
       <div className="flex flex-col mb-20">
         {/* 경로 */}
         <nav className="flex p-5" aria-label="Breadcrumb">
