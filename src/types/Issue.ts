@@ -23,3 +23,11 @@ export interface UsedIssue {
   title: string;
   id: number;
 }
+export interface MyIssues {
+  issueId: number;
+  issueTitle: string;
+  issueTag: IssueType;
+  issueStatus: IssueStatus;
+  updateDate: string;
+  projectTitle: string;
+}
