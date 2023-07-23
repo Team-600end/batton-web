@@ -11,7 +11,7 @@ type IssueCardProps = {
 export default function RnoteIssueCard(props: IssueCardProps) {
   return (
     <div
-      className="rounded-md font-suitM border border-gray-300 w-[16.5vw] h-[14vh] mb-[2vh] p-[1vw] shadow"
+      className="rounded-md font-suitM border border-gray-300 w-[16.5vw] h-[14vh] mb-[2vh] p-[1vw] shadow bg-white"
     >
       <div className="bg-[#FFED8F] w-[0.5vw] rounded-l-lg" />
       <div className="flex items-center justify-between mb-[1vh]">

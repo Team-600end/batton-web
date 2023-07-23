@@ -5,9 +5,11 @@ import batton_logo_img from "@images/common/batton_logo_big.svg";
 import kakao_logo_img from "@assets/images/loginPage/kakao_logo.svg";
 import google_logo_img from "@assets/images/loginPage/google_logo.svg";
 import { useCookies } from "react-cookie";
-import { postData } from "@src/types/AxiosInterface";
+import { useNavigate } from "react-router-dom";
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+
   const data: any[] = [];
   // const response = postData("/api/auth/login", data)
   
@@ -71,9 +73,9 @@ export default function LoginPage() {
         </button>
         <div className="text-sm font-suitM text-gray-400">
           계정이 없으신가요?{" "}
-          <a href="#" className="text-[#1C64F2] font-suitM hover:underline ml-[1vw]">
+          <button onClick={() => navigate(`/signup`)} className="text-[#1C64F2] font-suitM hover:underline ml-[1vw]">
             회원가입 하기
-          </a>
+          </button>
         </div>
       </div>
       <img className="absolute z-0" src={login_righthand_img} style={{ marginRight: "-70vw" }} />

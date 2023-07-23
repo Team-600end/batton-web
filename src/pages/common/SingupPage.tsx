@@ -1,8 +1,60 @@
 import React, { useState, useCallback } from "react";
 import signup_hand_image from "@assets/images/signupPage/signup_hand3.svg";
 import batton_logo_img from "@images/common/batton_logo_big.svg";
+import { useNavigate } from "react-router-dom";
+import { postNonAuth } from "@src/types/AxiosInterface";
+import useInput from "@src/hooks/useInput";
 
 export default function SignupPage() {
+  const [email, onChangeEmail] = useInput('');
+  const [nickname, onChangeNickname] = useInput('');
+  const [password, , setPassword] = useInput('');
+  const [checkPassword, , setCheckPassword] = useInput('');
+
+  const navigate = useNavigate();
+
+  interface SignupData { 
+    email: string; 
+    nickname: string;
+    password: string;
+    checkPassword: string; 
+  };
+  
+  const signupData: SignupData = {
+    email: email,
+    nickname: nickname,
+    password: password,
+    checkPassword: checkPassword
+  };
+
+  const onChangePassword = useCallback(
+    (e : React.ChangeEvent<HTMLInputElement>) => {
+      setPassword(e.target.value);
+      // 비밀번호 재확인 관련 추가 필요.
+    },
+    [],
+  );
+
+  const onChangePasswordCheck = useCallback(
+    (e : React.ChangeEvent<HTMLInputElement>) => {
+      setCheckPassword(e.target.value);
+      // 비밀번호 재확인 관련 추가 필요.
+    },
+    [],
+  );
+  
+  const signupRequest = async () => {
+    try {
+      await postNonAuth(`/auth/signup`, signupData);
+      // return 값 조건 추가 필요.
+      alert("회원가입이 완료되었습니다.");
+      alert("로그인을 진행해주세요.")
+      navigate(`/login`);
+    } catch(error) {
+      console.log(error);
+    }
+  }
+  
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
       <img className="absolute z-0" src={signup_hand_image} style={{ marginTop: "20vh", marginLeft: "-45vw" }} />
@@ -16,11 +68,10 @@ export default function SignupPage() {
             </label>
             <input
               type="email"
-              name="email"
-              id="email"
+              value={email}
+              onChange={onChangeEmail}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="6oo@kakao.com"
-              required
+              placeholder="이메일을 입력하세요"
             />
           </div>
           <div>
@@ -29,11 +80,10 @@ export default function SignupPage() {
             </label>
             <input
               type="nickname"
-              name="nickname"
-              id="nickname"
-              placeholder=""
+              value={nickname}
+              onChange={onChangeNickname}
+              placeholder="닉네임을 입력하세요"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              required
             />
           </div>
           <div>
@@ -42,11 +92,10 @@ export default function SignupPage() {
             </label>
             <input
               type="password"
-              name="password"
-              id="password"
-              placeholder=""
+              value={password}
+              onChange={onChangePassword}
+              placeholder="비밀번호를 입력하세요"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              required
             />
           </div>
           <div className="pb-[3vh]">
@@ -54,15 +103,15 @@ export default function SignupPage() {
               비밀번호 확인
             </label>
             <input
-              type="password"
-              name="password-check"
-              id="password-check"
-              placeholder=""
+              type="password-check"
+              value={checkPassword}
+              onChange={onChangePasswordCheck}
+              placeholder="비밀번호를 재입력 하세요"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              required
             />
           </div>
           <button
+            onClick={signupRequest}
             type="submit"
             className="w-full text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-5 py-2.5 text-center"
           >

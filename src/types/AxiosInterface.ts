@@ -33,14 +33,16 @@ const client: AxiosInstance = axios.create(axiosConfig);  // client: AxiosInstan
 // axios instance For non-Auth
 // Login 요청의 경우, instance 호출시에 Cookie Method를 따로 호출해서 사용한다.
 const instanceNonAuth: Axios = axios.create({
-  baseURL: "http://localhost:5173", // Frontend React BaseURL
+  baseURL: "/api",
   headers: {
     "Content-Type": "application/json",
+    // "Access-Control-Allow-Origin": `http://localhost:5173`,
+    // 'Access-Control-Allow-Credentials': "true",
   },
 });
 
 const instanceAuth: Axios = axios.create({
-  baseURL: "http://localhost:5173",
+  baseURL: "http://localhost:8000",
   headers: {
     "Content-Type": "application/json",
     withCredentials: true,
@@ -74,7 +76,7 @@ instanceAuth.interceptors.response.use(
 );
 
 // GET
-export const getData = async <T>(
+export const get = async <T>(
   url: string,
   config?: AxiosRequestConfig
 ): Promise<APIResponse<T>> => {
@@ -87,13 +89,13 @@ export const getData = async <T>(
 };
 
 // POST
-export const postData = async <T>(
+export const postNonAuth = async <T>(
   url: string,
   data?: any,
   config?: AxiosRequestConfig
 ): Promise<APIResponse<T>> => {
   try {
-    const response = await client.post<APIResponse<T>>(url, data, config);
+    const response = await instanceNonAuth.post<APIResponse<T>>(url, data, config);
     return response.data;
   } catch (error: any) {
     throw new Error(error.message);
