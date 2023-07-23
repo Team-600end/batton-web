@@ -22,3 +22,11 @@ export interface DoneIssue {
   isUsed: boolean;
 }
 
+export interface MyIssues {
+  issueId: number;
+  issueTitle: string;
+  issueTag: IssueType;
+  issueStatus: IssueStatus;
+  updateDate: string;
+  projectTitle: string;
+}

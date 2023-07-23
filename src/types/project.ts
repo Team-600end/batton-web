@@ -9,17 +9,20 @@ export interface ProjectNav {
 
 //MainPage-PjCard
 export interface ProjectCard {
-  number: number;
-  name: string;
-  version: string;
-  index: number;
-  logo?: string;
-  todoissue: number;
-  doingissue: number;
-  myissue: number;
-  doneissue: number;
-  leader: string;
-  membernum: number;
+  projectId: number;
+  projectKey: string;
+  projectTitle: string;
+  promectImg?: string;
+  versionMajor: number;
+  versionMinor: number;
+  versionPatch: number;
+  todoIssue: number;
+  doingIssue: number;
+  myIssue: number;
+  doneIssue: number;
+  leaderName: string;
+  leaderImg?: string;
+  memberNum: number;
 }
 
 export interface ProjectCardMember {

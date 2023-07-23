@@ -9,31 +9,66 @@ import right_control_img from "@images/icons/right_control.svg";
 import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
 import { ProjectCard } from "@typess/project";
-
-// Dummy data
-// const pjCards: ProjectCard[] = [
-//   {
-//     number: 1,
-//     name: "프로젝트 이름",
-//     version: "v1.0.0",
-//     index: 1,
-//     // logo: "https://images.unsplash.com/photo-1622837137190-4f8b9e2b0b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y29sb3IlMjBwcm9qZWN0JTIwc2VydmljZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-//     todoissue: 1,
-//     doingissue: 2,
-//     myissue: 3,
-//     doneissue: 4,
-//     leader: "김김김",
-//     membernum: 5,
-//   },
-// ];
+import { MyIssues } from "@typess/Issue";
 
 export default function MainPage() {
   const navigate = useNavigate();
+  const [cardNum, setCardNum] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(1);
+  // const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+
+  // 화면 너비에 따라 cardNum 값을 설정하는 함수
+  const setCardNumByWidth = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 900) {
+      setCardNum(1);
+    } else if (screenWidth <= 1300) {
+      setCardNum(2);
+    } else if (screenWidth <= 1669) {
+      setCardNum(3);
+    } else {
+      setCardNum(4);
+    }
+  };
+
+  const setIssueNumByHeight = () => {
+    const screenHeight = window.innerHeight;
+    if (screenHeight <= 700) {
+      setItemsPerPage(2);
+    } else if (screenHeight <= 800) {
+      setItemsPerPage(3);
+    } else {
+      setItemsPerPage(4);
+    }
+  };
+
+  const getCurrentPageItems = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return myIssues.slice(startIndex, endIndex);
+  };
+
+  const totalPage = Math.ceil(myIssues.length / itemsPerPage);
+
+  // 컴포넌트가 마운트될 때와 화면 크기가 변경될 때마다 화면 너비에 따라 cardNum 값을 업데이트.
+  useEffect(() => {
+    setCardNumByWidth();
+    setIssueNumByHeight();
+
+    const handleResize = () => {
+      setCardNumByWidth();
+      setIssueNumByHeight();
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
 
   return (
-    <div
-      className="mt-[7vh]"
-    >
+    <div className="mt-[7vh]" style={{ overflowY: "auto" }}>
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
         <div className="h-10"></div>
         <div className="flex flex-row items-center justify-left w-full px-8 ml-40">
@@ -50,27 +85,15 @@ export default function MainPage() {
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
           <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              <PjCard />
-              <PjCard />
-              <PjCard />
-            </div>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              <PjCard />
-              <PjCard />
+            <div className="flex h-[300px] w-5/6 flex-row items-center justify-center">
+              {Array.from({ length: cardNum }).map((_, index) => (
+                <PjCard key={index} pjCard={pjCards[index]} />
+              ))}
+              {/* {pjCards.slice(index * 3, (index + 1) * 3).map((pjCard, innerIndex) => (
+                <PjCard key={innerIndex} pjCard={pjCards[innerIndex]} />
+              ))} */}
             </div>
           </Carousel>
-          {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              {Array.from({ length: Math.ceil(pjCards.length / 3) }).map((_, index) => (
-                <div key={index} className="flex flex-row">
-                  {pjCards.slice(index * 3, (index + 1) * 3).map((pjCard, cardIndex) => (
-                    <PjCard key={cardIndex} />
-                  ))}
-                </div>
-              ))}
-            </div>
-          </Carousel> */}
         </div>
         <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
           <img className="mr-2" src={titleBox_img} />
@@ -78,7 +101,7 @@ export default function MainPage() {
         </div>
         {/* table */}
         {/* <div className="items-center justify-center w-4/5 h-[300px] p-1"> */}
-        <div className="relative w-4/5 h-[300px] shadow-[0px_3px_8px_-2px_rgba(0,0,0,0.3)] sm:rounded-lg">
+        <div className="relative w-4/5 shadow-[0px_3px_8px_-2px_rgba(0,0,0,0.3)] sm:rounded-lg">
           <div className="flex items-center justify-between p-2">
             <div>
               <button
@@ -164,78 +187,53 @@ export default function MainPage() {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-white border-b hover:bg-gray-50">
-                <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">상태</td>
-              </tr>
-              <tr className="bg-white border-b hover:bg-gray-50">
-                <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">상태</td>
-              </tr>
-              <tr className="bg-white border-b hover:bg-gray-50">
-                <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">상태</td>
-              </tr>
-              {/* ... */}
-              {/* 나머지 테이블 내용 */}
-              {/* ... */}
+              {getCurrentPageItems().map((myIssue) => (
+                <tr key={myIssue.issueId} className="bg-white border-b hover:bg-gray-50">
+                  <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
+                    {myIssue.projectTitle}
+                  </th>
+                  <td className="px-6 py-4">{myIssue.issueTag}</td>
+                  <td className="px-6 py-4">{myIssue.issueTitle}</td>
+                  <td className="px-6 py-4">{myIssue.updateDate}</td>
+                  <td className="px-6 py-4">{myIssue.issueStatus}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
 
+          {/* 페이지네이션 부분 */}
           <nav className="flex items-center justify-center p-2" aria-label="Table navigation">
             <ul className="flex items-center justify-center -space-x-px text-sm h-8">
               <li>
                 <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700"
+                  className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight ${
+                    currentPage === 1 ? "text-gray-300 pointer-events-none" : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                  }`}
+                  onClick={() => setCurrentPage(currentPage - 1)}
                 >
                   {"<"}
                 </a>
               </li>
+
+              {Array.from({ length: totalPage }).map((_, index) => (
+                <li key={index}>
+                  <a
+                    className={`flex items-center justify-center px-3 h-8 leading-tight ${
+                      currentPage === index + 1 ? "text-blue-600 pointer-events-none" : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    }`}
+                    onClick={() => setCurrentPage(index + 1)}
+                  >
+                    {index + 1}
+                  </a>
+                </li>
+              ))}
+
               <li>
                 <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-                >
-                  1
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-                >
-                  2
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  aria-current="page"
-                  className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700"
-                >
-                  3
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700"
+                  className={`flex items-center justify-center px-3 h-8 leading-tight ${
+                    currentPage === totalPage ? "text-gray-300 pointer-events-none" : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                  }`}
+                  onClick={() => setCurrentPage(currentPage + 1)}
                 >
                   {">"}
                 </a>
@@ -271,3 +269,149 @@ const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
     snap: "snap-x",
   },
 };
+
+// Dummy data
+
+//참여 중인 프로젝트
+const pjCards: ProjectCard[] = [
+  {
+    projectId: 1,
+    projectKey: "PROJECT-1",
+    projectTitle: "SurVeine",
+    promectImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    versionMajor: 1,
+    versionMinor: 0,
+    versionPatch: 0,
+    todoIssue: 1,
+    doingIssue: 2,
+    myIssue: 3,
+    doneIssue: 4,
+    leaderName: "정현진",
+    leaderImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    memberNum: 5,
+  },
+  {
+    projectId: 2,
+    projectKey: "PROJECT-1",
+    projectTitle: "Batton",
+    promectImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    versionMajor: 1,
+    versionMinor: 2,
+    versionPatch: 0,
+    todoIssue: 10,
+    doingIssue: 2,
+    myIssue: 3,
+    doneIssue: 4,
+    leaderName: "김김김",
+    leaderImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    memberNum: 5,
+  },
+  {
+    projectId: 3,
+    projectKey: "PROJECT-1",
+    projectTitle: "FomVey",
+    promectImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    versionMajor: 2,
+    versionMinor: 0,
+    versionPatch: 0,
+    todoIssue: 15,
+    doingIssue: 4,
+    myIssue: 2,
+    doneIssue: 4,
+    leaderName: "김김김",
+    leaderImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    memberNum: 5,
+  },
+  {
+    projectId: 4,
+    projectKey: "PROJECT-1",
+    projectTitle: "프로젝트4",
+    promectImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    versionMajor: 1,
+    versionMinor: 0,
+    versionPatch: 0,
+    todoIssue: 1,
+    doingIssue: 2,
+    myIssue: 3,
+    doneIssue: 4,
+    leaderName: "김김김",
+    leaderImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    memberNum: 5,
+  },
+];
+
+//내 작업 이슈들
+const myIssues: MyIssues[] = [
+  {
+    issueId: 1,
+    issueTitle: "이슈1",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "프로젝트1",
+  },
+  {
+    issueId: 2,
+    issueTitle: "이슈2",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "프로젝트1",
+  },
+  {
+    issueId: 3,
+    issueTitle: "이슈3",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "프로젝트1",
+  },
+  {
+    issueId: 4,
+    issueTitle: "이슈4",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "프로젝트1",
+  },
+  {
+    issueId: 5,
+    issueTitle: "이슈5",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "프로젝트1",
+  },
+  {
+    issueId: 6,
+    issueTitle: "이슈6",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "프로젝트1",
+  },
+  {
+    issueId: 7,
+    issueTitle: "이슈7",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "프로젝트1",
+  },
+  {
+    issueId: 8,
+    issueTitle: "이슈8",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "프로젝트1",
+  },
+  {
+    issueId: 9,
+    issueTitle: "이슈9",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "프로젝트1",
+  },
+];
