@@ -8,7 +8,7 @@ import left_control_img from "@images/icons/left_control.svg";
 import right_control_img from "@images/icons/right_control.svg";
 import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
-import { ProjectCard } from "@typess/project";
+import { ProjectCard } from "@src/types/Project";
 import { MyIssues } from "@typess/Issue";
 
 export default function MainPage() {
@@ -187,15 +187,15 @@ export default function MainPage() {
               </tr>
             </thead>
             <tbody>
-              {getCurrentPageItems().map((myIssue) => (
-                <tr key={myIssue.issueId} className="bg-white border-b hover:bg-gray-50">
+              {getCurrentPageItems().map((issueId) => (
+                <tr key={issueId.issueId} className="bg-white border-b hover:bg-gray-50">
                   <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
-                    {myIssue.projectTitle}
+                    {issueId.projectTitle}
                   </th>
-                  <td className="px-6 py-4">{myIssue.issueTag}</td>
-                  <td className="px-6 py-4">{myIssue.issueTitle}</td>
-                  <td className="px-6 py-4">{myIssue.updateDate}</td>
-                  <td className="px-6 py-4">{myIssue.issueStatus}</td>
+                  <td className="px-6 py-4">{issueId.issueTag}</td>
+                  <td className="px-6 py-4">{issueId.issueTitle}</td>
+                  <td className="px-6 py-4">{issueId.updateDate}</td>
+                  <td className="px-6 py-4">{issueId.issueStatus}</td>
                 </tr>
               ))}
             </tbody>

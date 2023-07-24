@@ -31,3 +31,12 @@ export interface MyIssues {
   updateDate: string;
   projectTitle: string;
 }
+
+export interface BoardIssue {
+  id: number;
+  issueTitle: string;
+  issueTag: IssueType;
+  issueStatus: IssueStatus;
+  nickname: string;
+  profileImg: string;
+}
