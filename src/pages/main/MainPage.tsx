@@ -8,7 +8,7 @@ import left_control_img from "@images/icons/left_control.svg";
 import right_control_img from "@images/icons/right_control.svg";
 import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
-import { ProjectCard } from "@typess/project";
+import { ProjectCard } from "@src/types/Project";
 import { MyIssues } from "@typess/Issue";
 
 export default function MainPage() {

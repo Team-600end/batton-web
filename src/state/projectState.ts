@@ -1,6 +1,6 @@
 import { atom } from "recoil";
 import { recoilPersist } from "recoil-persist";
-import { ProjectNav } from "@typess/project";
+import { ProjectNav } from "@src/types/Project";
 
 const { persistAtom } = recoilPersist();
 

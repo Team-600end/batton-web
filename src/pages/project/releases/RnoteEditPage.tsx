@@ -1,6 +1,6 @@
 import React, { useRef, useState } from "react";
 import { DoneIssue, Issue, IssueType, Manager } from "@typess/Issue";
-import RnoteIssueCard from "@src/components/project/releases/RnoteIssueCard";
+import RnoteIssueCard from "@components/project/releases/RnoteIssueCard";
 import refresh_img from "@assets/images/icons/refresh.svg";
 // import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -15,7 +15,7 @@ import {
   Droppable,
   DropResult,
 } from "react-beautiful-dnd";
-import RnoteUsedIssueCard from "@src/components/project/releases/RnoteUsedIssueCard";
+import RnoteUsedIssueCard from "@components/project/releases/RnoteUsedIssueCard";
 
 const doneIssues: DoneIssue[] = [
   {

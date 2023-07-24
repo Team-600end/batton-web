@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ProjectNav } from "@typess/project";
+import { ProjectNav } from "@src/types/Project";
 import { useNavigate } from "react-router-dom";
 import default_team_logo from "@images/common/team_default.png";
 import grade_master_logo from "@images/common/crown.svg";

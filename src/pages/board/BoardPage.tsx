@@ -55,7 +55,6 @@ export default function BoardPage() {
   return (
     <div className="relative h-screen flex flex-col mt-12">
       <div className="mx-auto w-3/5 mt-[8vh]">
-        {/* 프로젝트 생성하기 타이틀 */}
         <div
           className="flex flex-row items-center mt-12"
         >

@@ -14,6 +14,12 @@ export interface Issue {
   id: number;
 }
 
+export interface AbsIssue {
+  type: IssueType;
+  title: string;
+  // id: number;
+}
+
 export interface DoneIssue extends Issue {
   content?: string;
 }

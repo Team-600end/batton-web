@@ -4,7 +4,7 @@ import default_proflie_img from "@images/common/default_profile.svg";
 import Notice from "@components/nav/Notice";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
-import { ProjectNav } from "@typess/project";
+import { ProjectNav } from "@src/types/Project";
 import { useRecoilState } from "recoil";
 import {
   navbarNoticeDd,

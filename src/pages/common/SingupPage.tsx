@@ -45,7 +45,10 @@ export default function SignupPage() {
   
   const signupRequest = async () => {
     try {
-      await postNonAuth(`/auth/signup`, signupData);
+      const result = await postNonAuth(`/auth/signup`, signupData);
+      console.log(result);
+      
+
       // return 값 조건 추가 필요.
       alert("회원가입이 완료되었습니다.");
       alert("로그인을 진행해주세요.")

@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import pj_img from "@assets/images/common/default_teamlogo.png";
 import latest_img from "@images/common/latest.png";
 import default_avatar_img from "@images/common/default_profile.svg";
-import { ProjectCard } from "@typess/project";
+import { ProjectCard } from "@src/types/Project";
 
 type PjCardProps = {
   pjCard: ProjectCard;

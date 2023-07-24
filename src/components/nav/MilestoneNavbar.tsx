@@ -3,7 +3,7 @@ import right_arrow from "@images/common/chevron_right.svg";
 import { useLocation, useNavigate, useParams } from "react-router-dom";
 import { projectNavs } from "@src/state/projectState";
 import { useRecoilState } from "recoil";
-import { ProjectNav } from "@src/types/project";
+import { ProjectNav } from "@src/types/Project";
 
 export default function MilestoneNavbar() {
   const navagate = useNavigate();
