@@ -20,10 +20,16 @@ export default function NavPjBotton(props: NavPjBottonProps) {
     setNoticeDropdown(false);
     setProjectDropdown(false);
     setProfileDropdown(false);
-  }
+  };
 
   return (
-    <button className="block px-4 py-2 hover:bg-gray-100 w-full" onClick={() => {navigate(`/project/${props.project.id}/dashboard`); handleAllDropdownOff();}}>
+    <button
+      className="block px-4 py-2 hover:bg-gray-100 w-full"
+      onClick={() => {
+        navigate(`/project/${props.project.id}/dashboard`);
+        handleAllDropdownOff();
+      }}
+    >
       <div className="flex items-center">
         <img className="w-[2vw] h-[2vw] border rounded-full mr-[1vw]" src={props.project.logo ?? default_team_logo} />
         <p className="font-suitL text-[#6B7280] mr-[0.3vw]">{props.project.name}</p>

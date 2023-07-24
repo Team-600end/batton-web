@@ -10,7 +10,7 @@ export default function MilestoneNavbar() {
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectId } = useParams();
 
-  const pjName = projectNav.find((element : ProjectNav) => element.id.toString() === projectId);
+  const pjName = projectNav.find((element: ProjectNav) => element.id.toString() === projectId);
   console.log(projectId);
   console.log(pjName);
 
@@ -19,10 +19,7 @@ export default function MilestoneNavbar() {
       <span className="flex ml-[5vw] m-[1vw] mb-0 font-suitM items-center">
         프로젝트
         <img src={right_arrow} />
-        <button 
-          className="flex items-center font-suitM text-lg text-primary-3" 
-          onClick={() => navagate(`/project/${projectId}/dashboard`)}
-        >
+        <button className="flex items-center font-suitM text-lg text-primary-3" onClick={() => navagate(`/project/${projectId}/dashboard`)}>
           {pjName?.name}
         </button>
       </span>

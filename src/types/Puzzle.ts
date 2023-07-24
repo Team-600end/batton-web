@@ -1,4 +1,4 @@
-export default interface puzzle {
+export default interface Puzzle {
   version: string;
   index: number;
 }
