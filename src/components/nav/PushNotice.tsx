@@ -3,7 +3,7 @@ import { NoticeMessage } from "@typess/Notice";
 import push_notice_bell from "@assets/images/icons/push_notice_bell.png";
 import "./noticeSlide.css";
 
-function PushNotice(noticeMessage: NoticeMessage) {
+function PushNotice(NoticeMessage: NoticeMessage) {
     const [showNotification, setShowNotification] = useState(true);
     const [visible, setVisible] = useState(true);
 
@@ -23,9 +23,9 @@ function PushNotice(noticeMessage: NoticeMessage) {
     return (
         <div>
             {visible && (
-            <div className={`fixed bottom-8 right-8 z-99 ${showNotification ? "animate-slide-up" : "animate-slide-down"}`}>
+            <div className={`fixed bottom-8 right-8 z-99 bg-[#FFFFFF] ${showNotification ? "animate-slide-up" : "animate-slide-down"}`}>
                 <div className="w-[280px] h-[110px] relative border border-gray-300 rounded-[10px]">
-                    <div className="left-[36px] top-[40px] pr-[20px] absolute font-suitM">{noticeMessage.noticeContent}</div>
+                    <div className="left-[36px] top-[42px] pr-[20px] absolute font-suitM">{NoticeMessage.noticeContent}</div>
                     <div className="left-[36px] top-[16px] absolute text-black text-xs font-suitSB">새로운 알림</div>
                     <div className="w-[278px] h-[7px] top-0 absolute bg-primary-4 rounded-tl-[15px] rounded-tr-[15px]" />
                     <img className="w-5 h-5 left-[12px] top-[13px] absolute" src={push_notice_bell} />

@@ -1,10 +1,9 @@
+import React, { useState, useEffect } from 'react';
 import { Client, Message } from '@stomp/stompjs';
 import { NoticeMessage } from "@typess/Notice";
-import PushNotice from './components/nav/PushNotice';
 
-export function ConnectRabbit(memberId: number) {
+export function ConnectRabbit(memberId: number, setMessage: (data: NoticeMessage | null) => void) {
   let stompClient: Client;
-
   const brokerURL = 'ws://localhost:15674/ws'; // WebSocket URL 문자열
   const queueName = '/queue/user.queue.' + memberId.toString();
   const headers = {
@@ -29,7 +28,8 @@ export function ConnectRabbit(memberId: number) {
 
       console.log('Received Noticemessage:', body);
 
-      // 메세지가 왔을 때 PushNotice 렌더링
+      setMessage(body);
+
     });
   };
 

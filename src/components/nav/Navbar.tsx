@@ -12,7 +12,7 @@ import {
   navbarProjectDd,
 } from "@src/state/modalState";
 import { projectNavs } from "@src/state/projectState";
-import { ConnectRabbit } from "@src/ConnectRabbit";
+import NoticeConnector from "@src/NoticeConnector";
 
 const userProjectNav: ProjectNav[] = [
   {
@@ -42,6 +42,8 @@ export default function Navbar() {
   const [profileDd, setProfileDd] = useRecoilState(navbarProfileDd);
   const [noticeDd, setNoticeDd] = useRecoilState(navbarNoticeDd);
 
+  const memberId: number = 1; 
+
   const handleProjectDd = () => {
     setProjectDd(!projectDd);
     setNoticeDd(false);
@@ -70,7 +72,6 @@ export default function Navbar() {
 
   useEffect(() => {
     setProjects(userProjectNav);
-    ConnectRabbit(1);
   },);
 
   return (
@@ -83,6 +84,7 @@ export default function Navbar() {
       }}
     >
       <div className="flex items-center p-4">
+      <NoticeConnector memberId={memberId}/>
         <button
           className="flex items-center flex-1"
           style={{ marginLeft: "-2vw" }}
