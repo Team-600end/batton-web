@@ -72,8 +72,7 @@ export default function Navbar() {
       className="bg-white border-gray-200 fixed top-0 w-screen z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]"
       ref={outside}
       onClick={(e) => {
-        if (e.target == outside.current) setProjectDd(false);
-        if (e.target == outside.current) setNoticeDd(false);
+        if (e.target !== outside.current) {}
       }}
     >
       <div className="flex items-center p-4">

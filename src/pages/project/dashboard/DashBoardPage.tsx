@@ -14,9 +14,9 @@ export default function DashBoardPage() {
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
       <ProjectNavbar />
-      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col p-[3vw] space-y-[2vw]">
+      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col p-[3vw] space-y-[2vw] shadow-inner">
         <div className="flex space-x-[2vw]">
-          <DonutSection userName="jin" />
+          <DonutSection />
           <ReleasesPuzzle />
         </div>
         <div className="flex space-x-[2vw]">

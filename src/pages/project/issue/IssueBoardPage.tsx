@@ -175,23 +175,23 @@ export default function IssueBoardPage() {
       <MilestoneNavbar />
       <ProjectNavbar />
       <div>
-        <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">
+        <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner">
           <div className="flex justify-end mr-[2.5vw] mt-[2vw] space-x-2">
             <button
               onClick={() => navigate(`/project/${projectId}/issue-history`)}
-              className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
+              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center font-suitM text-[1vw] hover:bg-primary-5"
             >
               히스토리
             </button>
             <button
               onClick={() => navigate(`/project/${projectId}/hidden-issue`)}
-              className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
+              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
             >
               숨긴 이슈
             </button>
             <button
               onClick={() => setShowModal(true)}
-              className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
+              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
             >
               <img src={plus_img} className="mr-[0.2vw]" />
               이슈 생성
@@ -209,7 +209,8 @@ export default function IssueBoardPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div className="bg-[#FFED8F] h-[0.5vw] rounded-t-lg" />
+                    {/* FFED8F */}
+                    <div className="bg-[#D0F6E0] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                     <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
@@ -248,7 +249,8 @@ export default function IssueBoardPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div className="bg-[#8FB5FF] h-[0.5vw] rounded-t-lg" />
+                    {/* 8FB5FF */}
+                    <div className="bg-[#99D8BF] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                     <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
@@ -287,7 +289,8 @@ export default function IssueBoardPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div className="bg-[#FF8F8F] h-[0.5vw] rounded-t-lg" />
+                    {/* FF8F8F */}
+                    <div className="bg-[#41A05F] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                       <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
@@ -326,7 +329,8 @@ export default function IssueBoardPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div className="bg-[#83CE9B] h-[0.5vw] rounded-t-lg" />
+                    {/* 83CE9B */}
+                    <div className="bg-[#285F43] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                     <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">

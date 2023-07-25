@@ -77,7 +77,7 @@ export default function MainPage() {
 
           <button
             type="button"
-            className="focus:outline-none text-primary-4 bg-white border border-primary-4 hover:bg-green-100 focus:ring-4 focus:ring-green-300 font-suitM rounded-lg text-sm px-5 py-2.5"
+            className="focus:outline-none text-primary-4 bg-white border border-primary-4 hover:bg-green-100 font-suitM rounded-lg text-sm px-5 py-2.5"
             onClick={() => navigate("/new-project")}
           >
             + 새 프로젝트 생성

@@ -81,10 +81,10 @@ export default function ReleasesNote() {
   // const usedIssues: DoneIssue[] = [];
 
   return (
-    <div className="flex flex-col overflow-hidden">
+    <div className="flex flex-col">
       <MilestoneNavbar />
       <ProjectNavbar />
-      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">
+      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner">
         <div className="flex mx-auto p-4">
           <div className="flex-column">
             <span className="bg-green-100 text-green-400 text-xs font-suitM mr-2 px-2.5 py-0.5 rounded-full border border-green-400">

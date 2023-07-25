@@ -1,6 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import latest_img from "@images/common/latest.png";
 import { ProjectCard } from "@src/types/Project";
+import { useNavigate } from "react-router-dom";
 
 type PjCardProps = {
   pjCard: ProjectCard;
@@ -8,9 +9,10 @@ type PjCardProps = {
 
 export default function PjCard(props: PjCardProps) {
   const percent = ((props.pjCard.doneIssue / (props.pjCard.todoIssue + props.pjCard.doingIssue + props.pjCard.doneIssue)) * 100).toFixed(1);
+  const navigate = useNavigate();
 
   return (
-    <>
+    <div onClick={() => navigate(`/project/${props.pjCard.projectId}/dashboard`)}>
       <div className="flex w-[350px] h-[250px] p-[10px] shadow-[2px_6px_6px_-2px_rgba(0,0,0,0.3)] bg-white border border-gray-200 rounded-lg hover:bg-gray-100 mx-2 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
         <div className="relative w-[350px] h-[250px] flex flex-col items-center justify-start">
           {/* 최상단 아이콘과 팀이름 */}
@@ -84,6 +86,6 @@ export default function PjCard(props: PjCardProps) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
