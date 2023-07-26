@@ -12,7 +12,7 @@ export default function LoginPage() {
 
   const data: any[] = [];
   // const response = postData("/api/auth/login", data)
-  
+
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
       <img className="absolute z-0" src={login_lefthand_img} style={{ marginTop: "20vh", marginLeft: "-92vw" }} />
@@ -29,7 +29,7 @@ export default function LoginPage() {
               name="email"
               id="email"
               className="bg-gray-50 border border-gray-300 text-[black] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="6ooend@kakao.com"
+              placeholder="600end@kakao.com"
               required
             />
           </div>
@@ -43,7 +43,6 @@ export default function LoginPage() {
               id="password"
               placeholder=""
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              required
             />
           </div>
           <div className="flex items-start">
