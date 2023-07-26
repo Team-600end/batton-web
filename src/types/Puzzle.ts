@@ -1,7 +1,11 @@
+import { AbsIssue } from "./Issue";
+
 export type VersionChanged = "Major" | "Minor" | "Patch";
 
 export interface PuzzleContent {
-  title: string;
+  releaseDate: Date;
+  // title: string; //title은 없음
+  issues: AbsIssue[];
 }
 
 export interface Puzzle {
