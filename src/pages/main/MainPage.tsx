@@ -100,7 +100,6 @@ export default function MainPage() {
           <h1 className="text-2xl font-suitB text-black mr-4">내 작업 이슈들</h1>
         </div>
         {/* table */}
-        {/* <div className="items-center justify-center w-4/5 h-[300px] p-1"> */}
         <div className="relative w-4/5 shadow-[0px_3px_8px_-2px_rgba(0,0,0,0.3)] sm:rounded-lg">
           <div className="flex items-center justify-between p-2">
             <div>

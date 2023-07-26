@@ -1,5 +1,7 @@
 import React, { useState, useCallback, useEffect } from "react";
 import latest_img from "@images/common/latest.png";
+import grayStarImg from "@images/icons/grayStar.png";
+import yellowStarImg from "@images/icons/yellowStar.png";
 import { ProjectCard } from "@src/types/Project";
 
 type PjCardProps = {
@@ -8,6 +10,10 @@ type PjCardProps = {
 
 export default function PjCard(props: PjCardProps) {
   const percent = ((props.pjCard.doneIssue / (props.pjCard.todoIssue + props.pjCard.doingIssue + props.pjCard.doneIssue)) * 100).toFixed(1);
+  const [star, setStar] = useState(false);
+  const clickStar = () => {
+    setStar(!star);
+  };
 
   return (
     <>
@@ -17,8 +23,17 @@ export default function PjCard(props: PjCardProps) {
           <div className="relative w-[300px] h-[70px] mt-[10px] flex flex-row">
             <img className="rounded-full ring-1 w-[70px] h-[70px] ring-[#285F43] dark:ring-gray-500" src={props.pjCard.promectImg} alt="pj_img" />
             <div className="flex-col ml-[20px] mt-[5px]">
-              <p className="text-[#5AAE8A] text-2xl font-suitB">{props.pjCard.projectTitle}</p>
-              <div className="flex flex-row items-center justify-center mt-[2px]">
+              <div className="flex flex-row">
+                <p className="text-[#5AAE8A] text-2xl font-suitB">{props.pjCard.projectTitle}</p>
+                <img
+                  src={star ? yellowStarImg : grayStarImg}
+                  alt="star_img"
+                  className="w-[23px] h-[23px] mt-[5px] ml-[5px]"
+                  onClick={clickStar}
+                  style={{ cursor: "pointer" }}
+                />
+              </div>
+              <div className="flex flex-row items-center mt-[2px]">
                 <img className="w-[50px] h-[18px] mt-[2px]" src={latest_img} alt="pj_latest_img" />
                 <p className="ml-[5px] text-[#707070] font-suitSB">
                   v{props.pjCard.versionMajor}.{props.pjCard.versionMinor}.{props.pjCard.versionPatch}
