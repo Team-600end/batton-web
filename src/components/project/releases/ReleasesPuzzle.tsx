@@ -1,66 +1,70 @@
 import React, { useState, useCallback, useEffect } from "react";
 
 import PuzzleView from "@components/project/releases/PuzzleView";
-import { Puzzle } from "@src/types/Puzzle";
+import { Release } from "@src/types/Release";
 
-// Dummy data
-const puzzles: Puzzle[] = [
-  {
-    versionChanged: "Major",
-    version: "v1.0.0",
-    content: {
-      releaseDate: new Date("2021-09-01"),
-      issues: [
-        {
-          type: "New",
-          title: "이슈1 dlqsldkf;s",
-        },
-        {
-          type: "Deprecated",
-          title: "이슈2 djso일;냐ㅐㅇㄹ;",
-        },
-        {
-          type: "Changed",
-          title: "이슈3",
-        },
-      ],
-    },
-  },
-  {
-    versionChanged: "Minor",
-    version: "v1.1.0",
-    content: {
-      releaseDate: new Date("2021-09-01"),
-      issues: [
-        {
-          type: "New",
-          title: "이슈1",
-        },
-        {
-          type: "New",
-          title: "이슈2",
-        },
-        {
-          type: "Changed",
-          title: "이슈3",
-        },
-      ],
-    },
-  },
-];
+type ReleasesPuzzleProps = {
+  releaseList: Release[];
+};
 
-export default function ReleasesPuzzle() {
-  const [puzzle, setPuzzle] = useState<Puzzle[][]>([]);
+// // Dummy data
+// const puzzles: Puzzle[] = [
+//   {
+//     versionChanged: "Major",
+//     version: "v1.0.0",
+//     content: {
+//       releaseDate: new Date("2021-09-01"),
+//       issues: [
+//         {
+//           type: "New",
+//           title: "이슈1 dlqsldkf;s",
+//         },
+//         {
+//           type: "Deprecated",
+//           title: "이슈2 djso일;냐ㅐㅇㄹ;",
+//         },
+//         {
+//           type: "Changed",
+//           title: "이슈3",
+//         },
+//       ],
+//     },
+//   },
+//   {
+//     versionChanged: "Minor",
+//     version: "v1.1.0",
+//     content: {
+//       releaseDate: new Date("2021-09-01"),
+//       issues: [
+//         {
+//           type: "New",
+//           title: "이슈1",
+//         },
+//         {
+//           type: "New",
+//           title: "이슈2",
+//         },
+//         {
+//           type: "Changed",
+//           title: "이슈3",
+//         },
+//       ],
+//     },
+//   },
+// ];
+
+export default function ReleasesPuzzle(props: ReleasesPuzzleProps) {
+  const [puzzle, setPuzzle] = useState<Release[][]>([]);
   useEffect(() => {
-    let puzzleState: Puzzle[][] = [];
-    let temp: Puzzle[] = [];
+    let puzzleState: Release[][] = [];
+    let temp: Release[] = [];
 
-    puzzles.forEach((currentPuzzle, idx) => {
-      if ((currentPuzzle.versionChanged === "Major" && idx !== 0) || idx === puzzles.length - 1) {
+    props.releaseList.forEach((release, idx) => {
+      if ((release.versionChanged === "Major" && idx !== 0) || idx === props.releaseList.length - 1) {
         puzzleState.unshift(temp);
         temp = [];
       }
-      temp.push(currentPuzzle);
+      temp.push(release);
     });
 
     setPuzzle(puzzleState);
@@ -91,7 +95,7 @@ export default function ReleasesPuzzle() {
                   <tr key={rowIndex}>
                     {arrayPuzzle.map((element, colIndex) => (
                       <td>
-                        <PuzzleView key={colIndex} versionChanged={element.versionChanged} version={element.version} content={element.content} />
+                        <PuzzleView key={colIndex} release={element} />
                       </td>
                     ))}
                   </tr>

@@ -15,7 +15,7 @@ export default function RnoteButton(props: RnoteButtonProps) {
   return (
     <button onClick={() => navigate(`/project/${projectKey}/releasesnote/${props.release.id}`)} className="p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-200 mb-5 items-center w-[70vw] grid-cols-[11vw,1vw,11vw,1vw,30vw,11vw] grid mx-[2vw]">
       <p className="text-xl font-suitSB text-black mr-[1vw]">
-        v.{props.release.vF}.{props.release.vM}.{props.release.vL}
+        v.{props.release.versionMajor}.{props.release.versionMinor}.{props.release.versionPatch}
       </p>
       <div className="mr-[1.5vw] h-5/6 border-r-2 border-gray-100 rounded-md" />
       <p className="text-xl font-suitSB text-black mr-[1.5vw] ml-[1vw]">

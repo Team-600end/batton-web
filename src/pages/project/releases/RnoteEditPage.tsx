@@ -19,62 +19,29 @@ import RnoteUsedIssueCard from "@components/project/releases/RnoteUsedIssueCard"
 
 const doneIssues: DoneIssue[] = [
   {
-    type: "Deprecated",
-    title: "검정색 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 7,
-    content: "검정색 이슈야 아저씨랑 행복하게 살아야 한다~",
-  },
-  {
-    type: "Fixed",
-    title: "빨간색 이슈",
-    team: "600&",
-    id: 8,
-    content: "빨간색 이슈야 무럭무럭 자라야 한다~",
-  },
-  {
     type: "Changed",
-    title: "청량리행 열차",
-    manager: { name: "John Doe" },
+    title: "일반 설문조사 종류 변경",
+    manager: { name: "강창훈" },
     team: "600&",
-    id: 9,
-    content: "청량리행 열차를 안타면 하루가 불행해요",
-  },
-  {
-    type: "Feature",
-    title: "엘렐레레렐레레레렐레레레레",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 10,
+    content: "설문조사 문항 종류를 변경하였습니다. 기존 체크박스와 라디오 버튼에서, 중복 선택 가능 토글을 만들고 객관식으로 통일을 진행했습니다.",
+    id: 1,
   },
   {
     type: "New",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    title: "설문조사 GPS 배포 기능",
     team: "600&",
-    id: 11,
+    manager: { name: "임혜균" },
+    content: "<strong>GPS 기반 설문조사</strong>: 이제 사용자들은 위치 기반 데이터를 설문조사에 활용할 수 있습니다. 설문조사 참가자들의 지리적 위치에 따른 응답을 분석하고 이를 바탕으로 더욱 구체적인 인사이트를 도출할 수 있습니다. <br><br><strong>지역 특성에 맞는 설문조사</strong>: GPS 기능을 활용해 특정 지역의 특성에 맞춘 설문조사를 진행할 수 있습니다. 이를 통해 지역별로 다른 문화나 관습, 선호도 등을 반영한 보다 정확한 데이터를 얻을 수 있습니다. <br><br><strong>실시간 위치</strong> 반영: 참가자의 동의 하에 실시간 위치 반영이 가능하며, 이를 통해 설문조사 결과에 대한 더욱 심층적인 분석이 가능합니다.",
+    id: 3,
   },
   {
     type: "New",
-    title: "변경된 이슈",
+    title: "중복 배포 이슈",
+    manager: { name: "이서현" },
+    content: "중복 배포 방지 기능은 사용자들이 동일하거나 매우 유사한 설문조사를 여러 번 배포하는 것을 방지하는 새로운 기능입니다. 이 기능은 자동으로 시스템이 사용자가 작성하고 있는 설문조사와 과거에 배포된 설문조사를 비교하며, 이러한 중복성을 탐지합니다. <br><br><strong>자동 유사성 체크</strong>: 사용자가 설문조사를 작성하는 동안, 시스템은 이전에 생성된 설문조사와 현재 작성 중인 설문조사를 비교합니다. 이는 문항 내용, 선택지, 설문조사의 목적 등 다양한 요소를 기반으로 유사성을 체크합니다. <br><br><strong>중복 알림</strong>: 만약 시스템이 중복성을 탐지하면, 사용자에게 알림을 보냅니다. 이 알림은 사용자가 중복 배포를 방지할 수 있도록 돕습니다. 사용자는 알림을 통해 중복 배포를 예방하거나, 필요하다면 설문조사의 내용을 수정하거나 개선할 수 있습니다. <br><br><strong>유사성 점수</strong>: 설문조사가 완성되면, 시스템은 설문조사의 유사성 점수를 제공합니다. 이 점수는 0에서 100까지 범위이며, 점수가 높을수록 이전에 배포된 설문조사와 유사성이 높다는 것을 의미합니다.",
     team: "600&",
-    id: 12,
-  },
-  {
-    type: "Fixed",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 13,
-  },
-  {
-    type: "Changed",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 14,
-  },
+    id: 2,
+  }
 ];
 
 const usedIssues: DoneIssue[] = [];
@@ -111,7 +78,7 @@ export default function RnoteEditPage() {
           editorData +
             `<h2 id=${source.index}>${doneIssues![source.index].title}</h2><p>${
               doneIssues![source.index].content ?? ""
-            }</p>`
+            }</p><br>`
         );
         usedIssues!.splice(usedIssues.length, 0, doneIssues[sourceIndex]);
         doneIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거

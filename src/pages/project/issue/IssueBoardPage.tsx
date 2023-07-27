@@ -73,14 +73,14 @@ const doneIssues: Issue[] = [
     id: 1,
   },
   {
-    type: "Deprecated",
+    type: "New",
     title: "설문조사 GPS 배포 기능",
     team: "600&",
     manager: { name: "임혜균" },
     id: 3,
   },
   {
-    type: "Fixed",
+    type: "New",
     title: "중복 배포 이슈",
     manager: { name: "이서현" },
     team: "600&",

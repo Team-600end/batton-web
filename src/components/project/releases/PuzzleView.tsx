@@ -1,31 +1,24 @@
 import React, { useState } from "react";
-import styled from "styled-components";
 
 import puzzle_major from "@images/releasesPuzzle/puzzle_major1.svg";
 import puzzle_minor from "@images/releasesPuzzle/puzzle_minor.svg";
 import puzzle_patch from "@images/releasesPuzzle/puzzle_patch.svg";
 import PuzzleHoverItem from "./PuzzleHoverItem";
-import { AbsIssue } from "@src/types/Issue";
+import { Release } from "@src/types/Release";
 
-type PuzzleProps = {
-  versionChanged: string;
-  version: string;
-  content: {
-    releaseDate: Date;
-    // title: string;
-    issues: AbsIssue[];
-  };
+type PuzzleViewProps = {
+  release: Release;
 };
 
-export default function PuzzleView(props: PuzzleProps) {
+export default function PuzzleView(props: PuzzleViewProps) {
   const [isHovered, setIsHovered] = useState(false);
   let puzzleImage;
 
-  if (props.versionChanged === "Major") {
+  if (props.release.versionChanged === "Major") {
     puzzleImage = puzzle_major;
-  } else if (props.versionChanged === "Minor") {
+  } else if (props.release.versionChanged === "Minor") {
     puzzleImage = puzzle_minor;
-  } else if (props.versionChanged === "Patch") {
+  } else if (props.release.versionChanged === "Patch") {
     puzzleImage = puzzle_patch;
   }
   const handleMouseEnter = () => {
@@ -46,9 +39,9 @@ export default function PuzzleView(props: PuzzleProps) {
       >
         <img src={puzzleImage} alt="changed_version_img" className="w-full h-full object-cover" />
         <p className="absolute top-[25px] left-[18px] text-xs px-2 py-1" style={{ cursor: "pointer" }}>
-          {props.version}
+          {props.release.versionMajor}{props.release.versionMinor}{props.release.versionPatch}
         </p>
-        {isHovered && <PuzzleHoverItem version={props.version} content={props.content} />}
+        {isHovered && <PuzzleHoverItem puzzle={props.release} />}
       </div>
     </>
   );
