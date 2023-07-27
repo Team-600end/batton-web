@@ -18,7 +18,7 @@ export default function IssueLog() {
         <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">이슈 로그</p>
         {/* 테이블 */}
         <div className="pt-[20px]">
-          <table className="w-full text-sm text-left text-gray-500 dark:text-gray-400 text-center">
+          <table className="w-full text-sm text-gray-500 dark:text-gray-400 text-center">
             <thead className="text-xs font-suitL text-gray-700 uppercase bg-gray-50 dark:bg-gray-700 dark:text-gray-400">
               <tr>
                 <th scope="col" className="px-4 py-3">
