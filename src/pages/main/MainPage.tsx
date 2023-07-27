@@ -10,6 +10,11 @@ import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
 import { ProjectCard } from "@src/types/Project";
 import { MyIssues } from "@typess/Issue";
+//dummy
+import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
+import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+import avatar_kch from "@images/dummy/avatar_kch.jpeg";
+import logo_600end from "@images/dummy/600end_logo.svg";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -277,7 +282,7 @@ const pjCards: ProjectCard[] = [
     projectId: 1,
     projectKey: "gachon",
     projectTitle: "Gachon",
-    promectImg: "https://play-lh.googleusercontent.com/zXSPe94qOqYdEQmEgHnhT4JWA19Tjmg72tnkyUS00eyC8epyoInhhH9uTB7cT8iL6A",
+    projectImg: "https://play-lh.googleusercontent.com/zXSPe94qOqYdEQmEgHnhT4JWA19Tjmg72tnkyUS00eyC8epyoInhhH9uTB7cT8iL6A",
     versionMajor: 2,
     versionMinor: 0,
     versionPatch: 1,
@@ -286,14 +291,14 @@ const pjCards: ProjectCard[] = [
     myIssue: 3,
     doneIssue: 4,
     leaderName: "강창훈",
-    leaderImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    leaderImg: avatar_kch,
     memberNum: 5,
   },
   {
     projectId: 2,
     projectKey: "kea",
     projectTitle: "KEA",
-    promectImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    projectImg: "https://logo-resources.thevc.kr/organizations/banners/cfd721742233e04a0f656f7b2b2cbf7260888fb269caff651761367c5e4876e5_1599533486309745.jpg",
     versionMajor: 5,
     versionMinor: 2,
     versionPatch: 3,
@@ -301,25 +306,25 @@ const pjCards: ProjectCard[] = [
     doingIssue: 6,
     myIssue: 4,
     doneIssue: 24,
-    leaderName: "이연희",
-    leaderImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    leaderName: "임혜균",
+    leaderImg: avatar_yhg,
     memberNum: 5,
   },
   {
     projectId: 3,
-    projectKey: "formvey",
-    projectTitle: "Formvey",
-    promectImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
+    projectKey: "600end",
+    projectTitle: "600end",
+    projectImg: logo_600end,
     versionMajor: 2,
     versionMinor: 0,
     versionPatch: 1,
-    todoIssue: 6,
-    doingIssue: 7,
-    myIssue: 1,
-    doneIssue: 20,
+    todoIssue: 2,
+    doingIssue: 4,
+    myIssue: 2,
+    doneIssue: 3,
     leaderName: "이승희",
-    leaderImg: "https://t1.daumcdn.net/cfile/tistory/24283C3858F778CA2E",
-    memberNum: 5,
+    leaderImg: avatar_lsh,
+    memberNum: 6,
   },
 ];
 
@@ -331,7 +336,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "프로젝트1",
+    projectTitle: "Gachon",
   },
   {
     issueId: 2,
@@ -339,7 +344,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "프로젝트1",
+    projectTitle: "Gachon",
   },
   {
     issueId: 3,
@@ -347,7 +352,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "프로젝트1",
+    projectTitle: "Gachon",
   },
   {
     issueId: 4,
@@ -355,7 +360,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "프로젝트1",
+    projectTitle: "KEA",
   },
   {
     issueId: 5,
@@ -363,7 +368,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "프로젝트1",
+    projectTitle: "KEA",
   },
   {
     issueId: 6,
@@ -371,7 +376,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "프로젝트1",
+    projectTitle: "KEA",
   },
   {
     issueId: 7,
@@ -379,7 +384,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "프로젝트1",
+    projectTitle: "KEA",
   },
   {
     issueId: 8,
@@ -387,7 +392,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "프로젝트1",
+    projectTitle: "600&",
   },
   {
     issueId: 9,
@@ -395,6 +400,6 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "프로젝트1",
+    projectTitle: "600&",
   },
 ];
