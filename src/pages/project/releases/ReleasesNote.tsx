@@ -1,12 +1,12 @@
 import React from "react";
 import ProjectNavbar from "@src/components/nav/ProjectNavbar";
-import block from "@images/releasesPuzzle/releasesBlockImg.svg";
-import rvector from "@images/common/rightVector.svg";
+import releases_info from "@images/releasesPuzzle/releases_info.svg";
 import MilestoneNavbar from "@components/nav/MilestoneNavbar";
 import Plus_img from "@images/icons/plus.svg";
 import { useNavigate, useParams } from "react-router-dom";
 import { Release } from "@src/types/Release";
 import RnoteButton from "@src/components/project/releases/RnoteButton";
+import ReleasesPuzzle from "@src/components/project/releases/ReleasesPuzzle";
 
 export default function ReleasesNote() {
   const navigate = useNavigate();
@@ -87,21 +87,20 @@ export default function ReleasesNote() {
       <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner">
         <div className="flex mx-auto p-4">
           <div className="flex-column">
-            <span className="bg-green-100 text-green-400 text-xs font-suitM mr-2 px-2.5 py-0.5 rounded-full border border-green-400">
-              Latest
-            </span>
+            <span className="bg-green-100 text-green-400 text-xs font-suitM mr-2 px-2.5 py-0.5 rounded-full border border-green-400">Latest</span>
             <p className="text-4xl font-suitB text-black">v.2.7.14</p>
           </div>
-          <img src={block} className="w-600 h-221 mt-4 ml-10" />
+          <div className="flex flex-col">
+            <img src={releases_info} alt="releases_info" className="p-2 w-[50vw]" />
+            <ReleasesPuzzle />
+          </div>
         </div>
 
-        <div className="flex flex-col p-4 mx-auto">
-          <p className="text-2xl font-suitB text-black mx-[2vw] my-[3vh]">
-            릴리즈 히스토리
-          </p>
+        <div className="flex flex-col p-4 pt-0 mx-auto">
+          <p className="text-2xl font-suitB text-black mx-[2vw] my-[3vh]">릴리즈 히스토리</p>
           <div>
             {releasesList.map((release) => (
-              <RnoteButton release={release}/>
+              <RnoteButton release={release} />
             ))}
           </div>
         </div>
