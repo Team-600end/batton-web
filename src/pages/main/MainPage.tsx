@@ -10,11 +10,13 @@ import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
 import { ProjectCard } from "@src/types/Project";
 import { MyIssues } from "@typess/Issue";
+import IssueBadge from "@components/project/issue/IssueBadge";
 //dummy
 import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
 import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
 import avatar_kch from "@images/dummy/avatar_kch.jpeg";
 import logo_600end from "@images/dummy/600end_logo.svg";
+import logo_dktechin from "@images/dummy/dktechin_logo.png";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -170,7 +172,7 @@ export default function MainPage() {
           </div>
 
           {/* 테이블 */}
-          <table className="w-full text-sm text-left text-gray-500">
+          <table className="w-full text-sm text-gray-500 text-center">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
                 <th scope="col" className="px-6 py-3">
@@ -196,7 +198,9 @@ export default function MainPage() {
                   <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
                     {issueId.projectTitle}
                   </th>
-                  <td className="px-6 py-4">{issueId.issueTag}</td>
+                  <td className="px-6 py-4">
+                    <IssueBadge issueType={issueId.issueTag} />
+                  </td>
                   <td className="px-6 py-4">{issueId.issueTitle}</td>
                   <td className="px-6 py-4">{issueId.updateDate}</td>
                   <td className="px-6 py-4">{issueId.issueStatus}</td>
@@ -280,9 +284,9 @@ const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
 const pjCards: ProjectCard[] = [
   {
     projectId: 1,
-    projectKey: "gachon",
-    projectTitle: "Gachon",
-    projectImg: "https://play-lh.googleusercontent.com/zXSPe94qOqYdEQmEgHnhT4JWA19Tjmg72tnkyUS00eyC8epyoInhhH9uTB7cT8iL6A",
+    projectKey: "dktechin",
+    projectTitle: "dktechin",
+    projectImg: logo_dktechin,
     versionMajor: 5,
     versionMinor: 2,
     versionPatch: 3,
@@ -333,10 +337,10 @@ const myIssues: MyIssues[] = [
   {
     issueId: 1,
     issueTitle: "이슈1",
-    issueTag: "New",
+    issueTag: "Changed",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "Gachon",
+    projectTitle: "dktechin",
   },
   {
     issueId: 2,
@@ -344,7 +348,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "Gachon",
+    projectTitle: "dktechin",
   },
   {
     issueId: 3,
@@ -352,7 +356,7 @@ const myIssues: MyIssues[] = [
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
-    projectTitle: "Gachon",
+    projectTitle: "dktechin",
   },
   {
     issueId: 4,
