@@ -392,7 +392,7 @@ const myIssues: MyIssues[] = [
   },
   {
     issueId: 8,
-    issueTitle: "이슈8",
+    issueTitle: "일반 설문조사 종류 변경",
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",
@@ -400,7 +400,7 @@ const myIssues: MyIssues[] = [
   },
   {
     issueId: 9,
-    issueTitle: "이슈9",
+    issueTitle: "설문조사 GPS 배포 기능",
     issueTag: "New",
     issueStatus: "Todo",
     updateDate: "2021-09-01",

@@ -84,6 +84,9 @@ const releasesList: Release[] = [
 export default function DashBoardPage() {
   let { projectKey } = useParams();
 
+  const reverseList = [...releasesList].reverse();
+
+
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
@@ -98,7 +101,7 @@ export default function DashBoardPage() {
             <div className=" flex items-center">
               <img src={releases_info} alt="releases_info" className="p-2" />
             </div>
-            <ReleasesPuzzle releaseList={releasesList}/>
+            <ReleasesPuzzle releaseList={reverseList}/>
           </div>
         </div>
         <div className="flex space-x-[2vw]">

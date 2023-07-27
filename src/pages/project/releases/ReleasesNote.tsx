@@ -8,83 +8,79 @@ import { Release } from "@src/types/Release";
 import RnoteButton from "@src/components/project/releases/RnoteButton";
 import ReleasesPuzzle from "@src/components/project/releases/ReleasesPuzzle";
 
-const releasesList: Release[] = [
-  {
-    versionChanged: "Major",
-    versionMajor: 2,
-    versionMinor: 0,
-    versionPatch: 1,
-    date: "2023.07.27",
-    issueList: [
-      {
-        type: "Feature",
-        title: "새로운 기능을 만들었습니다.",
-      },
-    ],
-    id: 1,
-  },
-  {
-    versionChanged: "Patch",
-    versionMajor: 1,
-    versionMinor: 1,
-    versionPatch: 2,
-    date: "2023.07.18",
-    issueList: [
-      {
-        type: "Feature",
-        title: "팀 카페인의 서베인",
-      },
-      {
-        type: "Changed",
-        title: "팀 카레의 폼베이",
-      },
-    ],
-    id: 2,
-  },
-  {
-    versionChanged: "Minor",
-    versionMajor: 1,
-    versionMinor: 1,
-    versionPatch: 1,
-    date: "2023.07.18",
-    issueList: [
-      {
-        type: "Feature",
-        title: "팀 카페인의 서베인",
-      },
-      {
-        type: "Changed",
-        title: "팀 카레의 폼베이",
-      },
-    ],
-    id: 2,
-  },
-  {
-    versionChanged: "Major",
-    versionMajor: 1,
-    versionMinor: 0,
-    versionPatch: 1,
-    date: "2023.07.02",
-    issueList: [
-      {
-        type: "Deprecated",
-        title: "포트폴리오 영상 3분 이상 등록 가능",
-      },
-      {
-        type: "Changed",
-        title: "포트폴리오 영상 3분 이상 등록 가능",
-      },
-    ],
-    id: 3,
-  },
-];
-
-
+  const releasesList: Release[] = [
+    {
+      versionChanged: "Major",
+      versionMajor: 2,
+      versionMinor: 0,
+      versionPatch: 1,
+      date: "2023.07.27",
+      issueList: [
+        {
+          type: "New",
+          title: "설문조사 배포 추가",
+        },
+        {
+          type: "Feature",
+          title: "설문조사 완료 기능",
+        },
+      ],
+      id: 1,
+    },
+    {
+      versionChanged: "Patch",
+      versionMajor: 1,
+      versionMinor: 1,
+      versionPatch: 2,
+      date: "2023.07.18",
+      issueList: [
+        {
+          type: "Deprecated",
+          title: "리뷰식 이미지 설문조사 기능 철회",
+        },
+      ],
+      id: 2,
+    },
+    {
+      versionChanged: "Minor",
+      versionMajor: 1,
+      versionMinor: 1,
+      versionPatch: 1,
+      date: "2023.07.18",
+      issueList: [
+        {
+          type: "Fixed",
+          title: "설문조사 작성 버그 수정",
+        },
+        {
+          type: "Changed",
+          title: "설문조사 등록 기능 변경",
+        },
+      ],
+      id: 2,
+    },
+    {
+      versionChanged: "Major",
+      versionMajor: 1,
+      versionMinor: 0,
+      versionPatch: 1,
+      date: "2023.07.02",
+      issueList: [
+        {
+          type: "New",
+          title: "600& 프로젝트 출시",
+        },
+      ],
+      id: 3,
+    },
+  ];
+  
 export default function ReleasesNote() {
   const navigate = useNavigate();
   const { projectKey } = useParams();
 
   // const usedIssues: DoneIssue[] = [];
+  const reverseList = [...releasesList].reverse();
 
   return (
     <div className="flex flex-col">
@@ -98,7 +94,7 @@ export default function ReleasesNote() {
           </div>
           <div className="flex flex-col">
             <img src={releases_info} alt="releases_info" className="p-2 w-[50vw]" />
-            <ReleasesPuzzle releaseList={releasesList}/>
+            <ReleasesPuzzle releaseList={reverseList}/>
           </div>
         </div>
 

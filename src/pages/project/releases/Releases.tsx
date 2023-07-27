@@ -13,16 +13,12 @@ interface DummyData {
 
 const dummyData: DummyData[] = [
   {
-    issueType: "Changed",
-    description: "포트폴리오 영상 3분 이내 등록 가능1",
+    issueType: "New",
+    description: "설문조사 배포 추가",
   },
   {
-    issueType: "Deprecated",
-    description: "포트폴리오 영상 3분 이내 등록 가능2",
-  },
-  {
-    issueType: "Deprecated",
-    description: "포트폴리오 영상 3분 이내 등록 가능3",
+    issueType: "Feature",
+    description: "설문조사 완료 기능",
   },
 ];
 
@@ -51,7 +47,7 @@ export default function Releases() {
             <div className="flex flex-row mb-0 justify-between">
               <p className="text-4xl font-suitB text-black dark:text-white mb-3">v.2.7.14</p>
               <p className="text-xl font-suitB text-black dark:text-white mb-3" style={{ alignSelf: "flex-end" }}>
-                2023. 07. 05
+                2023. 07. 27
               </p>
             </div>
             <hr className="h-1.5 mb-5 bg-green-500 border-0 dark:bg-gray-700"></hr>
@@ -66,8 +62,8 @@ export default function Releases() {
                 <hr className="h-px my-0 bg-gray-200 border-0 dark:bg-gray-700"></hr>
               </>
             ))}
-            <p className="text-3xl font-suitSB text-black dark:text-white my-6">포트폴리오 영상 3분 이상 등록 가능</p>
-            <p className="text-xl font-suitM text-black dark:text-white mb-5">포트폴리오 영상 길이 제한이 기존 3분 이하에서 3분 이상으로 변경되었습니다.</p>
+            <p className="text-3xl font-suitSB text-black dark:text-white my-6">설문조사 배포 기능 추가</p>
+            <p className="text-xl font-suitM text-black dark:text-white mb-5">설문조사 배포 기능이 추가되었습니다. 기존의 단순 등록 방식에서 배포 기능이 추가됨에 따라, 사용자들은 더욱 설문조사에 가까운 기능을 이용하실 수 있을 것입니다...</p>
             <img src={block} className="w-600 h-221 mt-4 ml-10" alt="Flowbite Logo" />
           </div>
         </div>

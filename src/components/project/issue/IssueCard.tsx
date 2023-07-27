@@ -34,7 +34,7 @@ export default function IssueCard(props: IssueCardProps) {
           {props.issue.manager && (
             <img
               src={props.issue.manager?.profileImg ?? default_avatar_img}
-              className="ml-[5vw]"
+              className="w-[25px] h-[25px] rounded-full object-cover ml-[6vw]"
             />
           )}
           <p className="text-xs font-suitM text-gray-700">
