@@ -24,7 +24,7 @@ const hiddenIssues: Issue[] = [
 ];
 
 export default function HiddenIssuePage() {
-  const { projectId } = useParams();
+  const { projectKey } = useParams();
   const navigate = useNavigate();
 
   return (
@@ -40,7 +40,7 @@ export default function HiddenIssuePage() {
               저장하기
             </button>
             <button
-              onClick={() => navigate(`/project/${projectId}/issueboard`)}
+              onClick={() => navigate(`/project/${projectKey}/issueboard`)}
               className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
             >
               나가기

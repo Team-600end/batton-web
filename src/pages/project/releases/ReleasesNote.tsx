@@ -10,7 +10,7 @@ import ReleasesPuzzle from "@src/components/project/releases/ReleasesPuzzle";
 
 export default function ReleasesNote() {
   const navigate = useNavigate();
-  const { projectId } = useParams();
+  const { projectKey } = useParams();
 
   const releasesList: Release[] = [
     {
@@ -106,7 +106,7 @@ export default function ReleasesNote() {
         </div>
 
         <button
-          onClick={() => navigate(`/project/${projectId}/releasesnote/write`)}
+          onClick={() => navigate(`/project/${projectKey}/releasesnote/write`)}
           className="fixed bg-[#5AAE8A] w-[3.7vw] h-[3.7vw] bottom-[4vw] right-[8vw] rounded-full drop-shadow-xl"
         >
           <img src={Plus_img} className="mx-auto w-[2vw] h-[2vw]" />

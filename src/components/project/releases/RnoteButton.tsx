@@ -10,10 +10,10 @@ type RnoteButtonProps = {
 
 export default function RnoteButton(props: RnoteButtonProps) {
   const navigate = useNavigate();
-  const { projectId } = useParams();
+  const { projectKey } = useParams();
 
   return (
-    <button onClick={() => navigate(`/project/${projectId}/releasesnote/${props.release.id}`)} className="p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-200 mb-5 items-center w-[70vw] grid-cols-[11vw,1vw,11vw,1vw,30vw,11vw] grid mx-[2vw]">
+    <button onClick={() => navigate(`/project/${projectKey}/releasesnote/${props.release.id}`)} className="p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-200 mb-5 items-center w-[70vw] grid-cols-[11vw,1vw,11vw,1vw,30vw,11vw] grid mx-[2vw]">
       <p className="text-xl font-suitSB text-black mr-[1vw]">
         v.{props.release.vF}.{props.release.vM}.{props.release.vL}
       </p>

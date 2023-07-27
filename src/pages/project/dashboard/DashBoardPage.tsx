@@ -9,7 +9,7 @@ import { useParams } from "react-router-dom";
 import releases_info from "@images/releasesPuzzle/releases_info.svg";
 
 export default function DashBoardPage() {
-  let { projectId } = useParams();
+  let { projectKey } = useParams();
 
   return (
     <div className="flex flex-col overflow-hidden">

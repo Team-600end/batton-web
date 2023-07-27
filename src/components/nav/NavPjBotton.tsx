@@ -1,5 +1,5 @@
 import React, { useState } from "react";
-import { ProjectNav } from "@src/types/Project";
+import { ProjectNav } from "@typess/project";
 import { useNavigate } from "react-router-dom";
 import default_team_logo from "@images/common/team_default.png";
 import grade_master_logo from "@images/common/crown.svg";
@@ -26,7 +26,7 @@ export default function NavPjBotton(props: NavPjBottonProps) {
     <button
       className="block px-4 py-2 hover:bg-gray-100 w-full"
       onClick={() => {
-        navigate(`/project/${props.project.id}/dashboard`);
+        navigate(`/project/${props.project.projectKey}/dashboard`);
         handleAllDropdownOff();
       }}
     >

@@ -4,16 +4,18 @@ import default_proflie_img from "@images/common/default_profile.svg";
 import Notice from "@components/nav/Notice";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
-import { ProjectNav } from "@src/types/Project";
+import { ProjectNav } from "@typess/project";
 import { useRecoilState } from "recoil";
 import { navbarNoticeDd, navbarProfileDd, navbarProjectDd } from "@src/state/modalState";
 import { projectNavs } from "@src/state/projectState";
 
+import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+
 const userProjectNav: ProjectNav[] = [
   {
     id: 1,
-    projectKey: "gachon",
-    projectTitle: "Gachon",
+    projectKey: "dktechin",
+    projectTitle: "DKtechin",
     grade: "Member",
   },
   {
@@ -24,8 +26,8 @@ const userProjectNav: ProjectNav[] = [
   },
   {
     id: 3,
-    projectKey: "formvey",
-    projectTitle: "Formvey",
+    projectKey: "600end",
+    projectTitle: "600&",
     grade: "Master",
   },
 ];
@@ -142,7 +144,7 @@ export default function Navbar() {
         {/* 유저 버튼 */}
         <button type="button" className="flex text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300" onClick={handleProfileDd}>
           <span className="sr-only">Open user menu</span>
-          <img className="w-8 h-8 rounded-full" src={default_proflie_img} />
+          <img className="w-8 h-8 rounded-full" src={avatar_lsh} />
         </button>
       </div>
       {projectDd && (

@@ -8,7 +8,7 @@ import left_control_img from "@images/icons/left_control.svg";
 import right_control_img from "@images/icons/right_control.svg";
 import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
-import { ProjectCard } from "@src/types/Project";
+import { ProjectCard } from "@typess/project";
 import { MyIssues } from "@typess/Issue";
 //dummy
 import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
@@ -280,8 +280,8 @@ const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
 const pjCards: ProjectCard[] = [
   {
     projectId: 1,
-    projectKey: "gachon",
-    projectTitle: "Gachon",
+    projectKey: "dk",
+    projectTitle: "DK",
     projectImg: "https://play-lh.googleusercontent.com/zXSPe94qOqYdEQmEgHnhT4JWA19Tjmg72tnkyUS00eyC8epyoInhhH9uTB7cT8iL6A",
     versionMajor: 5,
     versionMinor: 2,
