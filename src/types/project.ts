@@ -13,7 +13,7 @@ export interface ProjectCard {
   projectId: number;
   projectKey: string;
   projectTitle: string;
-  promectImg?: string;
+  projectImg?: string;
   versionMajor: number;
   versionMinor: number;
   versionPatch: number;

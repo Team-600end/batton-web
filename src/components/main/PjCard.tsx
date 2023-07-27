@@ -23,7 +23,9 @@ export default function PjCard(props: PjCardProps) {
         <div className="relative w-[350px] h-[250px] flex flex-col items-center justify-start">
           {/* 최상단 아이콘과 팀이름 */}
           <div className="relative w-[300px] h-[70px] mt-[10px] flex flex-row">
-            <img className="rounded-full ring-1 w-[70px] h-[70px] ring-[#285F43] dark:ring-gray-500" src={props.pjCard.promectImg} alt="pj_img" />
+            <div className="rounded-full overflow-hidden ring-1 w-[70px] h-[70px] ring-[#285F43] justify-center">
+              <img className="ring-1 w-[70px] h-[70px] ring-[#285F43] rounded-full object-cover" src={props.pjCard.projectImg} alt="pj_img" />
+            </div>
             <div className="flex-col ml-[20px] mt-[5px]">
               <div className="flex flex-row">
                 <p className="text-[#5AAE8A] text-2xl font-suitB">{props.pjCard.projectTitle}</p>
@@ -71,7 +73,7 @@ export default function PjCard(props: PjCardProps) {
           {/* 사람들 */}
           <div className="relative w-[300px] h-[30px] mt-[10px]">
             <div className="flex -space-x-4">
-              <img className="w-[30px] h-[30px] border-[1px] border-white rounded-full dark:border-gray-800" src={props.pjCard.leaderImg} alt="" />
+              <img className="w-[30px] h-[30px] border-[1px] border-white rounded-full dark:border-gray-800 object-cover" src={props.pjCard.leaderImg} alt="" />
               <a
                 className="flex items-center justify-center w-[30px] h-[30px] text-xs font-suitM text-white bg-gray-700 border-[1px] border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
                 href="#"
