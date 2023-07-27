@@ -176,8 +176,8 @@ export default function Navbar() {
       {profileDd && (
         <div className="absolute z-20 right-[3vh] top-[6.5vh] bg-white divide-y divide-gray-100 rounded-lg shadow">
           <div className="px-4 py-3">
-            <span className="block text-sm text-gray-900 mb-1">정정정</span>
-            <span className="block text-sm  text-gray-500 truncate">jeong@gachon.ac.kr</span>
+            <span className="block text-sm text-gray-900 mb-1">이승희</span>
+            <span className="block text-sm  text-gray-500 truncate">lshdk@batton.com</span>
           </div>
           <ul className="py-2">
             <li>

@@ -16,112 +16,76 @@ import CreateIssueModal from "@components/project/issue/CreateIssueModal";
 const todoIssues: Issue[] = [
   {
     type: "New",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    title: "작성 질문 추천 서비스",
     team: "600&",
-    id: 0,
+    id: 9,
   },
   {
-    type: "New",
-    title: "변경된 이슈",
+    type: "Feature",
+    title: "선택지 이미지 첨부 기능",
+    manager: { name: "임혜균" },
     team: "600&",
-    id: 1,
+    id: 8,
   },
 ];
 
 const progressIssues: Issue[] = [
   {
     type: "New",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    title: "리뷰 전용 설문조사 서비스",
+    manager: { name: "이서현" },
     team: "600&",
-    id: 2,
+    id: 7,
   },
   {
     type: "Changed",
-    title: "변경된 이슈",
+    title: "챗봇 사용 위치 변경",
+    manager: { name: "이연희" },
     team: "600&",
-    id: 3,
+    id: 6,
   },
+  
 ];
 
 const reviewIssues: Issue[] = [
   {
-    type: "Deprecated",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    type: "Fixed",
+    title: "설문 삭제 조건 이슈",
+    manager: { name: "강창훈" },
     team: "600&",
     id: 4,
   },
   {
-    type: "Fixed",
-    title: "변경된 이슈",
+    type: "Feature",
+    title: "설문 숨기기 기능",
+    manager: { name: "정현진" },
     team: "600&",
     id: 5,
-  },
-  {
-    type: "Fixed",
-    title: "변경된 이슈",
-    team: "600&",
-    id: 6,
   },
 ];
 
 const doneIssues: Issue[] = [
   {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    type: "Changed",
+    title: "일반 설문조사 종류 변경",
+    manager: { name: "강창훈" },
     team: "600&",
-    id: 7,
+    id: 1,
   },
   {
-    type: "New",
-    title: "변경된 이슈",
+    type: "Deprecated",
+    title: "설문조사 GPS 배포 기능",
     team: "600&",
-    id: 8,
+    manager: { name: "임혜균" },
+    id: 3,
   },
   {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    type: "Fixed",
+    title: "중복 배포 이슈",
+    manager: { name: "이서현" },
     team: "600&",
-    id: 9,
-  },
-  {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 10,
-  },
-  {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 11,
-  },
-  {
-    type: "New",
-    title: "변경된 이슈",
-    team: "600&",
-    id: 12,
-  },
-  {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 13,
-  },
-  {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 14,
-  },
+    id: 2,
+  }
 ];
 
 const checkIssueList = (locationId: string) => {
@@ -138,7 +102,7 @@ const checkIssueList = (locationId: string) => {
 };
 
 export default function IssueBoardPage() {
-  const { projectId } = useParams();
+  const { projectKey } = useParams();
   const navigate = useNavigate();
 
   const handleDragEnd = ({ source, destination }: DropResult) => {
@@ -178,13 +142,13 @@ export default function IssueBoardPage() {
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner">
           <div className="flex justify-end mr-[2.5vw] mt-[2vw] space-x-2">
             <button
-              onClick={() => navigate(`/project/${projectId}/issue-history`)}
+              onClick={() => navigate(`/project/${projectKey}/issue-history`)}
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center font-suitM text-[1vw] hover:bg-primary-5"
             >
               히스토리
             </button>
             <button
-              onClick={() => navigate(`/project/${projectId}/hidden-issue`)}
+              onClick={() => navigate(`/project/${projectKey}/hidden-issue`)}
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
             >
               숨긴 이슈
