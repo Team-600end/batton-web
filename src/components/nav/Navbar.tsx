@@ -9,7 +9,7 @@ import { useRecoilState } from "recoil";
 import { navbarNoticeDd, navbarProfileDd, navbarProjectDd } from "@src/state/modalState";
 import { projectNavs } from "@src/state/projectState";
 
-import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+import avatar_lsh from "@images/dummy/avatar_pmsc.jpeg";
 
 const userProjectNav: ProjectNav[] = [
   {
@@ -77,7 +77,8 @@ export default function Navbar() {
       className="bg-white border-gray-200 fixed top-0 w-screen z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]"
       ref={outside}
       onClick={(e) => {
-        if (e.target !== outside.current) {}
+        if (e.target !== outside.current) {
+        }
       }}
     >
       <div className="flex items-center p-4">
@@ -144,7 +145,7 @@ export default function Navbar() {
         {/* 유저 버튼 */}
         <button type="button" className="flex text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300" onClick={handleProfileDd}>
           <span className="sr-only">Open user menu</span>
-          <img className="w-8 h-8 rounded-full" src={avatar_lsh} />
+          <img className="w-8 h-8 rounded-full object-cover" src={avatar_lsh} />
         </button>
       </div>
       {projectDd && (
