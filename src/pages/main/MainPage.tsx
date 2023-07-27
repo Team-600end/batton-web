@@ -285,7 +285,7 @@ const pjCards: ProjectCard[] = [
   {
     projectId: 1,
     projectKey: "dktechin",
-    projectTitle: "DKtechin",
+    projectTitle: "dktechin",
     projectImg: logo_dktechin,
     versionMajor: 5,
     versionMinor: 2,
