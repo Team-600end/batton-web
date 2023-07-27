@@ -23,7 +23,6 @@ import HiddenIssuePage from "@pages/project/issue/HiddenIssuePage";
 import WriteIssueReport from "./pages/project/issue/WriteIssueReport";
 import IssueManagePage from "./pages/project/issue/IssueManagePage";
 import IssueReportPage from "./pages/project/issue/IssueReportPage";
-import PushNotice from "./components/nav/PushNotice";
 function App() {
   return (
     <CookiesProvider>
