@@ -9,7 +9,7 @@ import { useRecoilState } from "recoil";
 import { navbarNoticeDd, navbarProfileDd, navbarProjectDd } from "@src/state/modalState";
 import { projectNavs } from "@src/state/projectState";
 
-import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+import avatar_lsh from "@images/dummy/avatar_pmsc.jpeg";
 
 const userProjectNav: ProjectNav[] = [
   {

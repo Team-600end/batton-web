@@ -82,6 +82,7 @@ export default function ReleasesPuzzle() {
           style={{
             width: "auto", // 내용의 가로 크기 (가로 스크롤을 표시하기 위함)
             height: "auto", // 내용의 세로 크기 (세로 스크롤을 표시하기 위함)
+            minHeight: "200px",
           }}
         >
           <section>

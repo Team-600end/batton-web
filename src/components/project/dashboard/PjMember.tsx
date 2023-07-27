@@ -18,12 +18,12 @@ export default function PjMember(props: PjMemberProps) {
 
   return (
     <>
-      <div className="flex flex-row h-[38px] min-w-[170px] m-[20px] my-[16] items-center justify-center text-green-700 bg-white border border-green-500 font-suitM rounded-lg hover:bg-gray-50 text-sm px-5 py-2.5 dark:bg-green-600">
-        <img className="w-[24px] h-[24px] rounded-full " src={props.member.profileImage} alt="avatar" />
-        <div className="w-full px-[20px] text-sm text-gray-500 font-suitM dark:text-white dark:text-gray-400">{props.member.nickname}</div>
+      <div className="flex flex-row h-[38px] min-w-[170px] m-[13px] my-[16] items-center justify-center text-green-700 bg-white border border-green-500 font-suitM rounded-lg hover:bg-gray-50 text-sm px-5 py-2.5 dark:bg-green-600">
+        <img className="w-[25px] h-[25px] rounded-full object-cover" src={props.member.profileImage} alt="avatar" />
+        <div className="w-full px-[20px] text-sm text-gray-500 font-suitM dark:text-gray-400">{props.member.nickname}</div>
         {isLeader && (
           <button id="dropdownMenuIconButton" data-dropdown-toggle="dropdownDots" type="button" onClick={showModal}>
-            <img className="w-[16px] h-[16px] rounded-full" src={vertical_dots_img} alt="vertical_dots" />
+            <img className="w-[16px] h-[16px] rounded-full object-cover" src={vertical_dots_img} alt="vertical_dots" />
           </button>
         )}
       </div>

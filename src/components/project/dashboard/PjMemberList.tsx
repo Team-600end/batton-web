@@ -4,27 +4,56 @@ import MemberList from "@src/types/Users";
 import PjMember from "@components/project/dashboard/PjMember";
 
 //dummy data
+import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
+import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+import avatar_kch from "@images/dummy/avatar_kch.jpeg";
+import avatar_lyh from "@images/dummy/avatar_lyh.jpeg";
+import avatar_pmsc from "@images/dummy/avatar_pmsc.jpeg";
+import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
+
+//dummy data
 const memberList: MemberList[] = [
   {
     id: 1,
     grade: "LEADER",
     memberId: 1,
-    nickname: "가나다",
-    profileImage: "https://i.pravatar.cc/300?img=1",
+    nickname: "이승희",
+    profileImage: avatar_pmsc,
   },
   {
     id: 2,
-    grade: "LEADER",
+    grade: "MEMBER",
     memberId: 2,
-    nickname: "가나라",
-    profileImage: "https://i.pravatar.cc/300?img=1",
+    nickname: "강창훈",
+    profileImage: avatar_kch,
   },
   {
     id: 3,
     grade: "MEMBER",
     memberId: 3,
-    nickname: "나나라",
-    profileImage: "https://i.pravatar.cc/300?img=1",
+    nickname: "정현진",
+    profileImage: avatar_jhj,
+  },
+  {
+    id: 4,
+    grade: "MEMBER",
+    memberId: 4,
+    nickname: "이서현",
+    profileImage: avatar_lsh,
+  },
+  {
+    id: 5,
+    grade: "MEMBER",
+    memberId: 5,
+    nickname: "임혜균",
+    profileImage: avatar_yhg,
+  },
+  {
+    id: 6,
+    grade: "MEMBER",
+    memberId: 6,
+    nickname: "이연희",
+    profileImage: avatar_lyh,
   },
 ];
 
