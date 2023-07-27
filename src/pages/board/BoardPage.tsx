@@ -166,7 +166,7 @@ export default function BoardPage() {
             <col className="w-1/3" /> {/* 세 번째 열 너비를 1/3로 지정 */}
             <col className="w-1/6" /> {/* 네 번째 열 너비를 1/6로 지정 */}
           </colgroup>
-          <thead className="text-center font-suitL text-xs text-white uppercase bg-[#285F43]">
+          <thead className="text-center font-suitL text-base text-white uppercase bg-[#285F43]">
             <tr>
               <th scope="col" className="w-1/7 py-3">
                 프로젝트
