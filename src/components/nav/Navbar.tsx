@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import batton_logo_img from "@images/common/batton_logo_medium.svg";
-import default_proflie_img from "@images/common/default_profile.svg";
 import Notice from "@components/nav/Notice";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
