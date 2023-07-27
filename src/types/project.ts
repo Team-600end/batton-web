@@ -2,7 +2,8 @@ export type GradeType = "Member" | "Leader" | "Master";
 
 export interface ProjectNav {
   id: number;
-  name: string;
+  projectTitle: string;
+  projectKey: string;
   logo?: string;
   grade: GradeType;
 }

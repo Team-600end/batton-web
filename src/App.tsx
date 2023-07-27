@@ -34,21 +34,20 @@ function App() {
             <Route path="/login" element={<LoginPage />} />
             <Route path="/signup" element={<SignupPage />} />
             <Route path="/forget-pw" element={<ForgetPwPage />} />
-            <Route path="/dev" />
             <Route path="*" element={<NotFoundPage />} />
             <Route element={<Layout />}>
               <Route path="/main" element={<MainPage />} />
-              <Route path="/project/:projectId/dashboard" element={<DashBoardPage />} />
-              <Route path="/project/:projectId/issueboard" element={<IssueBoardPage />} />
-              <Route path="/project/:projectId/issue/:issueId/write" element={<WriteIssueReport/>} />
-              <Route path="/project/:projectId/issue/:issueId/manage" element={<IssueManagePage/>} />
-              <Route path="/project/:projectId/issue/:issueId/edit" element={<IssueEditPage/>} />
-              <Route path="/project/:projectId/issue/:issueId" element={<IssueReportPage/>} />
-              <Route path="/project/:projectId/issue-history" element={<IssueHistoryPage />} />
-              <Route path="/project/:projectId/hidden-issue" element={<HiddenIssuePage />} />
-              <Route path="/project/:projectId/releasesnote" element={<ReleasesNote />} />
-              <Route path="/project/:projectId/releasesnote/:releaseId" element={<Releases />} />
-              <Route path="/project/:projectId/releasesnote/write" element={<RnoteEditPage />} />
+              <Route path="/project/:projectKey/dashboard" element={<DashBoardPage />} />
+              <Route path="/project/:projectKey/issueboard" element={<IssueBoardPage />} />
+              <Route path="/project/:projectKey/issue/:issueId/write" element={<WriteIssueReport/>} />
+              <Route path="/project/:projectKey/issue/:issueId/manage" element={<IssueManagePage/>} />
+              <Route path="/project/:projectKey/issue/:issueId/edit" element={<IssueEditPage/>} />
+              <Route path="/project/:projectKey/issue/:issueId" element={<IssueReportPage/>} />
+              <Route path="/project/:projectKey/issue-history" element={<IssueHistoryPage />} />
+              <Route path="/project/:projectKey/hidden-issue" element={<HiddenIssuePage />} />
+              <Route path="/project/:projectKey/releasesnote" element={<ReleasesNote />} />
+              <Route path="/project/:projectKey/releasesnote/:releaseId" element={<Releases />} />
+              <Route path="/project/:projectKey/releasesnote/write" element={<RnoteEditPage />} />
               <Route path="/myinfo-edit" element={<MyPage />} />
               <Route path="/new-project" element={<CreatePjPage />} />
               <Route path="/board" element={<BoardPage />} />

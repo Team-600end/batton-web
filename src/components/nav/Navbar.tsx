@@ -11,19 +11,22 @@ import { projectNavs } from "@src/state/projectState";
 
 const userProjectNav: ProjectNav[] = [
   {
-    id: 0,
-    name: "Batton",
-    grade: "Master",
-  },
-  {
     id: 1,
-    name: "SurVeine",
+    projectKey: "gachon",
+    projectTitle: "Gachon",
     grade: "Member",
   },
   {
     id: 2,
-    name: "GwangGoNuri",
+    projectKey: "kea",
+    projectTitle: "KEA",
     grade: "Member",
+  },
+  {
+    id: 3,
+    projectKey: "formvey",
+    projectTitle: "Formvey",
+    grade: "Master",
   },
 ];
 

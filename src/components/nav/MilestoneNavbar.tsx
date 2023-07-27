@@ -20,7 +20,7 @@ export default function MilestoneNavbar() {
         프로젝트
         <img src={right_arrow} />
         <button className="flex items-center font-suitM text-lg text-primary-3" onClick={() => navagate(`/project/${projectId}/dashboard`)}>
-          {pjName?.name}
+          {pjName?.projectTitle}
         </button>
       </span>
     </div>
