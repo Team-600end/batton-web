@@ -1,9 +1,9 @@
 import React, { useState } from "react";
 import styled from "styled-components";
 
-import puzzleMajor from "@images/releasesPuzzle/puzzleMajor1.svg";
-import puzzleMinor from "@images/releasesPuzzle/puzzleMinor.svg";
-import puzzlePatch from "@images/releasesPuzzle/puzzlePatch.svg";
+import puzzle_major from "@images/releasesPuzzle/puzzle_major1.svg";
+import puzzle_minor from "@images/releasesPuzzle/puzzle_minor.svg";
+import puzzle_patch from "@images/releasesPuzzle/puzzle_patch.svg";
 import PuzzleHoverItem from "./PuzzleHoverItem";
 import { AbsIssue } from "@src/types/Issue";
 
@@ -22,11 +22,11 @@ export default function PuzzleView(props: PuzzleProps) {
   let puzzleImage;
 
   if (props.versionChanged === "Major") {
-    puzzleImage = puzzleMajor;
+    puzzleImage = puzzle_major;
   } else if (props.versionChanged === "Minor") {
-    puzzleImage = puzzleMinor;
+    puzzleImage = puzzle_minor;
   } else if (props.versionChanged === "Patch") {
-    puzzleImage = puzzlePatch;
+    puzzleImage = puzzle_patch;
   }
   const handleMouseEnter = () => {
     setIsHovered(true);
@@ -41,7 +41,7 @@ export default function PuzzleView(props: PuzzleProps) {
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
-        className={`relative w-[80px] h-[70px] mx-[-10px] my-[-13.4px] dark:bg-gray-800 dark:hover:bg-gray-700`}
+        className={`relative w-[80px] h-[70px] mx-[-10px] my-[-13px] dark:bg-gray-800 dark:hover:bg-gray-700`}
         style={{ cursor: "pointer" }}
       >
         <img src={puzzleImage} alt="changed_version_img" className="w-full h-full object-cover" />

@@ -71,10 +71,18 @@ function DonutSection() {
   };
 
   return (
-    <div className="w-[690px] h-[320px] relative bg-white rounded-xl shadow-md">
+    <div className="relative w-[40vw] h-[320px] bg-white rounded-xl shadow-md">
       <div className="pt-[20px] ml-[20px] text-black text-base font-suitB">업무 리포트</div>
-      <div className="flex flex-row">
-        <div className="ml-[10px]">
+      <div
+        className="flex flex-row"
+        style={{
+          width: "100%", // 컨테이너의 가로 크기
+          height: "85%", // 컨테이너의 세로 크기
+          overflowX: "auto", // 가로 스크롤 표시
+          overflowY: "auto", // 세로 스크롤 표시
+        }}
+      >
+        <div>
           {donutData.toDoCnt === 0 && donutData.progressCnt === 0 && donutData.reviewCnt === 0 && donutData.completeCnt === 0 ? (
             <ReactApexChart series={emptyDonut.series} options={emptyDonut.options} type="pie" width={320} />
           ) : (
