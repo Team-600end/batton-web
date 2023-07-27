@@ -13,6 +13,13 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import CreateIssueModal from "@components/project/issue/CreateIssueModal";
 
+import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
+import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+import avatar_kch from "@images/dummy/avatar_kch.jpeg";
+import avatar_lyh from "@images/dummy/avatar_lyh.jpeg";
+import avatar_pmsc from "@images/dummy/avatar_pmsc.jpeg";
+import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
+
 const todoIssues: Issue[] = [
   {
     type: "New",
@@ -23,7 +30,7 @@ const todoIssues: Issue[] = [
   {
     type: "Feature",
     title: "선택지 이미지 첨부 기능",
-    manager: { name: "임혜균" },
+    manager: { name: "임혜균", profileImg: avatar_yhg },
     team: "600&",
     id: 8,
   },
@@ -33,14 +40,14 @@ const progressIssues: Issue[] = [
   {
     type: "New",
     title: "리뷰 전용 설문조사 서비스",
-    manager: { name: "이서현" },
+    manager: { name: "이서현", profileImg: avatar_lsh },
     team: "600&",
     id: 7,
   },
   {
     type: "Changed",
     title: "챗봇 사용 위치 변경",
-    manager: { name: "이연희" },
+    manager: { name: "이연희", profileImg: avatar_lyh },
     team: "600&",
     id: 6,
   },
@@ -51,14 +58,14 @@ const reviewIssues: Issue[] = [
   {
     type: "Fixed",
     title: "설문 삭제 조건 이슈",
-    manager: { name: "강창훈" },
+    manager: { name: "강창훈", profileImg: avatar_kch },
     team: "600&",
     id: 4,
   },
   {
     type: "Feature",
     title: "설문 숨기기 기능",
-    manager: { name: "정현진" },
+    manager: { name: "정현진", profileImg: avatar_jhj },
     team: "600&",
     id: 5,
   },
@@ -68,7 +75,7 @@ const doneIssues: Issue[] = [
   {
     type: "Changed",
     title: "일반 설문조사 종류 변경",
-    manager: { name: "강창훈" },
+    manager: { name: "강창훈", profileImg: avatar_kch },
     team: "600&",
     id: 1,
   },
@@ -76,13 +83,13 @@ const doneIssues: Issue[] = [
     type: "New",
     title: "설문조사 GPS 배포 기능",
     team: "600&",
-    manager: { name: "임혜균" },
+    manager: { name: "임혜균", profileImg: avatar_yhg },
     id: 3,
   },
   {
     type: "New",
     title: "중복 배포 이슈",
-    manager: { name: "이서현" },
+    manager: { name: "이서현", profileImg: avatar_lsh },
     team: "600&",
     id: 2,
   }

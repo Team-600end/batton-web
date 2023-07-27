@@ -16,10 +16,10 @@ interface DonutConfig {
 
 //dummy data
 const donutData: DonutData = {
-  toDoCnt: 4,
-  progressCnt: 4,
-  reviewCnt: 1,
-  completeCnt: 5,
+  toDoCnt: 2,
+  progressCnt: 2,
+  reviewCnt: 2,
+  completeCnt: 3,
 };
 
 function DonutSection() {

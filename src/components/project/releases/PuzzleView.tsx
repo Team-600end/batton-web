@@ -39,7 +39,7 @@ export default function PuzzleView(props: PuzzleViewProps) {
       >
         <img src={puzzleImage} alt="changed_version_img" className="w-full h-full object-cover" />
         <p className="absolute top-[25px] left-[18px] text-xs px-2 py-1" style={{ cursor: "pointer" }}>
-          {props.release.versionMajor}{props.release.versionMinor}{props.release.versionPatch}
+          v.{props.release.versionMajor}.{props.release.versionMinor}.{props.release.versionPatch}
         </p>
         {isHovered && <PuzzleHoverItem puzzle={props.release} />}
       </div>

@@ -10,6 +10,9 @@ import { navbarNoticeDd, navbarProfileDd, navbarProjectDd } from "@src/state/mod
 import { projectNavs } from "@src/state/projectState";
 
 import avatar_lsh from "@images/dummy/avatar_pmsc.jpeg";
+import dk_logo from "@images/dummy/dktechin_logo.png";
+import logo_600 from "@images/dummy/600end_logo.svg";
+import ke_logo from "@images/dummy/ke_logo.png";
 
 const userProjectNav: ProjectNav[] = [
   {
@@ -17,18 +20,21 @@ const userProjectNav: ProjectNav[] = [
     projectKey: "dktechin",
     projectTitle: "DKtechin",
     grade: "Member",
+    logo: dk_logo
   },
   {
     id: 2,
     projectKey: "kea",
     projectTitle: "KEA",
     grade: "Member",
+    logo: ke_logo
   },
   {
     id: 3,
     projectKey: "600end",
     projectTitle: "600&",
     grade: "Master",
+    logo: logo_600
   },
 ];
 
