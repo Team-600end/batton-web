@@ -293,7 +293,7 @@ export default function BoardPage() {
                   {board.projectTitle}
                 </th>
                 <td className="py-4">{board.releaseVersion}</td>
-                <td className="py-4">
+                <td className="py-4 space-x-1">
                   {board.issueTags.map((issue) => (
                     <IssueBadge issueType={issue} />
                   ))}
