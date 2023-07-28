@@ -18,27 +18,131 @@ interface BoardS {
 const boards: BoardS[] = [
   {
     projecttId: 1,
-    releaseId: 5,
-    projectTitle: "600& 프로젝트",
-    releaseVersion: "v3.0.1",
+    releaseId: 1,
+    projectTitle: "KEA",
+    releaseVersion: "v2.3.0",
     issueTags: ["New", "Feature"],
+    releaseDate: new Date(2023, 6, 2),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "dktechin",
+    releaseVersion: "v3.0.0",
+    issueTags: ["New", "Changed", "Feature"],
     releaseDate: new Date(2023, 7, 28),
   },
   {
     projecttId: 1,
-    releaseId: 4,
-    projectTitle: "600& 프로젝트",
+    releaseId: 1,
+    projectTitle: "600&",
     releaseVersion: "v2.0.1",
     issueTags: ["Fixed"],
     releaseDate: new Date(2023, 7, 27),
   },
   {
-    projecttId: 2,
+    projecttId: 1,
     releaseId: 1,
-    projectTitle: "KEA 프로젝트",
+    projectTitle: "KEA",
+    releaseVersion: "v2.2.0",
+    issueTags: ["Changed", "Feature"],
+    releaseDate: new Date(2023, 6, 2),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "dktechin",
+    releaseVersion: "v2.1.0",
+    issueTags: ["Changed", "Feature"],
+    releaseDate: new Date(2023, 7, 22),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "600&",
+    releaseVersion: "v1.1.2",
+    issueTags: ["Deprecated"],
+    releaseDate: new Date(2023, 7, 18),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "KEA",
+    releaseVersion: "v2.0.1",
+    issueTags: ["Fixed", "Deprecated"],
+    releaseDate: new Date(2023, 6, 2),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "600&",
+    releaseVersion: "v1.1.1",
+    issueTags: ["Changed", "Fixed"],
+    releaseDate: new Date(2023, 7, 18),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "KEA",
+    releaseVersion: "v2.0.0",
+    issueTags: ["New"],
+    releaseDate: new Date(2023, 7, 17),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "dktechin",
+    releaseVersion: "v2.0.1",
+    issueTags: ["Fixed"],
+    releaseDate: new Date(2023, 7, 17),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "dktechin",
+    releaseVersion: "v2.0.0",
+    issueTags: ["New", "Feature", "Deprecated"],
+    releaseDate: new Date(2023, 7, 10),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "KEA",
+    releaseVersion: "v1.2.0",
+    issueTags: ["Feature", "Fixed"],
+    releaseDate: new Date(2023, 6, 2),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "dktechin",
+    releaseVersion: "v1.2.0",
+    issueTags: ["New", "Changed"],
+    releaseDate: new Date(2023, 7, 3),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "600&",
+    releaseVersion: "v1.0.1",
+    issueTags: ["New"],
+    releaseDate: new Date(2023, 7, 2),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "KEA",
+    releaseVersion: "v1.0.0",
+    issueTags: ["New"],
+    releaseDate: new Date(2023, 6, 22),
+  },
+  {
+    projecttId: 1,
+    releaseId: 1,
+    projectTitle: "dktechin",
     releaseVersion: "v1.0.0",
     issueTags: ["New", "Feature"],
-    releaseDate: new Date(2023, 7, 18),
+    releaseDate: new Date(2023, 6, 2),
   },
 ];
 
@@ -54,13 +158,13 @@ export default function BoardPage() {
   const setIssueNumByHeight = () => {
     const screenHeight = window.innerHeight;
     if (screenHeight <= 700) {
-      setItemsPerPage(2);
-    } else if (screenHeight <= 800) {
-      setItemsPerPage(3);
-    } else if (screenHeight <= 1000) {
-      setItemsPerPage(4);
-    } else {
       setItemsPerPage(8);
+    } else if (screenHeight <= 800) {
+      setItemsPerPage(9);
+    } else if (screenHeight <= 1000) {
+      setItemsPerPage(10);
+    } else {
+      setItemsPerPage(11);
     }
   };
 
@@ -189,7 +293,7 @@ export default function BoardPage() {
                   {board.projectTitle}
                 </th>
                 <td className="py-4">{board.releaseVersion}</td>
-                <td className="py-4 space-x-2">
+                <td className="py-4 space-x-1">
                   {board.issueTags.map((issue) => (
                     <IssueBadge issueType={issue} />
                   ))}
