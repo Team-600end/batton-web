@@ -7,11 +7,6 @@ type PuzzleHoverProps = {
 }
 
 export default function PuzzleHoverItem(props: PuzzleHoverProps) {
-  // const year = content.releaseDate.getFullYear();
-  // const month = content.releaseDate.getMonth() + 1; // Add 1 because months are 0-indexed
-  // const day = content.releaseDate.getDate();
-
-  // const formattedDate = `${year}년 ${month}월 ${day}일`;
   const formattedDate = props.puzzle.date;
 
   return (

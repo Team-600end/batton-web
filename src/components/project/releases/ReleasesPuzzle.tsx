@@ -7,52 +7,6 @@ type ReleasesPuzzleProps = {
   releaseList: Release[];
 };
 
-// // Dummy data
-// const puzzles: Puzzle[] = [
-//   {
-//     versionChanged: "Major",
-//     version: "v1.0.0",
-//     content: {
-//       releaseDate: new Date("2021-09-01"),
-//       issues: [
-//         {
-//           type: "New",
-//           title: "이슈1 dlqsldkf;s",
-//         },
-//         {
-//           type: "Deprecated",
-//           title: "이슈2 djso일;냐ㅐㅇㄹ;",
-//         },
-//         {
-//           type: "Changed",
-//           title: "이슈3",
-//         },
-//       ],
-//     },
-//   },
-//   {
-//     versionChanged: "Minor",
-//     version: "v1.1.0",
-//     content: {
-//       releaseDate: new Date("2021-09-01"),
-//       issues: [
-//         {
-//           type: "New",
-//           title: "이슈1",
-//         },
-//         {
-//           type: "New",
-//           title: "이슈2",
-//         },
-//         {
-//           type: "Changed",
-//           title: "이슈3",
-//         },
-//       ],
-//     },
-//   },
-// ];
-
 export default function ReleasesPuzzle(props: ReleasesPuzzleProps) {
   const [puzzle, setPuzzle] = useState<Release[][]>([]);
   useEffect(() => {

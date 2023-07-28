@@ -45,9 +45,9 @@ export default function Releases() {
           </div>
           <div className="max-w-screen-xl flex-column items-start flex-wrap mx-auto p-4 mt-3 mb-3 w-[50vw]">
             <div className="flex flex-row mb-0 justify-between">
-              <p className="text-4xl font-suitB text-black dark:text-white mb-3">v.2.7.14</p>
+              <p className="text-4xl font-suitB text-black dark:text-white mb-3">v.3.0.1</p>
               <p className="text-xl font-suitB text-black dark:text-white mb-3" style={{ alignSelf: "flex-end" }}>
-                2023. 07. 27
+                2023. 07. 28
               </p>
             </div>
             <hr className="h-1.5 mb-5 bg-green-500 border-0 dark:bg-gray-700"></hr>

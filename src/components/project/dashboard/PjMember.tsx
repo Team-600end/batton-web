@@ -14,6 +14,7 @@ export default function PjMember(props: PjMemberProps) {
   const showModal = (event: React.MouseEvent<HTMLButtonElement>) => {
     setModalOpen(!modalOpen);
   };
+  
   //나의 권한은 어디서 받아오지?
 
   return (

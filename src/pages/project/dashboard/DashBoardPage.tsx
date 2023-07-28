@@ -12,17 +12,35 @@ import { Release } from "@typess/Release";
 const releasesList: Release[] = [
   {
     versionChanged: "Major",
+    versionMajor: 3,
+    versionMinor: 0,
+    versionPatch: 1,
+    date: "2023.07.28",
+    issueList: [
+      {
+        type: "New",
+        title: "설문조사 배포 추가",
+      },
+      {
+        type: "Feature",
+        title: "설문조사 완료 기능",
+      },
+    ],
+    id: 5,
+  },
+  {
+    versionChanged: "Major",
     versionMajor: 2,
     versionMinor: 0,
     versionPatch: 1,
     date: "2023.07.27",
     issueList: [
       {
-        type: "Feature",
-        title: "새로운 기능을 만들었습니다.",
+        type: "Fixed",
+        title: "설문조사 삭제 이슈",
       },
     ],
-    id: 1,
+    id: 4,
   },
   {
     versionChanged: "Patch",
@@ -32,15 +50,11 @@ const releasesList: Release[] = [
     date: "2023.07.18",
     issueList: [
       {
-        type: "Feature",
-        title: "팀 카페인의 서베인",
-      },
-      {
-        type: "Changed",
-        title: "팀 카레의 폼베이",
+        type: "Deprecated",
+        title: "리뷰식 이미지 설문조사 기능 철회",
       },
     ],
-    id: 2,
+    id: 3,
   },
   {
     versionChanged: "Minor",
@@ -50,12 +64,12 @@ const releasesList: Release[] = [
     date: "2023.07.18",
     issueList: [
       {
-        type: "Feature",
-        title: "팀 카페인의 서베인",
+        type: "Fixed",
+        title: "설문조사 작성 버그 수정",
       },
       {
         type: "Changed",
-        title: "팀 카레의 폼베이",
+        title: "설문조사 등록 기능 변경",
       },
     ],
     id: 2,
@@ -68,15 +82,11 @@ const releasesList: Release[] = [
     date: "2023.07.02",
     issueList: [
       {
-        type: "Deprecated",
-        title: "포트폴리오 영상 3분 이상 등록 가능",
-      },
-      {
-        type: "Changed",
-        title: "포트폴리오 영상 3분 이상 등록 가능",
+        type: "New",
+        title: "600& 프로젝트 출시",
       },
     ],
-    id: 3,
+    id: 1,
   },
 ];
 
