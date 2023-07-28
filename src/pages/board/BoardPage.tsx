@@ -18,24 +18,24 @@ interface BoardS {
 const boards: BoardS[] = [
   {
     projecttId: 1,
-    releaseId: 1,
+    releaseId: 5,
     projectTitle: "600& 프로젝트",
-    releaseVersion: "v1.0.0",
+    releaseVersion: "v3.0.1",
     issueTags: ["New", "Feature"],
-    releaseDate: new Date(2023, 7, 18),
+    releaseDate: new Date(2023, 7, 28),
   },
   {
     projecttId: 1,
-    releaseId: 1,
+    releaseId: 4,
     projectTitle: "600& 프로젝트",
-    releaseVersion: "v1.0.0",
-    issueTags: ["New", "Feature"],
-    releaseDate: new Date(2023, 7, 18),
+    releaseVersion: "v2.0.1",
+    issueTags: ["Fixed"],
+    releaseDate: new Date(2023, 7, 27),
   },
   {
-    projecttId: 1,
+    projecttId: 2,
     releaseId: 1,
-    projectTitle: "600& 프로젝트",
+    projectTitle: "KEA 프로젝트",
     releaseVersion: "v1.0.0",
     issueTags: ["New", "Feature"],
     releaseDate: new Date(2023, 7, 18),
@@ -189,7 +189,7 @@ export default function BoardPage() {
                   {board.projectTitle}
                 </th>
                 <td className="py-4">{board.releaseVersion}</td>
-                <td className="py-4">
+                <td className="py-4 space-x-2">
                   {board.issueTags.map((issue) => (
                     <IssueBadge issueType={issue} />
                   ))}

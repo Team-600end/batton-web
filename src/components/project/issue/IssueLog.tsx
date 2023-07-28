@@ -1,5 +1,7 @@
 import { BoardIssue } from "@src/types/Issue";
 import React, { useState, useCallback, useEffect } from "react";
+import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
+import IssueBadge from "./IssueBadge";
 
 export default function IssueLog() {
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -38,14 +40,14 @@ export default function IssueLog() {
             <tbody>
               {/* 테이블 내용 */}
               {getCurrentPageItems().map((index) => (
-                <tr key={index.id} className="bg-white border-b dark:bg-gray-800 dark:border-gray-700 hover:bg-gray-50 dark:hover:bg-gray-600">
-                  <td className="px-6 py-4">{index.issueTag}</td>
+                <tr key={index.id} className="bg-white border-b hover:bg-gray-50">
+                  <td className="px-6 py-4"><IssueBadge issueType={index.issueTag} /></td>
                   <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap dark:text-white">
                     {index.issueTitle}
                   </th>
                   <td className="px-6 py-4">{index.issueStatus}</td>
                   <td className="px-6 py-4 flex justify-center items-center ">
-                    <img className="w-6 h-6 rounded-full mr-[10px]" src={index.profileImg} alt="Profile" />
+                    <img className="w-6 h-6 rounded-full mr-[10px] object-cover" src={index.profileImg} alt="Profile" />
                     {index.nickname}
                   </td>
                 </tr>
@@ -102,27 +104,27 @@ export default function IssueLog() {
 const boardissues: BoardIssue[] = [
   {
     id: 1,
-    issueTitle: "이슈1",
+    issueTitle: "작성 질문 추천 서비스",
     issueTag: "New",
     issueStatus: "Todo",
-    nickname: "닉네임1",
-    profileImg: "https://i.pravatar.cc/300",
+    nickname: "정현진",
+    profileImg: avatar_jhj,
   },
   {
     id: 2,
-    issueTitle: "이슈2",
-    issueTag: "New",
+    issueTitle: "선택지 이미지 첨부 기능",
+    issueTag: "Feature",
     issueStatus: "Todo",
-    nickname: "닉네임1",
-    profileImg: "https://i.pravatar.cc/300",
+    nickname: "정현진",
+    profileImg: avatar_jhj,
   },
   {
     id: 3,
-    issueTitle: "이슈3",
+    issueTitle: "리뷰 전용 설문조사 서비스",
     issueTag: "New",
     issueStatus: "Todo",
-    nickname: "닉네임1",
-    profileImg: "https://i.pravatar.cc/300",
+    nickname: "정현진",
+    profileImg: avatar_jhj,
   },
   {
     id: 4,
