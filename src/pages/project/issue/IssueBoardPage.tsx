@@ -13,115 +13,86 @@ import {
 import { useNavigate, useParams } from "react-router-dom";
 import CreateIssueModal from "@components/project/issue/CreateIssueModal";
 
+import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
+import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+import avatar_kch from "@images/dummy/avatar_kch.jpeg";
+import avatar_lyh from "@images/dummy/avatar_lyh.jpeg";
+import avatar_pmsc from "@images/dummy/avatar_pmsc.jpeg";
+import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
+
 const todoIssues: Issue[] = [
   {
     type: "New",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    title: "작성 질문 추천 서비스",
     team: "600&",
-    id: 0,
+    id: 9,
   },
   {
-    type: "New",
-    title: "변경된 이슈",
+    type: "Feature",
+    title: "선택지 이미지 첨부 기능",
+    manager: { name: "임혜균", profileImg: avatar_yhg },
     team: "600&",
-    id: 1,
+    id: 8,
   },
 ];
 
 const progressIssues: Issue[] = [
   {
     type: "New",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    title: "리뷰 전용 설문조사 서비스",
+    manager: { name: "이서현", profileImg: avatar_lsh },
     team: "600&",
-    id: 2,
+    id: 7,
   },
   {
     type: "Changed",
-    title: "변경된 이슈",
+    title: "챗봇 사용 위치 변경",
+    manager: { name: "이연희", profileImg: avatar_lyh },
     team: "600&",
-    id: 3,
+    id: 6,
   },
+  
 ];
 
 const reviewIssues: Issue[] = [
   {
-    type: "Deprecated",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    type: "Fixed",
+    title: "설문 삭제 조건 이슈",
+    manager: { name: "강창훈", profileImg: avatar_kch },
     team: "600&",
     id: 4,
   },
   {
-    type: "Fixed",
-    title: "변경된 이슈",
+    type: "Feature",
+    title: "설문 숨기기 기능",
+    manager: { name: "정현진", profileImg: avatar_jhj },
     team: "600&",
     id: 5,
-  },
-  {
-    type: "Fixed",
-    title: "변경된 이슈",
-    team: "600&",
-    id: 6,
   },
 ];
 
 const doneIssues: Issue[] = [
   {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
+    type: "Changed",
+    title: "일반 설문조사 종류 변경",
+    manager: { name: "강창훈", profileImg: avatar_kch },
     team: "600&",
-    id: 7,
+    id: 1,
   },
   {
     type: "New",
-    title: "변경된 이슈",
+    title: "설문조사 GPS 배포 기능",
     team: "600&",
-    id: 8,
-  },
-  {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 9,
-  },
-  {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 10,
-  },
-  {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 11,
+    manager: { name: "임혜균", profileImg: avatar_yhg },
+    id: 3,
   },
   {
     type: "New",
-    title: "변경된 이슈",
+    title: "중복 배포 이슈",
+    manager: { name: "이서현", profileImg: avatar_lsh },
     team: "600&",
-    id: 12,
-  },
-  {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 13,
-  },
-  {
-    type: "Feature",
-    title: "새로운 이슈",
-    manager: { name: "John Doe" },
-    team: "600&",
-    id: 14,
-  },
+    id: 2,
+  }
 ];
 
 const checkIssueList = (locationId: string) => {
@@ -138,7 +109,7 @@ const checkIssueList = (locationId: string) => {
 };
 
 export default function IssueBoardPage() {
-  const { projectId } = useParams();
+  const { projectKey } = useParams();
   const navigate = useNavigate();
 
   const handleDragEnd = ({ source, destination }: DropResult) => {
@@ -175,23 +146,23 @@ export default function IssueBoardPage() {
       <MilestoneNavbar />
       <ProjectNavbar />
       <div>
-        <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col">
+        <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner">
           <div className="flex justify-end mr-[2.5vw] mt-[2vw] space-x-2">
             <button
-              onClick={() => navigate(`/project/${projectId}/issue-history`)}
-              className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
+              onClick={() => navigate(`/project/${projectKey}/issue-history`)}
+              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center font-suitM text-[1vw] hover:bg-primary-5"
             >
               히스토리
             </button>
             <button
-              onClick={() => navigate(`/project/${projectId}/hidden-issue`)}
-              className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
+              onClick={() => navigate(`/project/${projectKey}/hidden-issue`)}
+              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
             >
               숨긴 이슈
             </button>
             <button
               onClick={() => setShowModal(true)}
-              className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
+              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
             >
               <img src={plus_img} className="mr-[0.2vw]" />
               이슈 생성
@@ -209,7 +180,8 @@ export default function IssueBoardPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div className="bg-[#FFED8F] h-[0.5vw] rounded-t-lg" />
+                    {/* FFED8F */}
+                    <div className="bg-[#D0F6E0] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                     <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
@@ -248,7 +220,8 @@ export default function IssueBoardPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div className="bg-[#8FB5FF] h-[0.5vw] rounded-t-lg" />
+                    {/* 8FB5FF */}
+                    <div className="bg-[#99D8BF] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                     <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
@@ -287,7 +260,8 @@ export default function IssueBoardPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div className="bg-[#FF8F8F] h-[0.5vw] rounded-t-lg" />
+                    {/* FF8F8F */}
+                    <div className="bg-[#41A05F] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                       <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">
@@ -326,7 +300,8 @@ export default function IssueBoardPage() {
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
-                    <div className="bg-[#83CE9B] h-[0.5vw] rounded-t-lg" />
+                    {/* 83CE9B */}
+                    <div className="bg-[#285F43] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                     <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
                         <h1 className="text-lg font-suitB text-[#323232]">

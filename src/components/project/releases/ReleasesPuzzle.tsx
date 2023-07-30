@@ -1,52 +1,109 @@
 import React, { useState, useCallback, useEffect } from "react";
-import styled from "styled-components";
-import changed_version_img from "@images/common/changed_version.svg";
-import puzzle_img from "@images/puzzle.svg";
 
 import PuzzleView from "@components/project/releases/PuzzleView";
-import puzzle from "@typess/Puzzle";
+import { Release } from "@src/types/Release";
 
-// Dummy data
-const puzzles: puzzle[] = [
-  {
-    version: "v1.0.0",
-    index: 1,
-  },
-  {
-    version: "v1.0.1",
-    index: 2,
-  },
-  {
-    version: "v1.0.1",
-    index: 3,
-  },
-  {
-    version: "v1.0.1",
-    index: 4,
-  },
-  {
-    version: "v1.0.0",
-    index: 1,
-  },
-  {
-    version: "v1.0.1",
-    index: 2,
-  },
-];
+type ReleasesPuzzleProps = {
+  releaseList: Release[];
+};
 
-export default function ReleasesPuzzle() {
+// // Dummy data
+// const puzzles: Puzzle[] = [
+//   {
+//     versionChanged: "Major",
+//     version: "v1.0.0",
+//     content: {
+//       releaseDate: new Date("2021-09-01"),
+//       issues: [
+//         {
+//           type: "New",
+//           title: "이슈1 dlqsldkf;s",
+//         },
+//         {
+//           type: "Deprecated",
+//           title: "이슈2 djso일;냐ㅐㅇㄹ;",
+//         },
+//         {
+//           type: "Changed",
+//           title: "이슈3",
+//         },
+//       ],
+//     },
+//   },
+//   {
+//     versionChanged: "Minor",
+//     version: "v1.1.0",
+//     content: {
+//       releaseDate: new Date("2021-09-01"),
+//       issues: [
+//         {
+//           type: "New",
+//           title: "이슈1",
+//         },
+//         {
+//           type: "New",
+//           title: "이슈2",
+//         },
+//         {
+//           type: "Changed",
+//           title: "이슈3",
+//         },
+//       ],
+//     },
+//   },
+// ];
+
+export default function ReleasesPuzzle(props: ReleasesPuzzleProps) {
+  const [puzzle, setPuzzle] = useState<Release[][]>([]);
+  useEffect(() => {
+    let puzzleState: Release[][] = [];
+    let temp: Release[] = [];
+
+    props.releaseList.forEach((release, idx) => {
+      if ((release.versionChanged === "Major" && idx !== 0) || idx === props.releaseList.length - 1) {
+        puzzleState.unshift(temp);
+        temp = [];
+      }
+      temp.push(release);
+    });
+
+    setPuzzle(puzzleState);
+  }, []);
+
   return (
     <>
-      <div className="w-[690px] h-[320px] relative bg-white rounded-xl shadow-md">
-        {/* <div className="w-[600px] h-[322px] p-[10px] shadow-[2px_6px_10px_-2px_rgba(0,0,0,0.3)] border-[0.3px] bg-white rounded-lg shadow dark:bg-gray-800 dark:hover:bg-gray-700"> */}
-        <div className=" flex items-center">
-          <p className="p-3 mb-1 font-semibold">릴리즈 퍼즐</p>
-          <img src={changed_version_img} alt="changed_version_img" className="p-2 mb-1 mt-1" />
-        </div>
-        <div className="relative flex ml-[20px]">
-          {puzzles.map((puzzle, index) => (
-            <PuzzleView key={index} version={puzzle.version} />
-          ))}
+      <div
+        className="items-center justify-center ml-1"
+        style={{
+          width: "98%", // 컨테이너의 가로 크기
+          height: "65%", // 컨테이너의 세로 크기
+          overflowX: "auto", // 가로 스크롤 표시
+          overflowY: "auto", // 세로 스크롤 표시
+        }}
+      >
+        <div
+          className="relative flex p-[15px]"
+          style={{
+            width: "auto", // 내용의 가로 크기 (가로 스크롤을 표시하기 위함)
+            height: "auto", // 내용의 세로 크기 (세로 스크롤을 표시하기 위함)
+            minHeight: "200px",
+          }}
+        >
+          <section>
+            <table>
+              <tbody>
+                {puzzle.map((arrayPuzzle, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {arrayPuzzle.map((element, colIndex) => (
+                      <td>
+                        <PuzzleView key={colIndex} release={element} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
         </div>
       </div>
     </>

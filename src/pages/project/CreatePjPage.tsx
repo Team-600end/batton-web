@@ -121,7 +121,7 @@ export default function CreatePjPage() {
                 <input
                   type="text"
                   id="floating_standard"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
                   placeholder=" "
                 />
                 <label
@@ -149,7 +149,7 @@ export default function CreatePjPage() {
               {/* 추가 버튼 */}
               <button
                 id="addTeamMember"
-                className="text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-medium rounded-lg text-[12px]  mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5 ml-[10px]"
+                className="text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 focus:ring-4 focus:ring-primary-5 font-medium rounded-lg text-[12px]  mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5 ml-[10px]"
                 style={{ width: "86px", height: "40px", marginTop: "4.0733vh" }}
               >
                 추가
