@@ -4,32 +4,34 @@ import login_righthand_img from "@assets/images/loginPage/login_righthand.svg";
 import batton_logo_img from "@images/common/batton_logo_big.svg";
 import kakao_logo_img from "@assets/images/loginPage/kakao_logo.svg";
 import google_logo_img from "@assets/images/loginPage/google_logo.svg";
-import { useCookies } from "react-cookie";
 import { useNavigate } from "react-router-dom";
 import useInput from "@src/hooks/useInput";
-import { instanceNonAuth } from "@typess/AxiosInterface";
-import { setCookie } from "@src/state/tokenState";
+import { instanceAuth, instanceNonAuth } from "@typess/AxiosInterface";
 import { APIResponse } from "@src/types/ResponseInterface";
 import axios from "axios";
+// import { getCookie, setCookie } from "@src/state/tokenState";
+import { useCookies } from 'react-cookie';
+import { getCookie } from "@src/state/tokenState";
+import { emailState, nicknameState, profileImgState } from "@src/state/userState";
+import { useRecoilState } from "recoil";
+
+interface LoginData {
+  email: string;
+  password: string;
+}
 
 export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(``);
   const [password, setPassword] = useState(``);
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
-  interface LoginData {
-    email: string;
-    password: string;
-  }
+  const [userNickname, setUserNickname] = useRecoilState(nicknameState);
+  const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
+  const [userEmail, setUserEmaiil] = useRecoilState(emailState);
 
-  const loginData: LoginData = {
-    email: email,
-    password: password,
-  };
 
-  const onChangeEmail = (e: {
-    target: { value: React.SetStateAction<string> };
-  }) => {
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
   };
 
@@ -37,44 +39,48 @@ export default function LoginPage() {
     setPassword(e.target.value);
   };
 
-  // const loginRequest = async (reqData: LoginData) => {
-  //   // try {
-  //   //   const response = await postNonAuth(`/auth/login`, reqData);
-
-  //   //   const tokenData = response.result;
-  //   //   // return 값 조건 추가 필요
-  //   //   console.log(tokenData);
-
-  //   //   alert("열정 열정 열정");
-  //   //   navigate(`/main`);
-  //   // } catch(error) {
-  //   //   alert("오류 오류 오류")
-  //   //   console.log(error);
-  //   // }
-  //   const response = await postNonAuth(`/auth/login`, reqData).then((response) => { console.log(response.result); alert(`로그인 성공`); navigate(`/main`);}).catch((error) => console.log(error));
-  //   console.log(response);
-  // }
+  const handleEnterPress = e => {
+    if (e.key === 'Enter') {
+      loginRequest(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
 
   const loginRequest = async () => {
-    let response = await instanceNonAuth.post(`/auth/login`, loginData);
-    console.log(response);
-    alert("로그인 성공");
-    navigate(`/main`)
-    // }
+    const loginData: LoginData = {
+      email: email,
+      password: password,
+    };
+
+    instanceNonAuth
+      .post(`/auth/login`, loginData)
+      .then((response) =>  {
+        setCookie('accessToken', response.data.accessToken, {
+          path: `/`,
+        })
+        setCookie('refreshToken', response.data.refreshToken, {
+          path: `/`,
+        })
+        
+        instanceAuth.get(`/members`)
+        .then((response) => {
+          console.log("=====");
+          setUserEmaiil(response.data.result.email);
+          setUserNickname(response.data.result.nickname);
+          setUserProfileImg(response.data.result.profileImage);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(`정상적인 접근이 아닙니다`);
+        })
+        
+        alert("로그인 성공");
+        navigate(`/main`);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("로그인 실패! - 수정필요");
+      });
   };
-  // async function loginRequest() {
-  //   try {
-  //     const response = await instanceNonAuth.post(`/auth/login`, loginData);
-  //     console.log(response);
-  //     // setResult(result.data);
-  //     alert("로그인 성공");
-  //     window.location.href = 'http://localhost:5173/main';
-  //     // 응답 데이터 처리 등 로직 추가 필요
-  //   } catch (error) {
-  //     alert("로그인 실패");
-  //     console.log(error);
-  //   }
-  // }
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -94,6 +100,7 @@ export default function LoginPage() {
             <input
               type="text"
               onChange={onChangeEmail}
+              onKeyDown={handleEnterPress}
               className="bg-gray-50 border border-gray-300 text-[black] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             />
           </div>
@@ -104,6 +111,7 @@ export default function LoginPage() {
             <input
               type="password"
               onChange={onChangePassword}
+              onKeyDown={handleEnterPress}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             />
           </div>
@@ -117,6 +125,7 @@ export default function LoginPage() {
           </div>
           <button
             onClick={loginRequest}
+            type="button"
             className="w-full text-white bg-[#5AAE8A] h-[5vh] text-md shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-5 py-2.5 text-center"
           >
             로그인
@@ -139,6 +148,7 @@ export default function LoginPage() {
           계정이 없으신가요?{" "}
           <button
             onClick={() => navigate(`/signup`)}
+            type="button"
             className="text-[#1C64F2] font-suitM hover:underline ml-[1vw]"
           >
             회원가입 하기
