@@ -6,12 +6,14 @@ import kakao_logo_img from "@assets/images/loginPage/kakao_logo.svg";
 import google_logo_img from "@assets/images/loginPage/google_logo.svg";
 import { useNavigate } from "react-router-dom";
 import useInput from "@src/hooks/useInput";
-import { instanceNonAuth } from "@typess/AxiosInterface";
+import { instanceAuth, instanceNonAuth } from "@typess/AxiosInterface";
 import { APIResponse } from "@src/types/ResponseInterface";
 import axios from "axios";
 // import { getCookie, setCookie } from "@src/state/tokenState";
 import { useCookies } from 'react-cookie';
 import { getCookie } from "@src/state/tokenState";
+import { emailState, nicknameState, profileImgState } from "@src/state/userState";
+import { useRecoilState } from "recoil";
 
 interface LoginData {
   email: string;
@@ -22,7 +24,12 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(``);
   const [password, setPassword] = useState(``);
-  const [cookies, setCookie] = useCookies(['accessToken', 'refreshToken']);
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
+
+  const [userNickname, setUserNickname] = useRecoilState(nicknameState);
+  const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
+  const [userEmail, setUserEmaiil] = useRecoilState(emailState);
+
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -53,10 +60,19 @@ export default function LoginPage() {
         setCookie('refreshToken', response.data.refreshToken, {
           path: `/`,
         })
-        console.log(response.data);
-        console.log(response.data.accessToken);
-        console.log(cookies.accessToken);
-        console.log(cookies.refreshToken);
+        
+        instanceAuth.get(`/members`)
+        .then((response) => {
+          console.log("=====");
+          setUserEmaiil(response.data.result.email);
+          setUserNickname(response.data.result.nickname);
+          setUserProfileImg(response.data.result.profileImage);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(`정상적인 접근이 아닙니다`);
+        })
+        
         alert("로그인 성공");
         navigate(`/main`);
       })

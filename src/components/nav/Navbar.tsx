@@ -11,12 +11,14 @@ import {
   navbarProjectDd,
 } from "@src/state/modalState";
 import { projectNavs } from "@src/state/projectState";
+import default_profile_img from "@images/common/default_profile.svg";
 
-import avatar_lsh from "@images/dummy/avatar_pmsc.jpeg";
 import dk_logo from "@images/dummy/dktechin_logo.png";
 import logo_600 from "@images/dummy/600end_logo.svg";
 import ke_logo from "@images/dummy/ke_logo.png";
 import { instanceAuth } from "@src/types/AxiosInterface";
+import { useCookies } from "react-cookie";
+import { emailState, nicknameState, profileImgState } from "@src/state/userState";
 
 const userProjectNav: ProjectNav[] = [
   {
@@ -47,20 +49,26 @@ export default function Navbar() {
   const outside = useRef<HTMLDivElement>(null);
   const location = useLocation();
 
+  const [cookies, setCookie ,removeCookie] = useCookies(['accessToken', 'refreshToken']);
+
   const [projects, setProjects] = useRecoilState(projectNavs);
   const [projectDd, setProjectDd] = useRecoilState(navbarProjectDd);
   const [profileDd, setProfileDd] = useRecoilState(navbarProfileDd);
   const [noticeDd, setNoticeDd] = useRecoilState(navbarNoticeDd);
 
-  const NavPjRequest = async () => {
+  const [userNickname, setUserNickname] = useRecoilState(nicknameState);
+  const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
+  const [userEmail, setUserEmaiil] = useRecoilState(emailState);
+
+  const navPjRequest = async () => {
     instanceAuth
       .get(`/projects/navbar`)
       .then((response) => {
         console.log(response.data);
-        if (response.data.isSuccess) {
+        if (response.data.code == 200) {
           setProjects(response.data.result)
         }
-        else {
+        else if (response.data.code == 707) {
           setProjects([]);
         }
       })
@@ -73,7 +81,7 @@ export default function Navbar() {
     setProjectDd(!projectDd);
     setNoticeDd(false);
     setProfileDd(false);
-    NavPjRequest();
+    navPjRequest();
   };
 
   const handleProfileDd = () => {
@@ -203,7 +211,7 @@ export default function Navbar() {
           onClick={handleProfileDd}
         >
           <span className="sr-only">Open user menu</span>
-          <img className="w-8 h-8 rounded-full object-cover" src={avatar_lsh} />
+          <img className="w-8 h-8 rounded-full object-cover" src={(userProfileImg == '' || userProfileImg == null) ? default_profile_img : userProfileImg} />
         </button>
       </div>
       {projectDd && (
@@ -231,9 +239,9 @@ export default function Navbar() {
               onClick={handleAllDdOff}
             >
               <div className="flex items-center">
-                <p className="font-suitL text-sm text-[#6B7280]">
+                <button className="font-suitL text-sm text-[#6B7280]" onClick={() => navigate("/new-project")}>
                   프로젝트 생성하기
-                </p>
+                </button>
               </div>
             </button>
           </div>
@@ -245,11 +253,11 @@ export default function Navbar() {
         </div>
       )}
       {profileDd && (
-        <div className="absolute z-20 right-[3vh] top-[6.5vh] bg-white divide-y divide-gray-100 rounded-lg shadow">
+        <div className="absolute z-20 right-[3vh] top-[6.5vh] bg-white divide-y divide-gray-100 rounded-lg shadow min-w-[11vw]">
           <div className="px-4 py-3">
-            <span className="block text-sm text-gray-900 mb-1">이승희</span>
+            <span className="block text-sm text-gray-900 mb-1">{userNickname}</span>
             <span className="block text-sm  text-gray-500 truncate">
-              lshdk@batton.com
+              {userEmail}
             </span>
           </div>
           <ul className="py-2">
@@ -284,6 +292,8 @@ export default function Navbar() {
           <button
             onClick={() => {
               handleAllDdOff();
+              removeCookie('accessToken');
+              removeCookie('refreshToken');
               navigate("/login");
             }}
             className="block text-sm text-error-2 w-full text-left px-4 py-3 hover:bg-gray-100"
