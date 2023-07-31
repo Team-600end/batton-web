@@ -56,7 +56,7 @@ export default function LoginPage() {
   // }
 
   const loginRequest = async () => {
-    let response = instanceNonAuth.post(`/auth/login`, loginData);
+    let response = await instanceNonAuth.post(`/auth/login`, loginData);
     console.log(response);
     alert("로그인 성공");
     navigate(`/main`)

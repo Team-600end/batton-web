@@ -5,34 +5,51 @@ import { useRecoilState } from "recoil";
 import { navbarNoticeDd } from "@src/state/modalState";
 import { NoticeMessage } from "@typess/Notice";
 
-const notices: NoticeMessage[] = [
+import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
+import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+import avatar_kch from "@images/dummy/avatar_kch.jpeg";
+import avatar_lyh from "@images/dummy/avatar_lyh.jpeg";
+import avatar_pmsc from "@images/dummy/avatar_pmsc.jpeg";
+import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
+import ke_logo from "@images/dummy/ke_logo.png";
+import dk_logo from "@images/dummy/dktechin_logo.png";
+
+interface NoticeS {
+  contentId: number;
+  noticeType: string;
+  noticeContent: string;
+  noticeDate: string;
+  senderProfileImage: string;
+}
+
+const notices: NoticeS[] = [
   {
     contentId: 1,
     noticeType: "INVITE",
     noticeContent: "[600&] 정현진님이 이슈 검토를 요청했습니다.",
     noticeDate: "10분 전",
-    senderProfileImage: jindol,
+    senderProfileImage: avatar_jhj,
   },
   {
     contentId: 2,
     noticeType: "NEW",
     noticeContent: "[KEA] '토큰 관련 수정사항' 이슈가 완료되었습니다.",
     noticeDate: "20분 전",
-    senderProfileImage: jindol,
+    senderProfileImage: ke_logo,
   },
   {
     contentId: 1,
     noticeType: "APPROVE",
     noticeContent: "[KEA] 강창훈님이 이슈를 승인하였습니다.",
     noticeDate: "20분 전",
-    senderProfileImage: jindol,
+    senderProfileImage: avatar_kch,
   },
   {
     contentId: 1,
     noticeType: "REVIEW",
     noticeContent: "[DKtechin] 이승희님, 가입을 환영합니다!",
     noticeDate: "3일 전",
-    senderProfileImage: jindol,
+    senderProfileImage: dk_logo,
   },
 ];
 
@@ -89,7 +106,7 @@ function Notice() {
           {notices.map((notice) => (
             <a href="#" className="flex px-4 py-3 hover:bg-gray-100">
               <div className="flex-shrink-0">
-                <img className="rounded-full w-11 h-11" src={notice.senderProfileImage} />
+                <img className="rounded-full w-11 h-11 object-cover" src={notice.senderProfileImage} />
               </div>
               <div className="w-full pl-3">
                 <div className="text-gray-500 break-all font-suitM text-sm mb-1.5">{notice.noticeContent}</div>

@@ -19,7 +19,7 @@ const userProjectNav: ProjectNav[] = [
   {
     id: 1,
     projectKey: "dktechin",
-    projectTitle: "DKtechin",
+    projectTitle: "dktechin",
     grade: "Member",
     logo: dk_logo
   },

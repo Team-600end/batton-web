@@ -35,14 +35,28 @@ const client: AxiosInstance = axios.create(axiosConfig);  // client: AxiosInstan
 // axios instance For non-Auth
 // Login 요청의 경우, instance 호출시에 Cookie Method를 따로 호출해서 사용한다.
 export const instanceNonAuth: AxiosInstance = axios.create({
-  baseURL: "/api",
-  // headers: {
-  //   "content-type": "application/json; charset=UTF-8",
-  //   // 백엔드 적용 필요
-  //   // "Access-Control-Allow-Origin": `http://localhost:5173`,
-  //   // 'Access-Control-Allow-Credentials': "true",
-  // },
+  baseURL: "/api"
 });
+
+instanceNonAuth.interceptors.request.use(
+  function (config) {
+    return config;
+  },
+  function (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+)
+
+instanceNonAuth.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+)
 
 export const instanceAuth: AxiosInstance = axios.create({
   baseURL: "/api",
