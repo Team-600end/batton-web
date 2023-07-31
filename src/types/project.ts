@@ -24,6 +24,7 @@ export interface ProjectCard {
   leaderName: string;
   leaderImg?: string;
   memberNum: number;
+  bookmark: boolean;
 }
 
 export interface ProjectCardMember {

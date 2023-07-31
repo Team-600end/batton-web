@@ -9,6 +9,37 @@ import { useParams } from "react-router-dom";
 import releases_info from "@images/releasesPuzzle/releases_info.svg";
 import { Release } from "@typess/Release";
 
+export default function DashBoardPage() {
+  let { projectKey } = useParams();
+
+  const reverseList = [...releasesList].reverse();
+
+  return (
+    <div className="flex flex-col overflow-hidden">
+      <MilestoneNavbar />
+      <ProjectNavbar />
+      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col p-[3vw] space-y-[2vw] shadow-inner">
+        <div className="flex space-x-[2vw]">
+          {/* <DonutSection userName="jin" /> */}
+          <DonutSection />
+
+          <div className="relative w-[42vw] h-[320px] bg-white rounded-xl shadow-md">
+            <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">릴리즈 퍼즐</p>
+            <div className=" flex items-center">
+              <img src={releases_info} alt="releases_info" className="p-2" />
+            </div>
+            <ReleasesPuzzle releaseList={reverseList} />
+          </div>
+        </div>
+        <div className="flex space-x-[2vw]">
+          <PjMemberList />
+          <IssueLog />
+        </div>
+      </div>
+    </div>
+  );
+}
+
 const releasesList: Release[] = [
   {
     versionChanged: "Major",
@@ -89,36 +120,3 @@ const releasesList: Release[] = [
     id: 1,
   },
 ];
-
-
-export default function DashBoardPage() {
-  let { projectKey } = useParams();
-
-  const reverseList = [...releasesList].reverse();
-
-
-  return (
-    <div className="flex flex-col overflow-hidden">
-      <MilestoneNavbar />
-      <ProjectNavbar />
-      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col p-[3vw] space-y-[2vw] shadow-inner">
-        <div className="flex space-x-[2vw]">
-          {/* <DonutSection userName="jin" /> */}
-          <DonutSection />
-
-          <div className="relative w-[42vw] h-[320px] bg-white rounded-xl shadow-md">
-            <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">릴리즈 퍼즐</p>
-            <div className=" flex items-center">
-              <img src={releases_info} alt="releases_info" className="p-2" />
-            </div>
-            <ReleasesPuzzle releaseList={reverseList}/>
-          </div>
-        </div>
-        <div className="flex space-x-[2vw]">
-          <PjMemberList />
-          <IssueLog />
-        </div>
-      </div>
-    </div>
-  );
-}
