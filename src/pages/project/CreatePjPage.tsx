@@ -26,15 +26,6 @@ export default function CreatePjPage() {
       offsetSkidding: 0,
       offsetDistance: 10,
       delay: 300,
-      onHide: () => {
-        console.log("dropdown has been hidden");
-      },
-      onShow: () => {
-        console.log("dropdown has been shown");
-      },
-      onToggle: () => {
-        console.log("dropdown has been toggled");
-      },
     };
 
     /*
@@ -45,7 +36,7 @@ export default function CreatePjPage() {
     const dropdown: DropdownInterface = new Dropdown($targetEl, $triggerEl, options);
 
     // show the dropdown
-    dropdown.show();
+    // dropdown.show();
   }, []);
 
   return (
@@ -90,7 +81,6 @@ export default function CreatePjPage() {
               style={{
                 width: "31.0847vw",
               }}
-              required
             />
             <p className="font-medium text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
               0/20

@@ -59,13 +59,6 @@ export default function SignupPage() {
     checkPassword: string;
   }
 
-  const signupData: SignupData = {
-    email: email,
-    nickname: nickname,
-    password: password,
-    checkPassword: checkPassword,
-  };
-
   // const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
   //   setEmail(e.target.value);
   // };
@@ -180,6 +173,14 @@ export default function SignupPage() {
       return;
     }
     try {
+      
+      const signupData: SignupData = {
+        email: email,
+        nickname: nickname,
+        password: password,
+        checkPassword: checkPassword,
+      };
+
       const result = instanceNonAuth.post(`/auth/signup`, signupData);
       console.log(result);
 
@@ -257,6 +258,7 @@ export default function SignupPage() {
           </div>
           <button
             onClick={signupRequest}
+            type="button"
             className="w-full text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-5 py-2.5 text-center"
           >
             회원가입

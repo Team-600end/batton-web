@@ -12,7 +12,6 @@ import IssueBoardPage from "@pages/project/issue/IssueBoardPage";
 import BoardPage from "@pages/board/BoardPage";
 import IssueHistoryPage from "@pages/project/issue/IssueHistoryPage";
 import NoticeDetailPage from "@pages/NoticeDetailPage";
-import { CookiesProvider } from "react-cookie";
 import CreatePjPage from "@pages/project/CreatePjPage";
 import MyPage from "@pages/MyPage";
 import LandingPage from "@pages/common/LandingPage";
@@ -26,7 +25,6 @@ import IssueReportPage from "./pages/project/issue/IssueReportPage";
 import IssueEditPage from "./pages/project/issue/IssueEditPage";
 function App() {
   return (
-    <CookiesProvider>
       <RecoilRoot>
         <BrowserRouter>
           <Routes>
@@ -56,7 +54,6 @@ function App() {
           </Routes>
         </BrowserRouter>
       </RecoilRoot>
-    </CookiesProvider>
   );
 }
 
