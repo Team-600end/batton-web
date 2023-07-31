@@ -3,14 +3,50 @@ import { useNavigate } from "react-router-dom";
 import profile_img from "@images/common/default_profile.png";
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
-import Navbar from "@components/nav/Navbar";
+import { Member } from "@src/types/Users";
+import { instanceAuth } from "@src/types/AxiosInterface";
+
+interface CreatePjData {
+  projectTitle: string;
+  projectKey: string;
+  projectContent?: string;
+  projectImage?: string;
+  projectMemberList?: Member[];
+}
 
 export default function CreatePjPage() {
+  const [pjTitle, setPjTitle] = useState('');
+  const [pjKey, setPjKey] = useState('');
+  const [pjContent, setPjContent] = useState('');
+  const [pjImage, setPjImage] = useState('');
+  const [pjMemList, setPjMemList] = useState([]);
   const navigate = useNavigate();
 
   const goBack = () => {
     navigate(-1); // 이전 페이지로 이동
   };
+
+  const createPjData: CreatePjData = {
+    projectTitle: pjTitle,
+    projectKey: pjKey,
+    projectContent: pjContent,
+    projectImage: pjImage,
+    projectMemberList: pjMemList
+  };
+
+  const createPjRequest = async () => {
+    instanceAuth
+      .post(`/projects`, createPjData)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == true) {
+          // navigate();
+        } 
+        else {
+          
+        }
+      })
+  }
 
   useEffect(() => {
     // set the dropdown menu element
@@ -60,6 +96,7 @@ export default function CreatePjPage() {
             }}
           >
             <p className="text-[20px] font-medium text-gray-900">프로젝트명</p>
+            <p className="text-[20px] font-medium text-gray-900">프로젝트키</p>
             <p className="text-[20px] font-medium text-gray-900" style={{ marginTop: "9.7760vh" }}>
               프로젝트 설명
             </p>
@@ -86,6 +123,21 @@ export default function CreatePjPage() {
               0/20
             </p>
 
+            {/* 키 입력 */}
+            <input
+              type="pj_title"
+              name="pj_title"
+              id="pj_title"
+              placeholder=""
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
+              style={{
+                width: "31.0847vw",
+              }}
+            />
+            <p className="font-medium text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
+              0/20
+            </p>
+
             {/* 설명 입력 */}
             <textarea
               name="pj_title"
@@ -98,7 +150,6 @@ export default function CreatePjPage() {
                 marginTop: "5.7026vh",
                 minHeight: "14.6640vh",
               }}
-              required
             />
 
             <p className="font-medium text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
@@ -106,17 +157,17 @@ export default function CreatePjPage() {
             </p>
 
             {/* 팀원 추가하기 */}
-            <div className="flex flex-row">
-              <div className="relative z-0" style={{ marginTop: "4.0733vh", width: "24.8vw" }}>
+            <div className="flex flex-row w-[31.0847vw]">
+              <div className="relative z-0" style={{ marginTop: "4.0733vh" }}>
                 <input
                   type="text"
                   id="floating_standard"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer"
+                  className="block py-2.5 px-0 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-blue-600 peer ml-1"
                   placeholder=" "
                 />
                 <label
                   htmlFor="floating_standard"
-                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                  className="absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ml-1"
                 >
                   이메일 검색하기
                 </label>
@@ -126,7 +177,7 @@ export default function CreatePjPage() {
               <button
                 id="dropdownButton"
                 data-dropdown-toggle="dropdownMenu"
-                className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-[20px] justify-center"
+                className="ml-auto border border-gray-300 border-1 text-text-gray-900 bg-white hover:bg-grey-6 font-medium rounded-lg text-[12px] text-center inline-flex items-center justify-center"
                 type="button"
                 style={{ width: "86px", height: "40px", marginTop: "4.0733vh" }}
               >
@@ -139,7 +190,7 @@ export default function CreatePjPage() {
               {/* 추가 버튼 */}
               <button
                 id="addTeamMember"
-                className="text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 focus:ring-4 focus:ring-primary-5 font-medium rounded-lg text-[12px]  mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5 ml-[10px]"
+                className="ml-[0.5vw] text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 font-medium rounded-lg text-[12px] mb-2 focus:outline-none"
                 style={{ width: "86px", height: "40px", marginTop: "4.0733vh" }}
               >
                 추가
@@ -151,7 +202,7 @@ export default function CreatePjPage() {
             <div className="relative flex flex-col">
               <div
                 id="dropdownMenu"
-                className="z-20 hidden w-[150px] bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
+                className="z-20 hidden w-[150px] bg-white divide-y divide-gray-100 rounded-lg shadow"
                 style={{
                   marginLeft: "22.1vw",
                 }}
@@ -164,9 +215,9 @@ export default function CreatePjPage() {
                         type="radio"
                         value=""
                         name="default-radio"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
                       />
-                      <label htmlFor="default-radio-4" className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300">
+                      <label htmlFor="default-radio-4" className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded">
                         프로젝트 리더
                       </label>
                     </div>
@@ -179,7 +230,7 @@ export default function CreatePjPage() {
                         type="radio"
                         value=""
                         name="default-radio"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                       />
                       <label htmlFor="default-radio-5" className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300">
                         프로젝트 팀원
@@ -221,6 +272,7 @@ export default function CreatePjPage() {
                         <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">email@flowbite.com</p>
                       </div>
                       <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">프로젝트 팀원</div>
+                      <button>X</button>
                     </div>
                   </li>
 
@@ -258,6 +310,7 @@ export default function CreatePjPage() {
                 className="ml-auto w-[128px] h-[40px] text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-medium rounded-lg text-sm mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5"
                 style={{ marginTop: "4.8vh", marginRight: "16.3511vw" }}
                 onClick={goBack}
+                type="button"
               >
                 생성하기
               </button>

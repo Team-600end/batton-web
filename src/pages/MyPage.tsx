@@ -104,7 +104,7 @@ export default function MyPage() {
           </button>
         </div>
       </div>
-      <div className="mt-[16px]">
+      {/* <div className="mt-[16px]">
         <label id="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
           비밀번호
         </label>
@@ -177,7 +177,7 @@ export default function MyPage() {
         >
           수정하기
         </button>
-      </div>
+      </div> */}
     </>
   );
 }
