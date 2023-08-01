@@ -1,6 +1,5 @@
 import React, { useState, useCallback, useEffect } from "react";
 import latest_img from "@images/common/latest.png";
-// import grayStarImg from "@images/icons/yellowStar.png";
 import grayStarImg from "@images/icons/grayStar.png";
 import yellowStarImg from "@images/icons/yellowStar.png";
 import { ProjectCard } from "@typess/project";
