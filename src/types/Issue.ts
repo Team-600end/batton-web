@@ -46,3 +46,15 @@ export interface BoardIssue {
   nickname: string;
   profileImg: string;
 }
+
+export interface DonutData {
+  toDoCnt: number;
+  progressCnt: number;
+  reviewCnt: number;
+  completeCnt: number;
+}
+
+export interface DonutConfig {
+  series: number[];
+  options: any;
+}

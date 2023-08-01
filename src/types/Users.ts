@@ -1,7 +1,6 @@
 export type UserGrade = "LEADER" | "MEMBER";
 
 export interface ProjectMember {
-  id: number;
   grade: UserGrade;
   memberId: number;
   nickname: string;

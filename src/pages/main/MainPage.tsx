@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
@@ -17,13 +18,28 @@ import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
 import avatar_kch from "@images/dummy/avatar_kch.jpeg";
 import logo_600end from "@images/dummy/600end_logo.svg";
 import logo_dktechin from "@images/dummy/dktechin_logo.png";
+import { instanceAuth } from "@src/types/AxiosInterface";
 
 export default function MainPage() {
   const navigate = useNavigate();
   const [cardNum, setCardNum] = useState(3);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
-  // const [screenWidth, setScreenWidth] = useState(window.innerWidth);
+  const [pjCards, setPjcards] = useState<ProjectCard[]>([]);
+  const [myIssues, setMyissues] = useState<MyIssues[]>([]);
+  //TODO: belongId 어떻게 받을지? useParams?
+  let { belongId } = useParams();
+
+  const chunkArray = (arr, chunkSize) => {
+    const chunks = [];
+    for (let i = 0; i < arr.length; i += chunkSize) {
+      chunks.push(arr.slice(i, i + chunkSize));
+    }
+    return chunks;
+  };
+
+  // 배열을 cardNum만큼씩 잘라서 묶어줍니다.
+  const chunkedPjCards = chunkArray(pjCards, cardNum);
 
   // 화면 너비에 따라 cardNum 값을 설정하는 함수
   const setCardNumByWidth = () => {
@@ -74,6 +90,39 @@ export default function MainPage() {
     };
   }, []);
 
+  useEffect(() => {
+    //메인페이지 접속 시. 모든 프로젝트를 가져옴/do a deer a female deer re a golden sun mi a name i call myself fa a long long way to run
+    async () => {
+      instanceAuth
+        .get(`/projects/list`)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.code == 200) {
+            setPjcards(response.data.result);
+          } else if (response.data.code == 707) {
+            setPjcards([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+  });
+
+  useEffect(() => {
+    //메인페이지 접속 시, 내 이슈들을 가져옴
+    async () => {
+      instanceAuth.get(`/issues/list/${belongId}`).then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setMyissues(response.data.data);
+        } else if (response.data.code == 704) {
+          setMyissues([]);
+        }
+      });
+    };
+  });
+
   return (
     <div className="mt-[7vh]" style={{ overflowY: "auto" }}>
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
@@ -92,14 +141,13 @@ export default function MainPage() {
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
           <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-center">
-              {Array.from({ length: cardNum }).map((_, index) => (
-                <PjCard key={index} pjCard={pjCards[index]} />
-              ))}
-              {/* {pjCards.slice(index * 3, (index + 1) * 3).map((pjCard, innerIndex) => (
-                <PjCard key={innerIndex} pjCard={pjCards[innerIndex]} />
-              ))} */}
-            </div>
+            {chunkedPjCards.map((chunk, index) => (
+              <div key={index} className="flex h-[300px] w-5/6 flex-row items-center justify-center">
+                {chunk.map((pjCard, cardIndex) => (
+                  <PjCard key={cardIndex} pjCard={pjCard} />
+                ))}
+              </div>
+            ))}
           </Carousel>
         </div>
         <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
@@ -297,6 +345,7 @@ const pjCards: ProjectCard[] = [
     leaderName: "강창훈",
     leaderImg: avatar_kch,
     memberNum: 42,
+    bookmark: true,
   },
   {
     projectId: 2,
@@ -313,6 +362,7 @@ const pjCards: ProjectCard[] = [
     leaderName: "임혜균",
     leaderImg: avatar_yhg,
     memberNum: 8,
+    bookmark: true,
   },
   {
     projectId: 3,
@@ -329,6 +379,7 @@ const pjCards: ProjectCard[] = [
     leaderName: "이승희",
     leaderImg: avatar_lsh,
     memberNum: 6,
+    bookmark: false,
   },
 ];
 

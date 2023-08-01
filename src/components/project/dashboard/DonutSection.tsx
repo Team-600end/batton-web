@@ -1,6 +1,8 @@
 import React, { useEffect, useState } from "react";
+import { useParams } from "react-router-dom";
 import axios from "axios";
 import ReactApexChart from "react-apexcharts";
+import { instanceAuth } from "@src/types/AxiosInterface";
 
 interface DonutData {
   toDoCnt: number;
@@ -22,8 +24,39 @@ const donutData: DonutData = {
   completeCnt: 3,
 };
 
-function DonutSection() {
-  const totalCnt = donutData.toDoCnt + donutData.progressCnt + donutData.reviewCnt + donutData.completeCnt;
+export default function DonutSection() {
+  // const [donutData, setDonutData] = useState<DonutData | null>(null);
+  // const totalCnt = donutData.toDoCnt + donutData.progressCnt + donutData.reviewCnt + donutData.completeCnt;
+  const { projectId } = useParams();
+  let totalCnt = 0;
+
+  useEffect(() => {
+    console.log("donut section");
+  }, []);
+
+  // useEffect(() => {
+  //   async () => {
+  //     instanceAuth
+  //       .get(`/issues/chart/${projectId}`)
+  //       .then((response) => {
+  //         console.log(response.data);
+  //         if (response.data.code === 200) {
+  //           setDonutData(response.data.data);
+  //         } else if (response.data.code === 707) {
+  //           setDonutData(null);
+  //           // setDonutData({
+  //           //   toDoCnt: 0,
+  //           //   progressCnt: 0,
+  //           //   reviewCnt: 0,
+  //           //   completeCnt: 0,
+  //           // });
+  //         }
+  //       })
+  //       .catch((error) => {
+  //         console.log(error);
+  //       });
+  //   };
+  // }, []);
 
   //데이터가 없을 때 회색 도넛 차트
   const emptyDonut: DonutConfig = {
@@ -125,5 +158,3 @@ function DonutSection() {
     </div>
   );
 }
-
-export default DonutSection;

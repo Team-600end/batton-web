@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import latest_img from "@images/common/latest.png";
-import grayStarImg from "@images/icons/yellowStar.png";
-// import grayStarImg from "@images/icons/grayStar.png";
+import grayStarImg from "@images/icons/grayStar.png";
 import yellowStarImg from "@images/icons/yellowStar.png";
 import { ProjectCard } from "@typess/project";
 import { useNavigate } from "react-router-dom";
@@ -13,9 +12,9 @@ type PjCardProps = {
 export default function PjCard(props: PjCardProps) {
   const percent = ((props.pjCard.doneIssue / (props.pjCard.todoIssue + props.pjCard.doingIssue + props.pjCard.doneIssue)) * 100).toFixed(1);
   const navigate = useNavigate();
-  const [star, setStar] = useState(false);
+  const [bookmark, setBookmark] = useState(false);
   const clickStar = () => {
-    setStar(!star);
+    setBookmark(!bookmark);
   };
 
   return (
@@ -31,7 +30,7 @@ export default function PjCard(props: PjCardProps) {
               <div className="flex flex-row">
                 <p className="text-[#5AAE8A] text-2xl font-suitB">{props.pjCard.projectTitle}</p>
                 <img
-                  src={star ? yellowStarImg : grayStarImg}
+                  src={props.pjCard.bookmark ? yellowStarImg : grayStarImg}
                   alt="star_img"
                   className="w-[23px] h-[23px] mt-[5px] ml-[5px]"
                   onClick={clickStar}

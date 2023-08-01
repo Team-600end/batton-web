@@ -9,93 +9,10 @@ import { useParams } from "react-router-dom";
 import releases_info from "@images/releasesPuzzle/releases_info.svg";
 import { Release } from "@typess/Release";
 
-const releasesList: Release[] = [
-  {
-    versionChanged: "Major",
-    versionMajor: 3,
-    versionMinor: 0,
-    versionPatch: 1,
-    date: "2023.07.28",
-    issueList: [
-      {
-        type: "New",
-        title: "설문조사 배포 추가",
-      },
-      {
-        type: "Feature",
-        title: "설문조사 완료 기능",
-      },
-    ],
-    id: 5,
-  },
-  {
-    versionChanged: "Major",
-    versionMajor: 2,
-    versionMinor: 0,
-    versionPatch: 1,
-    date: "2023.07.27",
-    issueList: [
-      {
-        type: "Fixed",
-        title: "설문조사 삭제 이슈",
-      },
-    ],
-    id: 4,
-  },
-  {
-    versionChanged: "Patch",
-    versionMajor: 1,
-    versionMinor: 1,
-    versionPatch: 2,
-    date: "2023.07.18",
-    issueList: [
-      {
-        type: "Deprecated",
-        title: "리뷰식 이미지 설문조사 기능 철회",
-      },
-    ],
-    id: 3,
-  },
-  {
-    versionChanged: "Minor",
-    versionMajor: 1,
-    versionMinor: 1,
-    versionPatch: 1,
-    date: "2023.07.18",
-    issueList: [
-      {
-        type: "Fixed",
-        title: "설문조사 작성 버그 수정",
-      },
-      {
-        type: "Changed",
-        title: "설문조사 등록 기능 변경",
-      },
-    ],
-    id: 2,
-  },
-  {
-    versionChanged: "Major",
-    versionMajor: 1,
-    versionMinor: 0,
-    versionPatch: 1,
-    date: "2023.07.02",
-    issueList: [
-      {
-        type: "New",
-        title: "600& 프로젝트 출시",
-      },
-    ],
-    id: 1,
-  },
-];
-
-
 export default function DashBoardPage() {
   let { projectKey } = useParams();
 
-  const reverseList = [...releasesList].reverse();
-
+  // const reverseList = [...releasesList].reverse();
 
   return (
     <div className="flex flex-col overflow-hidden">
@@ -111,7 +28,8 @@ export default function DashBoardPage() {
             <div className=" flex items-center">
               <img src={releases_info} alt="releases_info" className="p-2" />
             </div>
-            <ReleasesPuzzle releaseList={reverseList}/>
+            {/* <ReleasesPuzzle releaseList={reverseList} /> */}
+            <ReleasesPuzzle />
           </div>
         </div>
         <div className="flex space-x-[2vw]">
@@ -122,3 +40,84 @@ export default function DashBoardPage() {
     </div>
   );
 }
+
+// const releasesList: Release[] = [
+//   {
+//     versionChanged: "Major",
+//     versionMajor: 3,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     date: "2023.07.28",
+//     issueList: [
+//       {
+//         type: "New",
+//         title: "설문조사 배포 추가",
+//       },
+//       {
+//         type: "Feature",
+//         title: "설문조사 완료 기능",
+//       },
+//     ],
+//     id: 5,
+//   },
+//   {
+//     versionChanged: "Major",
+//     versionMajor: 2,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     date: "2023.07.27",
+//     issueList: [
+//       {
+//         type: "Fixed",
+//         title: "설문조사 삭제 이슈",
+//       },
+//     ],
+//     id: 4,
+//   },
+//   {
+//     versionChanged: "Patch",
+//     versionMajor: 1,
+//     versionMinor: 1,
+//     versionPatch: 2,
+//     date: "2023.07.18",
+//     issueList: [
+//       {
+//         type: "Deprecated",
+//         title: "리뷰식 이미지 설문조사 기능 철회",
+//       },
+//     ],
+//     id: 3,
+//   },
+//   {
+//     versionChanged: "Minor",
+//     versionMajor: 1,
+//     versionMinor: 1,
+//     versionPatch: 1,
+//     date: "2023.07.18",
+//     issueList: [
+//       {
+//         type: "Fixed",
+//         title: "설문조사 작성 버그 수정",
+//       },
+//       {
+//         type: "Changed",
+//         title: "설문조사 등록 기능 변경",
+//       },
+//     ],
+//     id: 2,
+//   },
+//   {
+//     versionChanged: "Major",
+//     versionMajor: 1,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     date: "2023.07.02",
+//     issueList: [
+//       {
+//         type: "New",
+//         title: "600& 프로젝트 출시",
+//       },
+//     ],
+//     id: 1,
+//   },
+// ];
