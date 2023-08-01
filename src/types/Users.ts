@@ -7,6 +7,7 @@ export interface ProjectMember {
   nickname: string;
   profileImage: string;
 }
+
 export interface Member {
   memberId: number;
   nickname: string;

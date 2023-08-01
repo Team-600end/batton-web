@@ -70,11 +70,14 @@ export default function Navbar() {
         }
         else if (response.data.code == 707) {
           setProjects([]);
+        } else {
+          console.log('잘못된 접근입니다.');
         }
       })
       .catch((error) => {
         console.log(error);
-      });
+      })
+      .finally;
   };
 
   const handleProjectDd = () => {
