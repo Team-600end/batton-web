@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
@@ -27,7 +28,7 @@ export default function MainPage() {
   const [pjCards, setPjcards] = useState<ProjectCard[]>([]);
   const [myIssues, setMyissues] = useState<MyIssues[]>([]);
   //TODO: belongId 어떻게 받을지? useParams?
-  let belongId = 1;
+  let { belongId } = useParams();
 
   const chunkArray = (arr, chunkSize) => {
     const chunks = [];
@@ -96,11 +97,10 @@ export default function MainPage() {
         .get(`/projects/list`)
         .then((response) => {
           console.log(response.data);
-          if (response.data.isSuccess) {
-            setPjcards(response.data.data);
-          } else {
+          if (response.data.code == 200) {
+            setPjcards(response.data.result);
+          } else if (response.data.code == 707) {
             setPjcards([]);
-            console.log(response.data.message);
           }
         })
         .catch((error) => {
@@ -114,11 +114,10 @@ export default function MainPage() {
     async () => {
       instanceAuth.get(`/issues/list/${belongId}`).then((response) => {
         console.log(response.data);
-        if (response.data.isSuccess) {
+        if (response.data.code == 200) {
           setMyissues(response.data.data);
-        } else {
+        } else if (response.data.code == 704) {
           setMyissues([]);
-          console.log(response.data.message);
         }
       });
     };
