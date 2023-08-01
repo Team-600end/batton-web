@@ -155,12 +155,6 @@ export default function IssueBoardPage() {
               히스토리
             </button>
             <button
-              onClick={() => navigate(`/project/${projectKey}/hidden-issue`)}
-              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
-            >
-              숨긴 이슈
-            </button>
-            <button
               onClick={() => setShowModal(true)}
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
             >
