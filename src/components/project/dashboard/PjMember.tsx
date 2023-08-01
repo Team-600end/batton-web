@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useEffect } from "react";
 import vertical_dots_img from "@images/icons/kebap_grey.png";
-import { ProjectMember } from "@src/types/Users";
+import ProjectMember from "@src/types/Users";
 import PjMemberModal from "./PjMemberModal";
 
 type PjMemberProps = {

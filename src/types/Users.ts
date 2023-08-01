@@ -1,13 +1,13 @@
 export type UserGrade = "LEADER" | "MEMBER";
 
-export interface ProjectMember {
+export default interface ProjectMember {
   grade: UserGrade;
   memberId: number;
   nickname: string;
   profileImage: string;
 }
 
-export interface Member {
+export default interface Member {
   memberId: number;
   nickname: string;
   gradeType: UserGrade;
