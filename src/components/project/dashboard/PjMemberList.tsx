@@ -16,6 +16,45 @@ import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@typess/project";
 
+export default function PjMemberList() {
+  const [memberList, setMemberList] = useState<MemberList[]>([]);
+  const { projectId } = useParams();
+
+  const [projectNav, setProjectNav] = useRecoilState(projectNavs);
+  let { projectKey } = useParams();
+
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
+
+  useEffect(() => {
+    // async () => {
+    instanceAuth
+      .get(`/belongs/list/${pj.id}`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code === 200) {
+          setMemberList(response.data.data);
+        } else if (response.data.code === 707) {
+          setMemberList([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // };
+  }, []);
+  return (
+    <>
+      <div className="relative w-[220px] h-[400px] bg-white rounded-xl shadow-md">
+        <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">프로젝트 멤버</p>
+        <div>
+          {/* map 반복문 사용 */}
+          {memberList && memberList.map((member) => <PjMember key={member.memberId} member={member} />)}
+        </div>
+      </div>
+    </>
+  );
+}
+
 //dummy data
 // const memberList: MemberList[] = [
 //   {
@@ -61,43 +100,3 @@ import { ProjectNav } from "@typess/project";
 //     profileImage: avatar_lyh,
 //   },
 // ];
-
-export default function PjMemberList() {
-  const [memberList, setMemberList] = useState<MemberList[]>([]);
-  const { projectId } = useParams();
-
-  const [projectNav, setProjectNav] = useRecoilState(projectNavs);
-  let { projectKey } = useParams();
-
-  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
-
-  useEffect(() => {
-    // async () => {
-    instanceAuth
-      .get(`/belongs/list/${pj.id}`)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.code === 200) {
-          setMemberList(response.data.data);
-        } else if (response.data.code === 707) {
-          setMemberList([]);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // };
-  }, []);
-  return (
-    <>
-      <div className="relative w-[220px] h-[400px] bg-white rounded-xl shadow-md">
-        <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">프로젝트 멤버</p>
-
-        {/* map 반복문 사용 */}
-        {memberList.map((member) => (
-          <PjMember key={member.memberId} member={member} />
-        ))}
-      </div>
-    </>
-  );
-}

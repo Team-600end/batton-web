@@ -2,6 +2,11 @@ import { BoardIssue } from "@src/types/Issue";
 import React, { useState, useCallback, useEffect } from "react";
 import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
 import IssueBadge from "./IssueBadge";
+import { instanceAuth } from "@src/types/AxiosInterface";
+import { useRecoilState } from "recoil";
+import { projectNavs } from "@src/state/projectState";
+import { ProjectNav } from "@typess/project";
+import { useParams } from "react-router-dom";
 
 export default function IssueLog() {
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -13,7 +18,33 @@ export default function IssueLog() {
     return boardissues.slice(startIndex, endIndex);
   };
 
-  const totalPage = Math.ceil(boardissues.length / itemsPerPage);
+  const [totalPage, setTotalPage] = useState(0);
+
+  const [boardissues, setBoardissues] = useState<BoardIssue[]>([]);
+
+  const [projectNav, setProjectNav] = useRecoilState(projectNavs);
+  let { projectKey } = useParams();
+
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
+  useEffect(() => {
+    // async() => {
+    instanceAuth
+      .get(`/issues/projects/list/${pj.id}`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setBoardissues(response.data.data);
+          setTotalPage(Math.ceil(boardissues.length / itemsPerPage));
+        } else if (response.data.code == 703 || response.data.code == 704) {
+          setBoardissues([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // };
+  }, []);
+
   return (
     <>
       <div className="relative w-[1000px] h-[400px] bg-white rounded-xl shadow-md">
@@ -41,7 +72,9 @@ export default function IssueLog() {
               {/* 테이블 내용 */}
               {getCurrentPageItems().map((index) => (
                 <tr key={index.id} className="bg-white border-b hover:bg-gray-50">
-                  <td className="px-6 py-4"><IssueBadge issueType={index.issueTag} /></td>
+                  <td className="px-6 py-4">
+                    <IssueBadge issueType={index.issueTag} />
+                  </td>
                   <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap dark:text-white">
                     {index.issueTitle}
                   </th>
@@ -100,46 +133,46 @@ export default function IssueLog() {
   );
 }
 
-//dummy data
-const boardissues: BoardIssue[] = [
-  {
-    id: 1,
-    issueTitle: "작성 질문 추천 서비스",
-    issueTag: "New",
-    issueStatus: "Todo",
-    nickname: "정현진",
-    profileImg: avatar_jhj,
-  },
-  {
-    id: 2,
-    issueTitle: "선택지 이미지 첨부 기능",
-    issueTag: "Feature",
-    issueStatus: "Todo",
-    nickname: "정현진",
-    profileImg: avatar_jhj,
-  },
-  {
-    id: 3,
-    issueTitle: "리뷰 전용 설문조사 서비스",
-    issueTag: "New",
-    issueStatus: "Todo",
-    nickname: "정현진",
-    profileImg: avatar_jhj,
-  },
-  {
-    id: 4,
-    issueTitle: "이슈4",
-    issueTag: "New",
-    issueStatus: "Todo",
-    nickname: "닉네임1",
-    profileImg: "https://i.pravatar.cc/300",
-  },
-  {
-    id: 5,
-    issueTitle: "이슈5",
-    issueTag: "New",
-    issueStatus: "Todo",
-    nickname: "닉네임1",
-    profileImg: "https://i.pravatar.cc/300",
-  },
-];
+// //dummy data
+// const boardissues: BoardIssue[] = [
+//   {
+//     id: 1,
+//     issueTitle: "작성 질문 추천 서비스",
+//     issueTag: "New",
+//     issueStatus: "Todo",
+//     nickname: "정현진",
+//     profileImg: avatar_jhj,
+//   },
+//   {
+//     id: 2,
+//     issueTitle: "선택지 이미지 첨부 기능",
+//     issueTag: "Feature",
+//     issueStatus: "Todo",
+//     nickname: "정현진",
+//     profileImg: avatar_jhj,
+//   },
+//   {
+//     id: 3,
+//     issueTitle: "리뷰 전용 설문조사 서비스",
+//     issueTag: "New",
+//     issueStatus: "Todo",
+//     nickname: "정현진",
+//     profileImg: avatar_jhj,
+//   },
+//   {
+//     id: 4,
+//     issueTitle: "이슈4",
+//     issueTag: "New",
+//     issueStatus: "Todo",
+//     nickname: "닉네임1",
+//     profileImg: "https://i.pravatar.cc/300",
+//   },
+//   {
+//     id: 5,
+//     issueTitle: "이슈5",
+//     issueTag: "New",
+//     issueStatus: "Todo",
+//     nickname: "닉네임1",
+//     profileImg: "https://i.pravatar.cc/300",
+//   },
+// ];
