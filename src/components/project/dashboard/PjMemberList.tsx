@@ -12,7 +12,9 @@ import avatar_lyh from "@images/dummy/avatar_lyh.jpeg";
 import avatar_pmsc from "@images/dummy/avatar_pmsc.jpeg";
 import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
 import { instanceAuth } from "@src/types/AxiosInterface";
-import { ProjectNav } from "@src/types/project";
+import { useRecoilState } from "recoil";
+import { projectNavs } from "@src/state/projectState";
+import { ProjectNav } from "@typess/project";
 
 //dummy data
 // const memberList: MemberList[] = [
@@ -64,27 +66,27 @@ export default function PjMemberList() {
   const [memberList, setMemberList] = useState<MemberList[]>([]);
   const { projectId } = useParams();
 
-  // const [projectNav, setProjectNav] = useRecoilState(projectNavs);
-  // let { projectKey } = useParams();
+  const [projectNav, setProjectNav] = useRecoilState(projectNavs);
+  let { projectKey } = useParams();
 
-  // const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   useEffect(() => {
-    async () => {
-      instanceAuth
-        .get(`/belongs/list/${projectId}`)
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.code === 200) {
-            setMemberList(response.data.data);
-          } else if (response.data.code === 707) {
-            setMemberList([]);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
+    // async () => {
+    instanceAuth
+      .get(`/belongs/list/${pj.id}`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code === 200) {
+          setMemberList(response.data.data);
+        } else if (response.data.code === 707) {
+          setMemberList([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // };
   }, []);
   return (
     <>
