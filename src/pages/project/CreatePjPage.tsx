@@ -8,6 +8,7 @@ import { instanceAuth } from "@src/types/AxiosInterface";
 import x_icon from "@images/icons/x_gray.svg";
 import CpMember from "@typess/Users";
 import CreatePjMember from "@src/components/project/CreatePjMember";
+import check_icon from "@images/icons/white_check.svg";
 
 interface CreatePjData {
   projectTitle: string;
@@ -18,18 +19,31 @@ interface CreatePjData {
 }
 
 export default function CreatePjPage() {
+  // 프로젝트의 이름
   const [pjTitle, setPjTitle] = useState("");
+  // 프로젝트의 고유 키
   const [pjKey, setPjKey] = useState("");
+  // 프로젝트 설명
   const [pjContent, setPjContent] = useState("");
+  // 프로젝트 이미지 - 현재 사용 안함
   const [pjImage, setPjImage] = useState("");
+  // 프로젝트 멤버 리스트
   const [pjMemList, setPjMemList] = useState<CpMember[]>([]);
+  // pjTitle 길이 상태관리
   const [titleInputCount, setTitleInputCount] = useState(0);
+  // pjKey 길이 상태관리
   const [keyInputCount, setKeyInputCount] = useState(0);
+  // pjContent 길이 상태관리
   const [contentInputCount, setContentInputCount] = useState(0);
+  // pjKey 가용 여부 상태관리
+  const [keyChecked, setKeyChecked] = useState(false);
+  // 초대 멤버 조회용 이메일
   const [findByEmail, setFindByEmail] = useState('');
-  const emailRegex = /\S+@\S+\.\S+/;
+  // 이메일 유효성 검사 결과
   const [emailStatus, setEmailStatus] = useState("");
+  const emailRegex = /\S+@\S+\.\S+/;
 
+  // router-dom
   const navigate = useNavigate();
 
   const goBack = () => {
@@ -45,6 +59,7 @@ export default function CreatePjPage() {
     e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '');
     setPjKey(e.target.value);
     setKeyInputCount(e.target.value.length);
+    setKeyChecked(false);
   };
 
   const onContentChangeHandler = (e) => {
@@ -94,16 +109,39 @@ export default function CreatePjPage() {
   };
 
   const createPjRequest = async () => {
+    if (pjTitle == "") {
+      alert("프로젝트명을 입력해주세요.");
+      return;
+    }
+
+    if (!keyChecked) {
+      alert("프로젝트 키 중복 검사를 진행해주세요.");
+      return;
+    }
     instanceAuth.post(`/projects`, createPjData).then((response) => {
       console.log(response.data);
       if (response.data.code == 200) {
-        navigate(`/project/${response.data.result}/dashboard`);
+        navigate(`/project/${response.data.result.projectKey}/dashboard`);
       } else {
-        alert("오류")
+        alert("요청 실패")
       }
     })
     .catch(() => alert("정상적인 접근이 아닙니다."));
   };
+  
+  const checkPjKeyRequest = async () => {
+    if (pjKey == "") {
+      alert("키 값을 입력해주세요.")
+      return;
+    }
+    instanceAuth.get(`/projects/project-key/${pjKey}`).then((response) => {
+      if (response.data.code == 200) {
+        setKeyChecked(true);
+      } else {
+        alert(`해당 키는 사용하실 수 없습니다.`);
+      }
+    }).catch(() => alert("정상적인 접근이 아닙니다."));
+  }
 
   useEffect(() => {
     // set the dropdown menu element
@@ -190,12 +228,9 @@ export default function CreatePjPage() {
                   onChange={onKeyChangeHandler}
                   className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[27.0847vw]"
                 />
-                <button className="w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 rounded-lg">중복 체크</button>
+                <button onClick={checkPjKeyRequest} className={!keyChecked ? "w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 rounded-lg" : "w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] text-primary-4 border border-1 border-primary-4 bg-primary-3 rounded-lg"}>{!keyChecked ? "중복 체크" : <img src={check_icon} className="m-auto"/>}</button>
               </div>
-              <p
-                className="font-suitM text-[14px] text-gray-400 text-right mt-[4px]
-                w-[31.0847vw] pr-[4.2vw]"
-              >
+              <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] w-[31.0847vw] pr-[4.2vw]">
                 {keyInputCount}/20
               </p>
             </div>
@@ -319,7 +354,6 @@ export default function CreatePjPage() {
                     <li>
                       <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                         <input
-                          checked
                           id="default-radio-5"
                           type="radio"
                           value=""
@@ -344,58 +378,6 @@ export default function CreatePjPage() {
                     {pjMemList.map((member) => (
                       <CreatePjMember pjMember={member} />
                     ))}
-
-                    <li className="py-3 sm:py-4">
-                      <div className="flex items-center space-x-7">
-                        <div className="flex-shrink-0">
-                          <img
-                            className="w-8 h-8 rounded-full"
-                            src={profile_img}
-                            alt="Neil image"
-                          />
-                        </div>
-                        <div className="flex flex-1 flex-row min-w-0">
-                          <p className="text-[14px] font-suitM text-gray-600 truncate dark:text-white">
-                            정현진
-                          </p>
-                          <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">
-                            email@flowbite.com
-                          </p>
-                        </div>
-                        <div className="inline-flex text-[14px] font-suitM text-gray-900 dark:text-white ">
-                          프로젝트 팀원
-                        </div>
-                        <button>
-                          <img src={x_icon} className="w-[0.8vw]" />
-                        </button>
-                      </div>
-                    </li>
-
-                    <li className="py-3 sm:py-4">
-                      <div className="flex items-center space-x-7">
-                        <div className="flex-shrink-0">
-                          <img
-                            className="w-8 h-8 rounded-full"
-                            src={profile_img}
-                            alt="Neil image"
-                          />
-                        </div>
-                        <div className="flex flex-1 flex-row min-w-0">
-                          <p className="text-[14px] font-suitM text-gray-600 truncate dark:text-white">
-                            이승희
-                          </p>
-                          <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">
-                            email@flowbite.com
-                          </p>
-                        </div>
-                        <div className="inline-flex text-[14px] font-suitM dark:text-white ">
-                          프로젝트 리더
-                        </div>
-                        <button>
-                          <img src={x_icon} className="w-[0.8vw]" />
-                        </button>
-                      </div>
-                    </li>
                   </ul>
                 </div>
               </div>
@@ -407,7 +389,7 @@ export default function CreatePjPage() {
           <button
             className="ml-auto w-[128px] h-[40px] text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-suitM rounded-lg text-sm mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5"
             style={{ marginTop: "4.8vh", marginRight: "16.3511vw" }}
-            onClick={goBack}
+            onClick={createPjRequest}
             type="button"
           >
             생성하기

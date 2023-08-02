@@ -187,8 +187,6 @@ export default function Navbar() {
       <div className="flex items-center mr-3">
         {/*알람 버튼*/}
         <button
-          id="dropdownNotificationButton"
-          data-dropdown-toggle="dropdownNotification"
           className="inline-flex items-center text-sm font-suitM text-center text-gray-500 hover:text-gray-900 focus:outline-none mr-3"
           type="button"
           onClick={handleNoticeDd}
@@ -221,8 +219,8 @@ export default function Navbar() {
         <div className="absolute z-20 font-suitL top-[6.5vh] left-1/2 translate-x-[-50%] mr-[1.3vw] bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
           <ul className="flex flex-col py-2 text-sm text-gray-700 justify-center">
             {userProjectNav.map((project) => (
-              <li>
-                <NavPjBotton key={project.id} project={project} />
+              <li key={project.id}>
+                <NavPjBotton project={project} />
               </li>
             ))}
           </ul>
@@ -242,9 +240,9 @@ export default function Navbar() {
               onClick={handleAllDdOff}
             >
               <div className="flex items-center">
-                <button className="font-suitL text-sm text-[#6B7280]" onClick={() => navigate("/new-project")}>
+                <p className="font-suitL text-sm text-[#6B7280]" onClick={() => navigate("/new-project")}>
                   프로젝트 생성하기
-                </button>
+                </p>
               </div>
             </button>
           </div>

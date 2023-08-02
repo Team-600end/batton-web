@@ -18,12 +18,12 @@ import LandingPage from "@pages/common/LandingPage";
 import Layout from "@src/Layout";
 import NotFoundPage from "@pages/common/NotFoundPage";
 import DashBoardPage from "@pages/project/dashboard/DashBoardPage";
-import HiddenIssuePage from "@pages/project/issue/HiddenIssuePage";
-import WriteIssueReport from "./pages/project/issue/WriteIssueReport";
-import IssueManagePage from "./pages/project/issue/IssueManagePage";
-import IssueReportPage from "./pages/project/issue/IssueReportPage";
-import IssueEditPage from "./pages/project/issue/IssueEditPage";
-import EditPjPage from "./pages/project/EditPjPage";
+import WriteIssueReport from "@pages/project/issue/WriteIssueReport";
+import IssueManagePage from "@pages/project/issue/IssueManagePage";
+import IssueReportPage from "@pages/project/issue/IssueReportPage";
+import IssueEditPage from "@pages/project/issue/IssueEditPage";
+import EditPjPage from "@pages/project/EditPjPage";
+
 function App() {
   return (
       <RecoilRoot>
