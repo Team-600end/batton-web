@@ -2,16 +2,9 @@ import React, { useState } from "react";
 import arrow_left from "@images/icons/arrow_left.png";
 import jindol from "@images/common/jindol.jpg";
 import { useNavigate } from "react-router-dom";
+import { NoticeMessage } from "@typess/Notice";
 
-interface NoticeS {
-  contentId: number;
-  noticeType: string;
-  noticeContent: string;
-  noticeDate: string;
-  senderProfileImage: string;
-}
-
-const notices: NoticeS[] = [
+const notices: NoticeMessage[] = [
   {
     contentId: 1,
     noticeType: "INVITE",

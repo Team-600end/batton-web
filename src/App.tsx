@@ -48,6 +48,7 @@ function App() {
               <Route path="/project/:projectKey/releasesnote/write" element={<RnoteEditPage />} />
               <Route path="/project/:projectKey/project-edit" element={<EditPjPage/>} />
               <Route path="/myinfo-edit" element={<MyPage />} />
+              <Route path="/change-pw" element={<ChangePasswordPage />} />
               <Route path="/new-project" element={<CreatePjPage />} />
               <Route path="/board" element={<BoardPage />} />
               <Route path="/notifications" element={<NoticeDetailPage />} />

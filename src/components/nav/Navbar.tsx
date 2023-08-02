@@ -1,6 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import batton_logo_img from "@images/common/batton_logo_medium.svg";
-import Notice from "@components/nav/Notice";
+import Notice from "@components/nav/NoticeNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
 import { ProjectNav } from "@typess/project";
@@ -267,10 +267,13 @@ export default function Navbar() {
             </li>
             <li>
               <button
-                onClick={handleAllDdOff}
+                onClick={() => {
+                  handleAllDdOff();
+                  navigate("/change-pw");
+                }}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
               >
-                이용약관
+                비밀번호 변경
               </button>
             </li>
           </ul>

@@ -3,6 +3,7 @@ import { Link } from "react-router-dom";
 import jindol from "@images/common/jindol.jpg";
 import { useRecoilState } from "recoil";
 import { navbarNoticeDd } from "@src/state/modalState";
+import { NoticeMessage } from "@typess/Notice";
 
 import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
 import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
