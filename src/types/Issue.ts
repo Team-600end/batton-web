@@ -7,11 +7,12 @@ export interface Manager {
   profileImg?: string;
 }
 export interface Issue {
-  type: IssueType;
-  title: string;
-  manager?: Manager;
-  team: string;
-  id: number;
+  issueTag: IssueType;
+  issueTitle: string;
+  issueId: number;
+  issueKey: number;
+  nickname?: string;
+  profileImage?: string;
 }
 
 export interface AbsIssue {

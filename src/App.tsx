@@ -18,11 +18,12 @@ import LandingPage from "@pages/common/LandingPage";
 import Layout from "@src/Layout";
 import NotFoundPage from "@pages/common/NotFoundPage";
 import DashBoardPage from "@pages/project/dashboard/DashBoardPage";
-import HiddenIssuePage from "@pages/project/issue/HiddenIssuePage";
-import WriteIssueReport from "./pages/project/issue/WriteIssueReport";
-import IssueManagePage from "./pages/project/issue/IssueManagePage";
-import IssueReportPage from "./pages/project/issue/IssueReportPage";
-import IssueEditPage from "./pages/project/issue/IssueEditPage";
+import WriteIssueReport from "@pages/project/issue/WriteIssueReport";
+import IssueManagePage from "@pages/project/issue/IssueManagePage";
+import IssueReportPage from "@pages/project/issue/IssueReportPage";
+import IssueEditPage from "@pages/project/issue/IssueEditPage";
+import EditPjPage from "@pages/project/EditPjPage";
+
 function App() {
   return (
       <RecoilRoot>
@@ -42,10 +43,10 @@ function App() {
               <Route path="/project/:projectKey/issue/:issueId/edit" element={<IssueEditPage/>} />
               <Route path="/project/:projectKey/issue/:issueId" element={<IssueReportPage/>} />
               <Route path="/project/:projectKey/issue-history" element={<IssueHistoryPage />} />
-              <Route path="/project/:projectKey/hidden-issue" element={<HiddenIssuePage />} />
               <Route path="/project/:projectKey/releasesnote" element={<ReleasesNote />} />
               <Route path="/project/:projectKey/releasesnote/:releaseId" element={<Releases />} />
               <Route path="/project/:projectKey/releasesnote/write" element={<RnoteEditPage />} />
+              <Route path="/project/:projectKey/project-edit" element={<EditPjPage/>} />
               <Route path="/myinfo-edit" element={<MyPage />} />
               <Route path="/new-project" element={<CreatePjPage />} />
               <Route path="/board" element={<BoardPage />} />
