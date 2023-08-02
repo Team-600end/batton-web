@@ -23,6 +23,7 @@ import WriteIssueReport from "./pages/project/issue/WriteIssueReport";
 import IssueManagePage from "./pages/project/issue/IssueManagePage";
 import IssueReportPage from "./pages/project/issue/IssueReportPage";
 import IssueEditPage from "./pages/project/issue/IssueEditPage";
+import ChangePasswordPage from "./pages/ChangePasswordPage";
 function App() {
   return (
       <RecoilRoot>
@@ -47,6 +48,7 @@ function App() {
               <Route path="/project/:projectKey/releasesnote/:releaseId" element={<Releases />} />
               <Route path="/project/:projectKey/releasesnote/write" element={<RnoteEditPage />} />
               <Route path="/myinfo-edit" element={<MyPage />} />
+              <Route path="/change-pw" element={<ChangePasswordPage />} />
               <Route path="/new-project" element={<CreatePjPage />} />
               <Route path="/board" element={<BoardPage />} />
               <Route path="/notifications" element={<NoticeDetailPage />} />

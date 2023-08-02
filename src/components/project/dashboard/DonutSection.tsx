@@ -1,6 +1,13 @@
-import React, { useEffect, useState } from "react";
-import axios from "axios";
+import React, { useEffect, useState, FC } from "react";
 import ReactApexChart from "react-apexcharts";
+import { instanceAuth } from "@src/types/AxiosInterface";
+import { ProjectNav } from "@typess/project";
+import { useParams } from "react-router-dom";
+import { useRecoilState } from "recoil";
+
+interface DonutSectionProps {
+  projectId: number;
+}
 
 interface DonutData {
   toDoCnt: number;
@@ -14,16 +21,42 @@ interface DonutConfig {
   options: any;
 }
 
-//dummy data
-const donutData: DonutData = {
-  toDoCnt: 2,
-  progressCnt: 2,
-  reviewCnt: 2,
-  completeCnt: 3,
-};
+function DonutSection({projectId}: DonutSectionProps) {
+  const [toDoCnt, setToDoCnt] = useState(0);
+  const [progressCnt, setProgressCnt] = useState(0);
+  const [reviewCnt, setReviewCnt] = useState(0);
+  const [completeCnt, setCompleteCnt] = useState(0);
 
-function DonutSection() {
-  const totalCnt = donutData.toDoCnt + donutData.progressCnt + donutData.reviewCnt + donutData.completeCnt;
+  const donutData: DonutData = {
+    toDoCnt: toDoCnt,
+    progressCnt: progressCnt,
+    reviewCnt: reviewCnt,
+    completeCnt: completeCnt
+  };
+
+  const getDonutRequest = async (projectId) => {
+    instanceAuth
+      .get(`/issues/chart/${projectId}`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setToDoCnt(response.data.result.toDoCnt);
+          setProgressCnt(response.data.result.progressCnt);
+          setReviewCnt(response.data.result.reviewCnt);
+          setCompleteCnt(response.data.result.completeCnt);
+        }
+        else if (response.data.code == 700) {
+          console.log("프로젝트 아이디 값을 확인해주세요.");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    getDonutRequest(projectId)
+  });
 
   //데이터가 없을 때 회색 도넛 차트
   const emptyDonut: DonutConfig = {
@@ -92,32 +125,32 @@ function DonutSection() {
         <div className="flex flex-col pt-[20px]">
           <div className="flex flex-row">
             <div className="text-neutral-400 text-sm font-suitB text-[#AAAAAA]">총 이슈</div>
-            <div className="ml-[10px] text-black text-sm font-suitB">{totalCnt}</div>
+            <div className="ml-[10px] text-black text-sm font-suitB">{toDoCnt + progressCnt + reviewCnt + completeCnt}</div>
           </div>
           <div className="w-60 h-px border border-neutral-700"></div>
           <div className="flex flex-row my-[6px]">
             <div className="w-13 h-6 px-2.5 py-0.5 bg-[#E9F6F0] rounded-2xl justify-start items-center inline-flex">
               <div className="text-center text-xs font-suitM text-[#282811]">대기</div>
             </div>
-            <div className="ml-[170px] text-right text-black text-md font-suitM">{donutData.toDoCnt}</div>
+            <div className="ml-[170px] text-right text-black text-md font-suitM">{toDoCnt}</div>
           </div>
           <div className="flex flex-row my-[6px]">
             <div className="w-13 h-6 px-2.5 py-0.5 bg-[#99D8BF] rounded-2xl justify-start items-center inline-flex">
               <div className="text-center text-[#253365] text-xs font-suitM">진행</div>
             </div>
-            <div className="ml-[170px] text-right text-black text-md font-suitM">{donutData.progressCnt}</div>
+            <div className="ml-[170px] text-right text-black text-md font-suitM">{progressCnt}</div>
           </div>
           <div className="flex flex-row my-[6px]">
             <div className="w-13 h-6 px-2.5 py-0.5 bg-[#41A05F] rounded-2xl justify-start items-center inline-flex">
               <div className="text-center text-[#ffffff] text-xs font-suitM">검토</div>
             </div>
-            <div className="ml-[170px] text-right text-black text-md font-suitM">{donutData.reviewCnt}</div>
+            <div className="ml-[170px] text-right text-black text-md font-suitM">{reviewCnt}</div>
           </div>
           <div className="flex flex-row my-[6px]">
             <div className="w-13 h-6 px-2.5 py-0.5 bg-[#285F43] rounded-2xl justify-start items-center inline-flex">
               <div className="text-center text-xs font-suitM text-[#ffffff]">완료</div>
             </div>
-            <div className="ml-[170px] text-right text-black text-md font-suitM">{donutData.completeCnt}</div>
+            <div className="ml-[170px] text-right text-black text-md font-suitM">{completeCnt}</div>
           </div>
           <div className="w-60 h-px border border-neutral-700"></div>
         </div>

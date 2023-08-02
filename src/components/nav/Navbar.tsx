@@ -282,10 +282,13 @@ export default function Navbar() {
             </li>
             <li>
               <button
-                onClick={handleAllDdOff}
+                onClick={() => {
+                  handleAllDdOff();
+                  navigate("/change-pw");
+                }}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
               >
-                이용약관
+                비밀번호 변경
               </button>
             </li>
           </ul>
