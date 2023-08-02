@@ -21,7 +21,7 @@ interface DonutConfig {
   options: any;
 }
 
-function DonutSection({projectId}: DonutSectionProps) {
+export default function DonutSection({projectId}: DonutSectionProps) {
   const [toDoCnt, setToDoCnt] = useState(0);
   const [progressCnt, setProgressCnt] = useState(0);
   const [reviewCnt, setReviewCnt] = useState(0);

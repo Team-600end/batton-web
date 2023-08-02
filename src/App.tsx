@@ -23,6 +23,7 @@ import IssueManagePage from "@pages/project/issue/IssueManagePage";
 import IssueReportPage from "@pages/project/issue/IssueReportPage";
 import IssueEditPage from "@pages/project/issue/IssueEditPage";
 import EditPjPage from "@pages/project/EditPjPage";
+import ChangePasswordPage from "@pages/ChangePasswordPage";
 
 function App() {
   return (

@@ -13,9 +13,6 @@ import {
 import { projectNavs } from "@src/state/projectState";
 import default_profile_img from "@images/common/default_profile.svg";
 
-import dk_logo from "@images/dummy/dktechin_logo.png";
-import logo_600 from "@images/dummy/600end_logo.svg";
-import ke_logo from "@images/dummy/ke_logo.png";
 import { instanceAuth } from "@src/types/AxiosInterface";
 import { useCookies } from "react-cookie";
 import { emailState, nicknameState, profileImgState } from "@src/state/userState";
