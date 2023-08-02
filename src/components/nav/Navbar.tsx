@@ -20,37 +20,7 @@ import { instanceAuth } from "@src/types/AxiosInterface";
 import { useCookies } from "react-cookie";
 import { emailState, nicknameState, profileImgState } from "@src/state/userState";
 
-const userProjectNav: ProjectNav[] = [
-  {
-    id: 1,
-    projectKey: "dktechin",
-    projectTitle: "dktechin",
-    grade: "Member",
-    logo: dk_logo,
-  },
-  {
-    id: 2,
-    projectKey: "kea",
-    projectTitle: "KEA",
-    grade: "Member",
-    logo: ke_logo,
-  },
-  {
-    id: 3,
-    projectKey: "600end",
-    projectTitle: "600&",
-    grade: "Master",
-    logo: logo_600,
-  },
-];
-
 export default function Navbar() {
-  const navigate = useNavigate();
-  const outside = useRef<HTMLDivElement>(null);
-  const location = useLocation();
-
-  const [cookies, setCookie ,removeCookie] = useCookies(['accessToken', 'refreshToken']);
-
   const [projects, setProjects] = useRecoilState(projectNavs);
   const [projectDd, setProjectDd] = useRecoilState(navbarProjectDd);
   const [profileDd, setProfileDd] = useRecoilState(navbarProfileDd);
@@ -60,13 +30,32 @@ export default function Navbar() {
   const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
   const [userEmail, setUserEmaiil] = useRecoilState(emailState);
 
+  // router dom
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const outside = useRef<HTMLDivElement>(null);
+
+  const [cookies, setCookie ,removeCookie] = useCookies(['accessToken', 'refreshToken']);
+
+  
+  // const userProjectNav: ProjectNav[] = [
+  //   {
+  //     id: 1,
+  //     projectKey: "dktechin",
+  //     projectTitle: "dktechin",
+  //     grade: "Member",
+  //     logo: dk_logo,
+  //   }
+  // ];
+
   const navPjRequest = async () => {
     instanceAuth
       .get(`/projects/navbar`)
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
-          setProjects(response.data.result)
+          setProjects(response.data.result as ProjectNav[])
         }
         else if (response.data.code == 707) {
           setProjects([]);
@@ -77,7 +66,6 @@ export default function Navbar() {
       .catch((error) => {
         console.log(error);
       })
-      .finally;
   };
 
   const handleProjectDd = () => {
@@ -106,10 +94,6 @@ export default function Navbar() {
   };
 
   const pathArr = location.pathname.split("/", 2);
-
-  useEffect(() => {
-    setProjects(userProjectNav);
-  });
 
   return (
     <nav
@@ -218,7 +202,7 @@ export default function Navbar() {
       {projectDd && (
         <div className="absolute z-20 font-suitL top-[6.5vh] left-1/2 translate-x-[-50%] mr-[1.3vw] bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
           <ul className="flex flex-col py-2 text-sm text-gray-700 justify-center">
-            {userProjectNav.map((project) => (
+            {projects.map((project) => (
               <li key={project.id}>
                 <NavPjBotton project={project} />
               </li>
