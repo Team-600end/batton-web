@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import axios from "axios";
 import ReactApexChart from "react-apexcharts";
 import { instanceAuth } from "@src/types/AxiosInterface";
+import { useRecoilState } from "recoil";
+import { projectNavs } from "@src/state/projectState";
+import { ProjectNav } from "@typess/project";
 
 interface DonutData {
   toDoCnt: number;
@@ -27,7 +30,11 @@ const donutData: DonutData = {
 export default function DonutSection() {
   // const [donutData, setDonutData] = useState<DonutData | null>(null);
   // const totalCnt = donutData.toDoCnt + donutData.progressCnt + donutData.reviewCnt + donutData.completeCnt;
-  const { projectId } = useParams();
+  const [projectNav, setProjectNav] = useRecoilState(projectNavs);
+  let { projectKey } = useParams();
+
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
+  // const { projectId } = useParams();
   let totalCnt = 0;
 
   useEffect(() => {
