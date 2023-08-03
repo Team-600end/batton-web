@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef, useEffect } from "react";
+import { useRef } from "react";
 import batton_logo_img from "@images/common/batton_logo_medium.svg";
 import Notice from "@components/nav/NoticeNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -200,7 +200,7 @@ export default function Navbar() {
         <div className="absolute z-20 font-suitL top-[6.5vh] left-1/2 translate-x-[-50%] mr-[1.3vw] bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
           <ul className="flex flex-col py-2 text-sm text-gray-700 justify-center">
             {projects.map((project) => (
-              <li key={project.id}>
+              <li key={project.projectId}>
                 <NavPjBotton project={project} />
               </li>
             ))}

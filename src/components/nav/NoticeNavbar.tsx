@@ -1,61 +1,16 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import { Link } from "react-router-dom";
-import jindol from "@images/common/jindol.jpg";
 import { useRecoilState } from "recoil";
 import { navbarNoticeDd } from "@src/state/modalState";
 import { NoticeMessage } from "@typess/Notice";
-
-import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
-import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
-import avatar_kch from "@images/dummy/avatar_kch.jpeg";
-import avatar_lyh from "@images/dummy/avatar_lyh.jpeg";
-import avatar_pmsc from "@images/dummy/avatar_pmsc.jpeg";
-import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
-import ke_logo from "@images/dummy/ke_logo.png";
-import dk_logo from "@images/dummy/dktechin_logo.png";
-
-interface NoticeS {
-  contentId: number;
-  noticeType: string;
-  noticeContent: string;
-  noticeDate: string;
-  senderProfileImage: string;
-}
-
-const notices: NoticeS[] = [
-  {
-    contentId: 1,
-    noticeType: "INVITE",
-    noticeContent: "[600&] 정현진님이 이슈 검토를 요청했습니다.",
-    noticeDate: "10분 전",
-    senderProfileImage: avatar_jhj,
-  },
-  {
-    contentId: 2,
-    noticeType: "NEW",
-    noticeContent: "[KEA] '토큰 관련 수정사항' 이슈가 완료되었습니다.",
-    noticeDate: "20분 전",
-    senderProfileImage: ke_logo,
-  },
-  {
-    contentId: 1,
-    noticeType: "APPROVE",
-    noticeContent: "[KEA] 강창훈님이 이슈를 승인하였습니다.",
-    noticeDate: "20분 전",
-    senderProfileImage: avatar_kch,
-  },
-  {
-    contentId: 1,
-    noticeType: "REVIEW",
-    noticeContent: "[DKtechin] 이승희님, 가입을 환영합니다!",
-    noticeDate: "3일 전",
-    senderProfileImage: dk_logo,
-  },
-];
+import { instanceAuth } from "@src/types/AxiosInterface";
+import default_profile from "@assets/images/common/default_profile.png"
 
 function Notice() {
   const [activeButton, setActiveButton] = useState<string>("전체");
   const [noticeDropdown, setNoticeDropdown] = useRecoilState(navbarNoticeDd);
+  const [notices, setNotices] = useState<NoticeMessage[]>([]);
+  let uri : string;
 
   const handleClick = (text: string) => {
     setActiveButton(text);
@@ -63,6 +18,34 @@ function Notice() {
   const handleNoticeDropdown = () => {
     setNoticeDropdown(!noticeDropdown);
   };
+
+  const getNoticeRequest = async () => {
+    instanceAuth
+      .get(uri)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setNotices(response.data.result)
+        }
+        else if (response.data.code == 1300) {
+          console.log("유저 아이디 값을 확인해주세요.");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  useEffect(() => {
+    if (activeButton == "전체")
+      uri = "/notices/all/0";
+    else if (activeButton == "이슈")
+      uri = "/notices/issues/0"
+    else
+      uri = "/notices/projects/0"
+    
+    getNoticeRequest();
+  }, [activeButton]);
 
   return (
     <div className="flex">
@@ -106,7 +89,11 @@ function Notice() {
           {notices.map((notice) => (
             <a href="#" className="flex px-4 py-3 hover:bg-gray-100">
               <div className="flex-shrink-0">
-                <img className="rounded-full w-11 h-11 object-cover" src={notice.senderProfileImage} />
+                {notice.senderProfileImage ? (
+                  <img className="rounded-full w-11 h-11 object-cover" src={notice.senderProfileImage} alt="Profile" />
+                ) : (
+                  <img className="rounded-full w-11 h-11 object-cover" src={default_profile} alt="Default Profile" />
+                )}
               </div>
               <div className="w-full pl-3">
                 <div className="text-gray-500 break-all font-suitM text-sm mb-1.5">{notice.noticeContent}</div>

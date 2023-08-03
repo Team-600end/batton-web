@@ -21,7 +21,7 @@ interface DonutConfig {
   options: any;
 }
 
-export default function DonutSection({projectId}: DonutSectionProps) {
+export default function DonutSection(props: DonutSectionProps) {
   const [toDoCnt, setToDoCnt] = useState(0);
   const [progressCnt, setProgressCnt] = useState(0);
   const [reviewCnt, setReviewCnt] = useState(0);
@@ -34,9 +34,9 @@ export default function DonutSection({projectId}: DonutSectionProps) {
     completeCnt: completeCnt
   };
 
-  const getDonutRequest = async (projectId) => {
+  const getDonutRequest = async () => {
     instanceAuth
-      .get(`/issues/chart/${projectId}`)
+      .get(`/issues/chart/${props.projectId}`)
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
@@ -55,7 +55,7 @@ export default function DonutSection({projectId}: DonutSectionProps) {
   };
 
   useEffect(() => {
-    getDonutRequest(projectId)
+    getDonutRequest()
   }, []);
 
   //데이터가 없을 때 회색 도넛 차트
