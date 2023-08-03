@@ -22,13 +22,13 @@ export interface AbsIssue {
 }
 
 export interface DoneIssue extends Issue {
-  content?: string;
+  issueContent?: string;
 }
 
 export interface UsedIssue {
-  type: IssueType;
-  title: string;
-  id: number;
+  issueTag: IssueType;
+  issueTitle: string;
+  issueId: number;
 }
 export interface MyIssues {
   issueId: number;

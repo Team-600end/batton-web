@@ -15,9 +15,8 @@ import { ProjectNav } from "@typess/project";
 export default function DashBoardPage() {
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectKey } = useParams();
-
   const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
-  const projectId = pj!.id;
+  const projectId = pj?.projectId;
 
   return (
     <div className="flex flex-col overflow-hidden">
