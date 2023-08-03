@@ -1,7 +1,6 @@
 import React, { useState, useCallback, useRef, useEffect } from "react";
 import batton_logo_img from "@images/common/batton_logo_medium.svg";
-import default_proflie_img from "@images/common/default_profile.svg";
-import Notice from "@components/nav/Notice";
+import Notice from "@components/nav/NoticeNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
 import NavPjBotton from "@components/nav/NavPjBotton";
 import { ProjectNav } from "@typess/project";
@@ -12,39 +11,65 @@ import {
   navbarProjectDd,
 } from "@src/state/modalState";
 import { projectNavs } from "@src/state/projectState";
+import default_profile_img from "@images/common/default_profile.svg";
 
-const userProjectNav: ProjectNav[] = [
-  {
-    id: 0,
-    name: "Batton",
-    grade: "Master",
-  },
-  {
-    id: 1,
-    name: "SurVeine",
-    grade: "Member",
-  },
-  {
-    id: 2,
-    name: "GwangGoNuri",
-    grade: "Member",
-  },
-];
+import { instanceAuth } from "@src/types/AxiosInterface";
+import { useCookies } from "react-cookie";
+import { emailState, nicknameState, profileImgState } from "@src/state/userState";
 
 export default function Navbar() {
-  const navigate = useNavigate();
-  const outside = useRef<HTMLDivElement>(null);
-  const location = useLocation();
-
-  const [projects, setProjects] = useRecoilState(projectNavs)
+  const [projects, setProjects] = useRecoilState(projectNavs);
   const [projectDd, setProjectDd] = useRecoilState(navbarProjectDd);
   const [profileDd, setProfileDd] = useRecoilState(navbarProfileDd);
   const [noticeDd, setNoticeDd] = useRecoilState(navbarNoticeDd);
+
+  const [userNickname, setUserNickname] = useRecoilState(nicknameState);
+  const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
+  const [userEmail, setUserEmaiil] = useRecoilState(emailState);
+
+  // router dom
+  const navigate = useNavigate();
+  const location = useLocation();
+
+  const outside = useRef<HTMLDivElement>(null);
+
+  const [cookies, setCookie ,removeCookie] = useCookies(['accessToken', 'refreshToken']);
+
+  
+  // const userProjectNav: ProjectNav[] = [
+  //   {
+  //     id: 1,
+  //     projectKey: "dktechin",
+  //     projectTitle: "dktechin",
+  //     grade: "Member",
+  //     logo: dk_logo,
+  //   }
+  // ];
+
+  const navPjRequest = async () => {
+    instanceAuth
+      .get(`/projects/navbar`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setProjects(response.data.result as ProjectNav[])
+        }
+        else if (response.data.code == 707) {
+          setProjects([]);
+        } else {
+          console.log('잘못된 접근입니다.');
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
 
   const handleProjectDd = () => {
     setProjectDd(!projectDd);
     setNoticeDd(false);
     setProfileDd(false);
+    navPjRequest();
   };
 
   const handleProfileDd = () => {
@@ -67,17 +92,13 @@ export default function Navbar() {
 
   const pathArr = location.pathname.split("/", 2);
 
-  useEffect(() => {
-    setProjects(userProjectNav);
-  });
-
   return (
     <nav
       className="bg-white border-gray-200 fixed top-0 w-screen z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]"
       ref={outside}
       onClick={(e) => {
-        if (e.target == outside.current) setProjectDd(false);
-        if (e.target == outside.current) setNoticeDd(false);
+        if (e.target !== outside.current) {
+        }
       }}
     >
       <div className="flex items-center p-4">
@@ -147,8 +168,6 @@ export default function Navbar() {
       <div className="flex items-center mr-3">
         {/*알람 버튼*/}
         <button
-          id="dropdownNotificationButton"
-          data-dropdown-toggle="dropdownNotification"
           className="inline-flex items-center text-sm font-suitM text-center text-gray-500 hover:text-gray-900 focus:outline-none mr-3"
           type="button"
           onClick={handleNoticeDd}
@@ -174,15 +193,15 @@ export default function Navbar() {
           onClick={handleProfileDd}
         >
           <span className="sr-only">Open user menu</span>
-          <img className="w-8 h-8 rounded-full" src={default_proflie_img} />
+          <img className="w-8 h-8 rounded-full object-cover" src={(userProfileImg == '' || userProfileImg == null) ? default_profile_img : userProfileImg} />
         </button>
       </div>
       {projectDd && (
         <div className="absolute z-20 font-suitL top-[6.5vh] left-1/2 translate-x-[-50%] mr-[1.3vw] bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
           <ul className="flex flex-col py-2 text-sm text-gray-700 justify-center">
-            {userProjectNav.map((project, index) => (
-              <li>
-                <NavPjBotton key={index} project={project} />
+            {projects.map((project) => (
+              <li key={project.id}>
+                <NavPjBotton project={project} />
               </li>
             ))}
           </ul>
@@ -202,7 +221,7 @@ export default function Navbar() {
               onClick={handleAllDdOff}
             >
               <div className="flex items-center">
-                <p className="font-suitL text-sm text-[#6B7280]">
+                <p className="font-suitL text-sm text-[#6B7280]" onClick={() => navigate("/new-project")}>
                   프로젝트 생성하기
                 </p>
               </div>
@@ -216,17 +235,20 @@ export default function Navbar() {
         </div>
       )}
       {profileDd && (
-        <div className="absolute z-20 right-[3vh] top-[6.5vh] bg-white divide-y divide-gray-100 rounded-lg shadow">
+        <div className="absolute z-20 right-[3vh] top-[6.5vh] bg-white divide-y divide-gray-100 rounded-lg shadow min-w-[11vw]">
           <div className="px-4 py-3">
-            <span className="block text-sm text-gray-900 mb-1">정정정</span>
+            <span className="block text-sm text-gray-900 mb-1">{userNickname}</span>
             <span className="block text-sm  text-gray-500 truncate">
-              jeong@gachon.ac.kr
+              {userEmail}
             </span>
           </div>
           <ul className="py-2">
             <li>
               <button
-                onClick={() => {handleAllDdOff(); navigate("/myinfo-edit")}}
+                onClick={() => {
+                  handleAllDdOff();
+                  navigate("/myinfo-edit");
+                }}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
               >
                 내 정보 수정
@@ -242,14 +264,25 @@ export default function Navbar() {
             </li>
             <li>
               <button
-                onClick={handleAllDdOff}
+                onClick={() => {
+                  handleAllDdOff();
+                  navigate("/change-pw");
+                }}
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
               >
-                이용약관
+                비밀번호 변경
               </button>
             </li>
           </ul>
-          <button onClick={() => {handleAllDdOff(); navigate("/login")}} className="block text-sm text-error-2 w-full text-left px-4 py-3 hover:bg-gray-100">
+          <button
+            onClick={() => {
+              handleAllDdOff();
+              removeCookie('accessToken');
+              removeCookie('refreshToken');
+              navigate("/login");
+            }}
+            className="block text-sm text-error-2 w-full text-left px-4 py-3 hover:bg-gray-100"
+          >
             로그아웃
           </button>
         </div>

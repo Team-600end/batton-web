@@ -2,8 +2,11 @@ import React, { useState, useCallback } from "react";
 import "@assets/index.css";
 import profile_img from "@images/common/default_profile.png";
 import Tag from "@src/components/project/issue/IssueBadge";
+import TagDisabled from "@src/components/project/issue/IssueBadgeDisabled";
 
 export default function CreateIssueModal({ visible, onClose }) {
+  const [issueType, setIssueType] = useState("");
+
   const handleOnClose = () => {
     onClose();
   };
@@ -12,15 +15,10 @@ export default function CreateIssueModal({ visible, onClose }) {
 
   return (
     <>
-      {/* <div id="defaultModal" tabindex="-1" aria-hidden="true" class="fixed top-0 left-0 right-0 z-50 hidden w-full p-4 overflow-x-hidden overflow-y-auto md:inset-0 h-[calc(100%-1rem)] max-h-full">
-        style={{ width: "36.3757vw", minHeight: "51.9348vh" }}
-       */}
-
       <div
         id="defaultModal"
-        tabIndex={-1 as number}
+        // tabIndex={-1 as number}
         aria-hidden="true"
-        onClick={handleOnClose}
         className="fixed justify-center flex items-center bg-black bg-opacity-30 top-0 left-0 right-0 bottom-0 z-50 p-4 backdrop-blur-sm overflow-x-hidden overflow-y-hidden md:inset-0 w-full h-full max-h-full"
       >
         <div className="flex w-full max-w-2xl max-h-full mr-auto ml-auto">
@@ -36,7 +34,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                 <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                 </svg>
-                <span className="sr-only">Close modal</span>
+                {/* <span className="sr-only">Close modal</span> */}
               </button>
             </div>
 
@@ -45,11 +43,11 @@ export default function CreateIssueModal({ visible, onClose }) {
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">이슈태그</p>
 
               <div className="flex items-center space-x-3 mt-4">
-                <Tag issueType="New" />
+                <TagDisabled issueType="New" />
                 <Tag issueType="Feature" />
-                <Tag issueType="Changed" />
-                <Tag issueType="Fixed" />
-                <Tag issueType="Deprecated" />
+                <TagDisabled issueType="Changed" />
+                <TagDisabled issueType="Fixed" />
+                <TagDisabled issueType="Deprecated" />
               </div>
 
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">이슈 제목</p>

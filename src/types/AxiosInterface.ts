@@ -1,119 +1,149 @@
-// import axios, {
-//   Axios,
-//   AxiosInstance,
-//   AxiosInterceptorManager,
-//   AxiosRequestConfig,
-//   AxiosResponse,
-// } from "axios";
-// import { APIResponse } from "@typess/ResponseInterface";
+import axios, {
+  Axios,
+  AxiosInstance,
+  AxiosInterceptorManager,
+  AxiosRequestConfig,
+  AxiosResponse,
+} from "axios";
+import { APIResponse } from "@typess/ResponseInterface";
+import { getCookie } from "@src/state/tokenState";
+// import { getCookie, setCookie } from "@state/tokenState";
 
-// interface CustomInstance extends AxiosInstance {
-//     interceptors: {
-//         request: AxiosInterceptorManager<AxiosRequestConfig>;
-//         response: AxiosInterceptorManager<AxiosResponse<APIResponse>>;
-//     };
 
-//     getUri(config?: AxiosRequestConfig): string;
-//     request<T>(config: AxiosRequestConfig): Promise<T>;
-//     get<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
-//     delete<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
-//     head<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
-//     options<T>(url: string, config?: AxiosRequestConfig): Promise<T>;
-//     post<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
-//     put<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
-//     patch<T>(url: string, data?: any, config?: AxiosRequestConfig): Promise<T>;
+// axios instance without Auth
+export const instanceNonAuth: AxiosInstance = axios.create({
+  baseURL: "/api"
+});
 
-// }
+instanceNonAuth.interceptors.request.use(
+  function (config) {
+    return config;
+  },
+  function (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+)
+instanceNonAuth.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  function (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+)
 
-// // axios 인스턴스 생성
-// const instanceNonAuth: Axios = axios.create({
-//   baseURL: "http://localhost:5173", // Frontend React BaseURL
-//   headers: {
-//     "Content-Type": "application/json",
-//     withCredentials: true,
-//   },
-// });
 
-// const instanceAuth: Axios = axios.create({
-//   baseURL: "http://localhost:5137",
-// });
+// Axios instance with Auth
+export const instanceAuth: AxiosInstance = axios.create({
+  baseURL: "/api",
+  withCredentials: true,
+});
 
-// // config에 header 설정을 하고, 요청에 대한 오류 발생시에는 오류 내용을 출력하고 전송 요청이 거절되도록 설정
-// instanceAuth.interceptors.request.use(
-//   function (config) {
-//     config.headers["Content-Type"] = "application/json; charset=utf-8";
-//     config.headers["Authorization"] = " 토큰 값";
-//     return config;
-//   },
-//   function (error) {
-//     console.log(error);
-//     return Promise.reject(error);
+// .common[]
+instanceAuth.interceptors.request.use(
+  function (config) {
+    config.headers['Content-Type'] = 'application/json';
+    // config.headers['Refresh-Token'] = cookies.refreshToken;
+    console.log(getCookie('accessToken'));
+    config.headers['Authorization'] = `Bearer ${getCookie('accessToken')}`
+    return config;
+  },
+  function (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+
+// 응답에 대한 리턴값 설정과 오류 발생에 대한 처리
+instanceAuth.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  async function (err) {
+    // const originalConfig = err.config;
+    console.log(err);
+    if (err.response && err.response.data.status === "TokenExpired") {
+      try {
+        // // 기존에 쿠키에 저장된 refresh token을 가져옴
+        // const refreshToken = await getCookie("refreshToken");
+        // axios.defaults.headers.common["refreshToken"] = refreshToken;
+		// 토큰을 다시 발급 받는 api 호출 함수 
+        // refreshAccessToken();
+      } catch (err: any) {
+        console.log("error", err.response);
+        // navigate("/");
+      }
+      return Promise.reject(err);
+    }
+    return Promise.reject(err);
+  }
+);
+
+
+// const refreshAccessToken = async () => {
+//   const response = await axios.post("http://localhost:8080/member/reissue", {
+//     headers: { Authorization: "Bearer " + getCookie("accessToken"), RefreshToken: getCookie("refreshToken") },
+//   });
+// 	// response를 받고 header부분에 token을 받아서 쿠키에 담기 
+//   const access_token = response.headers["authorization"];
+//   setCookie("access_token", access_token, { path: "/", secure: false, httpOnly: false, sameSite: "none" }); 
+// 	// 화면에 바로 반영이 안돼서 강제적으로 reload 시킴..?
+//   // window.location.reload();
+// };
+
+// // GET
+// export const get = async <T>(
+//   url: string,
+//   config?: AxiosRequestConfig
+// ): Promise<APIResponse<T>> => {
+//   try {
+//     const response = await client.get<APIResponse<T>>(url, config);
+//     return response.data;
+//   } catch (error: any) {
+//     alert("error");
+//     throw new Error(error.message);
 //   }
-// );
+// };
 
-// // 응답에 대한 리턴값 설정과 오류 발생에 대한 처리
-// // 404, 503 등의 에러 코드에 대한 오류 처리를 위해서 별도로 errorController 생성
-// instanceAuth.interceptors.response.use(
-//   function (response) {
-//     console.log(response);
-//     return response.data.data;
-//   },
-//   function (error) {
-//     console.log(error);
-//     return;
+// // POST
+// export const postNonAuth = async <T>(
+//   url: string,
+//   data?: any,
+//   config?: AxiosRequestConfig
+// ): Promise<APIResponse<T>> => {
+//   try {
+//     const response = await instanceNonAuth.post<APIResponse<T>>(url, data, config);
+//     return response.data;
+//   } catch (error: any) {
+//     throw new Error(error.message);
 //   }
-// );
+// };
 
-// // //TODO: GET 메서드
-// // export const getData = async <T>(
-// //   url: string,
-// //   config?: AxiosRequestConfig
-// // ): Promise<APIResponse<T>> => {
-// //   try {
-// //     const response = await client.get<APIResponse<T>>(url, config);
-// //     return response.data;
-// //   } catch (error: any) {
-// //     throw new Error(error.message);
-// //   }
-// // };
+// // PATCH 메서드
+// export const patchData = async <T>(
+//   url: string,
+//   data?: any,
+//   config?: AxiosRequestConfig
+// ): Promise<APIResponse<T>> => {
+//   try {
+//     const response = await client.patch<APIResponse<T>>(url, data, config);
+//     return response.data;
+//   } catch (error: any) {
+//     throw new Error(error.message);
+//   }
+// };
 
-// // //TODO: POST 메서드
-// // export const postData = async <T>(
-// //   url: string,
-// //   data?: any,
-// //   config?: AxiosRequestConfig
-// // ): Promise<APIResponse<T>> => {
-// //   try {
-// //     const response = await client.post<APIResponse<T>>(url, data, config);
-// //     return response.data;
-// //   } catch (error: any) {
-// //     throw new Error(error.message);
-// //   }
-// // };
-
-// // //TODO: PUT 메서드
-// // export const putData = async <T>(
-// //   url: string,
-// //   data?: any,
-// //   config?: AxiosRequestConfig
-// // ): Promise<APIResponse<T>> => {
-// //   try {
-// //     const response = await client.put<APIResponse<T>>(url, data, config);
-// //     return response.data;
-// //   } catch (error: any) {
-// //     throw new Error(error.message);
-// //   }
-// // };
-
-// // //TODO: Delete 메서드
-// // export const deleteData = async <T>(
-// //   url: string,
-// //   config?: AxiosRequestConfig
-// // ): Promise<APIResponse<T>> => {
-// //   try {
-// //     const response = await client.delete<APIResponse<T>>(url, config);
-// //     return response.data;
-// //   } catch (error: any) {
-// //     throw new Error(error.message);
-// //   }
-// // };
+// // Delete 메서드
+// export const deleteData = async <T>(
+//   url: string,
+//   config?: AxiosRequestConfig
+// ): Promise<APIResponse<T>> => {
+//   try {
+//     const response = await client.delete<APIResponse<T>>(url, config);
+//     return response.data;
+//   } catch (error: any) {
+//     throw new Error(error.message);
+//   }
+// };

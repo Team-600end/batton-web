@@ -7,18 +7,55 @@ export interface Manager {
   profileImg?: string;
 }
 export interface Issue {
-  type: IssueType;
-  title: string;
-  manager?: Manager;
-  team: string;
-  id: number;
-}
-export interface DoneIssue {
-  type: IssueType;
-  title: string;
-  manager?: Manager;
-  team: string;
-  id: number;
-  isUsed: boolean;
+  issueTag: IssueType;
+  issueTitle: string;
+  issueId: number;
+  issueKey: number;
+  nickname?: string;
+  profileImage?: string;
 }
 
+export interface AbsIssue {
+  type: IssueType;
+  title: string;
+  // id: number;
+}
+
+export interface DoneIssue extends Issue {
+  content?: string;
+}
+
+export interface UsedIssue {
+  type: IssueType;
+  title: string;
+  id: number;
+}
+export interface MyIssues {
+  issueId: number;
+  issueTitle: string;
+  issueTag: IssueType;
+  issueStatus: IssueStatus;
+  updateDate: string;
+  projectTitle: string;
+}
+
+export interface BoardIssue {
+  id: number;
+  issueTitle: string;
+  issueTag: IssueType;
+  issueStatus: IssueStatus;
+  nickname: string;
+  profileImg: string;
+}
+
+export interface DonutData {
+  toDoCnt: number;
+  progressCnt: number;
+  reviewCnt: number;
+  completeCnt: number;
+}
+
+export interface DonutConfig {
+  series: number[];
+  options: any;
+}

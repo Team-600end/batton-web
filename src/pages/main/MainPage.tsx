@@ -1,4 +1,5 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
+import { useParams } from "react-router-dom";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
 import { useNavigate } from "react-router-dom";
@@ -9,31 +10,121 @@ import right_control_img from "@images/icons/right_control.svg";
 import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
 import { ProjectCard } from "@typess/project";
-
-// Dummy data
-// const pjCards: ProjectCard[] = [
-//   {
-//     number: 1,
-//     name: "프로젝트 이름",
-//     version: "v1.0.0",
-//     index: 1,
-//     // logo: "https://images.unsplash.com/photo-1622837137190-4f8b9e2b0b0f?ixid=MnwxMjA3fDB8MHxzZWFyY2h8Mnx8Y29sb3IlMjBwcm9qZWN0JTIwc2VydmljZXxlbnwwfHwwfHw%3D&ixlib=rb-1.2.1&w=1000&q=80",
-//     todoissue: 1,
-//     doingissue: 2,
-//     myissue: 3,
-//     doneissue: 4,
-//     leader: "김김김",
-//     membernum: 5,
-//   },
-// ];
+import { MyIssues } from "@typess/Issue";
+import IssueBadge from "@components/project/issue/IssueBadge";
+//dummy
+import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
+import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+import avatar_kch from "@images/dummy/avatar_kch.jpeg";
+import logo_600end from "@images/dummy/600end_logo.svg";
+import logo_dktechin from "@images/dummy/dktechin_logo.png";
+import { instanceAuth } from "@src/types/AxiosInterface";
 
 export default function MainPage() {
   const navigate = useNavigate();
+  const [cardNum, setCardNum] = useState(3);
+  const [itemsPerPage, setItemsPerPage] = useState(3);
+  const [currentPage, setCurrentPage] = useState(1);
+  const [pjCards, setPjcards] = useState<ProjectCard[]>([]);
+  const [myIssues, setMyissues] = useState<MyIssues[]>([]);
+  //TODO: belongId 어떻게 받을지? useParams?
+  let { belongId } = useParams();
+
+  const chunkArray = (arr, chunkSize) => {
+    const chunks = [];
+    for (let i = 0; i < arr.length; i += chunkSize) {
+      chunks.push(arr.slice(i, i + chunkSize));
+    }
+    return chunks;
+  };
+
+  // 배열을 cardNum만큼씩 잘라서 묶어줍니다.
+  const chunkedPjCards = chunkArray(pjCards, cardNum);
+
+  // 화면 너비에 따라 cardNum 값을 설정하는 함수
+  const setCardNumByWidth = () => {
+    const screenWidth = window.innerWidth;
+    if (screenWidth <= 900) {
+      setCardNum(1);
+    } else if (screenWidth <= 1300) {
+      setCardNum(2);
+    } else if (screenWidth <= 1669) {
+      setCardNum(3);
+    } else {
+      setCardNum(4);
+    }
+  };
+
+  const setIssueNumByHeight = () => {
+    const screenHeight = window.innerHeight;
+    if (screenHeight <= 700) {
+      setItemsPerPage(2);
+    } else if (screenHeight <= 800) {
+      setItemsPerPage(3);
+    } else {
+      setItemsPerPage(4);
+    }
+  };
+
+  const getCurrentPageItems = () => {
+    const startIndex = (currentPage - 1) * itemsPerPage;
+    const endIndex = startIndex + itemsPerPage;
+    return myIssues.slice(startIndex, endIndex);
+  };
+
+  const totalPage = Math.ceil(myIssues.length / itemsPerPage);
+
+  // 컴포넌트가 마운트될 때와 화면 크기가 변경될 때마다 화면 너비에 따라 cardNum 값을 업데이트.
+  useEffect(() => {
+    setCardNumByWidth();
+    setIssueNumByHeight();
+
+    const handleResize = () => {
+      setCardNumByWidth();
+      setIssueNumByHeight();
+    };
+
+    window.addEventListener("resize", handleResize);
+    return () => {
+      window.removeEventListener("resize", handleResize);
+    };
+  }, []);
+
+  useEffect(() => {
+    //메인페이지 접속 시. 모든 프로젝트를 가져옴/do a deer a female deer re a golden sun mi a name i call myself fa a long long way to run
+    async () => {
+      instanceAuth
+        .get(`/projects/list`)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.code == 200) {
+            setPjcards(response.data.result);
+          } else if (response.data.code == 707) {
+            setPjcards([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
+  });
+
+  useEffect(() => {
+    //메인페이지 접속 시, 내 이슈들을 가져옴
+    async () => {
+      instanceAuth.get(`/issues/list/${belongId}`).then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setMyissues(response.data.data);
+        } else if (response.data.code == 704) {
+          setMyissues([]);
+        }
+      });
+    };
+  });
 
   return (
-    <div
-      className="mt-[7vh]"
-    >
+    <div className="mt-[7vh]" style={{ overflowY: "auto" }}>
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
         <div className="h-10"></div>
         <div className="flex flex-row items-center justify-left w-full px-8 ml-40">
@@ -42,7 +133,7 @@ export default function MainPage() {
 
           <button
             type="button"
-            className="focus:outline-none text-primary-4 bg-white border border-primary-4 hover:bg-green-100 focus:ring-4 focus:ring-green-300 font-suitM rounded-lg text-sm px-5 py-2.5"
+            className="focus:outline-none text-primary-4 bg-white border border-primary-4 hover:bg-green-100 font-suitM rounded-lg text-sm px-5 py-2.5"
             onClick={() => navigate("/new-project")}
           >
             + 새 프로젝트 생성
@@ -50,35 +141,21 @@ export default function MainPage() {
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
           <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              <PjCard />
-              <PjCard />
-              <PjCard />
-            </div>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              <PjCard />
-              <PjCard />
-            </div>
+            {chunkedPjCards.map((chunk, index) => (
+              <div key={index} className="flex h-[300px] w-5/6 flex-row items-center justify-center">
+                {chunk.map((pjCard, cardIndex) => (
+                  <PjCard key={cardIndex} pjCard={pjCard} />
+                ))}
+              </div>
+            ))}
           </Carousel>
-          {/* <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
-            <div className="flex h-[300px] w-5/6 flex-row items-center justify-left">
-              {Array.from({ length: Math.ceil(pjCards.length / 3) }).map((_, index) => (
-                <div key={index} className="flex flex-row">
-                  {pjCards.slice(index * 3, (index + 1) * 3).map((pjCard, cardIndex) => (
-                    <PjCard key={cardIndex} />
-                  ))}
-                </div>
-              ))}
-            </div>
-          </Carousel> */}
         </div>
         <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
           <img className="mr-2" src={titleBox_img} />
           <h1 className="text-2xl font-suitB text-black mr-4">내 작업 이슈들</h1>
         </div>
         {/* table */}
-        {/* <div className="items-center justify-center w-4/5 h-[300px] p-1"> */}
-        <div className="relative w-4/5 h-[300px] shadow-[0px_3px_8px_-2px_rgba(0,0,0,0.3)] sm:rounded-lg">
+        <div className="relative w-4/5 shadow-[0px_3px_8px_-2px_rgba(0,0,0,0.3)] sm:rounded-lg">
           <div className="flex items-center justify-between p-2">
             <div>
               <button
@@ -143,7 +220,7 @@ export default function MainPage() {
           </div>
 
           {/* 테이블 */}
-          <table className="w-full text-sm text-left text-gray-500">
+          <table className="w-full text-sm text-gray-500 text-center">
             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
                 <th scope="col" className="px-6 py-3">
@@ -164,78 +241,55 @@ export default function MainPage() {
               </tr>
             </thead>
             <tbody>
-              <tr className="bg-white border-b hover:bg-gray-50">
-                <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">상태</td>
-              </tr>
-              <tr className="bg-white border-b hover:bg-gray-50">
-                <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">상태</td>
-              </tr>
-              <tr className="bg-white border-b hover:bg-gray-50">
-                <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
-                  Apple MacBook Pro 17"
-                </th>
-                <td className="px-6 py-4">Silver</td>
-                <td className="px-6 py-4">Laptop</td>
-                <td className="px-6 py-4">$2999</td>
-                <td className="px-6 py-4">상태</td>
-              </tr>
-              {/* ... */}
-              {/* 나머지 테이블 내용 */}
-              {/* ... */}
+              {getCurrentPageItems().map((issueId) => (
+                <tr key={issueId.issueId} className="bg-white border-b hover:bg-gray-50">
+                  <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap">
+                    {issueId.projectTitle}
+                  </th>
+                  <td className="px-6 py-4">
+                    <IssueBadge issueType={issueId.issueTag} />
+                  </td>
+                  <td className="px-6 py-4">{issueId.issueTitle}</td>
+                  <td className="px-6 py-4">{issueId.updateDate}</td>
+                  <td className="px-6 py-4">{issueId.issueStatus}</td>
+                </tr>
+              ))}
             </tbody>
           </table>
 
+          {/* 페이지네이션 부분 */}
           <nav className="flex items-center justify-center p-2" aria-label="Table navigation">
             <ul className="flex items-center justify-center -space-x-px text-sm h-8">
               <li>
                 <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 ml-0 leading-tight text-gray-500 bg-white border border-gray-300 rounded-l-lg hover:bg-gray-100 hover:text-gray-700"
+                  className={`flex items-center justify-center px-3 h-8 ml-0 leading-tight ${
+                    currentPage === 1 ? "text-gray-300 pointer-events-none" : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                  }`}
+                  onClick={() => setCurrentPage(currentPage - 1)}
                 >
                   {"<"}
                 </a>
               </li>
+
+              {Array.from({ length: totalPage }).map((_, index) => (
+                <li key={index}>
+                  <a
+                    className={`flex items-center justify-center px-3 h-8 leading-tight ${
+                      currentPage === index + 1 ? "text-blue-600 pointer-events-none" : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                    }`}
+                    onClick={() => setCurrentPage(index + 1)}
+                  >
+                    {index + 1}
+                  </a>
+                </li>
+              ))}
+
               <li>
                 <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-                >
-                  1
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 hover:bg-gray-100 hover:text-gray-700"
-                >
-                  2
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  aria-current="page"
-                  className="flex items-center justify-center px-3 h-8 text-blue-600 border border-gray-300 bg-blue-50 hover:bg-blue-100 hover:text-blue-700"
-                >
-                  3
-                </a>
-              </li>
-              <li>
-                <a
-                  href="#"
-                  className="flex items-center justify-center px-3 h-8 leading-tight text-gray-500 bg-white border border-gray-300 rounded-r-lg hover:bg-gray-100 hover:text-gray-700"
+                  className={`flex items-center justify-center px-3 h-8 leading-tight ${
+                    currentPage === totalPage ? "text-gray-300 pointer-events-none" : "text-gray-500 hover:bg-gray-100 hover:text-gray-700"
+                  }`}
+                  onClick={() => setCurrentPage(currentPage + 1)}
                 >
                   {">"}
                 </a>
@@ -271,3 +325,136 @@ const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
     snap: "snap-x",
   },
 };
+
+// Dummy data
+
+//참여 중인 프로젝트
+const pjCards: ProjectCard[] = [
+  {
+    projectId: 1,
+    projectKey: "dktechin",
+    projectTitle: "dktechin",
+    projectImg: logo_dktechin,
+    versionMajor: 5,
+    versionMinor: 2,
+    versionPatch: 3,
+    todoIssue: 70,
+    doingIssue: 10,
+    myIssue: 4,
+    doneIssue: 50,
+    leaderName: "강창훈",
+    leaderImg: avatar_kch,
+    memberNum: 42,
+    bookmark: true,
+  },
+  {
+    projectId: 2,
+    projectKey: "kea",
+    projectTitle: "KEA",
+    projectImg: "https://logo-resources.thevc.kr/organizations/banners/cfd721742233e04a0f656f7b2b2cbf7260888fb269caff651761367c5e4876e5_1599533486309745.jpg",
+    versionMajor: 2,
+    versionMinor: 0,
+    versionPatch: 1,
+    todoIssue: 20,
+    doingIssue: 6,
+    myIssue: 4,
+    doneIssue: 24,
+    leaderName: "임혜균",
+    leaderImg: avatar_yhg,
+    memberNum: 8,
+    bookmark: true,
+  },
+  {
+    projectId: 3,
+    projectKey: "600end",
+    projectTitle: "600&",
+    projectImg: logo_600end,
+    versionMajor: 2,
+    versionMinor: 0,
+    versionPatch: 1,
+    todoIssue: 2,
+    doingIssue: 4,
+    myIssue: 2,
+    doneIssue: 3,
+    leaderName: "이승희",
+    leaderImg: avatar_lsh,
+    memberNum: 6,
+    bookmark: false,
+  },
+];
+
+//내 작업 이슈들
+const myIssues: MyIssues[] = [
+  {
+    issueId: 1,
+    issueTitle: "사용자 활동에 대한 통계 정보 제공 기능",
+    issueTag: "Changed",
+    issueStatus: "Todo",
+    updateDate: "2023-10-20",
+    projectTitle: "dktechin",
+  },
+  {
+    issueId: 2,
+    issueTitle: "반응형 웹 지원 모바일 뷰 개선",
+    issueTag: "Feature",
+    issueStatus: "Review",
+    updateDate: "2023-09-03",
+    projectTitle: "dktechin",
+  },
+  {
+    issueId: 3,
+    issueTitle: "인증 기능 강화 및 취약점 보완",
+    issueTag: "Fixed",
+    issueStatus: "Done",
+    updateDate: "2023-08-15",
+    projectTitle: "dktechin",
+  },
+  {
+    issueId: 4,
+    issueTitle: "알림 기능 업데이트 푸시 알림 디자인 변경",
+    issueTag: "Changed",
+    issueStatus: "Review",
+    updateDate: "2023-07-02",
+    projectTitle: "KEA",
+  },
+  {
+    issueId: 5,
+    issueTitle: "로그 저장 기능 추가",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2023-06-10",
+    projectTitle: "KEA",
+  },
+  {
+    issueId: 6,
+    issueTitle: "새로운 로그인 방식 생체 인증 기능 추가",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "KEA",
+  },
+  {
+    issueId: 7,
+    issueTitle: "데이터 로딩 시간 개선",
+    issueTag: "Feature",
+    issueStatus: "Review",
+    updateDate: "2023-02-10",
+    projectTitle: "KEA",
+  },
+  {
+    issueId: 8,
+    issueTitle: "일반 설문조사 종류 변경",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "600&",
+  },
+  {
+    issueId: 9,
+    issueTitle: "설문조사 GPS 배포 기능",
+    issueTag: "New",
+    issueStatus: "Todo",
+    updateDate: "2021-09-01",
+    projectTitle: "600&",
+  },
+];

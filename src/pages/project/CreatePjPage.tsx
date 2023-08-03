@@ -1,15 +1,148 @@
 import React, { useState, useCallback, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import profile_img from "@images/common/default_profile.png";
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
-import Navbar from "@components/nav/Navbar";
+import { instanceAuth } from "@src/types/AxiosInterface";
+import { CpMember, Member } from "@typess/Users";
+import CreatePjMember from "@src/components/project/CreatePjMember";
+import g_check_icon from "@images/icons/grey-check.svg";
+import w_check_icon from "@images/icons/white_check.svg";
+import { useRecoilState } from "recoil";
+import { nicknameState } from "@src/state/userState";
+import { projectNavs } from "@src/state/projectState";
+import { ProjectNav } from "@src/types/project";
+
+interface CreatePjData {
+  projectTitle: string;
+  projectKey: string;
+  projectContent?: string;
+  projectImage?: string;
+  projectMemberList?: Member[];
+  nickname: string;
+}
 
 export default function CreatePjPage() {
+  // 프로젝트의 이름
+  const [pjTitle, setPjTitle] = useState("");
+  // 프로젝트의 고유 키
+  const [pjKey, setPjKey] = useState("");
+  // 프로젝트 설명
+  const [pjContent, setPjContent] = useState("");
+  // 프로젝트 이미지 - 현재 사용 안함
+  const [pjImage, setPjImage] = useState("");
+  // 프로젝트 멤버 리스트 화면 상태관리
+  const [pjMemList, setPjMemList] = useState<CpMember[]>([]);
+  // 프로젝트 멤버 리스트 요청 상태관리
+  const [pjMemReqList, setPjMemReqList] = useState<Member[]>([]);
+  // pjTitle 길이 상태관리
+  const [titleInputCount, setTitleInputCount] = useState(0);
+  // pjKey 길이 상태관리
+  const [keyInputCount, setKeyInputCount] = useState(0);
+  // pjContent 길이 상태관리
+  const [contentInputCount, setContentInputCount] = useState(0);
+  // pjKey 가용 여부 상태관리
+  const [keyChecked, setKeyChecked] = useState(-1); // 작성중 0, 성공 1, 공백 -1, 실패 -2
+  // 초대 멤버 조회용 이메일
+  const [findByEmail, setFindByEmail] = useState("");
+  // 이메일 유효성 검사 결과
+  const [emailStatus, setEmailStatus] = useState("");
+  // 현재 사용자 닉네임 recoil
+  const [userNickname, setUserNickname] = useRecoilState(nicknameState);
+  // 프로젝트 recoil
+  const [projects, setProjects] = useRecoilState(projectNavs);
+  const emailRegex = /\S+@\S+\.\S+/;
+
+  // router-dom
   const navigate = useNavigate();
 
   const goBack = () => {
     navigate(-1); // 이전 페이지로 이동
+  };
+
+  const onTitleChangeHandler = (e) => {
+    setPjTitle(e.target.value);
+    setTitleInputCount(e.target.value.length);
+  };
+
+  const onKeyChangeHandler = (e) => {
+    e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, "");
+    setPjKey(e.target.value);
+    setKeyInputCount(e.target.value.length);
+    setKeyChecked(0);
+    if (e.target.value == "") setKeyChecked(-1);
+  };
+
+  const onContentChangeHandler = (e) => {
+    setPjContent(e.target.value);
+    setContentInputCount(e.target.value.length);
+  };
+
+  const onFindByEmailChangeHandler = (e) => {
+    setFindByEmail(e.target.value);
+  };
+
+  useEffect(() => {
+    // 이메일 형식 검증
+    if (findByEmail === "") {
+      setEmailStatus("");
+    } else if (!emailRegex.test(findByEmail)) {
+      setEmailStatus("이메일 형식이 올바르지 않습니다.");
+    } else {
+      setEmailStatus("");
+    }
+  }, [findByEmail]);
+
+  const createPjData: CreatePjData = {
+    projectTitle: pjTitle,
+    projectKey: pjKey,
+    projectContent: pjContent,
+    projectImage: pjImage,
+    nickname: userNickname,
+    projectMemberList: pjMemReqList,
+  };
+
+  const pjMemberRequest = async () => {
+    pjMemList.forEach((member) => {
+      if (member.email === findByEmail) {
+        // 특정 값이 있는 경우 원하는 동작 수행
+        setEmailStatus("이미 추가한 멤버입니다.");
+        return;
+      }
+    });
+    instanceAuth
+      .get(`/members/list/${findByEmail}`)
+      .then((response) => {
+        if (response.data.code == 200) {
+          setPjMemList((pjMemList) => [
+            ...pjMemList,
+            response.data.result as CpMember,
+          ]);
+        } else {
+          // 해당 이메일로 가입한 회원이 없을 때의 처리가 있어야 함!
+          alert("정상적인 접근이 아닙니다.");
+        }
+      })
+      .catch(() => alert("error"));
+  };
+
+  // 프로젝트 키 중복 체크 요청
+  const checkPjKeyRequest = async () => {
+    if (keyChecked) return;
+    if (pjKey == "") {
+      alert("키 값을 입력해주세요.");
+      return;
+    }
+    instanceAuth
+      .get(`/projects/project-key/${pjKey}`)
+      .then((response) => {
+        console.log(response.data)
+        if (response.data.isSuccess == true) {
+          setKeyChecked(1);
+        } else {
+          setKeyChecked(-2);
+        }
+      })
+      .catch(() => alert("정상적인 접근이 아닙니다."));
   };
 
   useEffect(() => {
@@ -17,7 +150,9 @@ export default function CreatePjPage() {
     const $targetEl = document.getElementById("dropdownMenu") as HTMLDivElement;
 
     // set the element that trigger the dropdown menu on click
-    const $triggerEl = document.getElementById("dropdownButton") as HTMLButtonElement | null;
+    const $triggerEl = document.getElementById(
+      "dropdownButton"
+    ) as HTMLButtonElement | null;
 
     // options with default values
     const options: DropdownOptions = {
@@ -26,15 +161,6 @@ export default function CreatePjPage() {
       offsetSkidding: 0,
       offsetDistance: 10,
       delay: 300,
-      onHide: () => {
-        console.log("dropdown has been hidden");
-      },
-      onShow: () => {
-        console.log("dropdown has been shown");
-      },
-      onToggle: () => {
-        console.log("dropdown has been toggled");
-      },
     };
 
     /*
@@ -42,237 +168,315 @@ export default function CreatePjPage() {
      * triggerEl: required
      * options: optional
      */
-    const dropdown: DropdownInterface = new Dropdown($targetEl, $triggerEl, options);
+    const dropdown: DropdownInterface = new Dropdown(
+      $targetEl,
+      $triggerEl,
+      options
+    );
 
     // show the dropdown
-    dropdown.show();
+    // dropdown.show();
   }, []);
+
+  // 프로젝트 생성 요청
+  const createPjRequest = async () => {
+    if (pjTitle == "") {
+      alert("프로젝트명을 입력해주세요.");
+      return;
+    }
+
+    if (!(keyChecked == 1)) {
+      alert("프로젝트 키 중복 검사를 진행해주세요.");
+      return;
+    }
+
+    instanceAuth
+      .post(`/projects`, createPjData)
+      .then(async (response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          await instanceAuth
+            .get(`/projects/navbar`)
+            .then((response) => {
+              console.log(response.data);
+              if (response.data.code == 200) {
+                setProjects(response.data.result as ProjectNav[]);
+              } else if (response.data.code == 707) {
+                setProjects([]);
+              } else {
+                console.log("잘못된 접근입니다.");
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          navigate(`/project/${response.data.result.projectKey}/dashboard`);
+        } else {
+          alert("요청 실패");
+        }
+      })
+      .catch(() => alert("정상적인 접근이 아닙니다."));
+  };
 
   return (
     <>
-      <div className="relative w-screen h-screen flex flex-col mt-12">
+      <div className="relative w-screen h-screen flex flex-col mt-[100px]">
         {/* 프로젝트 생성하기 타이틀 */}
-        <div className="flex flex-row items-center mt-12" style={{ marginLeft: "16.9312vw" }}>
+        <div
+          className="flex flex-row items-center"
+          style={{ marginLeft: "16.9312vw" }}
+        >
           <div className="w-[10px] h-[27px] bg-primary-5 mr-[10px]"></div>
-          <p className="text-[28px] font-bold text-gray-900">프로젝트 생성하기</p>
+          <p className="text-[28px] font-suitB text-gray-900">
+            프로젝트 생성하기
+          </p>
         </div>
-
-        <div className="flex flex-row w-screen">
-          {/* 프로젝트 생성하기 왼쪽 컨테이너 */}
-          {/* 소제목 모음 */}
-          <div
-            className="flex flex-col"
-            style={{
-              width: "15vw",
-              marginLeft: "24.2159vw",
-              marginTop: "4.9613vh",
-            }}
-          >
-            <p className="text-[20px] font-medium text-gray-900">프로젝트명</p>
-            <p className="text-[20px] font-medium text-gray-900" style={{ marginTop: "9.7760vh" }}>
-              프로젝트 설명
+        <div className="flex flex-col items-center">
+          <div className="flex flex-row mt-[8vh]">
+            <p className="w-[21vw] text-[20px] font-suitM text-gray-900">
+              프로젝트명
             </p>
-            <p className="text-[20px] font-medium text-gray-900" style={{ marginTop: "18.3299vh" }}>
-              팀원 추가하기
-            </p>
+            <div>
+              <input
+                type="text"
+                placeholder=""
+                maxLength={20}
+                onChange={onTitleChangeHandler}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
+              />
+              <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] w-[31.0847vw]">
+                {titleInputCount}/20
+              </p>
+            </div>
           </div>
-
-          {/* 프로젝트 생성하기 오른쪽 컨테이너 */}
-          {/* 인풋들 모음 */}
-          <div className="flex flex-col  w-screen" style={{ marginLeft: "10.2159vw", marginTop: "4.9613vh" }}>
-            {/* 제목 입력 */}
-            <input
-              type="pj_title"
-              name="pj_title"
-              id="pj_title"
-              placeholder=""
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-              style={{
-                width: "31.0847vw",
-              }}
-              required
-            />
-            <p className="font-medium text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
-              0/20
-            </p>
-
-            {/* 설명 입력 */}
-            <textarea
-              name="pj_title"
-              id="pj_title"
-              placeholder=""
-              className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-              style={{
-                verticalAlign: "top",
-                width: "31.0847vw",
-                marginTop: "5.7026vh",
-                minHeight: "14.6640vh",
-              }}
-              required
-            />
-
-            <p className="font-medium text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
-              0/200
-            </p>
-
-            {/* 팀원 추가하기 */}
-            <div className="flex flex-row">
-              <div className="relative z-0" style={{ marginTop: "4.0733vh", width: "24.8vw" }}>
+          <div className="flex flex-row mt-[6vh]">
+            <div className="flex flex-col">
+              <p className="w-[21vw] text-[20px] font-suitM text-gray-900">
+                프로젝트 키
+              </p>
+              <p className="text-[1.6vh] font-suitL text-gray-400 mt-[0.5vh]">
+                * 생성 후 변경 불가능한 고유 주소입니다.
+                <br />
+                &nbsp;&nbsp;&nbsp;영문 소문자와 숫자만 입력 가능합니다.
+              </p>
+            </div>
+            <div>
+              <div className="flex">
                 <input
                   type="text"
-                  id="floating_standard"
-                  className="block py-2.5 px-0 w-full text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none dark:text-white dark:border-gray-600 dark:focus:border-blue-500 focus:outline-none focus:ring-0 focus:border-blue-600 peer"
-                  placeholder=" "
+                  placeholder=""
+                  maxLength={20}
+                  onChange={onKeyChangeHandler}
+                  className={
+                    keyChecked == 1 || keyChecked == -1
+                      ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[27.0847vw]"
+                      : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-error-4 focus:border-error-3 block p-2.5 w-[27.0847vw]"
+                  }
                 />
-                <label
-                  htmlFor="floating_standard"
-                  className="absolute text-sm text-gray-500 dark:text-gray-400 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-blue-600 peer-focus:dark:text-blue-500 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6"
+                <button
+                  onClick={checkPjKeyRequest}
+                  className={
+                    !(keyChecked == 1)
+                      ? "w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] border-2 border-grey-3 bg-white hover:bg-grey-4 rounded-lg"
+                      : "w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] border border-1 border-primary-4 bg-primary-3 rounded-lg"
+                  }
                 >
-                  이메일 검색하기
-                </label>
+                  {!(keyChecked == 1) ? (
+                    <img src={g_check_icon} className="m-auto" />
+                  ) : (
+                    <img src={w_check_icon} className="m-auto" />
+                  )}
+                </button>
               </div>
-
-              {/* 권한 드롭다운 버튼 */}
-              <button
-                id="dropdownButton"
-                data-dropdown-toggle="dropdownMenu"
-                className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-[20px] justify-center"
-                type="button"
-                style={{ width: "86px", height: "40px", marginTop: "4.0733vh" }}
-              >
-                권한
-                <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                </svg>
-              </button>
-
-              {/* 추가 버튼 */}
-              <button
-                id="addTeamMember"
-                className="text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-medium rounded-lg text-[12px]  mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5 ml-[10px]"
-                style={{ width: "86px", height: "40px", marginTop: "4.0733vh" }}
-              >
-                추가
-              </button>
-            </div>
-
-            {/* 권한 드롭다운했을 때 */}
-            {/*  */}
-            <div className="relative flex flex-col">
-              <div
-                id="dropdownMenu"
-                className="z-20 hidden w-[150px] bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
-                style={{
-                  marginLeft: "22.1vw",
-                }}
-              >
-                <ul className="p-3 space-y-1 text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownButton">
-                  <li>
-                    <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                      <input
-                        id="default-radio-4"
-                        type="radio"
-                        value=""
-                        name="default-radio"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      />
-                      <label htmlFor="default-radio-4" className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300">
-                        프로젝트 리더
-                      </label>
-                    </div>
-                  </li>
-                  <li>
-                    <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                      <input
-                        checked
-                        id="default-radio-5"
-                        type="radio"
-                        value=""
-                        name="default-radio"
-                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
-                      />
-                      <label htmlFor="default-radio-5" className="w-full ml-2 text-[14px] font-medium text-gray-900 rounded dark:text-gray-300">
-                        프로젝트 팀원
-                      </label>
-                    </div>
-                  </li>
-                </ul>
+              <div className="flex w-[31.0847vw]">
+                <p
+                  className={
+                    keyChecked == 1
+                      ? "text-primary-4 pl-[0.4vw] font-suitL text-[13px] mt-[4px]"
+                      : "text-error-3 pl-[0.4vw] font-suitL text-[13px] mt-[4px]"
+                  }
+                >
+                  {keyChecked == 1
+                    ? "사용 가능한 키입니다"
+                    : keyChecked == 0
+                    ? "키 중복 검사를 진행해주세요"
+                    : keyChecked == -1
+                    ? ""
+                    : "사용 불가능한 키입니다."}
+                </p>
+                <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] ml-auto pr-[4.2vw]">
+                  {keyInputCount}/20
+                </p>
               </div>
-
-              {/* 추가한 팀원 목록 */}
-              {/* 더미데이터 */}
-              <div
-                className="flex flex-col justify-center space-x-5 bg-gray-50 border border-gray-300 rounded-lg z-5 px-5 py-5"
-                style={{
-                  width: "31.1847vw",
-                }}
-              >
-                <ul className="max-w-md divide-y divide-gray-200 dark:divide-gray-700">
-                  <li className="pb-3 sm:pb-4">
-                    <div className="flex items-center space-x-7">
-                      <div className="flex-shrink-0">
-                        <img className="w-8 h-8 rounded-full" src={profile_img} alt="Neil image" />
-                      </div>
-                      <div className="flex flex-1 flex-row min-w-0">
-                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">이서현</p>
-                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">email@flowbite.com</p>
-                      </div>
-                      <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">프로젝트 팀원</div>
-                    </div>
-                  </li>
-
-                  <li className="py-3 sm:py-4">
-                    <div className="flex items-center space-x-7">
-                      <div className="flex-shrink-0">
-                        <img className="w-8 h-8 rounded-full" src={profile_img} alt="Neil image" />
-                      </div>
-                      <div className="flex flex-1 flex-row min-w-0">
-                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">정현진</p>
-                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">email@flowbite.com</p>
-                      </div>
-                      <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">프로젝트 팀원</div>
-                    </div>
-                  </li>
-
-                  <li className="py-3 sm:py-4">
-                    <div className="flex items-center space-x-7">
-                      <div className="flex-shrink-0">
-                        <img className="w-8 h-8 rounded-full" src={profile_img} alt="Neil image" />
-                      </div>
-                      <div className="flex flex-1 flex-row min-w-0">
-                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">이승희</p>
-                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">email@flowbite.com</p>
-                      </div>
-                      <div className="inline-flex text-[14px] font-medium text-primary-4 dark:text-white ">프로젝트 리더</div>
-                    </div>
-                  </li>
-                  <li className="py-3 sm:py-4">
-                    <div className="flex items-center space-x-7">
-                      <div className="flex-shrink-0">
-                        <img className="w-8 h-8 rounded-full" src={profile_img} alt="Neil image" />
-                      </div>
-                      <div className="flex flex-1 flex-row min-w-0">
-                        <p className="text-[14px] font-medium text-gray-600 truncate dark:text-white">임혜균</p>
-                        <p className="text-sm text-gray-500 truncate dark:text-gray-400 ml-[20px]">email@flowbite.com</p>
-                      </div>
-                      <div className="inline-flex text-[14px] font-medium text-gray-900 dark:text-white ">프로젝트 팀원</div>
-                    </div>
-                  </li>
-                </ul>
-              </div>
-            </div>
-
-            {/* 프로젝트 생성하기 버튼 */}
-            <div className="flex justify-end">
-              <button
-                className="ml-auto w-[128px] h-[40px] text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-medium rounded-lg text-sm mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5"
-                style={{ marginTop: "4.8vh", marginRight: "16.3511vw" }}
-                onClick={goBack}
-              >
-                생성하기
-              </button>
             </div>
           </div>
+          <div className="flex flex-row mt-[6vh]">
+            <p className="w-[21vw] text-[20px] font-suitM text-gray-900">
+              프로젝트 설명
+            </p>
+            <div>
+              <textarea
+                placeholder=""
+                maxLength={200}
+                onChange={onContentChangeHandler}
+                className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
+                style={{
+                  verticalAlign: "top",
+                  width: "31.0847vw",
+                  minHeight: "14.6640vh",
+                }}
+              />
+
+              <p
+                className="font-suitM text-[14px] text-gray-400 text-right mt-[4px]"
+                style={{ width: "31.0847vw" }}
+              >
+                {contentInputCount}/200
+              </p>
+            </div>
+          </div>
+          <div className="flex flex-row mt-[8vh]">
+            <p className="w-[21vw] text-[20px] font-suitM text-gray-900">
+              팀원 추가하기
+            </p>
+            <div className="flex flex-col">
+              <div className="flex flex-row w-[31.0847vw]">
+                <div className="relative z-0">
+                  <input
+                    onChange={onFindByEmailChangeHandler}
+                    type="text"
+                    id="floating_standard"
+                    className={
+                      emailStatus == ""
+                        ? "block py-2.5 px-0 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary-4 peer ml-1"
+                        : "block py-2.5 px-0 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-error-3 peer ml-1"
+                    }
+                    placeholder=" "
+                  />
+                  <label
+                    htmlFor="floating_standard"
+                    className={
+                      emailStatus == ""
+                        ? "absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ml-1"
+                        : "absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-error-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ml-1"
+                    }
+                  >
+                    {emailStatus == "" ? "이메일 검색하기" : emailStatus}
+                  </label>
+                </div>
+
+                {/* 권한 드롭다운 버튼 */}
+                <button
+                  id="dropdownButton"
+                  data-dropdown-toggle="dropdownMenu"
+                  className="ml-auto border border-gray-300 border-1 text-text-gray-900 bg-white hover:bg-grey-6 font-suitM rounded-lg text-[12px] text-center inline-flex items-center justify-center"
+                  type="button"
+                  style={{
+                    width: "86px",
+                    height: "40px",
+                  }}
+                >
+                  권한
+                  <svg
+                    className="w-2.5 h-2.5 ml-2.5"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 10 6"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 4 4 4-4"
+                    />
+                  </svg>
+                </button>
+
+                {/* 추가 버튼 */}
+                <button
+                  id="addTeamMember"
+                  onClick={pjMemberRequest}
+                  className="ml-[0.5vw] w-[86px] h-[40px] text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-[12px] mb-2 focus:outline-none"
+                >
+                  추가
+                </button>
+              </div>
+
+              {/* 권한 드롭다운했을 때 */}
+              <div className="relative flex flex-col">
+                <div
+                  id="dropdownMenu"
+                  className="z-20 hidden w-[150px] bg-white divide-y divide-gray-100 rounded-lg shadow"
+                  style={{
+                    marginLeft: "22.1vw",
+                  }}
+                >
+                  <ul
+                    className="p-3 space-y-1 text-sm text-gray-700"
+                    aria-labelledby="dropdownButton"
+                  >
+                    <li>
+                      <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                        <input
+                          id="default-radio-4"
+                          type="radio"
+                          value=""
+                          name="default-radio"
+                          className="w-4 h-4 text-primary-4 bg-gray-100 border-gray-300 focus:ring-primary-4 focus:ring-2"
+                        />
+                        <label
+                          htmlFor="default-radio-4"
+                          className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded"
+                        >
+                          프로젝트 리더
+                        </label>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                        <input
+                          id="default-radio-5"
+                          type="radio"
+                          value=""
+                          name="default-radio"
+                          className="w-4 h-4 text-primary-4 bg-gray-100 border-gray-300 focus:ring-primary-4 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                        />
+                        <label
+                          htmlFor="default-radio-5"
+                          className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded"
+                        >
+                          프로젝트 팀원
+                        </label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+
+                {/* 추가한 팀원 목록 */}
+                {/* 더미데이터 */}
+                <div className="flex flex-col justify-center space-x-5 bg-gray-50 border border-gray-300 rounded-lg z-5 px-5 py-5 w-[31.1847vw]">
+                  <ul className="max-w-md divide-y divide-gray-200">
+                    {pjMemList.map((member) => (
+                      <CreatePjMember pjMember={member} />
+                    ))}
+                  </ul>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+        {/* 프로젝트 생성하기 버튼 */}
+        <div className="flex justify-end">
+          <button
+            className="ml-auto w-[128px] h-[40px] text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-suitM rounded-lg text-sm mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5"
+            style={{ marginTop: "4.8vh", marginRight: "16.3511vw" }}
+            onClick={createPjRequest}
+            type="button"
+          >
+            생성하기
+          </button>
         </div>
       </div>
     </>

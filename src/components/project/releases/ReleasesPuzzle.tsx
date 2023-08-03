@@ -1,54 +1,321 @@
 import React, { useState, useCallback, useEffect } from "react";
-import styled from "styled-components";
-import changed_version_img from "@images/common/changed_version.svg";
-import puzzle_img from "@images/puzzle.svg";
-
+import { useParams } from "react-router-dom";
 import PuzzleView from "@components/project/releases/PuzzleView";
-import puzzle from "@typess/Puzzle";
+import { Release } from "@src/types/Release";
+import { instanceAuth } from "@src/types/AxiosInterface";
 
-// Dummy data
-const puzzles: puzzle[] = [
-  {
-    version: "v1.0.0",
-    index: 1,
-  },
-  {
-    version: "v1.0.1",
-    index: 2,
-  },
-  {
-    version: "v1.0.1",
-    index: 3,
-  },
-  {
-    version: "v1.0.1",
-    index: 4,
-  },
-  {
-    version: "v1.0.0",
-    index: 1,
-  },
-  {
-    version: "v1.0.1",
-    index: 2,
-  },
-];
+// type ReleasesPuzzleProps = {
+//   releaseList: Release[];
+// };
 
+// export default function ReleasesPuzzle(props: ReleasesPuzzleProps) {
 export default function ReleasesPuzzle() {
+  const [puzzle, setPuzzle] = useState<Release[][]>([]);
+  const [releasesList, setReleasesList] = useState<Release[]>([]);
+  const reverseList = [...releasesList].reverse();
+  const { projectId } = useParams();
+
+  useEffect(() => {
+    // async () => {
+    instanceAuth
+      .get(`/project/${projectId}/release`) //TODO: api 확인 필요
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setReleasesList(response.data.data);
+        } else if (response.data.code == 404) {
+          //TODO: 에러코드 확인 필요
+          alert("존재하지 않는 프로젝트입니다.");
+          setReleasesList([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // };
+  }, []);
+
+  useEffect(() => {
+    let puzzleState: Release[][] = [];
+    let temp: Release[] = [];
+
+    reverseList.forEach((release, idx) => {
+      if ((release.versionChanged === "Major" && idx !== 0) || idx === reverseList.length - 1) {
+        puzzleState.unshift(temp);
+        temp = [];
+      }
+      temp.push(release);
+    });
+
+    setPuzzle(puzzleState);
+  }, []);
+
   return (
     <>
-      <div className="w-[690px] h-[320px] relative bg-white rounded-xl shadow-md">
-        {/* <div className="w-[600px] h-[322px] p-[10px] shadow-[2px_6px_10px_-2px_rgba(0,0,0,0.3)] border-[0.3px] bg-white rounded-lg shadow dark:bg-gray-800 dark:hover:bg-gray-700"> */}
-        <div className=" flex items-center">
-          <p className="p-3 mb-1 font-semibold">릴리즈 퍼즐</p>
-          <img src={changed_version_img} alt="changed_version_img" className="p-2 mb-1 mt-1" />
-        </div>
-        <div className="relative flex ml-[20px]">
-          {puzzles.map((puzzle, index) => (
-            <PuzzleView key={index} version={puzzle.version} />
-          ))}
+      <div
+        className="items-center justify-center ml-1"
+        style={{
+          width: "98%", // 컨테이너의 가로 크기
+          height: "65%", // 컨테이너의 세로 크기
+          overflowX: "auto", // 가로 스크롤 표시
+          overflowY: "auto", // 세로 스크롤 표시
+        }}
+      >
+        <div
+          className="relative flex p-[15px]"
+          style={{
+            width: "auto", // 내용의 가로 크기 (가로 스크롤을 표시하기 위함)
+            height: "auto", // 내용의 세로 크기 (세로 스크롤을 표시하기 위함)
+            minHeight: "200px",
+          }}
+        >
+          <section>
+            <table>
+              <tbody>
+                {puzzle.map((arrayPuzzle, rowIndex) => (
+                  <tr key={rowIndex}>
+                    {arrayPuzzle.map((element, colIndex) => (
+                      <td>
+                        <PuzzleView key={colIndex} release={element} />
+                      </td>
+                    ))}
+                  </tr>
+                ))}
+              </tbody>
+            </table>
+          </section>
         </div>
       </div>
     </>
   );
 }
+
+// const releasesList: Release[] = [
+//   {
+//     versionChanged: "Major",
+//     versionMajor: 3,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     date: "2023.07.28",
+//     issueList: [
+//       {
+//         type: "New",
+//         title: "설문조사 배포 추가",
+//       },
+//       {
+//         type: "Feature",
+//         title: "설문조사 완료 기능",
+//       },
+//     ],
+//     id: 5,
+//   },
+//   {
+//     versionChanged: "Major",
+//     versionMajor: 2,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     date: "2023.07.27",
+//     issueList: [
+//       {
+//         type: "Fixed",
+//         title: "설문조사 삭제 이슈",
+//       },
+//     ],
+//     id: 4,
+//   },
+//   {
+//     versionChanged: "Patch",
+//     versionMajor: 1,
+//     versionMinor: 1,
+//     versionPatch: 2,
+//     date: "2023.07.18",
+//     issueList: [
+//       {
+//         type: "Deprecated",
+//         title: "리뷰식 이미지 설문조사 기능 철회",
+//       },
+//     ],
+//     id: 3,
+//   },
+//   {
+//     versionChanged: "Minor",
+//     versionMajor: 1,
+//     versionMinor: 1,
+//     versionPatch: 1,
+//     date: "2023.07.18",
+//     issueList: [
+//       {
+//         type: "Fixed",
+//         title: "설문조사 작성 버그 수정",
+//       },
+//       {
+//         type: "Changed",
+//         title: "설문조사 등록 기능 변경",
+//       },
+//     ],
+//     id: 2,
+//   },
+//   {
+//     versionChanged: "Major",
+//     versionMajor: 1,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     date: "2023.07.02",
+//     issueList: [
+//       {
+//         type: "New",
+//         title: "600& 프로젝트 출시",
+//       },
+//     ],
+//     id: 1,
+//   },
+// ];
+
+// import React, { useState, useCallback, useEffect } from "react";
+
+// import PuzzleView from "@components/project/releases/PuzzleView";
+// import { Release } from "@src/types/Release";
+
+// type ReleasesPuzzleProps = {
+//   releaseList: Release[];
+// };
+
+// export default function ReleasesPuzzle(props: ReleasesPuzzleProps) {
+//   const [puzzle, setPuzzle] = useState<Release[][]>([]);
+//   const reverseList = [...releasesList].reverse();
+
+//   useEffect(() => {
+//     let puzzleState: Release[][] = [];
+//     let temp: Release[] = [];
+
+//     props.releaseList.forEach((release, idx) => {
+//       if ((release.versionChanged === "Major" && idx !== 0) || idx === props.releaseList.length - 1) {
+//         puzzleState.unshift(temp);
+//         temp = [];
+//       }
+//       temp.push(release);
+//     });
+
+//     setPuzzle(puzzleState);
+//   }, []);
+
+//   return (
+//     <>
+//       <div
+//         className="items-center justify-center ml-1"
+//         style={{
+//           width: "98%", // 컨테이너의 가로 크기
+//           height: "65%", // 컨테이너의 세로 크기
+//           overflowX: "auto", // 가로 스크롤 표시
+//           overflowY: "auto", // 세로 스크롤 표시
+//         }}
+//       >
+//         <div
+//           className="relative flex p-[15px]"
+//           style={{
+//             width: "auto", // 내용의 가로 크기 (가로 스크롤을 표시하기 위함)
+//             height: "auto", // 내용의 세로 크기 (세로 스크롤을 표시하기 위함)
+//             minHeight: "200px",
+//           }}
+//         >
+//           <section>
+//             <table>
+//               <tbody>
+//                 {puzzle.map((arrayPuzzle, rowIndex) => (
+//                   <tr key={rowIndex}>
+//                     {arrayPuzzle.map((element, colIndex) => (
+//                       <td>
+//                         <PuzzleView key={colIndex} release={element} />
+//                       </td>
+//                     ))}
+//                   </tr>
+//                 ))}
+//               </tbody>
+//             </table>
+//           </section>
+//         </div>
+//       </div>
+//     </>
+//   );
+// }
+
+// const releasesList: Release[] = [
+//   {
+//     versionChanged: "Major",
+//     versionMajor: 3,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     date: "2023.07.28",
+//     issueList: [
+//       {
+//         type: "New",
+//         title: "설문조사 배포 추가",
+//       },
+//       {
+//         type: "Feature",
+//         title: "설문조사 완료 기능",
+//       },
+//     ],
+//     id: 5,
+//   },
+//   {
+//     versionChanged: "Major",
+//     versionMajor: 2,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     date: "2023.07.27",
+//     issueList: [
+//       {
+//         type: "Fixed",
+//         title: "설문조사 삭제 이슈",
+//       },
+//     ],
+//     id: 4,
+//   },
+//   {
+//     versionChanged: "Patch",
+//     versionMajor: 1,
+//     versionMinor: 1,
+//     versionPatch: 2,
+//     date: "2023.07.18",
+//     issueList: [
+//       {
+//         type: "Deprecated",
+//         title: "리뷰식 이미지 설문조사 기능 철회",
+//       },
+//     ],
+//     id: 3,
+//   },
+//   {
+//     versionChanged: "Minor",
+//     versionMajor: 1,
+//     versionMinor: 1,
+//     versionPatch: 1,
+//     date: "2023.07.18",
+//     issueList: [
+//       {
+//         type: "Fixed",
+//         title: "설문조사 작성 버그 수정",
+//       },
+//       {
+//         type: "Changed",
+//         title: "설문조사 등록 기능 변경",
+//       },
+//     ],
+//     id: 2,
+//   },
+//   {
+//     versionChanged: "Major",
+//     versionMajor: 1,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     date: "2023.07.02",
+//     issueList: [
+//       {
+//         type: "New",
+//         title: "600& 프로젝트 출시",
+//       },
+//     ],
+//     id: 1,
+//   },
+// ];

@@ -2,11 +2,7 @@ import Navbar from "./components/nav/Navbar";
 import React, { useRef } from "react";
 import { Outlet } from "react-router-dom";
 import { useRecoilState } from "recoil";
-import {
-  navbarNoticeDd,
-  navbarProfileDd,
-  navbarProjectDd,
-} from "@state/modalState";
+import { navbarNoticeDd, navbarProfileDd, navbarProjectDd } from "@state/modalState";
 
 function Layout() {
   const [projectDd, setProjectDd] = useRecoilState(navbarProjectDd);

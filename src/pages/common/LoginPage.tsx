@@ -4,49 +4,128 @@ import login_righthand_img from "@assets/images/loginPage/login_righthand.svg";
 import batton_logo_img from "@images/common/batton_logo_big.svg";
 import kakao_logo_img from "@assets/images/loginPage/kakao_logo.svg";
 import google_logo_img from "@assets/images/loginPage/google_logo.svg";
-import { useCookies } from "react-cookie";
+import { useNavigate } from "react-router-dom";
+import useInput from "@src/hooks/useInput";
+import { instanceAuth, instanceNonAuth } from "@typess/AxiosInterface";
+import { APIResponse } from "@src/types/ResponseInterface";
+import axios from "axios";
+// import { getCookie, setCookie } from "@src/state/tokenState";
+import { useCookies } from 'react-cookie';
+import { getCookie } from "@src/state/tokenState";
+import { emailState, nicknameState, profileImgState } from "@src/state/userState";
+import { useRecoilState } from "recoil";
+
+interface LoginData {
+  email: string;
+  password: string;
+}
 
 export default function LoginPage() {
+  const navigate = useNavigate();
+  const [email, setEmail] = useState(``);
+  const [password, setPassword] = useState(``);
+  const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
+
+  const [userNickname, setUserNickname] = useRecoilState(nicknameState);
+  const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
+  const [userEmail, setUserEmaiil] = useRecoilState(emailState);
+
+
+  const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setEmail(e.target.value);
+  };
+
+  const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setPassword(e.target.value);
+  };
+
+  const handleEnterPress = e => {
+    if (e.key === 'Enter') {
+      loginRequest(); // Enter 입력이 되면 클릭 이벤트 실행
+    }
+  };
+
+  const loginRequest = async () => {
+    const loginData: LoginData = {
+      email: email,
+      password: password,
+    };
+
+    instanceNonAuth
+      .post(`/auth/login`, loginData)
+      .then((response) =>  {
+        setCookie('accessToken', response.data.accessToken, {
+          path: `/`,
+        })
+        setCookie('refreshToken', response.data.refreshToken, {
+          path: `/`,
+        })
+        
+        instanceAuth.get(`/members`)
+        .then((response) => {
+          console.log("=====");
+          setUserEmaiil(response.data.result.email);
+          setUserNickname(response.data.result.nickname);
+          setUserProfileImg(response.data.result.profileImage);
+        })
+        .catch((error) => {
+          console.log(error);
+          alert(`정상적인 접근이 아닙니다`);
+        })
+        
+        alert("로그인 성공");
+        navigate(`/main`);
+      })
+      .catch((error) => {
+        console.log(error);
+        alert("로그인 실패! - 수정필요");
+      });
+  };
+
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
-      <img className="absolute z-0" src={login_lefthand_img} style={{ marginTop: "20vh", marginLeft: "-92vw" }} />
+      <img
+        className="absolute z-0"
+        src={login_lefthand_img}
+        style={{ marginTop: "20vh", marginLeft: "-92vw" }}
+      />
       <img className="relative z-10 mb-2" src={batton_logo_img} />
       <div className="flex flex-col space-y-6 relative z-10 items-center justify-center w-[38vw] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
         <form className="space-y-6 w-[30vw]">
           <h4 className="text-2xl font-suitM text-[black]">로그인</h4>
           <div>
-            <label id="email" className="block mb-2 text-sm font-suitM text-[black]">
+            <label className="block mb-2 text-sm font-suitM text-[black]">
               이메일
             </label>
             <input
-              type="email"
-              name="email"
-              id="email"
+              type="text"
+              onChange={onChangeEmail}
+              onKeyDown={handleEnterPress}
               className="bg-gray-50 border border-gray-300 text-[black] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="6ooend@kakao.com"
-              required
             />
           </div>
           <div>
-            <label id="password" className="block mb-2 text-sm font-suitM text-[black] dark:text-white">
+            <label className="block mb-2 text-sm font-suitM text-[black] dark:text-white">
               비밀번호
             </label>
             <input
               type="password"
-              name="password"
-              id="password"
-              placeholder=""
+              onChange={onChangePassword}
+              onKeyDown={handleEnterPress}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              required
             />
           </div>
           <div className="flex items-start">
-            <a href="#" className="ml-auto text-sm font-suitM text-[#1C64F2] hover:underline">
+            <a
+              href="#"
+              className="ml-auto text-sm font-suitM text-[#1C64F2] hover:underline"
+            >
               비밀번호 찾기
             </a>
           </div>
           <button
-            type="submit"
+            onClick={loginRequest}
+            type="button"
             className="w-full text-white bg-[#5AAE8A] h-[5vh] text-md shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-5 py-2.5 text-center"
           >
             로그인
@@ -67,12 +146,20 @@ export default function LoginPage() {
         </button>
         <div className="text-sm font-suitM text-gray-400">
           계정이 없으신가요?{" "}
-          <a href="#" className="text-[#1C64F2] font-suitM hover:underline ml-[1vw]">
+          <button
+            onClick={() => navigate(`/signup`)}
+            type="button"
+            className="text-[#1C64F2] font-suitM hover:underline ml-[1vw]"
+          >
             회원가입 하기
-          </a>
+          </button>
         </div>
       </div>
-      <img className="absolute z-0" src={login_righthand_img} style={{ marginRight: "-70vw" }} />
+      <img
+        className="absolute z-0"
+        src={login_righthand_img}
+        style={{ marginRight: "-70vw" }}
+      />
     </div>
   );
 }

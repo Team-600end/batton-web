@@ -2,12 +2,12 @@ import React from "react";
 import ProjectNavbar from "@src/components/nav/ProjectNavbar";
 import Navbar from "@components/nav/Navbar";
 import plus_img from "@assets/images/icons/plus.svg";
-import issue from "@typess/Issue";
+import { Issue } from "@typess/Issue";
 import IssueCard from "@src/components/project/issue/IssueCard";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 import { useNavigate, useParams } from "react-router-dom";
 
-const releasedIssues: issue[] = [
+const releasedIssues: Issue[] = [
   {
     type: "New",
     title: "새로운 이슈",
@@ -24,7 +24,7 @@ const releasedIssues: issue[] = [
 ];
 
 export default function IssueHistoryPage() {
-  let { projectId } = useParams();
+  let { projectKey } = useParams();
   const navigate = useNavigate();
 
   return (
@@ -39,7 +39,7 @@ export default function IssueHistoryPage() {
               저장하기
             </button>
             <button
-              onClick={() => navigate(`/project/${projectId}/issueboard`)}
+              onClick={() => navigate(`/project/${projectKey}/issueboard`)}
               className="rounded-lg bg-[#5AAE8A] text-white flex py-[0.8vh] px-[0.8vw] items-center shadow-md font-suitL"
             >
               나가기

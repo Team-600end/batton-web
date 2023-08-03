@@ -3,20 +3,20 @@ import { recoilPersist } from 'recoil-persist';
 
 const { persistAtom } = recoilPersist();
 
-export const nickname = atom({
+export const nicknameState = atom({
     key: 'nickname',
     default: '',
     effects_UNSTABLE: [persistAtom]
 });
 
-export const profileImg = atom({
+export const profileImgState = atom({
     key: 'profileImg',
     default: '',
     effects_UNSTABLE: [persistAtom]
 });
 
-export const email = atom({
-    key: 'nickname',
+export const emailState = atom({
+    key: 'email',
     default: '',
     effects_UNSTABLE: [persistAtom]
 })
