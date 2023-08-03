@@ -3,9 +3,31 @@ import "@assets/index.css";
 import profile_img from "@images/common/default_profile.png";
 import Tag from "@src/components/project/issue/IssueBadge";
 import TagDisabled from "@src/components/project/issue/IssueBadgeDisabled";
+import { IssueType } from "@src/types/Issue";
 
 export default function CreateIssueModal({ visible, onClose }) {
-  const [issueType, setIssueType] = useState("");
+  const [activeTag, setActiveTag] = useState(null);
+  // const issueType: IssueType = "New";
+
+  const handleTagClick = (issueType: IssueType): IssueType => {
+    // setActiveTag(activeTag === issueType ? issueType : null);
+    if (issueType === "New" || issueType === "Changed" || issueType === "Feature" || issueType === "Fixed" || issueType === "Deprecated") {
+      setActiveTag(issueType);
+      return issueType;
+    } else {
+      // 기본값으로 "New"를 반환합니다. 이 부분을 프로젝트에 맞게 수정할 수 있습니다.
+      setActiveTag("New");
+      return "New";
+    }
+  };
+
+  const handleTagHover = (issueType) => {
+    setActiveTag(issueType);
+  };
+
+  const handleTagLeave = () => {
+    setActiveTag(null);
+  };
 
   const handleOnClose = () => {
     onClose();
@@ -43,11 +65,41 @@ export default function CreateIssueModal({ visible, onClose }) {
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">이슈태그</p>
 
               <div className="flex items-center space-x-3 mt-4">
-                <TagDisabled issueType="New" />
-                <Tag issueType="Feature" />
+                {/* <TagDisabled issueType="New" />
+                <TagDisabled issueType="Feature" />
                 <TagDisabled issueType="Changed" />
                 <TagDisabled issueType="Fixed" />
-                <TagDisabled issueType="Deprecated" />
+                <TagDisabled issueType="Deprecated" /> */}
+
+                {/* {["New", "Feature", "Changed", "Fixed", "Deprecated"].map((type) =>
+                  activeTag === type ? (
+                    <div style={{ cursor: "pointer" }}>
+                      <Tag key={type} issueType={type as IssueType} onClick={() => handleTagClick(type as IssueType)} />
+                    </div>
+                  ) : (
+                    <div style={{ cursor: "pointer" }}>
+                      <TagDisabled
+                        key={type}
+                        issueType={type as IssueType}
+                        onClick={() => handleTagClick(type as IssueType)}
+                        onMouseEnter={() => handleTagHover(type)}
+                        onMouseLeave={handleTagLeave}
+                      />
+                    </div>
+                  )
+                )} */}
+
+                {["New", "Feature", "Changed", "Fixed", "Deprecated"].map((type) =>
+                  activeTag === type ? (
+                    <div style={{ cursor: "pointer" }}>
+                      <Tag key={type} issueType={type as IssueType} />
+                    </div>
+                  ) : (
+                    <div style={{ cursor: "pointer" }} onMouseEnter={() => handleTagHover(type)} onMouseLeave={handleTagLeave}>
+                      <TagDisabled key={type} issueType={type as IssueType} />
+                    </div>
+                  )
+                )}
               </div>
 
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">이슈 제목</p>
