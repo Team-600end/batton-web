@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
@@ -112,6 +112,7 @@ export default function CreatePjPage() {
     instanceAuth
       .get(`/members/list/${findByEmail}`)
       .then((response) => {
+        console.log(response.data);
         if (response.data.code == 200) {
           setPjMemList((pjMemList) => [
             ...pjMemList,
@@ -142,7 +143,7 @@ export default function CreatePjPage() {
           setKeyChecked(-2);
         }
       })
-      .catch(() => alert("정상적인 접근이 아닙니다."));
+      .catch((error) => {console.log(error); alert("정상적인 접근이 아닙니다.")});
   };
 
   useEffect(() => {
