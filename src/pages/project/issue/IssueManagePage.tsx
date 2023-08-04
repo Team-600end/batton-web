@@ -73,9 +73,9 @@ export default function IssueManagePage() {
 
           {/* style={{width: "75.1825vw"}} */}
           <div className="flex flex-col items-start mt-10 space-y-12" style={{ width: "75.1825vw" }}>
-            <Tag issueType="New" />
+            <Tag issueType="NEW" />
             <p className="font-medium text-[14px] text-gray-900">사용자는 내 정보 수정을 눌러 프로필을 수정할 수 있다</p>
-            <Tag issueType="Feature" />
+            <Tag issueType="FEATURE" />
             <div className="flex flex-row justify-center">
               <img className="w-8 h-8 mr-3.5" src={profile_img} />
               <p className="font-medium text-[14px] text-gray-900 mt-1">이서현</p>

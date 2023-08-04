@@ -1,6 +1,6 @@
-export type IssueType = "New" | "Changed" | "Feature" | "Fixed" | "Deprecated";
+export type IssueType = "NEW" | "CHANGED" | "FEATURE" | "FIXED" | "DEPRECATED";
 
-export type IssueStatus = "Todo" | "Progress" | "Review" | "Done";
+export type IssueStatus = "TODO" | "PROGRESS" | "REVIEW" | "DONE";
 
 export interface Manager {
   name: string;

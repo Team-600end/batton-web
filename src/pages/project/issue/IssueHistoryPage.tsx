@@ -9,14 +9,14 @@ import { useNavigate, useParams } from "react-router-dom";
 
 const releasedIssues: Issue[] = [
   {
-    type: "New",
+    type: "NEW",
     title: "새로운 이슈",
     manager: { name: "John Doe" },
     team: "600&",
     id: 0,
   },
   {
-    type: "New",
+    type: "NEW",
     title: "변경된 이슈",
     team: "600&",
     id: 1,

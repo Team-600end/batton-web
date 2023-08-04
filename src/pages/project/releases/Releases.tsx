@@ -13,11 +13,11 @@ interface DummyData {
 
 const dummyData: DummyData[] = [
   {
-    issueType: "New",
+    issueType: "NEW",
     description: "설문조사 배포 추가",
   },
   {
-    issueType: "Feature",
+    issueType: "FEATURE",
     description: "설문조사 완료 기능",
   },
 ];
@@ -63,7 +63,10 @@ export default function Releases() {
               </>
             ))}
             <p className="text-3xl font-suitSB text-black dark:text-white my-6">설문조사 배포 기능 추가</p>
-            <p className="text-xl font-suitM text-black dark:text-white mb-5">설문조사 배포 기능이 추가되었습니다. 기존의 단순 등록 방식에서 배포 기능이 추가됨에 따라, 사용자들은 더욱 설문조사에 가까운 기능을 이용하실 수 있을 것입니다...</p>
+            <p className="text-xl font-suitM text-black dark:text-white mb-5">
+              설문조사 배포 기능이 추가되었습니다. 기존의 단순 등록 방식에서 배포 기능이 추가됨에 따라, 사용자들은 더욱 설문조사에 가까운 기능을 이용하실 수
+              있을 것입니다...
+            </p>
             <img src={block} className="w-600 h-221 mt-4 ml-10" alt="Flowbite Logo" />
           </div>
         </div>

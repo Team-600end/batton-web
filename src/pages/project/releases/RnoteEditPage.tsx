@@ -9,26 +9,20 @@ import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/i18n/ko-kr";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import RnoteUsedIssueCard from "@components/project/releases/RnoteUsedIssueCard";
 
 const doneIssues: DoneIssue[] = [
   {
-    issueTag: "Changed",
+    issueTag: "CHANGED",
     issueKey: 1,
     issueTitle: "일반 설문조사 종류 변경",
     nickname: "강창훈",
-    issueContent:
-      "설문조사 문항 종류를 변경하였습니다. 기존 체크박스와 라디오 버튼에서, 중복 선택 가능 토글을 만들고 객관식으로 통일을 진행했습니다.",
+    issueContent: "설문조사 문항 종류를 변경하였습니다. 기존 체크박스와 라디오 버튼에서, 중복 선택 가능 토글을 만들고 객관식으로 통일을 진행했습니다.",
     issueId: 1,
   },
   {
-    issueTag: "New",
+    issueTag: "NEW",
     issueKey: 2,
     issueTitle: "설문조사 GPS 배포 기능",
     nickname: "임혜균",
@@ -37,7 +31,7 @@ const doneIssues: DoneIssue[] = [
     issueId: 3,
   },
   {
-    issueTag: "New",
+    issueTag: "NEW",
     issueKey: 3,
     issueTitle: "중복 배포 이슈",
     nickname: "이서현",
@@ -51,7 +45,7 @@ const usedIssues: DoneIssue[] = [];
 
 export default function RnoteEditPage() {
   const [editorData, setEditorDate] = useState("");
-  // const [currentIssue, setIssue] = 
+  // const [currentIssue, setIssue] =
   const editorRef = useRef<Editor>(null);
 
   const onChange = () => {
@@ -70,8 +64,8 @@ export default function RnoteEditPage() {
     const destinationIndex = destination.index;
 
     // 시작지가 Done인 경우
-    if (source.droppableId == "Done") {
-      if (destination.droppableId == "Done") {
+    if (source.droppableId == "DONE") {
+      if (destination.droppableId == "DONE") {
         if (sourceIndex === destinationIndex) return;
         const sourceItem = doneIssues![sourceIndex];
         doneIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거
@@ -81,10 +75,7 @@ export default function RnoteEditPage() {
         editorRef.current
           ?.getInstance()
           .setHTML(
-            editorData +
-              `<h2 id=${source.index}>${
-                doneIssues![source.index].issueTitle
-              }</h2><p>${doneIssues![source.index].issueContent ?? ""}</p><br>`
+            editorData + `<h2 id=${source.index}>${doneIssues![source.index].issueTitle}</h2><p>${doneIssues![source.index].issueContent ?? ""}</p><br>`
           );
         usedIssues!.splice(usedIssues.length, 0, doneIssues[sourceIndex]);
         doneIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거
@@ -95,7 +86,7 @@ export default function RnoteEditPage() {
       usedIssues!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
     } else return;
 
-    //  (destination.droppableId == "Done") {
+    //  (destination.droppableId == "DONE") {
 
     //     // 순서 변경을 하지 않은 경우
     //     if (sourceIndex === destinationIndex) return;
@@ -133,25 +124,13 @@ export default function RnoteEditPage() {
                 완료 이슈 리스트
                 <img src={refresh_img} />
               </div>
-              <Droppable droppableId="Done" key="Done">
+              <Droppable droppableId="DONE" key="DONE">
                 {(provided) => (
-                  <div
-                    className="pt-[2vh]"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
+                  <div className="pt-[2vh]" ref={provided.innerRef} {...provided.droppableProps}>
                     {doneIssues.map((issue, index) => (
-                      <Draggable
-                        draggableId={issue.issueId.toString()}
-                        key={issue.issueId.toString()}
-                        index={index}
-                      >
+                      <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
                         {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
+                          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                             <RnoteIssueCard key={index} issue={issue} />
                           </div>
                         )}
@@ -171,33 +150,19 @@ export default function RnoteEditPage() {
                     </div>
                     <div className="ml-[2vw] flex items-center">
                       <p className="font-suitL text-base">v .</p>
-                      <input
-                        type="text"
-                        placeholder="0"
-                        className="border-none font-suitM outline-none resize-none w-[3.5vw] h-full"
-                      />
+                      <input type="text" placeholder="0" className="border-none font-suitM outline-none resize-none w-[3.5vw] h-full" />
                     </div>
                     <div className="flex items-center">
                       <p className="font-suitL text-base">.</p>
-                      <input
-                        type="text"
-                        placeholder="0"
-                        className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none"
-                      />
+                      <input type="text" placeholder="0" className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none" />
                     </div>
                     <div className="flex items-center">
                       <p className="font-suitL text-base">.</p>
-                      <input
-                        type="text"
-                        placeholder="0"
-                        className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none"
-                      />
+                      <input type="text" placeholder="0" className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none" />
                     </div>
                     <div className="ml-[4vw] flex items-center">
                       <p className="font-suitL text-base">포함 이슈</p>
-                      <p className="font-suitM text-lg text-grey-3 ml-[1vw]">
-                        2
-                      </p>
+                      <p className="font-suitM text-lg text-grey-3 ml-[1vw]">2</p>
                     </div>
                   </div>
                   <div className="flex justify-end">
@@ -206,8 +171,7 @@ export default function RnoteEditPage() {
                       onClick={() => console.log(editorRef.current.getInstance().getSelection())}
                       className="focus:outline-none border border-grey-5 text-gray-900 bg-white hover:bg-grey-300 focus:ring-4 focus:ring-grey-900 font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5vw] ml-[1.5vw] shadow-[2px_2px_10px_1px_rgba(0,0,0,0.3)]"
                     >
-                      취소하기
-                      getSelection
+                      취소하기 getSelection
                     </button>
                     <button
                       onClick={() => console.log(editorRef.current.getInstance().getMarkdown())}
@@ -275,21 +239,10 @@ export default function RnoteEditPage() {
                           // overflow-scroll scrollbar-hide
                         >
                           {usedIssues.map((issue, index) => (
-                            <Draggable
-                              draggableId={issue.issueId.toString()}
-                              key={issue.issueId.toString()}
-                              index={index}
-                            >
+                            <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
                               {(provided) => (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  <RnoteUsedIssueCard
-                                    key={index}
-                                    issue={issue}
-                                  />
+                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                  <RnoteUsedIssueCard key={index} issue={issue} />
                                 </div>
                               )}
                             </Draggable>

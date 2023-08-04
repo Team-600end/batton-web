@@ -105,11 +105,11 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.28",
 //     issueList: [
 //       {
-//         type: "New",
+//         type: "NEW",
 //         title: "설문조사 배포 추가",
 //       },
 //       {
-//         type: "Feature",
+//         type: "FEATURE",
 //         title: "설문조사 완료 기능",
 //       },
 //     ],
@@ -123,7 +123,7 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.27",
 //     issueList: [
 //       {
-//         type: "Fixed",
+//         type: "FIXED",
 //         title: "설문조사 삭제 이슈",
 //       },
 //     ],
@@ -137,7 +137,7 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.18",
 //     issueList: [
 //       {
-//         type: "Deprecated",
+//         type: "DEPRECATED",
 //         title: "리뷰식 이미지 설문조사 기능 철회",
 //       },
 //     ],
@@ -151,11 +151,11 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.18",
 //     issueList: [
 //       {
-//         type: "Fixed",
+//         type: "FIXED",
 //         title: "설문조사 작성 버그 수정",
 //       },
 //       {
-//         type: "Changed",
+//         type: "CHANGED",
 //         title: "설문조사 등록 기능 변경",
 //       },
 //     ],
@@ -169,7 +169,7 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.02",
 //     issueList: [
 //       {
-//         type: "New",
+//         type: "NEW",
 //         title: "600& 프로젝트 출시",
 //       },
 //     ],
@@ -254,11 +254,11 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.28",
 //     issueList: [
 //       {
-//         type: "New",
+//         type: "NEW",
 //         title: "설문조사 배포 추가",
 //       },
 //       {
-//         type: "Feature",
+//         type: "FEATURE",
 //         title: "설문조사 완료 기능",
 //       },
 //     ],
@@ -272,7 +272,7 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.27",
 //     issueList: [
 //       {
-//         type: "Fixed",
+//         type: "FIXED",
 //         title: "설문조사 삭제 이슈",
 //       },
 //     ],
@@ -286,7 +286,7 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.18",
 //     issueList: [
 //       {
-//         type: "Deprecated",
+//         type: "DEPRECATED",
 //         title: "리뷰식 이미지 설문조사 기능 철회",
 //       },
 //     ],
@@ -300,11 +300,11 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.18",
 //     issueList: [
 //       {
-//         type: "Fixed",
+//         type: "FIXED",
 //         title: "설문조사 작성 버그 수정",
 //       },
 //       {
-//         type: "Changed",
+//         type: "CHANGED",
 //         title: "설문조사 등록 기능 변경",
 //       },
 //     ],
@@ -318,7 +318,7 @@ export default function ReleasesPuzzle() {
 //     date: "2023.07.02",
 //     issueList: [
 //       {
-//         type: "New",
+//         type: "NEW",
 //         title: "600& 프로젝트 출시",
 //       },
 //     ],

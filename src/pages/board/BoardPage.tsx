@@ -247,7 +247,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "KEA",
     releaseVersion: "v2.3.0",
-    issueTags: ["New", "Feature"],
+    issueTags: ["NEW", "FEATURE"],
     releaseDate: new Date(2023, 6, 2),
   },
   {
@@ -255,7 +255,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "dktechin",
     releaseVersion: "v3.0.0",
-    issueTags: ["New", "Changed", "Feature"],
+    issueTags: ["NEW", "CHANGED", "FEATURE"],
     releaseDate: new Date(2023, 7, 28),
   },
   {
@@ -263,7 +263,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "600&",
     releaseVersion: "v2.0.1",
-    issueTags: ["Fixed"],
+    issueTags: ["FIXED"],
     releaseDate: new Date(2023, 7, 27),
   },
   {
@@ -271,7 +271,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "KEA",
     releaseVersion: "v2.2.0",
-    issueTags: ["Changed", "Feature"],
+    issueTags: ["CHANGED", "FEATURE"],
     releaseDate: new Date(2023, 6, 2),
   },
   {
@@ -279,7 +279,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "dktechin",
     releaseVersion: "v2.1.0",
-    issueTags: ["Changed", "Feature"],
+    issueTags: ["CHANGED", "FEATURE"],
     releaseDate: new Date(2023, 7, 22),
   },
   {
@@ -287,7 +287,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "600&",
     releaseVersion: "v1.1.2",
-    issueTags: ["Deprecated"],
+    issueTags: ["DEPRECATED"],
     releaseDate: new Date(2023, 7, 18),
   },
   {
@@ -295,7 +295,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "KEA",
     releaseVersion: "v2.0.1",
-    issueTags: ["Fixed", "Deprecated"],
+    issueTags: ["FIXED", "DEPRECATED"],
     releaseDate: new Date(2023, 6, 2),
   },
   {
@@ -303,7 +303,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "600&",
     releaseVersion: "v1.1.1",
-    issueTags: ["Changed", "Fixed"],
+    issueTags: ["CHANGED", "FIXED"],
     releaseDate: new Date(2023, 7, 18),
   },
   {
@@ -311,7 +311,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "KEA",
     releaseVersion: "v2.0.0",
-    issueTags: ["New"],
+    issueTags: ["NEW"],
     releaseDate: new Date(2023, 7, 17),
   },
   {
@@ -319,7 +319,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "dktechin",
     releaseVersion: "v2.0.1",
-    issueTags: ["Fixed"],
+    issueTags: ["FIXED"],
     releaseDate: new Date(2023, 7, 17),
   },
   {
@@ -327,7 +327,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "dktechin",
     releaseVersion: "v2.0.0",
-    issueTags: ["New", "Feature", "Deprecated"],
+    issueTags: ["NEW", "FEATURE", "DEPRECATED"],
     releaseDate: new Date(2023, 7, 10),
   },
   {
@@ -335,7 +335,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "KEA",
     releaseVersion: "v1.2.0",
-    issueTags: ["Feature", "Fixed"],
+    issueTags: ["FEATURE", "FIXED"],
     releaseDate: new Date(2023, 6, 2),
   },
   {
@@ -343,7 +343,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "dktechin",
     releaseVersion: "v1.2.0",
-    issueTags: ["New", "Changed"],
+    issueTags: ["NEW", "CHANGED"],
     releaseDate: new Date(2023, 7, 3),
   },
   {
@@ -351,7 +351,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "600&",
     releaseVersion: "v1.0.1",
-    issueTags: ["New"],
+    issueTags: ["NEW"],
     releaseDate: new Date(2023, 7, 2),
   },
   {
@@ -359,7 +359,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "KEA",
     releaseVersion: "v1.0.0",
-    issueTags: ["New"],
+    issueTags: ["NEW"],
     releaseDate: new Date(2023, 6, 22),
   },
   {
@@ -367,7 +367,7 @@ const boards: BoardS[] = [
     releaseId: 1,
     projectTitle: "dktechin",
     releaseVersion: "v1.0.0",
-    issueTags: ["New", "Feature"],
+    issueTags: ["NEW", "FEATURE"],
     releaseDate: new Date(2023, 6, 2),
   },
 ];

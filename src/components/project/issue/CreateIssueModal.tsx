@@ -48,11 +48,11 @@ export default function CreateIssueModal({ visible, onClose }) {
   if (!visible) return null;
 
   const createIssueData: CreateIssueData = {
-    projectId: pj.id,
+    projectId: pj.projectId,
     issueTag: activeTag,
     issueTitle: issueTitle,
     issueContent: issueContent,
-    issueManager: issueManager,
+    // issueManager: issueManager,
   };
 
   const handleCreateIssue = async () => {
@@ -117,7 +117,7 @@ export default function CreateIssueModal({ visible, onClose }) {
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">이슈태그</p>
 
               <div className="flex items-center space-x-3 mt-4">
-                {["New", "Feature", "Changed", "Fixed", "Deprecated"].map((type) => (
+                {["NEW", "FEATURE", "CHANGED", "FIXED", "DEPRECATED"].map((type) => (
                   <div key={type} style={{ cursor: "pointer" }} onClick={() => handleTagClick(type)}>
                     {activeTag === type ? <Tag issueType={type as IssueType} /> : <TagDisabled issueType={type as IssueType} />}
                   </div>

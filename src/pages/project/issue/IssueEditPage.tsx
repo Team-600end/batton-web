@@ -91,11 +91,11 @@ export default function IssueEditPage() {
             />
 
             <div className="space-x-5 mt-10 ml-16">
-              <Tag issueType="New" />
-              <Tag issueType="Feature" />
-              <Tag issueType="Fixed" />
-              <Tag issueType="Changed" />
-              <Tag issueType="Deprecated" />
+              <Tag issueType="NEW" />
+              <Tag issueType="FEATURE" />
+              <Tag issueType="FIXED" />
+              <Tag issueType="CHANGED" />
+              <Tag issueType="DEPRECATED" />
             </div>
 
             <button

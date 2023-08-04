@@ -24,7 +24,7 @@ export default function DashBoardPage() {
       <ProjectNavbar />
       <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col p-[3vw] space-y-[2vw] shadow-inner">
         <div className="flex space-x-[2vw]">
-          <DonutSection projectId={projectId}/>
+          <DonutSection projectId={projectId} />
           <div className="relative w-[42vw] h-[320px] bg-white rounded-xl shadow-md">
             <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">릴리즈 퍼즐</p>
             <div className=" flex items-center">
@@ -52,11 +52,11 @@ export default function DashBoardPage() {
 //     date: "2023.07.28",
 //     issueList: [
 //       {
-//         type: "New",
+//         type: "NEW",
 //         title: "설문조사 배포 추가",
 //       },
 //       {
-//         type: "Feature",
+//         type: "FEATURE",
 //         title: "설문조사 완료 기능",
 //       },
 //     ],
@@ -70,7 +70,7 @@ export default function DashBoardPage() {
 //     date: "2023.07.27",
 //     issueList: [
 //       {
-//         type: "Fixed",
+//         type: "FIXED",
 //         title: "설문조사 삭제 이슈",
 //       },
 //     ],
@@ -84,7 +84,7 @@ export default function DashBoardPage() {
 //     date: "2023.07.18",
 //     issueList: [
 //       {
-//         type: "Deprecated",
+//         type: "DEPRECATED",
 //         title: "리뷰식 이미지 설문조사 기능 철회",
 //       },
 //     ],
@@ -98,11 +98,11 @@ export default function DashBoardPage() {
 //     date: "2023.07.18",
 //     issueList: [
 //       {
-//         type: "Fixed",
+//         type: "FIXED",
 //         title: "설문조사 작성 버그 수정",
 //       },
 //       {
-//         type: "Changed",
+//         type: "CHANGED",
 //         title: "설문조사 등록 기능 변경",
 //       },
 //     ],
@@ -116,7 +116,7 @@ export default function DashBoardPage() {
 //     date: "2023.07.02",
 //     issueList: [
 //       {
-//         type: "New",
+//         type: "NEW",
 //         title: "600& 프로젝트 출시",
 //       },
 //     ],

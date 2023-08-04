@@ -11,27 +11,27 @@ function IssueBadge(props: IssueBadgeProps) {
   let borderColor = "";
 
   switch (props.issueType) {
-    case "New":
+    case "NEW":
       backgroundColor = "#DEF7EC";
       textColor = "#03543F";
       borderColor = "#31C48D";
       break;
-    case "Changed":
+    case "CHANGED":
       backgroundColor = "#FDF6B2";
       textColor = "#723B13";
       borderColor = "#FACA15";
       break;
-    case "Feature":
+    case "FEATURE":
       backgroundColor = "#E1EFFE";
       textColor = "#1E429F";
       borderColor = "#76A9FA";
       break;
-    case "Fixed":
+    case "FIXED":
       backgroundColor = "#FDE8E8";
       textColor = "#9B1C1C";
       borderColor = "#F98080";
       break;
-    case "Deprecated":
+    case "DEPRECATED":
       backgroundColor = "#F3F4F6";
       textColor = "#111928";
       borderColor = "#111928";
@@ -65,27 +65,27 @@ export default IssueBadge;
 //   let borderColor = "";
 
 //   switch (props.issueType) {
-//     case "New":
+//     case "NEW":
 //       backgroundColor = "#DEF7EC";
 //       textColor = "#03543F";
 //       borderColor = "#31C48D";
 //       break;
-//     case "Changed":
+//     case "CHANGED":
 //       backgroundColor = "#FDF6B2";
 //       textColor = "#723B13";
 //       borderColor = "#FACA15";
 //       break;
-//     case "Feature":
+//     case "FEATURE":
 //       backgroundColor = "#E1EFFE";
 //       textColor = "#1E429F";
 //       borderColor = "#76A9FA";
 //       break;
-//     case "Fixed":
+//     case "FIXED":
 //       backgroundColor = "#FDE8E8";
 //       textColor = "#9B1C1C";
 //       borderColor = "#F98080";
 //       break;
-//     case "Deprecated":
+//     case "DEPRECATED":
 //       backgroundColor = "#F3F4F6";
 //       textColor = "#111928";
 //       borderColor = "#111928";
