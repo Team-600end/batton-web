@@ -56,7 +56,7 @@ export default function DonutSection(props: DonutSectionProps) {
 
   useEffect(() => {
     getDonutRequest()
-  });
+  }, []);
 
   //데이터가 없을 때 회색 도넛 차트
   const emptyDonut: DonutConfig = {

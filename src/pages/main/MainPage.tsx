@@ -92,21 +92,21 @@ export default function MainPage() {
 
   useEffect(() => {
     //메인페이지 접속 시. 모든 프로젝트를 가져옴/do a deer a female deer re a golden sun mi a name i call myself fa a long long way to run
-    async () => {
-      instanceAuth
-        .get(`/projects/list`)
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.code == 200) {
-            setPjcards(response.data.result);
-          } else if (response.data.code == 707) {
-            setPjcards([]);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    };
+    // async () => {
+    instanceAuth
+      .get(`/projects/list`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setPjcards(response.data.result);
+        } else if (response.data.code == 707) {
+          setPjcards([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+    // };
   });
 
   useEffect(() => {
