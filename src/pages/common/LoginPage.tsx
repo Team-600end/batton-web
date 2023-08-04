@@ -39,7 +39,7 @@ export default function LoginPage() {
     setPassword(e.target.value);
   };
 
-  const handleEnterPress = e => {
+  const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
     if (e.key === 'Enter') {
       loginRequest(); // Enter 입력이 되면 클릭 이벤트 실행
     }

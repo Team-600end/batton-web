@@ -3,6 +3,9 @@ import { useParams } from "react-router-dom";
 import PuzzleView from "@components/project/releases/PuzzleView";
 import { Release } from "@src/types/Release";
 import { instanceAuth } from "@src/types/AxiosInterface";
+import { useRecoilState } from "recoil";
+import { projectNavs } from "@src/state/projectState";
+import { ProjectNav } from "@src/types/project";
 
 // type ReleasesPuzzleProps = {
 //   releaseList: Release[];
@@ -13,12 +16,15 @@ export default function ReleasesPuzzle() {
   const [puzzle, setPuzzle] = useState<Release[][]>([]);
   const [releasesList, setReleasesList] = useState<Release[]>([]);
   const reverseList = [...releasesList].reverse();
-  const { projectId } = useParams();
+
+  const [projectNav, setProjectNav] = useRecoilState(projectNavs);
+  let { projectKey } = useParams();
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   useEffect(() => {
     // async () => {
     instanceAuth
-      .get(`/project/${projectId}/release`) //TODO: api 확인 필요
+      .get(`/project/${pj.projectId}/releases`) //TODO: api 확인 필요
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {

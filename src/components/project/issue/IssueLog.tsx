@@ -29,15 +29,15 @@ export default function IssueLog() {
   useEffect(() => {
     // async() => {
     instanceAuth
-      .get(`/issues/projects/list/${pj.id}`)
+      .get(`/issues/projects/list/${pj.projectId}`)
       .then((response) => {
         console.log(response.data);
-        if (response.data.code == 200) {
-          setBoardissues(response.data.data);
-          setTotalPage(Math.ceil(boardissues.length / itemsPerPage));
-        } else if (response.data.code == 703 || response.data.code == 704) {
-          setBoardissues([]);
-        }
+        // if (response.data.code == 200) {
+        //   setBoardissues(response.data.data);
+        //   setTotalPage(Math.ceil(boardissues.length / itemsPerPage));
+        // } else if (response.data.code == 703 || response.data.code == 704) {
+        //   setBoardissues([]);
+        // }
       })
       .catch((error) => {
         console.log(error);

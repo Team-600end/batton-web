@@ -51,11 +51,13 @@ const usedIssues: DoneIssue[] = [];
 
 export default function RnoteEditPage() {
   const [editorData, setEditorDate] = useState("");
+  // const [currentIssue, setIssue] = 
   const editorRef = useRef<Editor>(null);
 
   const onChange = () => {
     setEditorDate(editorRef.current?.getInstance().getHTML());
     console.log(editorData);
+    console.log(editorRef.current.getInstance().getSelection());
   };
 
   const handleDragEnd = (result: DropResult) => {
@@ -124,9 +126,9 @@ export default function RnoteEditPage() {
   return (
     <div className="mt-[9vh] flex">
       <div className="flex flex-row w-screen">
-        <div className="flex flex-row rounded-t-lg border border-gray-300 bg-gray-100 w-[95vw] mx-auto mt-[2vh] shadow-inner h-screen px-2 py-4">
+        <div className="flex flex-row rounded-t-lg border border-gray-300 bg-gray-100 w-[95vw] mx-auto mt-[2vh] shadow-inner h-screen px-2 py-5">
           <DragDropContext onDragEnd={handleDragEnd}>
-            <div className="border rounded-t-lg ml-[0.5vw] mr-[1vw] bg-white w-[20.8vw] shadow-[0_0px_20px_2px_rgba(0,0,0,0.3)]">
+            <div className="border rounded-t-lg ml-[2vw] mr-[2vw] bg-white w-[19vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.3)] mt-[2vh]">
               <div className="border-b font-suitSB border-gray-400 p-[1vw] flex justify-between drop-shadow-lg">
                 완료 이슈 리스트
                 <img src={refresh_img} />
@@ -134,7 +136,7 @@ export default function RnoteEditPage() {
               <Droppable droppableId="Done" key="Done">
                 {(provided) => (
                   <div
-                    className="p-[2vw]"
+                    className="pt-[2vh]"
                     ref={provided.innerRef}
                     {...provided.droppableProps}
                   >
@@ -160,103 +162,143 @@ export default function RnoteEditPage() {
                 )}
               </Droppable>
             </div>
-            <div className="flex flex-col mx-auto w-[76vw] mt-[2vh]">
+            <div className="mt-[2vh]">
               <div>
-                <div className="flex">
-                  <div className="border border-gray-400 rounded-lg p-[1vw] mb-[1vh] bg-gray-100 shadow-inner">
-                    <input
-                      type="text"
-                      placeholder="버전"
-                      className="border-none font-suitM outline-none h-full resize-none"
-                    />
-                  </div>
-                  <div className="border border-gray-400 rounded-lg p-[1vw] mb-[1vh] bg-gray-100 shadow-inner">
-                    <input
-                      type="text"
-                      placeholder="버전"
-                      className="border-none font-suitM outline-none h-full resize-none"
-                    />
-                  </div>
-                  <div className="border border-white rounded-lg p-[1vw] mb-[1vh] bg-gray-100 shadow-inner">
-                    <input
-                      type="text"
-                      placeholder="버전"
-                      className="border-none font-suitM outline-none h-full resize-none"
-                    />
+                <div className="flex mb-[1vh] h-[6vh]">
+                  <div className="flex border-gray-200 border rounded-lg bg-white shadow-[2px_2px_10px_1px_rgba(0,0,0,0.3)] w-[50vw]">
+                    <div className="my-auto mx-[1vw]">
+                      <p className="font-suitSB">릴리즈 노트 에디터</p>
+                    </div>
+                    <div className="ml-[2vw] flex items-center">
+                      <p className="font-suitL text-base">v .</p>
+                      <input
+                        type="text"
+                        placeholder="0"
+                        className="border-none font-suitM outline-none resize-none w-[3.5vw] h-full"
+                      />
+                    </div>
+                    <div className="flex items-center">
+                      <p className="font-suitL text-base">.</p>
+                      <input
+                        type="text"
+                        placeholder="0"
+                        className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none"
+                      />
+                    </div>
+                    <div className="flex items-center">
+                      <p className="font-suitL text-base">.</p>
+                      <input
+                        type="text"
+                        placeholder="0"
+                        className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none"
+                      />
+                    </div>
+                    <div className="ml-[4vw] flex items-center">
+                      <p className="font-suitL text-base">포함 이슈</p>
+                      <p className="font-suitM text-lg text-grey-3 ml-[1vw]">
+                        2
+                      </p>
+                    </div>
                   </div>
                   <div className="flex justify-end">
                     <button
                       type="button"
-                      className="focus:outline-none border border-grey-4 text-grey-900 bg-white hover:bg-grey-300 focus:ring-4 focus:ring-grey-900 font-suitM rounded-lg text-sm px-6 py-2 mr-2 mb-2"
+                      onClick={() => console.log(editorRef.current.getInstance().getSelection())}
+                      className="focus:outline-none border border-grey-5 text-gray-900 bg-white hover:bg-grey-300 focus:ring-4 focus:ring-grey-900 font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5vw] ml-[1.5vw] shadow-[2px_2px_10px_1px_rgba(0,0,0,0.3)]"
                     >
                       취소하기
+                      getSelection
                     </button>
                     <button
+                      onClick={() => console.log(editorRef.current.getInstance().getMarkdown())}
                       type="button"
-                      className="focus:outline-none text-white bg-[#5AAE8A] hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-suitM rounded-lg text-sm px-6 py-2 mr-2 mb-2"
+                      className="focus:outline-none border border-grey-5 text-gray-900 bg-white font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5vw] shadow-[1px_2px_10px_1px_rgba(0,0,0,0.3)]"
                     >
                       저장하기
                     </button>
+                    <button
+                      type="button"
+                      className="focus:outline-none border border-grey-5 text-gray-900 bg-white font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5vw] shadow-[1px_2px_10px_1px_rgba(0,0,0,0.3)]"
+                    >
+                      발행하기
+                    </button>
                   </div>
                 </div>
-                <Droppable droppableId="Used" key="Used" direction="horizontal">
-                  {(provided) => (
-                    <div
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                      className="flex mb-[1vh] ml-[0.3vw] overflow-scroll scrollbar-hide"
-                    >
-                      {usedIssues.map((issue, index) => (
-                        <Draggable
-                          draggableId={issue.issueId.toString()}
-                          key={issue.issueId.toString()}
-                          index={index}
-                        >
-                          {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
-                              <RnoteUsedIssueCard key={index} issue={issue} />
-                            </div>
-                          )}
-                        </Draggable>
-                      ))}
-                    </div>
-                  )}
-                </Droppable>
-                <Droppable droppableId="Editor" key="Editor">
-                  {(provided) => (
-                    <div
-                      className="border font-suitM border-gray-400 rounded-lg p-[1vw] h-[80vh]"
-                      ref={provided.innerRef}
-                      {...provided.droppableProps}
-                    >
-                      <div>
-                        <Editor
-                          previewStyle="vertical"
-                          height="625px"
-                          initialEditType="wysiwyg"
-                          useCommandShortcut={true}
-                          hideModeSwitch={true}
-                          language="ko-KR"
-                          onChange={onChange}
-                          ref={editorRef}
-                          plugins={[colorSyntax]}
-                          toolbarItems={[
-                            // 툴바 옵션 설정
-                            ["heading", "bold", "italic", "strike"],
-                            ["hr", "quote"],
-                            ["ul", "ol", "task", "indent", "outdent"],
-                            ["table", "image", "link"],
-                            ["code", "codeblock"],
-                          ]}
-                        />
+                <div className="flex">
+                  <Droppable droppableId="Editor" key="Editor">
+                    {(provided) => (
+                      <div
+                        className="border font-suitM border-gray-300 bg-white rounded-lg p-[0.2vw] h-full w-[50vw] shadow-[1px_2px_10px_1px_rgba(0,0,0,0.3)]"
+                        ref={provided.innerRef}
+                        {...provided.droppableProps}
+                      >
+                        <div>
+                          <Editor
+                            previewStyle="vertical"
+                            height="700px"
+                            initialEditType="wysiwyg"
+                            useCommandShortcut={true}
+                            hideModeSwitch={true}
+                            language="ko-KR"
+                            onChange={onChange}
+                            ref={editorRef}
+                            plugins={[colorSyntax]}
+                            toolbarItems={[
+                              // 툴바 옵션 설정
+                              ["heading", "bold", "italic", "strike"],
+                              ["hr", "quote"],
+                              ["ul", "ol", "task", "indent", "outdent"],
+                              ["table", "image", "link"],
+                              ["code", "codeblock"],
+                            ]}
+                          />
+                        </div>
+                        {provided.placeholder}
                       </div>
+                    )}
+                  </Droppable>
+                  <div className="border rounded-t-lg ml-[1.5vw] mr-[1vw] bg-white w-[16.6vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.3)] mt-[2vh]">
+                    <div className="border-b font-suitSB border-gray-400 p-[1vw] flex justify-between drop-shadow-lg">
+                      등록 이슈 리스트
+                      <img src={refresh_img} />
                     </div>
-                  )}
-                </Droppable>
+                    <Droppable
+                      droppableId="Used"
+                      key="Used"
+                      // direction="horizontal"
+                    >
+                      {(provided) => (
+                        <div
+                          ref={provided.innerRef}
+                          {...provided.droppableProps}
+                          className="flex flex-col mb-[1vh] pt-[1vw]"
+                          // overflow-scroll scrollbar-hide
+                        >
+                          {usedIssues.map((issue, index) => (
+                            <Draggable
+                              draggableId={issue.issueId.toString()}
+                              key={issue.issueId.toString()}
+                              index={index}
+                            >
+                              {(provided) => (
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  <RnoteUsedIssueCard
+                                    key={index}
+                                    issue={issue}
+                                  />
+                                </div>
+                              )}
+                            </Draggable>
+                          ))}
+                        </div>
+                      )}
+                    </Droppable>
+                  </div>
+                </div>
               </div>
             </div>
           </DragDropContext>

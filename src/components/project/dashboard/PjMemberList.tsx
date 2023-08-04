@@ -18,7 +18,6 @@ import { ProjectNav } from "@typess/project";
 
 export default function PjMemberList() {
   const [memberList, setMemberList] = useState<MemberList[]>([]);
-  const { projectId } = useParams();
 
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectKey } = useParams();
@@ -28,7 +27,7 @@ export default function PjMemberList() {
   useEffect(() => {
     // async () => {
     instanceAuth
-      .get(`/belongs/list/${pj.id}`)
+      .get(`/belongs/list/${pj.projectId}`)
       .then((response) => {
         console.log(response.data);
         if (response.data.code === 200) {
