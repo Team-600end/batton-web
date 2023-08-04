@@ -81,6 +81,51 @@ instanceAuth.interceptors.response.use(
   }
 );
 
+// Axios instance with Auth
+export const instanceImageAuth: AxiosInstance = axios.create({
+  baseURL: "/api",
+  withCredentials: true,
+});
+
+// .common[]
+instanceImageAuth.interceptors.request.use(
+  function (config) {
+    config.headers['Content-Type'] = 'multipart/form-data';
+    // config.headers['Refresh-Token'] = cookies.refreshToken;
+    console.log(getCookie('accessToken'));
+    config.headers['Authorization'] = `Bearer ${getCookie('accessToken')}`
+    return config;
+  },
+  function (error) {
+    console.log(error);
+    return Promise.reject(error);
+  }
+);
+
+// 응답에 대한 리턴값 설정과 오류 발생에 대한 처리
+instanceImageAuth.interceptors.response.use(
+  function (response) {
+    return response;
+  },
+  async function (err) {
+    // const originalConfig = err.config;
+    console.log(err);
+    if (err.response && err.response.data.status === "TokenExpired") {
+      try {
+        // // 기존에 쿠키에 저장된 refresh token을 가져옴
+        // const refreshToken = await getCookie("refreshToken");
+        // axios.defaults.headers.common["refreshToken"] = refreshToken;
+		// 토큰을 다시 발급 받는 api 호출 함수 
+        // refreshAccessToken();
+      } catch (err: any) {
+        console.log("error", err.response);
+        // navigate("/");
+      }
+      return Promise.reject(err);
+    }
+    return Promise.reject(err);
+  }
+);
 
 // const refreshAccessToken = async () => {
 //   const response = await axios.post("http://localhost:8080/member/reissue", {
