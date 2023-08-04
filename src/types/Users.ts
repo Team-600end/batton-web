@@ -7,13 +7,13 @@ export default interface ProjectMember {
   profileImage?: string;
 }
 
-export default interface Member {
+export interface Member {
   memberId: number;
   nickname: string;
   gradeType: UserGrade;
 }
 
-export default interface CpMember {
+export interface CpMember {
   grade: UserGrade;
   memberId: number;
   nickname: string;

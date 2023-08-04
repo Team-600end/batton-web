@@ -1,21 +1,24 @@
-import React, { useState, useCallback, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
-import profile_img from "@images/common/default_profile.png";
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
-import Member from "@src/types/Users";
 import { instanceAuth } from "@src/types/AxiosInterface";
-import x_icon from "@images/icons/x_gray.svg";
-import CpMember from "@typess/Users";
+import { CpMember, Member } from "@typess/Users";
 import CreatePjMember from "@src/components/project/CreatePjMember";
-import check_icon from "@images/icons/white_check.svg";
+import g_check_icon from "@images/icons/grey-check.svg";
+import w_check_icon from "@images/icons/white_check.svg";
+import { useRecoilState } from "recoil";
+import { nicknameState } from "@src/state/userState";
+import { projectNavs } from "@src/state/projectState";
+import { ProjectNav } from "@src/types/project";
 
 interface CreatePjData {
   projectTitle: string;
   projectKey: string;
   projectContent?: string;
   projectImage?: string;
-  projectMemberList?: CpMember[];
+  projectMemberList?: Member[];
+  nickname: string;
 }
 
 export default function CreatePjPage() {
@@ -27,8 +30,10 @@ export default function CreatePjPage() {
   const [pjContent, setPjContent] = useState("");
   // 프로젝트 이미지 - 현재 사용 안함
   const [pjImage, setPjImage] = useState("");
-  // 프로젝트 멤버 리스트
+  // 프로젝트 멤버 리스트 화면 상태관리
   const [pjMemList, setPjMemList] = useState<CpMember[]>([]);
+  // 프로젝트 멤버 리스트 요청 상태관리
+  const [pjMemReqList, setPjMemReqList] = useState<Member[]>([]);
   // pjTitle 길이 상태관리
   const [titleInputCount, setTitleInputCount] = useState(0);
   // pjKey 길이 상태관리
@@ -36,11 +41,15 @@ export default function CreatePjPage() {
   // pjContent 길이 상태관리
   const [contentInputCount, setContentInputCount] = useState(0);
   // pjKey 가용 여부 상태관리
-  const [keyChecked, setKeyChecked] = useState(false);
+  const [keyChecked, setKeyChecked] = useState(-1); // 작성중 0, 성공 1, 공백 -1, 실패 -2
   // 초대 멤버 조회용 이메일
-  const [findByEmail, setFindByEmail] = useState('');
+  const [findByEmail, setFindByEmail] = useState("");
   // 이메일 유효성 검사 결과
   const [emailStatus, setEmailStatus] = useState("");
+  // 현재 사용자 닉네임 recoil
+  const [userNickname, setUserNickname] = useRecoilState(nicknameState);
+  // 프로젝트 recoil
+  const [projects, setProjects] = useRecoilState(projectNavs);
   const emailRegex = /\S+@\S+\.\S+/;
 
   // router-dom
@@ -56,10 +65,11 @@ export default function CreatePjPage() {
   };
 
   const onKeyChangeHandler = (e) => {
-    e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '');
+    e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, "");
     setPjKey(e.target.value);
     setKeyInputCount(e.target.value.length);
-    setKeyChecked(false);
+    setKeyChecked(0);
+    if (e.target.value == "") setKeyChecked(-1);
   };
 
   const onContentChangeHandler = (e) => {
@@ -69,7 +79,7 @@ export default function CreatePjPage() {
 
   const onFindByEmailChangeHandler = (e) => {
     setFindByEmail(e.target.value);
-  }
+  };
 
   useEffect(() => {
     // 이메일 형식 검증
@@ -80,68 +90,61 @@ export default function CreatePjPage() {
     } else {
       setEmailStatus("");
     }
-  }, [findByEmail])
+  }, [findByEmail]);
 
   const createPjData: CreatePjData = {
     projectTitle: pjTitle,
     projectKey: pjKey,
     projectContent: pjContent,
     projectImage: pjImage,
-    projectMemberList: pjMemList,
+    nickname: userNickname,
+    projectMemberList: pjMemReqList,
   };
 
   const pjMemberRequest = async () => {
     pjMemList.forEach((member) => {
       if (member.email === findByEmail) {
         // 특정 값이 있는 경우 원하는 동작 수행
-        setEmailStatus("이미 추가한 멤버입니다.")
-        return; 
+        setEmailStatus("이미 추가한 멤버입니다.");
+        return;
       }
-    })
-    instanceAuth.get(`/members/list/${findByEmail}`).then((response) => {
-      if (response.data.code == 200) {
-        setPjMemList(pjMemList => [...pjMemList, response.data.result as CpMember]);
-      } else {
-        // 해당 이메일로 가입한 회원이 없을 때의 처리가 있어야 함!
-        alert("정상적인 접근이 아닙니다.")
-      }
-    }).catch(() => alert("error"));
+    });
+    instanceAuth
+      .get(`/members/list/${findByEmail}`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setPjMemList((pjMemList) => [
+            ...pjMemList,
+            response.data.result as CpMember,
+          ]);
+        } else {
+          // 해당 이메일로 가입한 회원이 없을 때의 처리가 있어야 함!
+          alert("정상적인 접근이 아닙니다.");
+        }
+      })
+      .catch(() => alert("error"));
   };
 
-  const createPjRequest = async () => {
-    if (pjTitle == "") {
-      alert("프로젝트명을 입력해주세요.");
-      return;
-    }
-
-    if (!keyChecked) {
-      alert("프로젝트 키 중복 검사를 진행해주세요.");
-      return;
-    }
-    instanceAuth.post(`/projects`, createPjData).then((response) => {
-      console.log(response.data);
-      if (response.data.code == 200) {
-        navigate(`/project/${response.data.result.projectKey}/dashboard`);
-      } else {
-        alert("요청 실패")
-      }
-    })
-    .catch(() => alert("정상적인 접근이 아닙니다."));
-  };
-  
+  // 프로젝트 키 중복 체크 요청
   const checkPjKeyRequest = async () => {
+    if (keyChecked) return;
     if (pjKey == "") {
-      alert("키 값을 입력해주세요.")
+      alert("키 값을 입력해주세요.");
       return;
     }
-    instanceAuth.get(`/projects/project-key/${pjKey}`).then((response) => {
-      if (response.data.code == 200) {
-        setKeyChecked(true);
-      } else {
-        alert(`해당 키는 사용하실 수 없습니다.`);
-      }
-    }).catch(() => alert("정상적인 접근이 아닙니다."));
-  }
+    instanceAuth
+      .get(`/projects/project-key/${pjKey}`)
+      .then((response) => {
+        console.log(response.data)
+        if (response.data.isSuccess == true) {
+          setKeyChecked(1);
+        } else {
+          setKeyChecked(-2);
+        }
+      })
+      .catch((error) => {console.log(error); alert("정상적인 접근이 아닙니다.")});
+  };
 
   useEffect(() => {
     // set the dropdown menu element
@@ -176,6 +179,46 @@ export default function CreatePjPage() {
     // dropdown.show();
   }, []);
 
+  // 프로젝트 생성 요청
+  const createPjRequest = async () => {
+    if (pjTitle == "") {
+      alert("프로젝트명을 입력해주세요.");
+      return;
+    }
+
+    if (!(keyChecked == 1)) {
+      alert("프로젝트 키 중복 검사를 진행해주세요.");
+      return;
+    }
+
+    instanceAuth
+      .post(`/projects`, createPjData)
+      .then(async (response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          await instanceAuth
+            .get(`/projects/navbar`)
+            .then((response) => {
+              console.log(response.data);
+              if (response.data.code == 200) {
+                setProjects(response.data.result as ProjectNav[]);
+              } else if (response.data.code == 707) {
+                setProjects([]);
+              } else {
+                console.log("잘못된 접근입니다.");
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            });
+          navigate(`/project/${response.data.result.projectKey}/dashboard`);
+        } else {
+          alert("요청 실패");
+        }
+      })
+      .catch(() => alert("정상적인 접근이 아닙니다."));
+  };
+
   return (
     <>
       <div className="relative w-screen h-screen flex flex-col mt-[100px]">
@@ -202,10 +245,7 @@ export default function CreatePjPage() {
                 onChange={onTitleChangeHandler}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
               />
-              <p
-                className="font-suitM text-[14px] text-gray-400 text-right mt-[4px]"
-                style={{ width: "31.0847vw" }}
-              >
+              <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] w-[31.0847vw]">
                 {titleInputCount}/20
               </p>
             </div>
@@ -216,7 +256,9 @@ export default function CreatePjPage() {
                 프로젝트 키
               </p>
               <p className="text-[1.6vh] font-suitL text-gray-400 mt-[0.5vh]">
-                * 변경 불가능한 고유 주소입니다.<br/>&nbsp;&nbsp;&nbsp;영문, 숫자만 입력 가능합니다.
+                * 생성 후 변경 불가능한 고유 주소입니다.
+                <br />
+                &nbsp;&nbsp;&nbsp;영문 소문자와 숫자만 입력 가능합니다.
               </p>
             </div>
             <div>
@@ -226,13 +268,47 @@ export default function CreatePjPage() {
                   placeholder=""
                   maxLength={20}
                   onChange={onKeyChangeHandler}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[27.0847vw]"
+                  className={
+                    keyChecked == 1 || keyChecked == -1
+                      ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[27.0847vw]"
+                      : "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-error-4 focus:border-error-3 block p-2.5 w-[27.0847vw]"
+                  }
                 />
-                <button onClick={checkPjKeyRequest} className={!keyChecked ? "w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 rounded-lg" : "w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] text-primary-4 border border-1 border-primary-4 bg-primary-3 rounded-lg"}>{!keyChecked ? "중복 체크" : <img src={check_icon} className="m-auto"/>}</button>
+                <button
+                  onClick={checkPjKeyRequest}
+                  className={
+                    !(keyChecked == 1)
+                      ? "w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] border-2 border-grey-3 bg-white hover:bg-grey-4 rounded-lg"
+                      : "w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] border border-1 border-primary-4 bg-primary-3 rounded-lg"
+                  }
+                >
+                  {!(keyChecked == 1) ? (
+                    <img src={g_check_icon} className="m-auto" />
+                  ) : (
+                    <img src={w_check_icon} className="m-auto" />
+                  )}
+                </button>
               </div>
-              <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] w-[31.0847vw] pr-[4.2vw]">
-                {keyInputCount}/20
-              </p>
+              <div className="flex w-[31.0847vw]">
+                <p
+                  className={
+                    keyChecked == 1
+                      ? "text-primary-4 pl-[0.4vw] font-suitL text-[13px] mt-[4px]"
+                      : "text-error-3 pl-[0.4vw] font-suitL text-[13px] mt-[4px]"
+                  }
+                >
+                  {keyChecked == 1
+                    ? "사용 가능한 키입니다"
+                    : keyChecked == 0
+                    ? "키 중복 검사를 진행해주세요"
+                    : keyChecked == -1
+                    ? ""
+                    : "사용 불가능한 키입니다."}
+                </p>
+                <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] ml-auto pr-[4.2vw]">
+                  {keyInputCount}/20
+                </p>
+              </div>
             </div>
           </div>
           <div className="flex flex-row mt-[6vh]">
@@ -271,12 +347,20 @@ export default function CreatePjPage() {
                     onChange={onFindByEmailChangeHandler}
                     type="text"
                     id="floating_standard"
-                    className={emailStatus == "" ? "block py-2.5 px-0 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary-4 peer ml-1" : "block py-2.5 px-0 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-error-3 peer ml-1"}
+                    className={
+                      emailStatus == ""
+                        ? "block py-2.5 px-0 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary-4 peer ml-1"
+                        : "block py-2.5 px-0 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-error-3 peer ml-1"
+                    }
                     placeholder=" "
                   />
                   <label
                     htmlFor="floating_standard"
-                    className={emailStatus == "" ? "absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ml-1" : "absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-error-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ml-1"}
+                    className={
+                      emailStatus == ""
+                        ? "absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-primary-4 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ml-1"
+                        : "absolute text-sm text-gray-500 duration-300 transform -translate-y-6 scale-75 top-3 -z-10 origin-[0] peer-focus:left-0 peer-focus:text-error-3 peer-placeholder-shown:scale-100 peer-placeholder-shown:translate-y-0 peer-focus:scale-75 peer-focus:-translate-y-6 ml-1"
+                    }
                   >
                     {emailStatus == "" ? "이메일 검색하기" : emailStatus}
                   </label>
@@ -315,13 +399,13 @@ export default function CreatePjPage() {
                 <button
                   id="addTeamMember"
                   onClick={pjMemberRequest}
-                  className="ml-[0.5vw] w-[86px] h-[40px] text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-[12px] mb-2 focus:outline-none">
+                  className="ml-[0.5vw] w-[86px] h-[40px] text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-[12px] mb-2 focus:outline-none"
+                >
                   추가
                 </button>
               </div>
 
               {/* 권한 드롭다운했을 때 */}
-              {/*  */}
               <div className="relative flex flex-col">
                 <div
                   id="dropdownMenu"

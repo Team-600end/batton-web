@@ -23,6 +23,7 @@ import IssueManagePage from "@pages/project/issue/IssueManagePage";
 import IssueReportPage from "@pages/project/issue/IssueReportPage";
 import IssueEditPage from "@pages/project/issue/IssueEditPage";
 import EditPjPage from "@pages/project/EditPjPage";
+import ChangePasswordPage from "@pages/ChangePasswordPage";
 
 function App() {
   return (
@@ -48,6 +49,7 @@ function App() {
               <Route path="/project/:projectKey/releasesnote/write" element={<RnoteEditPage />} />
               <Route path="/project/:projectKey/project-edit" element={<EditPjPage/>} />
               <Route path="/myinfo-edit" element={<MyPage />} />
+              <Route path="/change-pw" element={<ChangePasswordPage />} />
               <Route path="/new-project" element={<CreatePjPage />} />
               <Route path="/board" element={<BoardPage />} />
               <Route path="/notifications" element={<NoticeDetailPage />} />

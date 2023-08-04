@@ -1,67 +1,101 @@
-import React from "react";
-import profile_img from "@images/common/default_profile.svg";
-import Navbar from "@components/nav/Navbar";
+import React, { useState } from "react";
+import { useRecoilValue, useRecoilState } from "recoil";
+import { emailState, nicknameState, profileImgState } from "@src/state/userState";
+import { instanceAuth } from "@src/types/AxiosInterface";
+import { useNavigate } from "react-router-dom";
 
 export default function MyPage() {
+  const navigate = useNavigate();
+
+  //Recoil
+  const [userNickname, setUserNickname] = useRecoilState(nicknameState);
+  const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
+  const userEmail = useRecoilValue(emailState);
+
+  const [nickname, setNickname] = useState(userNickname);
+  const [profileImg, setProfileImg] = useState(userProfileImg);
+
+  interface ModifyMemberBody {
+    nickname: string, 
+    profileImg: string
+  }
+
+  const modifyMemberBody : ModifyMemberBody = {
+    nickname: nickname,
+    profileImg: profileImg
+  };
+
+  const nicknameChange = (event) => {
+    setNickname(event.target.value);
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    if (file) {
+      const reader = new FileReader(); // 선택한 파일을 읽기 위해 FileReader 객체를 사용
+      reader.onloadend = () => { // 파일을 읽은 후 결과를 상태로 저장
+        setProfileImg(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+  };
+
+  // 유저 정보 수정 API
+  const modifyMemberRequest = async () => {
+    instanceAuth
+      .patch(`/members`, modifyMemberBody)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setUserNickname(modifyMemberBody.nickname)
+          setUserProfileImg(modifyMemberBody.profileImg)
+
+          alert("정보가 변경되었습니다.");
+          navigate(`/main`);
+        }
+        else if (response.data.code == 600) {
+          console.log("존재하지 않는 유저입니다.");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <>
       <div className="relative w-screen h-screen flex flex-col mt-12">
         <div className="flex flex-row items-center mt-[40px]" style={{ marginLeft: "16.9312vw" }}>
           <div className="w-[10px] h-[27px] bg-primary-5 mr-[10px]"></div>
-          <p className="text-[28px] font-bold text-gray-900">내 정보 수정</p>
+          <p className="text-[28px] font-suitB text-gray-900">내 정보 수정</p>
         </div>
         <div className="flex flex-row w-screen " style={{}}>
           <div className="flex flex-col w-screen mt-[40px] items-center" style={{ width: "13.8889vw", marginLeft: "24.2540vw" }}>
-            <img className="w-[106px] h-auto" src={profile_img}></img>
-            <p className="text-[16px] font-medium text-gray-900 mt-[20px]">계정</p>
-            <p className="text-[20px] font-semibold text-gray-900 mt-[16px]">batton@gachon.ac.kr</p>
+            <img className="w-[106px] h-auto" src={profileImg}></img>
+            <p className="text-[16px] font-suitM text-gray-900 mt-[20px]">계정</p>
+            <p className="text-[20px] font-suitSB text-gray-900 mt-[4px]">{userEmail}</p>
           </div>
           <div className="flex flex-col mt-[40px] ml-[64px]" style={{ width: "28.3730vw" }}>
             <div>
-              <label id="nickname" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label id="nickname" className="block mb-2 text-sm font-suitM text-gray-900">
                 닉네임
               </label>
               <input
                 type="nickname"
                 name="nickname"
                 id="nickname"
-                placeholder=""
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                required
-              />
-            </div>
-            <div className="mt-[16px]">
-              <label id="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                비밀번호
-              </label>
-              <input
-                type="password"
-                name="password"
-                id="password"
-                placeholder=""
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-                required
-              />
-            </div>
-            <div className="mt-[16px]">
-              <label id="password-check" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-                비밀번호 확인
-              </label>
-              <input
-                type="password"
-                name="password-check"
-                id="password-check"
-                placeholder=""
+                value={nickname}
+                onChange={nicknameChange}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                 required
               />
             </div>
             <div className=" mt-[16px]">
-              <label id="dropzone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
+              <label id="dropzone" className="block mb-2 text-sm font-suitM text-gray-900 dark:text-white">
                 프로필 사진 수정
               </label>
               <div className="flex items-center justify-center w-full">
-                <label className="flex flex-col items-center justify-center w-full h-60 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600">
+                <label className="flex flex-col items-center justify-center w-full h-60 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer">
                   <div className="flex flex-col items-center justify-center pt-5 pb-6">
                     <svg
                       className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
@@ -79,11 +113,11 @@ export default function MyPage() {
                       />
                     </svg>
                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-semibold"></span>이미지를 클릭하거나 드래그하여 업로드하세요
+                      <span className="font-suitSB"></span>이미지를 클릭하거나 드래그하여 업로드하세요
                     </p>
                     <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
                   </div>
-                  <input id="dropzone-file" type="file" className="hidden" />
+                  <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} />
                 </label>
               </div>
             </div>
@@ -92,92 +126,19 @@ export default function MyPage() {
         <div className="flex flex-row justify-center space-x-5" style={{ marginTop: "6.2159vh" }}>
           <button
             type="button"
-            className="text-white bg-error-3 hover:bg-error-2 focus:ring-4 focus:ring-error-2 font-medium rounded-lg text-sm px-9 py-3.5 mr-2 mb-2 dark:bg-error-3 dark:hover:bg-error-2 focus:outline-none dark:focus:ring-error-2"
+            className="text-white bg-error-3 hover:bg-error-2 focus:ring-4 focus:ring-error-2 font-suitM rounded-lg text-sm px-9 py-3.5 mr-2 mb-2 focus:outline-none"
           >
             탈퇴하기
           </button>
           <button
             type="button"
-            className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-medium rounded-lg text-sm px-9 py-3.5 mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5"
+            className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-suitM rounded-lg text-sm px-9 py-3.5 mr-2 mb-2 focus:outline-none"
+            onClick={modifyMemberRequest}
           >
             수정하기
           </button>
         </div>
       </div>
-      {/* <div className="mt-[16px]">
-        <label id="password" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          비밀번호
-        </label>
-        <input
-          type="password"
-          name="password"
-          id="password"
-          placeholder=""
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          required
-        />
-      </div>
-      <div className="mt-[16px]">
-        <label id="password-check" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          비밀번호 확인
-        </label>
-        <input
-          type="password"
-          name="password-check"
-          id="password-check"
-          placeholder=""
-          className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-          required
-        />
-      </div>
-      <div className=" mt-[16px]">
-        <label id="dropzone" className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">
-          프로필 사진 수정
-        </label>
-        <div className="flex items-center justify-center w-full">
-          <label
-            htmlFor="dropzone-file"
-            className="flex flex-col items-center justify-center w-full h-60 border-2 border-gray-300 border-dashed rounded-lg cursor-pointer bg-gray-50 dark:hover:bg-bray-800 dark:bg-gray-700 hover:bg-gray-100 dark:border-gray-600 dark:hover:border-gray-500 dark:hover:bg-gray-600"
-          >
-            <div className="flex flex-col items-center justify-center pt-5 pb-6">
-              <svg
-                className="w-8 h-8 mb-4 text-gray-500 dark:text-gray-400"
-                aria-hidden="true"
-                xmlns="http://www.w3.org/2000/svg"
-                fill="none"
-                viewBox="0 0 20 16"
-              >
-                <path
-                  stroke="currentColor"
-                  strokeLinecap="round"
-                  strokeLinejoin="round"
-                  strokeWidth="2"
-                  d="M13 13h3a3 3 0 0 0 0-6h-.025A5.56 5.56 0 0 0 16 6.5 5.5 5.5 0 0 0 5.207 5.021C5.137 5.017 5.071 5 5 5a4 4 0 0 0 0 8h2.167M10 15V6m0 0L8 8m2-2 2 2"
-                />
-              </svg>
-              <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                <span className="font-semibold"></span>이미지를 클릭하거나 드래그하여 업로드하세요
-              </p>
-              <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
-            </div>
-            <input id="dropzone-file" type="file" className="hidden" />
-          </label>
-        </div>
-      </div>
-      <div className="flex flex-row justify-center space-x-5" style={{ marginTop: "6.2159vh" }}>
-        <button
-          type="button"
-          className="text-white bg-error-3 hover:bg-error-2 focus:ring-4 focus:ring-error-2 font-medium rounded-lg text-sm px-9 py-3.5 mr-2 mb-2 dark:bg-error-3 dark:hover:bg-error-2 focus:outline-none dark:focus:ring-error-2"
-        >
-          탈퇴하기
-        </button>
-        <button
-          type="button"
-          className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-medium rounded-lg text-sm px-9 py-3.5 mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5"
-        >
-          수정하기
-        </button>
-      </div> */}
     </>
   );
 }
