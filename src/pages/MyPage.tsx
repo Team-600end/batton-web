@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { emailState, nicknameState, profileImgState } from "@src/state/userState";
-import { instanceAuth } from "@src/types/AxiosInterface";
+import { instanceImageAuth } from "@src/types/AxiosInterface";
 import { useNavigate } from "react-router-dom";
 
 export default function MyPage() {
@@ -14,16 +14,7 @@ export default function MyPage() {
 
   const [nickname, setNickname] = useState(userNickname);
   const [profileImg, setProfileImg] = useState(userProfileImg);
-
-  interface ModifyMemberBody {
-    nickname: string, 
-    profileImg: string
-  }
-
-  const modifyMemberBody : ModifyMemberBody = {
-    nickname: nickname,
-    profileImg: profileImg
-  };
+  const [viewImg, setViewImg] = useState(userProfileImg);
 
   const nicknameChange = (event) => {
     setNickname(event.target.value);
@@ -31,24 +22,30 @@ export default function MyPage() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
+    console.log(file)
     if (file) {
-      const reader = new FileReader(); // 선택한 파일을 읽기 위해 FileReader 객체를 사용
-      reader.onloadend = () => { // 파일을 읽은 후 결과를 상태로 저장
-        setProfileImg(reader.result);
+      const reader = new FileReader();
+      reader.onloadend = () => { 
+        setViewImg(reader.result);
       };
       reader.readAsDataURL(file);
     }
+    setProfileImg(file);
   };
 
   // 유저 정보 수정 API
   const modifyMemberRequest = async () => {
-    instanceAuth
-      .patch(`/members`, modifyMemberBody)
+    const formData = new FormData();
+    formData.append('profileImg', profileImg);
+    formData.append('nickname', nickname)
+
+    instanceImageAuth
+      .patch(`/members`, formData)
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
-          setUserNickname(modifyMemberBody.nickname)
-          setUserProfileImg(modifyMemberBody.profileImg)
+          setUserNickname(nickname)
+          setUserProfileImg(response.data.result)
 
           alert("정보가 변경되었습니다.");
           navigate(`/main`);
@@ -71,7 +68,7 @@ export default function MyPage() {
         </div>
         <div className="flex flex-row w-screen " style={{}}>
           <div className="flex flex-col w-screen mt-[40px] items-center" style={{ width: "13.8889vw", marginLeft: "24.2540vw" }}>
-            <img className="w-[106px] h-auto" src={profileImg}></img>
+            <img className="w-[106px] h-auto rounded-full" src={viewImg}></img>
             <p className="text-[16px] font-suitM text-gray-900 mt-[20px]">계정</p>
             <p className="text-[20px] font-suitSB text-gray-900 mt-[4px]">{userEmail}</p>
           </div>
