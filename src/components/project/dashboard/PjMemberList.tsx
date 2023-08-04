@@ -18,7 +18,6 @@ import { ProjectNav } from "@typess/project";
 
 export default function PjMemberList() {
   const [memberList, setMemberList] = useState<MemberList[]>([]);
-  const { projectId } = useParams();
 
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectKey } = useParams();

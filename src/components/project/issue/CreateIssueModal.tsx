@@ -4,36 +4,88 @@ import profile_img from "@images/common/default_profile.png";
 import Tag from "@src/components/project/issue/IssueBadge";
 import TagDisabled from "@src/components/project/issue/IssueBadgeDisabled";
 import { IssueType } from "@src/types/Issue";
+import { useRecoilState } from "recoil";
+import { projectNavs } from "@src/state/projectState";
+import { ProjectNav } from "@typess/project";
+import { useParams } from "react-router-dom";
+import { instanceAuth } from "@src/types/AxiosInterface";
+
+interface CreateIssueData {
+  projectId: number;
+  issueTag: IssueType;
+  issueTitle: string;
+  issueContent: string;
+  issueManager?: string;
+}
 
 export default function CreateIssueModal({ visible, onClose }) {
   const [activeTag, setActiveTag] = useState(null);
-  // const issueType: IssueType = "New";
+  const [issueTitle, setIssueTitle] = useState("");
+  const [issueContent, setIssueContent] = useState("");
+  const [issueManager, setIssueManager] = useState("");
 
-  const handleTagClick = (issueType: IssueType): IssueType => {
-    // setActiveTag(activeTag === issueType ? issueType : null);
-    if (issueType === "New" || issueType === "Changed" || issueType === "Feature" || issueType === "Fixed" || issueType === "Deprecated") {
-      setActiveTag(issueType);
-      return issueType;
-    } else {
-      // 기본값으로 "New"를 반환합니다. 이 부분을 프로젝트에 맞게 수정할 수 있습니다.
-      setActiveTag("New");
-      return "New";
-    }
-  };
+  //projectId
+  const [projectNav, setProjectNav] = useRecoilState(projectNavs);
+  let { projectKey } = useParams();
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
-  const handleTagHover = (issueType) => {
+  const handleTagClick = (issueType) => {
     setActiveTag(issueType);
-  };
-
-  const handleTagLeave = () => {
-    setActiveTag(null);
   };
 
   const handleOnClose = () => {
     onClose();
   };
 
+  const handleIssueTitle = (e) => {
+    setIssueTitle(e.target.value);
+  };
+
+  const handleIssueContent = (e) => {
+    setIssueContent(e.target.value);
+  };
+
   if (!visible) return null;
+
+  const createIssueData: CreateIssueData = {
+    projectId: pj.id,
+    issueTag: activeTag,
+    issueTitle: issueTitle,
+    issueContent: issueContent,
+    issueManager: issueManager,
+  };
+
+  const handleCreateIssue = async () => {
+    if (activeTag === null) {
+      alert("이슈 태그를 선택해주세요.");
+      return;
+    }
+
+    if (issueTitle === "") {
+      alert("이슈 제목을 입력해주세요.");
+      return;
+    }
+
+    if (issueContent === "") {
+      alert("이슈 설명을 입력해주세요.");
+      return;
+    }
+
+    instanceAuth
+      .post(`/issues`, createIssueData)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code === 200) {
+          alert("이슈가 생성되었습니다.");
+          handleOnClose();
+        } else {
+          alert("이슈 생성에 실패했습니다.");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
 
   return (
     <>
@@ -65,66 +117,30 @@ export default function CreateIssueModal({ visible, onClose }) {
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">이슈태그</p>
 
               <div className="flex items-center space-x-3 mt-4">
-                {/* <TagDisabled issueType="New" />
-                <TagDisabled issueType="Feature" />
-                <TagDisabled issueType="Changed" />
-                <TagDisabled issueType="Fixed" />
-                <TagDisabled issueType="Deprecated" /> */}
-
-                {/* {["New", "Feature", "Changed", "Fixed", "Deprecated"].map((type) =>
-                  activeTag === type ? (
-                    <div style={{ cursor: "pointer" }}>
-                      <Tag key={type} issueType={type as IssueType} onClick={() => handleTagClick(type as IssueType)} />
-                    </div>
-                  ) : (
-                    <div style={{ cursor: "pointer" }}>
-                      <TagDisabled
-                        key={type}
-                        issueType={type as IssueType}
-                        onClick={() => handleTagClick(type as IssueType)}
-                        onMouseEnter={() => handleTagHover(type)}
-                        onMouseLeave={handleTagLeave}
-                      />
-                    </div>
-                  )
-                )} */}
-
-                {["New", "Feature", "Changed", "Fixed", "Deprecated"].map((type) =>
-                  activeTag === type ? (
-                    <div style={{ cursor: "pointer" }}>
-                      <Tag key={type} issueType={type as IssueType} />
-                    </div>
-                  ) : (
-                    <div style={{ cursor: "pointer" }} onMouseEnter={() => handleTagHover(type)} onMouseLeave={handleTagLeave}>
-                      <TagDisabled key={type} issueType={type as IssueType} />
-                    </div>
-                  )
-                )}
+                {["New", "Feature", "Changed", "Fixed", "Deprecated"].map((type) => (
+                  <div key={type} style={{ cursor: "pointer" }} onClick={() => handleTagClick(type)}>
+                    {activeTag === type ? <Tag issueType={type as IssueType} /> : <TagDisabled issueType={type as IssueType} />}
+                  </div>
+                ))}
               </div>
 
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">이슈 제목</p>
               <input
                 type="pj_title"
-                name="pj_title"
-                id="pj_title"
+                // name="pj_title"
+                // id="pj_title"
                 placeholder=""
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                style={{
-                  width: "31.0847vw",
-                }}
-                required
+                onChange={handleIssueTitle}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
               />
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">이슈 설명</p>
               <input
-                type="pj_title"
-                name="pj_title"
-                id="pj_title"
+                type="pj_content"
+                // name="pj_content"
+                // id="pj_content"
                 placeholder=""
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block p-2.5"
-                style={{
-                  width: "31.0847vw",
-                }}
-                required
+                onChange={handleIssueContent}
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
               />
 
               <div className="flex items-center mt-6">
@@ -132,7 +148,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                 <button
                   id="dropdownButton"
                   data-dropdown-toggle="dropdownMenu"
-                  className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-[12px] text-center inline-flex items-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800 ml-[20px] justify-center"
+                  className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-primary-4 font-medium rounded-lg text-[12px] text-center inline-flex items-center ml-[20px] justify-center"
                   type="button"
                   style={{ height: "40px" }}
                 >
@@ -149,15 +165,15 @@ export default function CreateIssueModal({ visible, onClose }) {
             <div className="flex items-center justify-end px-14 py-10 space-x-2 rounded-b ">
               <button
                 type="button"
-                onClick={handleOnClose}
-                className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-blue-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-blue-600 dark:hover:bg-blue-700 dark:focus:ring-blue-800"
+                onClick={handleCreateIssue}
+                className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-primary-5 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 생성하기
               </button>
               <button
                 type="button"
                 onClick={handleOnClose}
-                className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-blue-300 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 dark:bg-gray-700 dark:text-gray-300 dark:border-gray-500 dark:hover:text-white dark:hover:bg-gray-600 dark:focus:ring-gray-600"
+                className="text-gray-500 bg-white hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-primary-5 rounded-lg border border-gray-200 text-sm font-medium px-5 py-2.5 hover:text-gray-900 focus:z-10 "
               >
                 취소
               </button>
