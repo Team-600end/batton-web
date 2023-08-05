@@ -24,7 +24,7 @@ export default function ReleasesPuzzle() {
   useEffect(() => {
     // async () => {
     instanceAuth
-      .get(`/project/${pj.projectId}/releases`) //TODO: api 확인 필요
+      .get(`/releases/project/${pj.projectId}`)
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
