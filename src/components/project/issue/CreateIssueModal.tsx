@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import "@assets/index.css";
 import profile_img from "@images/common/default_profile.png";
 import Tag from "@src/components/project/issue/IssueBadge";
@@ -76,7 +76,6 @@ export default function CreateIssueModal({ visible, onClose }) {
       .then((response) => {
         console.log(response.data);
         if (response.data.code === 200) {
-          alert("이슈가 생성되었습니다.");
           handleOnClose();
         } else {
           alert("이슈 생성에 실패했습니다.");

@@ -13,80 +13,6 @@ import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
 
-// const todoIssues: Issue[] = [
-//   // {
-//   //   type: "NEW",
-//   //   title: "작성 질문 추천 서비스",
-//   //   team: "600&",
-//   //   id: 9,
-//   // },
-//   // {
-//   //   type: "FEATURE",
-//   //   title: "선택지 이미지 첨부 기능",
-//   //   manager: { name: "임혜균", profileImg: avatar_yhg },
-//   //   team: "600&",
-//   //   id: 8,
-//   // },
-// ];
-
-// const progressIssues: Issue[] = [
-//   // {
-//   //   type: "NEW",
-//   //   title: "리뷰 전용 설문조사 서비스",
-//   //   manager: { name: "이서현", profileImg: avatar_lsh },
-//   //   team: "600&",
-//   //   id: 7,
-//   // },
-//   // {
-//   //   type: "CHANGED",
-//   //   title: "챗봇 사용 위치 변경",
-//   //   manager: { name: "이연희", profileImg: avatar_lyh },
-//   //   team: "600&",
-//   //   id: 6,
-//   // },
-// ];
-
-// const reviewIssues: Issue[] = [
-//   // {
-//   //   type: "FIXED",
-//   //   title: "설문 삭제 조건 이슈",
-//   //   manager: { name: "강창훈", profileImg: avatar_kch },
-//   //   team: "600&",
-//   //   id: 4,
-//   // },
-//   // {
-//   //   type: "FEATURE",
-//   //   title: "설문 숨기기 기능",
-//   //   manager: { name: "정현진", profileImg: avatar_jhj },
-//   //   team: "600&",
-//   //   id: 5,
-//   // },
-// ];
-
-// const doneIssues: Issue[] = [
-//   // {
-//   //   type: "CHANGED",
-//   //   title: "일반 설문조사 종류 변경",
-//   //   manager: { name: "강창훈", profileImg: avatar_kch },
-//   //   team: "600&",
-//   //   id: 1,
-//   // },
-//   // {
-//   //   type: "NEW",
-//   //   title: "설문조사 GPS 배포 기능",
-//   //   team: "600&",
-//   //   manager: { name: "임혜균", profileImg: avatar_yhg },
-//   //   id: 3,
-//   // },
-//   // {
-//   //   type: "NEW",
-//   //   title: "중복 배포 이슈",
-//   //   manager: { name: "이서현", profileImg: avatar_lsh },
-//   //   team: "600&",
-//   //   id: 2,
-//   // }
-// ];
-
 export default function IssueBoardPage() {
   // TODO 이슈 리스트 상태관리
   const [todoIssues, setTodoIssues] = useState<Issue[]>([]);
@@ -121,7 +47,7 @@ export default function IssueBoardPage() {
   //request
   const [seqNum, setSeqNum] = useState<number>(0);
   const [afterStatus, setAfterStatus] = useState<IssueStatus>("TODO");
-  const [issueCase, setIssueCase] = useState<IssueCase>("SPECIFIC");
+  const [issueCase, setIssueCase] = useState<IssueCase>(null);
 
   type IssueCase = "SPECIFIC" | "COMMON";
 
@@ -172,7 +98,7 @@ export default function IssueBoardPage() {
 
     if (source.droppableId !== destination.droppableId) {
       // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 다른 경우
-      setIssueCase("SPECIFIC");
+      setIssueCase("COMMON");
       const sourceItem = sourceList![sourceIndex];
       sourceList!.splice(sourceIndex, 1);
       destinationList!.splice(destinationIndex, 0, sourceItem);
@@ -181,7 +107,7 @@ export default function IssueBoardPage() {
     } else {
       // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 동일한 경우
       if (sourceIndex !== destinationIndex) {
-        setIssueCase("COMMON");
+        setIssueCase("SPECIFIC");
         const sourceItem = sourceList![sourceIndex];
         sourceList!.splice(sourceIndex, 1); // 원래 위치에서 제거
         sourceList!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
@@ -207,7 +133,10 @@ export default function IssueBoardPage() {
   };
 
   const [showModal, setShowModal] = useState(false);
-  const handleOnClose = () => setShowModal(false);
+  const handleOnClose = () => {
+    patchIssueBoard();
+    setShowModal(false);
+  };
 
   return (
     <div className="flex flex-col overflow-hidden">
