@@ -147,7 +147,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                   style={{ height: "40px" }}
                 >
                   <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" />
-                  이서현
+                  imae
                   <svg className="w-2.5 h-2.5 ml-3 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                   </svg>
