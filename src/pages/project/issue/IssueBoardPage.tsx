@@ -45,23 +45,7 @@ export default function IssueBoardPage() {
   const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   //request
-  const [seqNum, setSeqNum] = useState<number>(0);
-  const [afterStatus, setAfterStatus] = useState<IssueStatus>("TODO");
-  const [issueCase, setIssueCase] = useState<IssueCase>(null);
-
   type IssueCase = "SPECIFIC" | "COMMON";
-
-  interface ModifyIssueBoardBody {
-    seqNum: number;
-    afterStatus: IssueStatus;
-    issueCase: IssueCase;
-  }
-
-  const modifyIssueBoardBody: ModifyIssueBoardBody = {
-    seqNum: seqNum,
-    afterStatus: afterStatus,
-    issueCase: issueCase,
-  };
 
   useEffect(() => {
     patchIssueBoard();
@@ -84,8 +68,7 @@ export default function IssueBoardPage() {
         console.log(error);
       });
   };
-
-  const handleDragEnd = ({ source, destination }: DropResult) => {
+  const handleDragEnd = async ({ source, destination }: DropResult) => {
     // 유효하지 않는 곳으로 drag시 이벤트를 종료한다.
     if (!destination) return;
 
@@ -94,42 +77,46 @@ export default function IssueBoardPage() {
     const sourceIndex = source.index;
     const destinationIndex = destination.index;
     const issueId = sourceList[sourceIndex].issueId;
-    setAfterStatus(destination.droppableId as IssueStatus);
+
+    const afterStatus = destination.droppableId as IssueStatus;
+    const seqNum = destinationIndex;
+    let issueCase: IssueCase;
 
     if (source.droppableId !== destination.droppableId) {
       // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 다른 경우
-      setIssueCase("COMMON");
+      issueCase = "COMMON" as IssueCase;
       const sourceItem = sourceList![sourceIndex];
       sourceList!.splice(sourceIndex, 1);
       destinationList!.splice(destinationIndex, 0, sourceItem);
-
-      // async instanceAuth.
     } else {
       // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 동일한 경우
       if (sourceIndex !== destinationIndex) {
-        setIssueCase("SPECIFIC");
+        issueCase = "SPECIFIC" as IssueCase;
         const sourceItem = sourceList![sourceIndex];
         sourceList!.splice(sourceIndex, 1); // 원래 위치에서 제거
         sourceList!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
-      }
+      } else return;
     }
-    setSeqNum(destinationIndex);
-    // 저장 axios 추가해야됨!
-    // async () => {
-    instanceAuth
-      .patch(`/issues/board/status/${issueId}`, modifyIssueBoardBody)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.code == 200) {
-          patchIssueBoard();
-        } else {
-          console.log("잘못된 접근입니다.");
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // };
+
+    const modifyIssueBoardBody = {
+      afterStatus,
+      seqNum,
+      issueCase,
+    };
+
+    try {
+      const response = await instanceAuth.patch(`/issues/board/status/${issueId}`, modifyIssueBoardBody);
+      console.log("issudId: " + issueId);
+      console.log(modifyIssueBoardBody);
+
+      if (response.data.code === 200) {
+        await patchIssueBoard();
+      } else {
+        console.log("잘못된 접근입니다.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const [showModal, setShowModal] = useState(false);
