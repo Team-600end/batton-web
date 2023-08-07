@@ -1,6 +1,6 @@
 export type IssueType = "NEW" | "CHANGED" | "FEATURE" | "FIXED" | "DEPRECATED";
 
-export type IssueStatus = "TODO" | "PROGRESS" | "REVIEW" | "DONE";
+export type IssueStatus = "TODO" | "PROGRESS" | "REVIEW" | "DONE" | "RELEASED";
 
 export interface Manager {
   name: string;
@@ -25,10 +25,9 @@ export interface DoneIssue extends Issue {
   issueContent?: string;
 }
 
-export interface UsedIssue {
-  issueTag: IssueType;
-  issueTitle: string;
-  issueId: number;
+export interface UsedIssue extends DoneIssue {
+  startPosition?: number;
+  endPosition?: number;
 }
 export interface MyIssues {
   issueId: number;

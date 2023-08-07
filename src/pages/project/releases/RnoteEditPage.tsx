@@ -1,5 +1,5 @@
 import React, { useRef, useState } from "react";
-import { DoneIssue, Issue, IssueType, Manager } from "@typess/Issue";
+import { DoneIssue, Issue, IssueType, Manager, UsedIssue } from "@typess/Issue";
 import RnoteIssueCard from "@components/project/releases/RnoteIssueCard";
 import refresh_img from "@assets/images/icons/refresh.svg";
 // import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
@@ -9,7 +9,12 @@ import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/i18n/ko-kr";
-import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
+import {
+  DragDropContext,
+  Draggable,
+  Droppable,
+  DropResult,
+} from "react-beautiful-dnd";
 import RnoteUsedIssueCard from "@components/project/releases/RnoteUsedIssueCard";
 
 const doneIssues: DoneIssue[] = [
@@ -18,7 +23,8 @@ const doneIssues: DoneIssue[] = [
     issueKey: 1,
     issueTitle: "일반 설문조사 종류 변경",
     nickname: "강창훈",
-    issueContent: "설문조사 문항 종류를 변경하였습니다. 기존 체크박스와 라디오 버튼에서, 중복 선택 가능 토글을 만들고 객관식으로 통일을 진행했습니다.",
+    issueContent:
+      "설문조사 문항 종류를 변경하였습니다. 기존 체크박스와 라디오 버튼에서, 중복 선택 가능 토글을 만들고 객관식으로 통일을 진행했습니다.",
     issueId: 1,
   },
   {
@@ -39,20 +45,89 @@ const doneIssues: DoneIssue[] = [
       "중복 배포 방지 기능은 사용자들이 동일하거나 매우 유사한 설문조사를 여러 번 배포하는 것을 방지하는 새로운 기능입니다. 이 기능은 자동으로 시스템이 사용자가 작성하고 있는 설문조사와 과거에 배포된 설문조사를 비교하며, 이러한 중복성을 탐지합니다. <br><br><strong>자동 유사성 체크</strong>: 사용자가 설문조사를 작성하는 동안, 시스템은 이전에 생성된 설문조사와 현재 작성 중인 설문조사를 비교합니다. 이는 문항 내용, 선택지, 설문조사의 목적 등 다양한 요소를 기반으로 유사성을 체크합니다. <br><br><strong>중복 알림</strong>: 만약 시스템이 중복성을 탐지하면, 사용자에게 알림을 보냅니다. 이 알림은 사용자가 중복 배포를 방지할 수 있도록 돕습니다. 사용자는 알림을 통해 중복 배포를 예방하거나, 필요하다면 설문조사의 내용을 수정하거나 개선할 수 있습니다. <br><br><strong>유사성 점수</strong>: 설문조사가 완성되면, 시스템은 설문조사의 유사성 점수를 제공합니다. 이 점수는 0에서 100까지 범위이며, 점수가 높을수록 이전에 배포된 설문조사와 유사성이 높다는 것을 의미합니다.",
     issueId: 2,
   },
+//   {
+//     issueTag: "CHANGED",
+//     issueKey: 1,
+//     issueTitle: "첫번째",
+//     nickname: "ㅁ",
+//     issueContent:
+//       "첫번째.",
+//     issueId: 1,
+//   },
+//   {
+//     issueTag: "NEW",
+//     issueKey: 2,
+//     issueTitle: "두번째",
+//     nickname: "ㅁ",
+//     issueContent:
+//       "두번째.",
+//     issueId: 2,
+//   },
+//   {
+//     issueTag: "NEW",
+//     issueKey: 3,
+//     issueTitle: "세번째",
+//     nickname: "ㅁ",
+//     issueContent:
+//       "세번째",
+//     issueId: 3,
+//   },
+// {
+//   issueTag: "CHANGED",
+//   issueKey: 4,
+//   issueTitle: "네번째",
+//   nickname: "ㅁ",
+//   issueContent:
+//     "네번째.",
+//   issueId: 4,
+// },
+// {
+//   issueTag: "NEW",
+//   issueKey: 5,
+//   issueTitle: "다섯번째",
+//   nickname: "ㅁ",
+//   issueContent:
+//     "다섯번째.",
+//   issueId: 5,
+// },
+// {
+//   issueTag: "NEW",
+//   issueKey: 6,
+//   issueTitle: "여섯번째",
+//   nickname: "ㅁ",
+//   issueContent:
+//     "여섯번째",
+//   issueId: 6,
+// },
 ];
 
-const usedIssues: DoneIssue[] = [];
+const usedIssues: UsedIssue[] = [];
 
 export default function RnoteEditPage() {
   const [editorData, setEditorDate] = useState("");
-  // const [currentIssue, setIssue] =
+  // const [currentIssue, setIssue] = useState(-1);
   const editorRef = useRef<Editor>(null);
 
   const onChange = () => {
     setEditorDate(editorRef.current?.getInstance().getHTML());
-    console.log(editorData);
-    console.log(editorRef.current.getInstance().getSelection());
+    // console.log(editorData);
+    // console.log(editorData.length);
   };
+
+  const handleDelete: (index: number) => void = (targetIndex) => {
+    let targetStartPosition = usedIssues[targetIndex].startPosition;
+    let targetEndPosition = usedIssues[targetIndex].endPosition;
+    let targetSize = targetEndPosition - targetStartPosition;
+    editorRef.current.getInstance().setHTML([editorRef.current.getInstance().getHTML().slice(0, targetStartPosition), editorRef.current.getInstance().getHTML().slice(targetEndPosition, editorRef.current.getInstance().getHTML().length)].join(''));
+    setEditorDate(editorRef.current.getInstance().getHTML());
+    for (let num = targetIndex + 1; num < usedIssues.length; num++) {
+      usedIssues[num].startPosition - targetSize;
+      usedIssues[num].endPosition - targetSize;
+    };
+    const targetItem = usedIssues[targetIndex];
+    usedIssues!.splice(targetIndex, 1);
+    doneIssues!.splice(0, 0, targetItem);
+  }
 
   const handleDragEnd = (result: DropResult) => {
     // 유효하지 않는 곳으로 drag를 진행했을 경우 이벤트를 종료한다.
@@ -65,52 +140,91 @@ export default function RnoteEditPage() {
 
     // 시작지가 Done인 경우
     if (source.droppableId == "DONE") {
+      // 목적지가 Done인 경우
       if (destination.droppableId == "DONE") {
+        // 같은 인덱스로 드랍한 경우
         if (sourceIndex === destinationIndex) return;
         const sourceItem = doneIssues![sourceIndex];
         doneIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거
         doneIssues!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
+
+        // 목적지가 Editor인 경우 - 디폴트로 제일 아래쪽에 내용을 추가한다.
       } else if ((destination.droppableId = "Editor")) {
-        // 작성을 시도할 경우
+        let tmpPosition = editorData.length;
+
         editorRef.current
           ?.getInstance()
           .setHTML(
-            editorData + `<h2 id=${source.index}>${doneIssues![source.index].issueTitle}</h2><p>${doneIssues![source.index].issueContent ?? ""}</p><br>`
+            editorData +
+              `<h2 id=${source.index}>${
+                doneIssues![source.index].issueTitle
+              }</h2><p>${doneIssues![source.index].issueContent ?? ""}</p><br>`
           );
+
+        // console.log("실 조회 : " + editorRef.current.getInstance().getHTML()); // 삭제 필요
         usedIssues!.splice(usedIssues.length, 0, doneIssues[sourceIndex]);
+        
+        usedIssues[usedIssues.length - 1].startPosition = tmpPosition;
+        usedIssues[usedIssues.length - 1].endPosition = editorRef.current.getInstance().getHTML().length;
+        // console.log("이전 위치 :" + usedIssues[usedIssues.length - 1].startPosition); // 삭제 필요
+        // console.log("이후 위치 :" + usedIssues[usedIssues.length - 1].endPosition); // 삭제 필요
         doneIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거
-      } else return;
+      } else return; // 이외의 목적지인 경우, 리턴
+
+      // 시작지가 Used인 경우
     } else if (source.droppableId == "Used") {
-      const sourceItem = usedIssues![sourceIndex];
-      usedIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거
-      usedIssues!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
-    } else return;
+      // 목적지가 Used인 경우
+      if (destination.droppableId = "Used") {
+        if (sourceIndex == destinationIndex) return;
 
-    //  (destination.droppableId == "DONE") {
+        let sourceStartPosition = usedIssues[sourceIndex].startPosition;
+        let sourceEndPositon = usedIssues[sourceIndex].endPosition;
+        let targetStartPosition = usedIssues[destinationIndex].startPosition;
+        let targetEndPosition = usedIssues[destinationIndex].endPosition;
+        let sourceSize = usedIssues[sourceIndex].endPosition - usedIssues[sourceIndex].startPosition;
+        let sourceContent = editorRef.current.getInstance().getHTML().slice(sourceStartPosition, sourceEndPositon);
 
-    //     // 순서 변경을 하지 않은 경우
-    //     if (sourceIndex === destinationIndex) return;
+        if (sourceIndex > destinationIndex) { // 상위로 옮길 경우
+          // console.log("===상위전환===")
+          // console.log(targetStartPosition, targetEndPosition, sourceStartPosition, sourceEndPositon);
+          // console.log("목적지 앞 : " + editorRef.current.getInstance().getHTML().slice(0,targetStartPosition));
+          // console.log("소스 : " + sourceContent);
+          // console.log("목적지 앞 ~ 소스 앞 : " + editorRef.current.getInstance().getHTML().slice(targetStartPosition,sourceStartPosition));
+          // console.log("소스 뒤 : " + editorRef.current.getInstance().getHTML().slice(sourceEndPositon,editorRef.current.getInstance().getHTML().length));
+          editorRef.current.getInstance().setHTML([editorRef.current.getInstance().getHTML().slice(0,targetStartPosition), sourceContent, editorRef.current.getInstance().getHTML().slice(targetStartPosition,sourceStartPosition), editorRef.current.getInstance().getHTML().slice(sourceEndPositon,editorRef.current.getInstance().getHTML().length)].join(''));
+          setEditorDate(editorRef.current.getInstance().getHTML());
+          // console.log(editorRef.current.getInstance().getHTML());
+          usedIssues[sourceIndex].startPosition = targetStartPosition;
+          usedIssues[sourceIndex].endPosition = targetStartPosition + sourceSize;
+          for (let num = destinationIndex; num < sourceIndex; num++) {
+            usedIssues[num].startPosition += sourceSize;
+            usedIssues[num].endPosition += sourceSize;
+          }
+        } else { // 하위로 옮길 경우
+          // console.log("===하위전환===")
+          // console.log(sourceStartPosition, sourceEndPositon, targetStartPosition, targetEndPosition);
+          // console.log("소스 앞 : " + editorRef.current.getInstance().getHTML().slice(0,sourceStartPosition));
+          // console.log("소스 뒤 ~ 목적지 뒤 : " + editorRef.current.getInstance().getHTML().slice(sourceEndPositon,targetEndPosition));
+          // console.log("소스 컨텐츠 : " + sourceContent);
+          // console.log("목적지 뒤 : " + editorRef.current.getInstance().getHTML().slice(targetEndPosition,editorRef.current.getInstance().getHTML().length));
+          editorRef.current.getInstance().setHTML([editorRef.current.getInstance().getHTML().slice(0,sourceStartPosition), editorRef.current.getInstance().getHTML().slice(sourceEndPositon,targetEndPosition), sourceContent, editorRef.current.getInstance().getHTML().slice(targetEndPosition,editorRef.current.getInstance().getHTML().length)].join(''));
+          setEditorDate(editorRef.current.getInstance().getHTML());
+          usedIssues[sourceIndex].startPosition = targetStartPosition;
+          usedIssues[sourceIndex].endPosition = targetStartPosition + sourceSize;
+          for (let num = sourceIndex + 1; num <= destinationIndex; num++) {
+            usedIssues[num].startPosition -= sourceSize;
+            usedIssues[num].endPosition -= sourceSize;
+          }
+        }
+        
+        const sourceItem = usedIssues![sourceIndex];
+        usedIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거
+        usedIssues!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
 
-    //     const sourceItem = doneIssues![sourceIndex];
-    //     doneIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거
-    //     doneIssues!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
-    //   } else {
-    //     // 이슈 작성을 시도할 경우
-    //     doneIssues![sourceIndex].isUsed = true;
+      } else return; // 이외의 목적지인 경우, 리턴
 
-    //     const sourceItem = doneIssues![sourceIndex];
-    //     doneIssues!.splice(sourceIndex, 1);
-    //     usedIssues!.splice(destinationIndex, 0, sourceItem);
+    } else return; // 이외의 시작지인 경우, 리턴
 
-    //     editorRef.current?.getInstance().setHTML(
-    //         editorData +
-    //           `<h2 id=${source.index}>${doneIssues![source.index].title}</h2><p>${
-    //             doneIssues![source.index].content ?? ""
-    //           }</p>`
-    //       );
-    //   }
-
-    // 이외에도, 작성중인 이슈에 대해서 조건 논리를 추가해야한다.
     // 저장 axios 추가해야됨!
   };
 
@@ -126,11 +240,23 @@ export default function RnoteEditPage() {
               </div>
               <Droppable droppableId="DONE" key="DONE">
                 {(provided) => (
-                  <div className="pt-[2vh]" ref={provided.innerRef} {...provided.droppableProps}>
+                  <div
+                    className="pt-[2vh]"
+                    ref={provided.innerRef}
+                    {...provided.droppableProps}
+                  >
                     {doneIssues.map((issue, index) => (
-                      <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
+                      <Draggable
+                        draggableId={issue.issueId.toString()}
+                        key={issue.issueId.toString()}
+                        index={index}
+                      >
                         {(provided) => (
-                          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                          <div
+                            ref={provided.innerRef}
+                            {...provided.draggableProps}
+                            {...provided.dragHandleProps}
+                          >
                             <RnoteIssueCard key={index} issue={issue} />
                           </div>
                         )}
@@ -144,45 +270,67 @@ export default function RnoteEditPage() {
             <div className="mt-[2vh]">
               <div>
                 <div className="flex mb-[1vh] h-[6vh]">
-                  <div className="flex border-gray-200 border rounded-lg bg-white shadow-[2px_2px_10px_1px_rgba(0,0,0,0.3)] w-[50vw]">
+                  <div className="flex border-gray-200 border rounded-lg bg-white shadow-[2px_2px_10px_1px_rgba(0,0,0,0.3)] w-[49vw]">
                     <div className="my-auto mx-[1vw]">
                       <p className="font-suitSB">릴리즈 노트 에디터</p>
                     </div>
                     <div className="ml-[2vw] flex items-center">
                       <p className="font-suitL text-base">v .</p>
-                      <input type="text" placeholder="0" className="border-none font-suitM outline-none resize-none w-[3.5vw] h-full" />
+                      <input
+                        type="text"
+                        placeholder="0"
+                        className="border-none font-suitM outline-none resize-none w-[3.5vw] h-full"
+                      />
                     </div>
                     <div className="flex items-center">
                       <p className="font-suitL text-base">.</p>
-                      <input type="text" placeholder="0" className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none" />
+                      <input
+                        type="text"
+                        placeholder="0"
+                        className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none"
+                      />
                     </div>
                     <div className="flex items-center">
                       <p className="font-suitL text-base">.</p>
-                      <input type="text" placeholder="0" className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none" />
+                      <input
+                        type="text"
+                        placeholder="0"
+                        className="border-none font-suitM outline-none h-full w-[3.5vw] resize-none"
+                      />
                     </div>
-                    <div className="ml-[4vw] flex items-center">
+                    <div className="ml-auto flex items-center mr-[2vw]">
                       <p className="font-suitL text-base">포함 이슈</p>
-                      <p className="font-suitM text-lg text-grey-3 ml-[1vw]">2</p>
+                      <p className="font-suitM text-lg text-grey-3 ml-[1vw]">
+                        {usedIssues.length}
+                      </p>
                     </div>
                   </div>
                   <div className="flex justify-end">
                     <button
                       type="button"
-                      onClick={() => console.log(editorRef.current.getInstance().getSelection())}
-                      className="focus:outline-none border border-grey-5 text-gray-900 bg-white hover:bg-grey-300 focus:ring-4 focus:ring-grey-900 font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5vw] ml-[1.5vw] shadow-[2px_2px_10px_1px_rgba(0,0,0,0.3)]"
+                      onClick={() =>
+                        console.log(
+                          editorRef.current.getInstance().getSelection()
+                        )
+                      }
+                      className="focus:outline-none border border-grey-5 text-gray-900 bg-white hover:bg-grey-300 focus:ring-4 focus:ring-grey-900 font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5.3vw] ml-[1.5vw] shadow-[2px_2px_10px_1px_rgba(0,0,0,0.3)]"
                     >
-                      취소하기 getSelection
+                      취소하기
                     </button>
                     <button
-                      onClick={() => console.log(editorRef.current.getInstance().getMarkdown())}
+                      onClick={() =>
+                        console.log(
+                          editorRef.current.getInstance().getMarkdown()
+                        )
+                      }
                       type="button"
-                      className="focus:outline-none border border-grey-5 text-gray-900 bg-white font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5vw] shadow-[1px_2px_10px_1px_rgba(0,0,0,0.3)]"
+                      className="focus:outline-none border border-grey-5 text-gray-900 bg-white font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5.3vw] shadow-[1px_2px_10px_1px_rgba(0,0,0,0.3)]"
                     >
                       저장하기
                     </button>
                     <button
                       type="button"
-                      className="focus:outline-none border border-grey-5 text-gray-900 bg-white font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5vw] shadow-[1px_2px_10px_1px_rgba(0,0,0,0.3)]"
+                      className="focus:outline-none border border-grey-5 text-gray-900 bg-white font-suitM rounded-lg text-[0.8vw] py-2 mr-[1vw] w-[5.3vw] shadow-[1px_2px_10px_1px_rgba(0,0,0,0.3)]"
                     >
                       발행하기
                     </button>
@@ -192,7 +340,7 @@ export default function RnoteEditPage() {
                   <Droppable droppableId="Editor" key="Editor">
                     {(provided) => (
                       <div
-                        className="border font-suitM border-gray-300 bg-white rounded-lg p-[0.2vw] h-full w-[50vw] shadow-[1px_2px_10px_1px_rgba(0,0,0,0.3)]"
+                        className="border font-suitM border-gray-300 bg-white rounded-lg p-[0.2vw] h-full w-[49vw] shadow-[1px_2px_10px_1px_rgba(0,0,0,0.3)] mt-[2vh]"
                         ref={provided.innerRef}
                         {...provided.droppableProps}
                       >
@@ -221,7 +369,7 @@ export default function RnoteEditPage() {
                       </div>
                     )}
                   </Droppable>
-                  <div className="border rounded-t-lg ml-[1.5vw] mr-[1vw] bg-white w-[16.6vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.3)] mt-[2vh]">
+                  <div className="border rounded-t-lg ml-[1.5vw] mr-[1vw] bg-white w-[18vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.3)] mt-[2vh]">
                     <div className="border-b font-suitSB border-gray-400 p-[1vw] flex justify-between drop-shadow-lg">
                       등록 이슈 리스트
                       <img src={refresh_img} />
@@ -239,14 +387,28 @@ export default function RnoteEditPage() {
                           // overflow-scroll scrollbar-hide
                         >
                           {usedIssues.map((issue, index) => (
-                            <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
+                            <Draggable
+                              draggableId={issue.issueId.toString()}
+                              key={issue.issueId.toString()}
+                              index={index}
+                            >
                               {(provided) => (
-                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
-                                  <RnoteUsedIssueCard key={index} issue={issue} />
+                                <div
+                                  ref={provided.innerRef}
+                                  {...provided.draggableProps}
+                                  {...provided.dragHandleProps}
+                                >
+                                  <RnoteUsedIssueCard
+                                    key={index}
+                                    issue={issue}
+                                    index={index}
+                                    onDelClick={handleDelete}
+                                  />
                                 </div>
                               )}
                             </Draggable>
                           ))}
+                          {provided.placeholder}
                         </div>
                       )}
                     </Droppable>

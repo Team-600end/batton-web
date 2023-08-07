@@ -52,10 +52,10 @@ export default function IssueCard(props: IssueCardProps) {
         </div>
       </div>
       {cardDd && <div className="absolute z-20 w-[5vw] mt-[-11.2vh] ml-[10.5vw] border border-gray-300 bg-white divide-y divide-gray-200 rounded-md shadow">
-        <button className="text-gray-900 block py-1 px-1 w-full hover:bg-gray-100 font-suitM text-[0.9vw]" onClick={() => navigate(`/project/${projectKey}/issue/${props.issue.id}`)}>
+        <button className="text-gray-900 block py-1 px-1 w-full hover:bg-gray-100 font-suitM text-[0.9vw]" onClick={() => navigate(`/project/${projectKey}/issue/${props.issue.issueId}`)}>
           이슈 조회
         </button>
-        <button className="text-gray-900 block py-1 px-1 w-full hover:bg-gray-100 font-suitM text-[0.9vw]" onClick={() => navigate(`/project/${projectKey}/issue/${props.issue.id}/manage`)}>
+        <button className="text-gray-900 block py-1 px-1 w-full hover:bg-gray-100 font-suitM text-[0.9vw]" onClick={() => navigate(`/project/${projectKey}/issue/${props.issue.issueId}/manage`)}>
           이슈 관리
         </button>
       </div>}
