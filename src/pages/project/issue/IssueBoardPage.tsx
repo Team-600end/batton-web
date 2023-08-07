@@ -183,7 +183,8 @@ export default function IssueBoardPage() {
     } else {
       // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 동일한 경우
       if (sourceIndex !== destinationIndex) {
-        issueCase = "SPECIFIC" as IssueCase;
+        sourceIndex < destinationIndex ? (issueCase = "SPECIFIC") : (issueCase = "COMMON");
+        // issueCase = "SPECIFIC" as IssueCase;
         const sourceItem = sourceList![sourceIndex];
         sourceList!.splice(sourceIndex, 1); // 원래 위치에서 제거
         sourceList!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
@@ -198,8 +199,8 @@ export default function IssueBoardPage() {
 
     try {
       const response = await instanceAuth.patch(`/issues/board/status/${issueId}`, modifyIssueBoardBody);
-      console.log("issudId: " + issueId);
-      console.log(modifyIssueBoardBody);
+      console.log("issudId: " + issueId); //TODO: 해결 후 삭제
+      console.log(modifyIssueBoardBody); //TODO: 해결 후 삭제
 
       if (response.data.code === 200) {
         await patchIssueBoard();
