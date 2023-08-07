@@ -88,18 +88,18 @@ const doneIssues: Issue[] = [
   // }
 ];
 
-const checkIssueList = (locationId: string) => {
-  switch (locationId) {
-    case "TODO":
-      return todoIssues;
-    case "PROGRESS":
-      return progressIssues;
-    case "REVIEW":
-      return reviewIssues;
-    case "DONE":
-      return doneIssues;
-  }
-};
+// const checkIssueList = (locationId: string) => {
+//   switch (locationId) {
+//     case "TODO":
+//       return todoIssues;
+//     case "PROGRESS":
+//       return progressIssues;
+//     case "REVIEW":
+//       return reviewIssues;
+//     case "DONE":
+//       return doneIssues;
+//   }
+// };
 
 export default function IssueBoardPage() {
   // TODO 이슈 리스트 상태관리
@@ -111,6 +111,19 @@ export default function IssueBoardPage() {
   // DONE 이슈 리스트 상태관리
   const [doneIssues, setDoneIssues] = useState<Issue[]>([]);
 
+  const checkIssueList = (locationId: string) => {
+    switch (locationId) {
+      case "TODO":
+        return todoIssues;
+      case "PROGRESS":
+        return progressIssues;
+      case "REVIEW":
+        return reviewIssues;
+      case "DONE":
+        return doneIssues;
+    }
+  };
+
   // router-dom
   const { projectKey } = useParams();
   const navigate = useNavigate();
@@ -121,7 +134,14 @@ export default function IssueBoardPage() {
     (element: ProjectNav) => element.projectKey.toString() == projectKey
   );
 
+  //request
+  type IssueCase = "SPECIFIC" | "COMMON";
+
   useEffect(() => {
+    patchIssueBoard();
+  }, []);
+
+  const patchIssueBoard = async () => {
     instanceAuth
       .get(`/issues/board/list/${pj.projectId}`)
       .then((response) => {
@@ -139,13 +159,8 @@ export default function IssueBoardPage() {
       .catch((error) => {
         console.log(error);
       });
-    // setTodoIssues(todoIssues);
-    // setProgressIssues(progressIssues);
-    // setReviewIssues(reviewIssues);
-    // setDoneIssues(doneIssues);
-  }, []);
-
-  const handleDragEnd = ({ source, destination }: DropResult) => {
+  };
+  const handleDragEnd = async ({ source, destination }: DropResult) => {
     // 유효하지 않는 곳으로 drag시 이벤트를 종료한다.
     if (!destination) return;
 
@@ -153,26 +168,54 @@ export default function IssueBoardPage() {
     const destinationList = [...checkIssueList(destination.droppableId)];
     const sourceIndex = source.index;
     const destinationIndex = destination.index;
+    const issueId = sourceList[sourceIndex].issueId;
+
+    const afterStatus = destination.droppableId as IssueStatus;
+    const seqNum = destinationIndex;
+    let issueCase: IssueCase;
 
     if (source.droppableId !== destination.droppableId) {
       // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 다른 경우
+      issueCase = "COMMON" as IssueCase;
       const sourceItem = sourceList![sourceIndex];
       sourceList!.splice(sourceIndex, 1);
       destinationList!.splice(destinationIndex, 0, sourceItem);
-      // async instanceAuth.
     } else {
       // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 동일한 경우
       if (sourceIndex !== destinationIndex) {
+        issueCase = "SPECIFIC" as IssueCase;
         const sourceItem = sourceList![sourceIndex];
         sourceList!.splice(sourceIndex, 1); // 원래 위치에서 제거
         sourceList!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
-      }
+      } else return;
     }
-    // 저장 axios 추가해야됨!
+
+    const modifyIssueBoardBody = {
+      afterStatus,
+      seqNum,
+      issueCase,
+    };
+
+    try {
+      const response = await instanceAuth.patch(`/issues/board/status/${issueId}`, modifyIssueBoardBody);
+      console.log("issudId: " + issueId);
+      console.log(modifyIssueBoardBody);
+
+      if (response.data.code === 200) {
+        await patchIssueBoard();
+      } else {
+        console.log("잘못된 접근입니다.");
+      }
+    } catch (error) {
+      console.log(error);
+    }
   };
 
   const [showModal, setShowModal] = useState(false);
-  const handleOnClose = () => setShowModal(false);
+  const handleOnClose = () => {
+    patchIssueBoard();
+    setShowModal(false);
+  };
 
   return (
     <div className="flex flex-col overflow-hidden">

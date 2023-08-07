@@ -5,12 +5,12 @@ import MemberList from "@src/types/Users";
 import PjMember from "@components/project/dashboard/PjMember";
 
 //dummy data
-import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
-import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
-import avatar_kch from "@images/dummy/avatar_kch.jpeg";
-import avatar_lyh from "@images/dummy/avatar_lyh.jpeg";
-import avatar_pmsc from "@images/dummy/avatar_pmsc.jpeg";
-import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
+// import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
+// import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
+// import avatar_kch from "@images/dummy/avatar_kch.jpeg";
+// import avatar_lyh from "@images/dummy/avatar_lyh.jpeg";
+// import avatar_pmsc from "@images/dummy/avatar_pmsc.jpeg";
+// import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
 import { instanceAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";

@@ -1,4 +1,4 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useEffect } from "react";
 import "@assets/index.css";
 import profile_img from "@images/common/default_profile.png";
 import Tag from "@src/components/project/issue/IssueBadge";
@@ -52,7 +52,7 @@ export default function CreateIssueModal({ visible, onClose }) {
     issueTag: activeTag,
     issueTitle: issueTitle,
     issueContent: issueContent,
-    // issueManager: issueManager,
+    // belongId: issueManager,
   };
 
   const handleCreateIssue = async () => {
@@ -76,7 +76,6 @@ export default function CreateIssueModal({ visible, onClose }) {
       .then((response) => {
         console.log(response.data);
         if (response.data.code === 200) {
-          alert("이슈가 생성되었습니다.");
           handleOnClose();
         } else {
           alert("이슈 생성에 실패했습니다.");
@@ -91,7 +90,6 @@ export default function CreateIssueModal({ visible, onClose }) {
     <>
       <div
         id="defaultModal"
-        // tabIndex={-1 as number}
         aria-hidden="true"
         className="fixed justify-center flex items-center bg-black bg-opacity-30 top-0 left-0 right-0 bottom-0 z-50 p-4 backdrop-blur-sm overflow-x-hidden overflow-y-hidden md:inset-0 w-full h-full max-h-full"
       >
@@ -108,7 +106,6 @@ export default function CreateIssueModal({ visible, onClose }) {
                 <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                 </svg>
-                {/* <span className="sr-only">Close modal</span> */}
               </button>
             </div>
 
@@ -127,8 +124,6 @@ export default function CreateIssueModal({ visible, onClose }) {
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">이슈 제목</p>
               <input
                 type="pj_title"
-                // name="pj_title"
-                // id="pj_title"
                 placeholder=""
                 onChange={handleIssueTitle}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
@@ -136,8 +131,6 @@ export default function CreateIssueModal({ visible, onClose }) {
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">이슈 설명</p>
               <input
                 type="pj_content"
-                // name="pj_content"
-                // id="pj_content"
                 placeholder=""
                 onChange={handleIssueContent}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
@@ -153,7 +146,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                   style={{ height: "40px" }}
                 >
                   <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" />
-                  이서현
+                  imae
                   <svg className="w-2.5 h-2.5 ml-3 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                   </svg>
