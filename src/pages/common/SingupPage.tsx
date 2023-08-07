@@ -29,11 +29,13 @@ export default function SignupPage() {
   const [nickname, , setNickname] = useInput("");
   const [password, , setPassword] = useInput("");
   const [checkPassword, , setCheckPassword] = useInput("");
+  const [authCode, setAuthCode] = useState("");
 
   const [nicknameStatus, setNicknameStatus] = useState("");
   const [emailStatus, setEmailStatus] = useState("");
   const [passwordStatus, setPasswordStatus] = useState("");
   const [checkPasswordStatus, setCheckPasswordStatus] = useState("");
+  const [authCodeStatus, setAuthCodeSutatus] = useState(false);
 
   const navigate = useNavigate();
   type ValidNOProps = {
@@ -54,9 +56,14 @@ export default function SignupPage() {
 
   interface SignupData {
     email: string;
+    authCode: string;
     nickname: string;
     password: string;
     checkPassword: string;
+  }
+
+  interface EmailReq {
+    email: string;
   }
 
   // const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -81,6 +88,13 @@ export default function SignupPage() {
       setEmail(e.target.value);
     },
     [email]
+  );
+
+  const onChangeAuthCode = useCallback(
+    (e: React.ChangeEvent<HTMLInputElement>) => {
+      setAuthCode(e.target.value);
+    },
+    [authCode]
   );
 
   const onChangeNickname = useCallback(
@@ -138,16 +152,6 @@ export default function SignupPage() {
     }
   }, [password]);
 
-  useEffect(() => {
-    if (checkPassword === "") {
-      setCheckPasswordStatus("");
-    } else if (password !== checkPassword) {
-      setCheckPasswordStatus("비밀번호가 일치하지 않습니다.");
-    } else {
-      setCheckPasswordStatus("비밀번호가 일치합니다.");
-    }
-  }, [password, checkPassword]);
-
   const signupRequest = async () => {
     // 닉네임 필드 검증
     if (nickname.length < 2) {
@@ -173,9 +177,9 @@ export default function SignupPage() {
       return;
     }
     try {
-      
       const signupData: SignupData = {
         email: email,
+        authCode: authCode,
         nickname: nickname,
         password: password,
         checkPassword: checkPassword,
@@ -195,6 +199,21 @@ export default function SignupPage() {
     }
   };
 
+  const emailCheck = async () => {
+    const emailReq: EmailReq = {
+      email: email
+    };
+
+    instanceNonAuth
+    .post(`/auth/email`, emailReq)
+    .then(() => {
+      alert("인증 코드가 발송되었습니다.")
+    })
+    .catch((error) => {
+      console.log(error);
+    });
+  }
+
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
       <img
@@ -210,6 +229,7 @@ export default function SignupPage() {
             <label id="email" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
               이메일
             </label>
+            <div className="flex">
             <input
               type="text"
               value={email}
@@ -217,7 +237,26 @@ export default function SignupPage() {
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="이메일을 입력하세요"
             />
-            <div>{emailStatus == "사용 가능한 이메일입니다." ? <ValidOK text={emailStatus} /> : <ValidNO text={emailStatus} />}</div>
+            <button className="w-[130px] ml-[10px] text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-3 py-2.5 text-center"
+            type="button"
+            onClick={emailCheck}>
+              이메일 인증
+            </button>
+          </div>
+          <div>{emailStatus == "사용 가능한 이메일입니다." ? <ValidOK text={emailStatus} /> : <ValidNO text={emailStatus} />}</div>
+          </div>
+          <div>
+          <label id="email" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
+              인증번호
+            </label>
+            <input
+              type="text"
+              value={authCode}
+              onChange={onChangeEmail}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              placeholder="이메일 인증 코드를 입력하세요"
+            />
+            <div></div>
           </div>
           <div>
             <label id="nickname" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
