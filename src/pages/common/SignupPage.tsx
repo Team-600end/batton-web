@@ -35,7 +35,6 @@ export default function SignupPage() {
   const [emailStatus, setEmailStatus] = useState("");
   const [passwordStatus, setPasswordStatus] = useState("");
   const [checkPasswordStatus, setCheckPasswordStatus] = useState("");
-  const [authCodeStatus, setAuthCodeSutatus] = useState(false);
 
   const navigate = useNavigate();
   type ValidNOProps = {
@@ -152,6 +151,16 @@ export default function SignupPage() {
     }
   }, [password]);
 
+  useEffect(() => {
+    if (checkPassword === "") {
+      setCheckPasswordStatus("");
+    } else if (password !== checkPassword) {
+      setCheckPasswordStatus("비밀번호가 일치하지 않습니다.");
+    } else {
+      setCheckPasswordStatus("비밀번호가 일치합니다.");
+    }
+  }, [password, checkPassword]);
+
   const signupRequest = async () => {
     // 닉네임 필드 검증
     if (nickname.length < 2) {
@@ -252,7 +261,7 @@ export default function SignupPage() {
             <input
               type="text"
               value={authCode}
-              onChange={onChangeEmail}
+              onChange={onChangeAuthCode}
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
               placeholder="이메일 인증 코드를 입력하세요"
             />
