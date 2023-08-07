@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useRef } from "react";
+import React, { useState, useCallback, useRef, useEffect } from "react";
 import Tag from "@src/components/project/issue/IssueBadge";
 import profile_img from "@images/common/default_profile.png";
 import Navbar from "@components/nav/Navbar.tsx";
@@ -12,6 +12,13 @@ import IssueStatusBadge from "@src/components/project/issue/IssueStatusBadge";
 export default function IssueManagePage() {
   const { projectKey, issueId } = useParams();
   const editorRef = useRef<Editor>(null);
+  const [editorData, setEditorDate] = useState("");
+
+  useEffect(() => {
+    let str: string = "기본적인 내용";
+    editorRef.current.getInstance().setHTML(str);
+    setEditorDate(editorRef.current.getInstance().getHTML());
+  }, []);
 
   return (
     <div className="flex flex-col overflow-hidden">
@@ -40,14 +47,20 @@ export default function IssueManagePage() {
         </div>
       </div>
 
-      <div className="flex flex-col mt-[7vh] mx-auto w-[50vw] px-[7vw] space-y-5">
+      <div className="flex flex-col mr-auto ml-auto w-[50vw] mt-[5vh]">
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
+          바톤 넘겨주기
+        </p>
+      </div>
+
+      <div className="flex flex-col mt-[4vh] mx-auto w-[50vw] px-[7vw] space-y-5">
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
           <div className="ml-auto space-x-1">
-          <IssueStatusBadge issueStatus="TODO" />
-          <IssueStatusBadge issueStatus="PROGRESS" />
-          <IssueStatusBadge issueStatus="REVIEW" />
-          <IssueStatusBadge issueStatus="DONE" />
+            <IssueStatusBadge issueStatus="TODO" />
+            <IssueStatusBadge issueStatus="PROGRESS" />
+            <IssueStatusBadge issueStatus="REVIEW" />
+            <IssueStatusBadge issueStatus="DONE" />
             <IssueStatusBadge issueStatus="RELEASED" />
           </div>
         </div>
@@ -157,72 +170,72 @@ export default function IssueManagePage() {
                 aria-labelledby="dropdownSearchButton"
               >
                 <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
                     <input
                       id="checkbox-item-11"
                       type="checkbox"
                       value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                     />
                     <label
                       htmlFor="checkbox-item-11"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
                     >
                       Bonnie Green
                     </label>
                   </div>
                 </li>
                 <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
                     <input
                       checked
                       id="checkbox-item-12"
                       type="checkbox"
                       value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                     />
                     <label
                       htmlFor="checkbox-item-12"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
                     >
                       Jese Leos
                     </label>
                   </div>
                 </li>
                 <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
                     <input
                       id="checkbox-item-13"
                       type="checkbox"
                       value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                     />
                     <label
                       htmlFor="checkbox-item-13"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
                     >
                       Michael Gough
                     </label>
                   </div>
                 </li>
                 <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
                     <input
                       id="checkbox-item-14"
                       type="checkbox"
                       value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                     />
                     <label
                       htmlFor="checkbox-item-14"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
                     >
                       Robert Wall
                     </label>
                   </div>
                 </li>
                 <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
                     <input
                       id="checkbox-item-15"
                       type="checkbox"
@@ -231,19 +244,19 @@ export default function IssueManagePage() {
                     />
                     <label
                       htmlFor="checkbox-item-15"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
+                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
                     >
                       Joseph Mcfall
                     </label>
                   </div>
                 </li>
                 <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
                     <input
                       id="checkbox-item-16"
                       type="checkbox"
                       value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                     />
                     <label
                       htmlFor="checkbox-item-16"
@@ -259,7 +272,7 @@ export default function IssueManagePage() {
                       id="checkbox-item-17"
                       type="checkbox"
                       value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                     />
                     <label
                       htmlFor="checkbox-item-17"
@@ -272,7 +285,7 @@ export default function IssueManagePage() {
               </ul>
               <a
                 href="#"
-                className="flex items-center p-3 text-sm font-medium text-red-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-red-500 hover:underline"
+                className="flex items-center p-3 text-sm font-medium text-red-600 border-t border-gray-200 rounded-b-lg bg-gray-50 hover:bg-gray-100 hover:underline"
               >
                 <svg
                   className="w-4 h-4 mr-2"
