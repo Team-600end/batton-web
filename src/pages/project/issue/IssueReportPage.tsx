@@ -1,13 +1,24 @@
-import React from "react";
+import React, { useEffect } from "react";
 import Navbar from "@components/nav/Navbar";
+import { useNavigate, useParams } from "react-router-dom";
+import IssueBadge from "@src/components/project/issue/IssueBadge";
+import { instanceAuth } from "@src/types/AxiosInterface";
 
 export default function IssueReportPage() {
+  const navigate = useNavigate();
+  const { projectKey, issueId } = useParams();
+
+  useEffect(() => {
+    instanceAuth.get(``)
+  }, []);
+
   return (
     <>
       <div className="w-[90vw] m-auto mt-[10vh] flex flex-col">
         <div className="flex justify-end mt-5 mr-10">
           <button
             type="button"
+            onClick={() => navigate(`/project/${projectKey}/issue/${issueId}/write`)}
             className="w-[5vw] focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-xs px-0.5 py-1.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
           >
             수정
@@ -15,9 +26,7 @@ export default function IssueReportPage() {
         </div>
         <div className="flex flex-row mt-7">
           <p className="text-2xl font-bold text-gray-900 dark:text-white mr-7">[600&-12] 사용자 프로필 기능 수정</p>
-          <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-7 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 border border-yellow-300">
-            CHANGED
-          </span>
+          {/* <IssueBadge issueType={}/> */}
           <p className="text-xs font-medium text-gray-900 dark:text-white flex items-end">2023.06.11</p>
         </div>
 

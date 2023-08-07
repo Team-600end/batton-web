@@ -1,9 +1,14 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import Tag from "@src/components/project/issue/IssueBadge";
 import profile_img from "@images/common/default_profile.png";
 import Navbar from "@components/nav/Navbar.tsx";
+import { useParams } from "react-router-dom";
+import Editor from "node_modules/@toast-ui/editor/types";
 
 export default function IssueEditPage() {
+  const { projectKey, issueId } = useParams();
+  const editorRef = useRef<Editor>(null);
+
   return (
     <>
       <Navbar />
