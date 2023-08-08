@@ -4,12 +4,7 @@ import plus_img from "@assets/images/icons/plus.svg";
 import { Issue, IssueStatus } from "@typess/Issue";
 import IssueCard from "@components/project/issue/IssueCard";
 import MilestoneNavbar from "@components/nav/MilestoneNavbar";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { useNavigate, useParams } from "react-router-dom";
 import CreateIssueModal from "@components/project/issue/CreateIssueModal";
 
@@ -17,89 +12,6 @@ import { instanceAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
-
-const todoIssues: Issue[] = [
-  // {
-  //   issueTag: "NEW",
-  //   issueTitle: "리뷰 전용 설문조사 서비스",
-  //   issueId: 9,
-  //   issueKey: 9,
-
-  // },
-  // {
-  //   issueTag: "NEW",
-  //   issueTitle: "리뷰 전용 설문조사 서비스",
-  //   issueId: 8,
-  //   issueKey: 8,
-  // },
-];
-
-const progressIssues: Issue[] = [
-  // {
-  //   issueTag: "NEW",
-  //   issueTitle: "리뷰 전용 설문조사 서비스",
-  //   issueId: 7,
-  //   issueKey: 7,
-  // },
-  // {
-  //   issueTag: "NEW",
-  //   issueTitle: "리뷰 전용 설문조사 서비스",
-  //   issueId: 6,
-  //   issueKey: 6,
-  // },
-];
-
-const reviewIssues: Issue[] = [
-  // {
-  //   issueTag: "NEW",
-  //   issueTitle: "리뷰 전용 설문조사 서비스",
-  //   issueId: 4,
-  //   issueKey: 4,
-  // },
-  // {
-  //   issueTag: "NEW",
-  //   issueTitle: "리뷰 전용 설문조사 서비스",
-  //   issueId: 3,
-  //   issueKey: 3,
-  // },
-];
-
-const doneIssues: Issue[] = [
-  // {
-  //   type: "CHANGED",
-  //   title: "일반 설문조사 종류 변경",
-  //   manager: { name: "강창훈", profileImg: avatar_kch },
-  //   team: "600&",
-  //   id: 1,
-  // },
-  // {
-  //   type: "NEW",
-  //   title: "설문조사 GPS 배포 기능",
-  //   team: "600&",
-  //   manager: { name: "임혜균", profileImg: avatar_yhg },
-  //   id: 3,
-  // },
-  // {
-  //   type: "NEW",
-  //   title: "중복 배포 이슈",
-  //   manager: { name: "이서현", profileImg: avatar_lsh },
-  //   team: "600&",
-  //   id: 2,
-  // }
-];
-
-// const checkIssueList = (locationId: string) => {
-//   switch (locationId) {
-//     case "TODO":
-//       return todoIssues;
-//     case "PROGRESS":
-//       return progressIssues;
-//     case "REVIEW":
-//       return reviewIssues;
-//     case "DONE":
-//       return doneIssues;
-//   }
-// };
 
 export default function IssueBoardPage() {
   // TODO 이슈 리스트 상태관리
@@ -130,9 +42,7 @@ export default function IssueBoardPage() {
 
   // Project Recoil
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
-  const pj = projectNav.find(
-    (element: ProjectNav) => element.projectKey.toString() == projectKey
-  );
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   //request
   type IssueCase = "SPECIFIC" | "COMMON";
@@ -147,9 +57,7 @@ export default function IssueBoardPage() {
       .then((response) => {
         if (response.data.code == 200) {
           setTodoIssues((response.data.result.todoList as Issue[]) ?? []);
-          setProgressIssues(
-            (response.data.result.progressList as Issue[]) ?? []
-          );
+          setProgressIssues((response.data.result.progressList as Issue[]) ?? []);
           setReviewIssues((response.data.result.reviewList as Issue[]) ?? []);
           setDoneIssues((response.data.result.doneList as Issue[]) ?? []);
         } else {
@@ -235,14 +143,7 @@ export default function IssueBoardPage() {
               onClick={() => setShowModal(true)}
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
             >
-              <svg
-                width="12"
-                height="12"
-                viewBox="0 0 12 12"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="mr-[0.3vw]"
-              >
+              <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-[0.3vw]">
                 <path d="M5.66667 5.99967H1H5.66667Z" fill="#5AAE8A" />
                 <path
                   d="M5.66667 1.33301V5.99967M5.66667 5.99967V10.6663M5.66667 5.99967H10.3333M5.66667 5.99967H1"
@@ -260,34 +161,18 @@ export default function IssueBoardPage() {
             <div className="flex m-[1.5vw] justify-center">
               <Droppable droppableId="TODO" key="TODO">
                 {(provided) => (
-                  <div
-                    className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
+                  <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit" ref={provided.innerRef} {...provided.droppableProps}>
                     {/* FFED8F */}
                     <div className="bg-[#D0F6E0] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                       <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
-                        <h1 className="text-lg font-suitB text-[#323232]">
-                          대기
-                        </h1>
-                        <h2 className="ml-[0.8vw] font-suitB">
-                          {todoIssues.length}
-                        </h2>
+                        <h1 className="text-lg font-suitB text-[#323232]">대기</h1>
+                        <h2 className="ml-[0.8vw] font-suitB">{todoIssues.length}</h2>
                       </div>
                       {todoIssues.map((issue, index) => (
-                        <Draggable
-                          draggableId={issue.issueId.toString()}
-                          key={issue.issueId.toString()}
-                          index={index}
-                        >
+                        <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
                           {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
+                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                               <IssueCard key={index} issue={issue} />
                             </div>
                           )}
@@ -300,34 +185,18 @@ export default function IssueBoardPage() {
               </Droppable>
               <Droppable droppableId="PROGRESS" key="PROGRESS">
                 {(provided) => (
-                  <div
-                    className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
+                  <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit" ref={provided.innerRef} {...provided.droppableProps}>
                     {/* 8FB5FF */}
                     <div className="bg-[#99D8BF] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                       <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
-                        <h1 className="text-lg font-suitB text-[#323232]">
-                          진행
-                        </h1>
-                        <h2 className="ml-[0.8vw] font-suitB">
-                          {progressIssues.length}
-                        </h2>
+                        <h1 className="text-lg font-suitB text-[#323232]">진행</h1>
+                        <h2 className="ml-[0.8vw] font-suitB">{progressIssues.length}</h2>
                       </div>
                       {progressIssues.map((issue, index) => (
-                        <Draggable
-                          draggableId={issue.issueId.toString()}
-                          key={issue.issueId.toString()}
-                          index={index}
-                        >
+                        <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
                           {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
+                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                               <IssueCard key={index} issue={issue} />
                             </div>
                           )}
@@ -340,34 +209,18 @@ export default function IssueBoardPage() {
               </Droppable>
               <Droppable droppableId="REVIEW" key="REVIEW">
                 {(provided) => (
-                  <div
-                    className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
+                  <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit" ref={provided.innerRef} {...provided.droppableProps}>
                     {/* FF8F8F */}
                     <div className="bg-[#41A05F] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                       <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
-                        <h1 className="text-lg font-suitB text-[#323232]">
-                          검토
-                        </h1>
-                        <h2 className="ml-[0.8vw] font-suitB">
-                          {reviewIssues.length}
-                        </h2>
+                        <h1 className="text-lg font-suitB text-[#323232]">검토</h1>
+                        <h2 className="ml-[0.8vw] font-suitB">{reviewIssues.length}</h2>
                       </div>
                       {reviewIssues.map((issue, index) => (
-                        <Draggable
-                          draggableId={issue.issueId.toString()}
-                          key={issue.issueId.toString()}
-                          index={index}
-                        >
+                        <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
                           {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
+                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                               <IssueCard key={index} issue={issue} />
                             </div>
                           )}
@@ -380,34 +233,18 @@ export default function IssueBoardPage() {
               </Droppable>
               <Droppable droppableId="DONE" key="DONE">
                 {(provided) => (
-                  <div
-                    className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
+                  <div className="w-[20vw] bg-white mx-[1.4vw] rounded-lg shadow-lg flex flex-col h-fit" ref={provided.innerRef} {...provided.droppableProps}>
                     {/* 83CE9B */}
                     <div className="bg-[#285F43] h-[0.5vw] rounded-t-lg" />
                     <div className="mx-auto">
                       <div className="flex mb-4 ml-[0.5vw] mt-[3vh] items-center w-[16vw]">
-                        <h1 className="text-lg font-suitB text-[#323232]">
-                          완료
-                        </h1>
-                        <h2 className="ml-[0.8vw] font-suitB">
-                          {doneIssues.length}
-                        </h2>
+                        <h1 className="text-lg font-suitB text-[#323232]">완료</h1>
+                        <h2 className="ml-[0.8vw] font-suitB">{doneIssues.length}</h2>
                       </div>
                       {doneIssues.map((issue, index) => (
-                        <Draggable
-                          draggableId={issue.issueId.toString()}
-                          key={issue.issueId.toString()}
-                          index={index}
-                        >
+                        <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
                           {(provided) => (
-                            <div
-                              ref={provided.innerRef}
-                              {...provided.draggableProps}
-                              {...provided.dragHandleProps}
-                            >
+                            <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                               <IssueCard key={index} issue={issue} />
                             </div>
                           )}

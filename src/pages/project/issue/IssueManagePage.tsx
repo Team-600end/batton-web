@@ -10,7 +10,7 @@ import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 import IssueStatusBadge from "@src/components/project/issue/IssueStatusBadge";
 
 export default function IssueManagePage() {
-  const { projectKey, issueId } = useParams();
+  // const { projectKey, issueId } = useParams();
   const editorRef = useRef<Editor>(null);
 
   return (
@@ -18,9 +18,7 @@ export default function IssueManagePage() {
       <MilestoneNavbar />
       <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[65vw]">
         <div className="flex justify-start">
-          <p className="font-bold text-[28px] text-gray-900 jusitfy-start">
-            [600&-12] 사용자 프로필 수정 기능
-          </p>
+          <p className="font-bold text-[28px] text-gray-900 jusitfy-start">[600&-12] 사용자 프로필 수정 기능</p>
         </div>
         <div className="flex justify-end">
           <button
@@ -44,18 +42,16 @@ export default function IssueManagePage() {
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
           <div className="ml-auto space-x-1">
-          <IssueStatusBadge issueStatus="TODO" />
-          <IssueStatusBadge issueStatus="PROGRESS" />
-          <IssueStatusBadge issueStatus="REVIEW" />
-          <IssueStatusBadge issueStatus="DONE" />
+            <IssueStatusBadge issueStatus="TODO" />
+            <IssueStatusBadge issueStatus="PROGRESS" />
+            <IssueStatusBadge issueStatus="REVIEW" />
+            <IssueStatusBadge issueStatus="DONE" />
             <IssueStatusBadge issueStatus="RELEASED" />
           </div>
         </div>
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">설명</p>
-          <p className="font-suitM text-[1vw] text-gray-900 ml-auto my-auto">
-            사용자는 내 정보 수정을 눌러 프로필을 수정할 수 있다
-          </p>
+          <p className="font-suitM text-[1vw] text-gray-900 ml-auto my-auto">사용자는 내 정보 수정을 눌러 프로필을 수정할 수 있다</p>
         </div>
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">태그</p>
@@ -74,9 +70,7 @@ export default function IssueManagePage() {
 
       <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
         <hr className="h-px my-8 bg-gray-200 border-0" />
-        <p className="font-bold text-[20px] text-gray-900 ml-10 mt-1">
-          이슈 레포트
-        </p>
+        <p className="font-bold text-[20px] text-gray-900 ml-10 mt-1">이슈 레포트</p>
       </div>
       <div className="mb-4 border border-gray-300 rounded-lg bg-white p-[0.2vw] h-full w-[40vw] font-suitM mt-[4vh] mx-auto">
         <div>
@@ -103,25 +97,17 @@ export default function IssueManagePage() {
 
       <div className="flex flex-col mr-auto ml-auto w-[50vw]">
         <hr className="h-px my-8 bg-gray-200 border-0 mt-5" />
-        <p className="font-bold text-[20px] text-gray-900 ml-10 mt-1">
-          바톤 넘겨주기
-        </p>
+        <p className="font-bold text-[20px] text-gray-900 ml-10 mt-1">바톤 넘겨주기</p>
       </div>
 
       <div className="flex mr-auto ml-auto w-[50vw]">
         <div className="flex flex-col items-start w-[9vw] ml-[11vw]">
-          <p className="font-semibold text-[18px] text-gray-900 mt-10">
-            알림받을 팀원
-          </p>
+          <p className="font-semibold text-[18px] text-gray-900 mt-10">알림받을 팀원</p>
         </div>
 
         <div className="flex flex-col justify-start mt-10 space-y-7">
           <div className="flex">
-            <div
-              id="dropdownSearch"
-              className="z-10 bg-white rounded-lg shadow w-60 dark:bg-gray-700"
-              style={{ width: "26.3139vw" }}
-            >
+            <div id="dropdownSearch" className="z-10 bg-white rounded-lg shadow w-60 dark:bg-gray-700" style={{ width: "26.3139vw" }}>
               <div className="p-3">
                 <label htmlFor="input-group-search" className="sr-only">
                   Search
@@ -152,10 +138,7 @@ export default function IssueManagePage() {
                   />
                 </div>
               </div>
-              <ul
-                className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownSearchButton"
-              >
+              <ul className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200" aria-labelledby="dropdownSearchButton">
                 <li>
                   <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                     <input
@@ -164,10 +147,7 @@ export default function IssueManagePage() {
                       value=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
-                    <label
-                      htmlFor="checkbox-item-11"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                    >
+                    <label htmlFor="checkbox-item-11" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
                       Bonnie Green
                     </label>
                   </div>
@@ -181,10 +161,7 @@ export default function IssueManagePage() {
                       value=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
-                    <label
-                      htmlFor="checkbox-item-12"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                    >
+                    <label htmlFor="checkbox-item-12" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
                       Jese Leos
                     </label>
                   </div>
@@ -197,10 +174,7 @@ export default function IssueManagePage() {
                       value=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
-                    <label
-                      htmlFor="checkbox-item-13"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                    >
+                    <label htmlFor="checkbox-item-13" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
                       Michael Gough
                     </label>
                   </div>
@@ -213,10 +187,7 @@ export default function IssueManagePage() {
                       value=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
-                    <label
-                      htmlFor="checkbox-item-14"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                    >
+                    <label htmlFor="checkbox-item-14" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
                       Robert Wall
                     </label>
                   </div>
@@ -229,10 +200,7 @@ export default function IssueManagePage() {
                       value=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
                     />
-                    <label
-                      htmlFor="checkbox-item-15"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                    >
+                    <label htmlFor="checkbox-item-15" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
                       Joseph Mcfall
                     </label>
                   </div>
@@ -245,10 +213,7 @@ export default function IssueManagePage() {
                       value=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
-                    <label
-                      htmlFor="checkbox-item-16"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                    >
+                    <label htmlFor="checkbox-item-16" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
                       Leslie Livingston
                     </label>
                   </div>
@@ -261,10 +226,7 @@ export default function IssueManagePage() {
                       value=""
                       className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 dark:focus:ring-blue-600 dark:ring-offset-gray-700 dark:focus:ring-offset-gray-700 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                     />
-                    <label
-                      htmlFor="checkbox-item-17"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                    >
+                    <label htmlFor="checkbox-item-17" className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300">
                       Roberta Casas
                     </label>
                   </div>
@@ -274,13 +236,7 @@ export default function IssueManagePage() {
                 href="#"
                 className="flex items-center p-3 text-sm font-medium text-red-600 border-t border-gray-200 rounded-b-lg bg-gray-50 dark:border-gray-600 hover:bg-gray-100 dark:bg-gray-700 dark:hover:bg-gray-600 dark:text-red-500 hover:underline"
               >
-                <svg
-                  className="w-4 h-4 mr-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 18"
-                >
+                <svg className="w-4 h-4 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="currentColor" viewBox="0 0 20 18">
                   <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z" />
                 </svg>
                 Delete user
