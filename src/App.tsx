@@ -18,7 +18,6 @@ import LandingPage from "@pages/common/LandingPage";
 import Layout from "@src/Layout";
 import NotFoundPage from "@pages/common/NotFoundPage";
 import DashBoardPage from "@pages/project/dashboard/DashBoardPage";
-import WriteIssueReport from "@pages/project/issue/WriteIssueReport";
 import IssueManagePage from "@pages/project/issue/IssueManagePage";
 import IssueReportPage from "@pages/project/issue/IssueReportPage";
 import IssueEditPage from "@pages/project/issue/IssueEditPage";
@@ -39,7 +38,6 @@ function App() {
               <Route path="/main" element={<MainPage />} />
               <Route path="/project/:projectKey/dashboard" element={<DashBoardPage />} />
               <Route path="/project/:projectKey/issueboard" element={<IssueBoardPage />} />
-              <Route path="/project/:projectKey/issue/:issueId/write" element={<WriteIssueReport/>} />
               <Route path="/project/:projectKey/issue/:issueId/manage" element={<IssueManagePage/>} />
               <Route path="/project/:projectKey/issue/:issueId/edit" element={<IssueEditPage/>} />
               <Route path="/project/:projectKey/issue/:issueId" element={<IssueReportPage/>} />

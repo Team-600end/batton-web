@@ -79,7 +79,7 @@ export default function IssueStatusBadge(props: IssueStatusBadgeProps) {
 
   return (
     <span
-      style={{ background:backgroundColor, color: textColor, borderColor: borderColor, cursor: "pointer" }}
+      style={{ background:backgroundColor, color: textColor, borderColor: borderColor }}
       className="text-xs font-suitM px-2.5 py-0.5 rounded-2xl border-[0.3vh]"
     >
       {text}
