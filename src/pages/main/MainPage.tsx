@@ -107,7 +107,7 @@ export default function MainPage() {
         console.log(error);
       });
     // };
-  });
+  }, []);
 
   useEffect(() => {
     //메인페이지 접속 시, 내 이슈들을 가져옴

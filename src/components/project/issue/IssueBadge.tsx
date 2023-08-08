@@ -1,4 +1,3 @@
-import React from "react";
 import { IssueType } from "@typess/Issue";
 
 type IssueBadgeProps = {

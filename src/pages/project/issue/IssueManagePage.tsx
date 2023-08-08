@@ -61,28 +61,28 @@ export default function IssueManagePage() {
       });
   };
 
+  const issueReportPatchRequest = async () => {
+    instanceAuth
+      .patch(`/reports/${issueId}`, editorData)
+      .then((response) => {
+        if (response.data.code == 200) {
+        } else {
+          console.log("response after error");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
-      <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[65vw]">
+      <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[60vw]">
         <div className="flex justify-start">
-          <p className="font-bold text-[28px] text-gray-900 jusitfy-start">
+          <p className="font-bold text-[2vw] text-gray-900 jusitfy-start">
             [{pj.projectTitle}-{issueKey}] {issueTitle}
           </p>
-        </div>
-        <div className="flex justify-end">
-          <button
-            type="button"
-            className="h-[5vh] border border-error-3 text-error-3 bg-white hover:bg-error-4 font-suitM rounded-lg text-sm py-2.5 items-center mr-[1vw] w-[6vw]"
-          >
-            삭제
-          </button>
-          <button
-            type="button"
-            className="h-[5vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm py-2.5 items-center w-[6vw]"
-          >
-            수정
-          </button>
         </div>
       </div>
 
@@ -120,64 +120,100 @@ export default function IssueManagePage() {
             </p>
           </div>
         </div>
-      </div>
-
-      <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
-        <hr className="h-px my-8 bg-gray-200 border-0" />
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          이슈 레포트
-        </p>
-      </div>
-      <div className="mb-4 border border-gray-300 rounded-lg bg-white p-[0.2vw] h-full w-[40vw] font-suitM mt-[5vh] mx-auto">
-        <div>
-          <Editor
-            previewStyle="vertical"
-            height="500px"
-            initialEditType="wysiwyg"
-            useCommandShortcut={true}
-            hideModeSwitch={true}
-            language="ko-KR"
-            ref={editorRef}
-            plugins={[colorSyntax]}
-            toolbarItems={[
-              // 툴바 옵션 설정
-              ["heading", "bold", "italic", "strike"],
-              ["hr", "quote"],
-              ["ul", "ol", "task", "indent", "outdent"],
-              ["table", "image", "link"],
-              ["code", "codeblock"],
-            ]}
-            // hooks 에서 addImageBlobHook 를 주물러 주면 된다.
-            hooks={{
-              addImageBlobHook: async (blob, callback) => {
-                console.log(blob); // File {name: '카레유.png', ... }
-
-                // 1. 첨부된 이미지 파일을 서버로 전송후, 이미지 경로 url을 받아온다.
-                // const imgUrl = await .... 서버 전송 / 경로 수신 코드 ...
-
-                // 2. 첨부된 이미지를 화면에 표시(경로는 임의로 넣었다.)
-                callback("http://localhost:5000/img/카레유.png", "카레유");
-              },
-            }}
-          />
+        <div className="mx-auto w-[50vw] flex flex-row pt-[5vh]">
+          <button
+            type="button"
+            onClick={() => editorRef.current.getInstance().setHTML(editorData)}
+            className="h-[5vh] border border-error-3 text-error-3 bg-white hover:bg-error-4 font-suitM rounded-lg text-sm py-2.5 items-center mr-[1vw] w-[6vw] ml-auto"
+          >
+            이슈 삭제
+          </button>
+          <button
+            type="button"
+            onClick={() => issueReportPatchRequest()}
+            className="h-[5vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm py-2.5 items-center w-[6vw] mr-[10vw]"
+          >
+            이슈 수정
+          </button>
         </div>
-        
       </div>
+
+      {true && (
+        <div>
+          <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
+            <hr className="h-px my-8 bg-gray-200 border-0" />
+            <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
+              이슈 레포트
+            </p>
+          </div>
+          <div className="mb-4 border border-gray-300 rounded-lg bg-white p-[0.2vw] h-full w-[48vw] font-suitM mt-[5vh] mx-auto">
+            <div>
+              <Editor
+                previewStyle="vertical"
+                height="500px"
+                initialEditType="wysiwyg"
+                useCommandShortcut={true}
+                hideModeSwitch={true}
+                language="ko-KR"
+                ref={editorRef}
+                plugins={[colorSyntax]}
+                toolbarItems={[
+                  // 툴바 옵션 설정
+                  ["heading", "bold", "italic", "strike"],
+                  ["hr", "quote"],
+                  ["ul", "ol", "task", "indent", "outdent"],
+                  ["table", "image", "link"],
+                  ["code", "codeblock"],
+                ]}
+                // hooks 에서 addImageBlobHook 를 주물러 주면 된다.
+                hooks={{
+                  addImageBlobHook: async (blob, callback) => {
+                    console.log(blob); // File {name: '카레유.png', ... }
+
+                    // 1. 첨부된 이미지 파일을 서버로 전송후, 이미지 경로 url을 받아온다.
+                    // const imgUrl = await .... 서버 전송 / 경로 수신 코드 ...
+
+                    // 2. 첨부된 이미지를 화면에 표시(경로는 임의로 넣었다.)
+                    callback("http://localhost:5000/img/카레유.png", "카레유");
+                  },
+                }}
+              />
+            </div>
+          </div>
+          <div className="mx-auto w-[50vw] flex flex-row">
+            <button
+              type="button"
+              onClick={() =>
+                editorRef.current.getInstance().setHTML(editorData)
+              }
+              className="h-[5vh] border border-error-3 text-error-3 bg-white hover:bg-error-4 font-suitM rounded-lg text-sm py-2.5 items-center mr-[1vw] w-[6vw] ml-auto"
+            >
+              작성 취소
+            </button>
+            <button
+              type="button"
+              onClick={() => issueReportPatchRequest()}
+              className="h-[5vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm py-2.5 items-center w-[6vw] mr-[2vw]"
+            >
+              작성 저장
+            </button>
+          </div>
+        </div>
+      )}
 
       <div className="flex flex-col mr-auto ml-auto w-[50vw]">
         <hr className="h-px my-8 bg-gray-200 border-0 mt-5" />
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          바톤 넘겨주기
-        </p>
+        <div className="flex">
+          <p className="font-suitB text-[1.6vw] text-gray-900 ml-10 mt-1">
+            바톤 넘겨주기
+          </p>
+          <p className="text-[1.6vh] font-suitL text-gray-400 ml-[2vw] mt-[2vh]">
+            이슈 알림을 받을 멤버를 선택하세요.
+          </p>
+        </div>
       </div>
 
       <div className="flex mr-auto ml-auto w-[50vw] flex-col">
-        <div className="flex flex-col items-start w-[9vw] ml-[11vw]">
-          <p className="font-semibold text-[18px] text-gray-900 mt-[5vh]">
-            알림받을 팀원
-          </p>
-        </div>
-
         <div className="flex flex-col justify-start mt-10 space-y-7 mb-[10vh]">
           <div className="flex">
             <div

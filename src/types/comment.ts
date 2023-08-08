@@ -1,0 +1,1 @@
+export type CommentType = "ACCEPTED" | "DENIED" | "COMMON";

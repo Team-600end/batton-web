@@ -456,7 +456,6 @@ export default function CreatePjPage() {
                 </div>
 
                 {/* 추가한 팀원 목록 */}
-                {/* 더미데이터 */}
                 <div className="flex flex-col justify-center space-x-5 bg-gray-50 border border-gray-300 rounded-lg z-5 px-5 py-5 w-[31.1847vw]">
                   <ul className="max-w-md divide-y divide-gray-200">
                     {pjMemList.map((member) => (

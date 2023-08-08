@@ -16,6 +16,7 @@ import {
   DropResult,
 } from "react-beautiful-dnd";
 import RnoteUsedIssueCard from "@components/project/releases/RnoteUsedIssueCard";
+import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 
 const doneIssues: DoneIssue[] = [
   {
@@ -229,8 +230,9 @@ export default function RnoteEditPage() {
   };
 
   return (
-    <div className="mt-[9vh] flex">
-      <div className="flex flex-row w-screen">
+    <div className="flex flex-col overflow-hidden">
+      <MilestoneNavbar />
+      <div className="flex flex-row w-screen mt-[1vh]">
         <div className="flex flex-row rounded-t-lg border border-gray-300 bg-gray-100 w-[95vw] mx-auto mt-[2vh] shadow-inner h-screen px-2 py-5">
           <DragDropContext onDragEnd={handleDragEnd}>
             <div className="border rounded-t-lg ml-[2vw] mr-[2vw] bg-white w-[19vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.3)] mt-[2vh]">

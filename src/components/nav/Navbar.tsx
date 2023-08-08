@@ -279,6 +279,7 @@ export default function Navbar() {
               handleAllDdOff();
               removeCookie('accessToken');
               removeCookie('refreshToken');
+              localStorage.removeItem("recoil-persist");
               navigate("/login");
             }}
             className="block text-sm text-error-2 w-full text-left px-4 py-3 hover:bg-gray-100"
