@@ -21,5 +21,11 @@ export const emailState = atom({
     effects_UNSTABLE: [persistAtom]
 })
 
+// rabbitMQ Connection
+export const noticeConnectionState = atom({
+    key: 'noticeConnection',
+    default: false,
+    effects_UNSTABLE: [persistAtom]
+})
 
 // 닉네임, 이메일, 프로필 사진 필요
