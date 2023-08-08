@@ -31,7 +31,7 @@ export default function PjMemberList() {
       .then((response) => {
         console.log(response.data);
         if (response.data.code === 200) {
-          setMemberList(response.data.data);
+          setMemberList(response.data.result);
         } else if (response.data.code === 707) {
           setMemberList([]);
         }

@@ -15,14 +15,27 @@ interface CreateIssueData {
   issueTag: IssueType;
   issueTitle: string;
   issueContent: string;
-  issueManager?: string;
+  belongId: number;
 }
 
 export default function CreateIssueModal({ visible, onClose }) {
   const [activeTag, setActiveTag] = useState(null);
   const [issueTitle, setIssueTitle] = useState("");
   const [issueContent, setIssueContent] = useState("");
-  const [issueManager, setIssueManager] = useState("");
+  const [belongId, setBelongId] = useState(0); //TODO: 담당자 id
+
+  //member list
+  const [isOpenMemberList, setIsOpenMemberList] = useState(false);
+  const arrowDown = (
+    <svg className="w-3 h-3 mt-2 ml-2 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1L7 7M7 7L13 1M1 1L7 7M7 7L1 1" />
+    </svg>
+  );
+  const arrowUP = (
+    <svg className="w-3 h-3 mb-1 ml-2 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 13L7 7M7 7L13 13M1 13L7 7M7 7L1 13" />
+    </svg>
+  );
 
   //projectId
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
@@ -52,7 +65,7 @@ export default function CreateIssueModal({ visible, onClose }) {
     issueTag: activeTag,
     issueTitle: issueTitle,
     issueContent: issueContent,
-    // belongId: issueManager,
+    belongId: belongId,
   };
 
   const handleCreateIssue = async () => {
@@ -138,7 +151,7 @@ export default function CreateIssueModal({ visible, onClose }) {
 
               <div className="flex items-center mt-6">
                 <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">담당자</p>
-                <button
+                {/* <button
                   id="dropdownButton"
                   data-dropdown-toggle="dropdownMenu"
                   className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-primary-4 font-medium rounded-lg text-[12px] text-center inline-flex items-center ml-[20px] justify-center"
@@ -150,6 +163,18 @@ export default function CreateIssueModal({ visible, onClose }) {
                   <svg className="w-2.5 h-2.5 ml-3 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                   </svg>
+                </button> */}
+                <button
+                  id="dropdownButton"
+                  data-dropdown-toggle="dropdownMenu"
+                  className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-primary-4 font-medium rounded-lg text-[12px] text-center inline-flex items-center ml-[20px] justify-center"
+                  type="button"
+                  style={{ height: "40px" }}
+                  onClick={() => setIsOpenMemberList(!isOpenMemberList)}
+                >
+                  <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" />
+                  imae
+                  {isOpenMemberList ? arrowUP : arrowDown}
                 </button>
               </div>
             </div>
