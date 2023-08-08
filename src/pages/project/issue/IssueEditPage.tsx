@@ -6,7 +6,7 @@ import { useParams } from "react-router-dom";
 import Editor from "node_modules/@toast-ui/editor/types";
 
 export default function IssueEditPage() {
-  const { projectKey, issueId } = useParams();
+  // const { projectKey, issueId } = useParams();
   const editorRef = useRef<Editor>(null);
 
   return (

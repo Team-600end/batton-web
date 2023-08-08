@@ -1,20 +1,65 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "@components/nav/Navbar";
 import { useNavigate, useParams } from "react-router-dom";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
 import { instanceAuth } from "@src/types/AxiosInterface";
+import { IssueStatus, IssueType } from "@src/types/Issue";
+import { Editor } from "@toast-ui/react-editor";
+import { useRecoilState } from "recoil";
+import { projectNavs } from "@src/state/projectState";
+import { ProjectNav } from "@src/types/project";
+import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 
 export default function IssueReportPage() {
   const navigate = useNavigate();
   const { projectKey, issueId } = useParams();
+  const editorRef = useRef<Editor>(null);
+  const [issueTitle, setIssueTitle] = useState<string>("");
+  const [issueContent, setIssueContent] = useState<string>("");
+  const [nickname, setNickname] = useState<string>("");
+  const [profileImage, setProfileImage] = useState<string>("");
+  const [issueTag, setIssueTag] = useState<IssueType>(null);
+  const [issueStatus, setIssueStatus] = useState<IssueStatus>(null);
+  const [editorData, setEditorDate] = useState<string>("");
+
+   // Project Recoil
+   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
+   const pj = projectNav.find(
+     (element: ProjectNav) => element.projectKey.toString() == projectKey
+   );
 
   useEffect(() => {
     instanceAuth.get(``)
   }, []);
 
+  const issueReportRequest = async () => {
+    instanceAuth
+      .get(`/report/${issueId}`)
+      .then((response) => {
+        if (response.data.code == 200) {
+          setIssueTitle(response.data.result.issueTitle as string);
+          setIssueContent(response.data.result.issueContent as string);
+          setNickname(response.data.result.nickname as string);
+          setProfileImage(response.data.result.profileImage as string);
+          setIssueTag(response.data.result.issueTag as IssueType);
+          setIssueStatus(response.data.result.issueStatus as IssueStatus);
+          editorRef.current
+            .getInstance()
+            .setHTML(response.data.result.reportContent as string);
+          setEditorDate(editorRef.current.getInstance().getHTML());
+        } else {
+          console.log("response after error");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
   return (
-    <>
-      <div className="w-[90vw] m-auto mt-[10vh] flex flex-col">
+    <div className="flex flex-col overflow-hidden">
+      <MilestoneNavbar />
+      <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[65vw]">
         <div className="flex justify-end mt-5 mr-10">
           <button
             type="button"
@@ -121,6 +166,6 @@ export default function IssueReportPage() {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
