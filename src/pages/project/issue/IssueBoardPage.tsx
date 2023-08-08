@@ -78,6 +78,7 @@ export default function IssueBoardPage() {
     const destinationIndex = destination.index;
     const issueId = sourceList[sourceIndex].issueId;
 
+    const beforeStatus = source.droppableId as IssueStatus;
     const afterStatus = destination.droppableId as IssueStatus;
     const seqNum = destinationIndex;
     let issueCase: IssueCase;
@@ -100,6 +101,7 @@ export default function IssueBoardPage() {
     }
 
     const modifyIssueBoardBody = {
+      beforeStatus,
       afterStatus,
       seqNum,
       issueCase,
@@ -107,8 +109,8 @@ export default function IssueBoardPage() {
 
     try {
       const response = await instanceAuth.patch(`/issues/board/status/${issueId}`, modifyIssueBoardBody);
-      console.log("issudId: " + issueId); //TODO: 해결 후 삭제
-      console.log(modifyIssueBoardBody); //TODO: 해결 후 삭제
+      // console.log("issudId: " + issueId); //TODO: 해결 후 삭제
+      // console.log(modifyIssueBoardBody); //TODO: 해결 후 삭제
 
       if (response.data.code === 200) {
         await patchIssueBoard();
