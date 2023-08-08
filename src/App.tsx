@@ -3,7 +3,7 @@ import "@assets/index.css";
 import { RecoilRoot } from "recoil";
 import LoginPage from "@pages/common/LoginPage";
 import ForgetPwPage from "@pages/common/ForgetPwPage";
-import SignupPage from "@pages/common/SingupPage";
+import SignupPage from "@src/pages/common/SignupPage";
 import Releases from "@pages/project/releases/Releases";
 import RnoteEditPage from "@pages/project/releases/RnoteEditPage";
 import ReleasesNote from "@pages/project/releases/ReleasesNote";
