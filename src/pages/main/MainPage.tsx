@@ -38,7 +38,7 @@ export default function MainPage() {
     return chunks;
   };
 
-  // 배열을 cardNum만큼씩 잘라서 묶어줍니다.
+  // 배열을 cardNum만큼씩 자르기
   const chunkedPjCards = chunkArray(pjCards, cardNum);
 
   // 화면 너비에 따라 cardNum 값을 설정하는 함수
@@ -88,30 +88,30 @@ export default function MainPage() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
-  }, []);
+  }, [window]);
 
   useEffect(() => {
     //메인페이지 접속 시. 모든 프로젝트를 가져옴/do a deer a female deer re a golden sun mi a name i call myself fa a long long way to run
-    // async () => {
-    instanceAuth
-      .get(`/projects/list`)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.code == 200) {
-          setPjcards(response.data.result);
-        } else if (response.data.code == 707) {
-          setPjcards([]);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // };
-  });
+    (async () => {
+      instanceAuth
+        .get(`/projects/list`)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.code == 200) {
+            setPjcards(response.data.result);
+          } else if (response.data.code == 707) {
+            setPjcards([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    })();
+  }, []);
 
   useEffect(() => {
     //메인페이지 접속 시, 내 이슈들을 가져옴
-    async () => {
+    (async () => {
       instanceAuth.get(`/issues/list/${belongId}`).then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
@@ -120,8 +120,8 @@ export default function MainPage() {
           setMyissues([]);
         }
       });
-    };
-  });
+    })();
+  }, []);
 
   return (
     <div className="mt-[7vh]" style={{ overflowY: "auto" }}>

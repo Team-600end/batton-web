@@ -12,6 +12,7 @@ import { instanceAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
+import CommonModal from "@src/components/commonModal";
 
 export default function IssueBoardPage() {
   // TODO 이슈 리스트 상태관리
@@ -93,7 +94,6 @@ export default function IssueBoardPage() {
       // 드래그한 요소의 droppableId와 드롭 대상의 droppableId가 동일한 경우
       if (sourceIndex !== destinationIndex) {
         sourceIndex < destinationIndex ? (issueCase = "SPECIFIC") : (issueCase = "COMMON");
-        // issueCase = "SPECIFIC" as IssueCase;
         const sourceItem = sourceList![sourceIndex];
         sourceList!.splice(sourceIndex, 1); // 원래 위치에서 제거
         sourceList!.splice(destinationIndex, 0, sourceItem); // 새로운 위치에 삽입
@@ -128,6 +128,7 @@ export default function IssueBoardPage() {
     setShowModal(false);
   };
 
+  const [isModalOpen, setIsModalOpen] = useState(false);
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
@@ -135,6 +136,24 @@ export default function IssueBoardPage() {
       <div>
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner h-screen">
           <div className="flex justify-end mr-[2.5vw] mt-[2vw] space-x-2">
+            {/* ----- 공통모달 시험 시작 입니다 ----- */}
+            <button
+              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
+              onClick={() => setIsModalOpen(true)}
+            >
+              공통모달 시험
+            </button>
+            {isModalOpen && (
+              <CommonModal
+                title="제목"
+                description="설명입니다. 설명입니다. 설명입니다. 설명입니다. "
+                btnTitle="버튼"
+                closeModal={() => setIsModalOpen(false)}
+              />
+            )}
+
+            {/* ----- 공통모달 시험 끝 입니다 ----- */}
+
             <button
               onClick={() => navigate(`/project/${projectKey}/issue-history`)}
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center font-suitM text-[1vw] hover:bg-primary-5"

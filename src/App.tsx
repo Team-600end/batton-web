@@ -23,38 +23,39 @@ import IssueReportPage from "@pages/project/issue/IssueReportPage";
 import IssueEditPage from "@pages/project/issue/IssueEditPage";
 import EditPjPage from "@pages/project/EditPjPage";
 import ChangePasswordPage from "@pages/ChangePasswordPage";
+import CommonModal from "./components/commonModal";
 
 function App() {
   return (
-      <RecoilRoot>
-        <BrowserRouter>
-          <Routes>
-            <Route path="/" element={<LandingPage />} />
-            <Route path="/login" element={<LoginPage />} />
-            <Route path="/signup" element={<SignupPage />} />
-            <Route path="/forget-pw" element={<ForgetPwPage />} />
-            <Route path="*" element={<NotFoundPage />} />
-            <Route element={<Layout />}>
-              <Route path="/main" element={<MainPage />} />
-              <Route path="/project/:projectKey/dashboard" element={<DashBoardPage />} />
-              <Route path="/project/:projectKey/issueboard" element={<IssueBoardPage />} />
-              <Route path="/project/:projectKey/issue/:issueId/manage" element={<IssueManagePage/>} />
-              <Route path="/project/:projectKey/issue/:issueId/edit" element={<IssueEditPage/>} />
-              <Route path="/project/:projectKey/issue/:issueId" element={<IssueReportPage/>} />
-              <Route path="/project/:projectKey/issue-history" element={<IssueHistoryPage />} />
-              <Route path="/project/:projectKey/releasesnote" element={<ReleasesNote />} />
-              <Route path="/project/:projectKey/releasesnote/:releaseId" element={<Releases />} />
-              <Route path="/project/:projectKey/releasesnote/write" element={<RnoteEditPage />} />
-              <Route path="/project/:projectKey/project-edit" element={<EditPjPage/>} />
-              <Route path="/myinfo-edit" element={<MyPage />} />
-              <Route path="/change-pw" element={<ChangePasswordPage />} />
-              <Route path="/new-project" element={<CreatePjPage />} />
-              <Route path="/board" element={<BoardPage />} />
-              <Route path="/notifications" element={<NoticeDetailPage />} />
-            </Route>
-          </Routes>
-        </BrowserRouter>
-      </RecoilRoot>
+    <RecoilRoot>
+      <BrowserRouter>
+        <Routes>
+          <Route path="/" element={<LandingPage />} />
+          <Route path="/login" element={<LoginPage />} />
+          <Route path="/signup" element={<SignupPage />} />
+          <Route path="/forget-pw" element={<ForgetPwPage />} />
+          <Route path="*" element={<NotFoundPage />} />
+          <Route element={<Layout />}>
+            <Route path="/main" element={<MainPage />} />
+            <Route path="/project/:projectKey/dashboard" element={<DashBoardPage />} />
+            <Route path="/project/:projectKey/issueboard" element={<IssueBoardPage />} />
+            <Route path="/project/:projectKey/issue/:issueId/manage" element={<IssueManagePage />} />
+            <Route path="/project/:projectKey/issue/:issueId/edit" element={<IssueEditPage />} />
+            <Route path="/project/:projectKey/issue/:issueId" element={<IssueReportPage />} />
+            <Route path="/project/:projectKey/issue-history" element={<IssueHistoryPage />} />
+            <Route path="/project/:projectKey/releasesnote" element={<ReleasesNote />} />
+            <Route path="/project/:projectKey/releasesnote/:releaseId" element={<Releases />} />
+            <Route path="/project/:projectKey/releasesnote/write" element={<RnoteEditPage />} />
+            <Route path="/project/:projectKey/project-edit" element={<EditPjPage />} />
+            <Route path="/myinfo-edit" element={<MyPage />} />
+            <Route path="/change-pw" element={<ChangePasswordPage />} />
+            <Route path="/new-project" element={<CreatePjPage />} />
+            <Route path="/board" element={<BoardPage />} />
+            <Route path="/notifications" element={<NoticeDetailPage />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
+    </RecoilRoot>
   );
 }
 
