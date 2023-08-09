@@ -13,22 +13,22 @@ export default function IssueCommentBadge(props: IssueCommentBadgeProps) {
   switch (props.commentType) {
     case "ACCEPTED":
       backgroundColor = "#DEF7EC";
-      textColor = "#03543F";
-      borderColor = "#31C48D";
-      text = "승인";
+      textColor = "#31C48D";
+      borderColor = "#DEF7EC";
+      text = "승인 코멘트";
       break;
     case "DENIED":
       backgroundColor = "#FDE8E8";
-      textColor = "#9B1C1C";
-      borderColor = "#F98080";
-      text = "반려";
+      textColor = "#F98080";
+      borderColor = "#FDE8E8";
+      text = "반려 코멘트";
       break;
   }
 
   return (
     <span
       style={{ background:backgroundColor, color: textColor, borderColor: borderColor }}
-      className="text-xs font-suitM px-2.5 py-0.5 rounded-lg border-[0.3vh]"
+      className="text-xs font-suitM px-2 py-0.5 rounded-lg border-[0.3vh]"
     >
       {text}
     </span>

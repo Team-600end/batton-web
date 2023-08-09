@@ -34,8 +34,7 @@ export default function RnoteIssueCard(props: IssueCardProps) {
         </p>
         {props.issue.nickname && (
           <img
-            // src={props.issue.manager?.profileImg ?? default_avatar_img}
-            src={default_avatar_img}
+            src={props.issue.profileImage ?? default_avatar_img}
             className="ml-[5vw]"
           />
         )}

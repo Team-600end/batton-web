@@ -1,4 +1,4 @@
-import { useRef } from "react";
+import { useEffect, useRef } from "react";
 import batton_logo_img from "@images/common/batton_logo_medium.svg";
 import Notice from "@components/nav/NoticeNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -46,12 +46,16 @@ export default function Navbar() {
   //   }
   // ];
 
+  useEffect(() => {
+    navPjRequest();
+  }, []);
+
   const navPjRequest = async () => {
     instanceAuth
       .get(`/projects/navbar`)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
+          console.log(response.data.result)
           setProjects(response.data.result as ProjectNav[])
         }
         else if (response.data.code == 707) {

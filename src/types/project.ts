@@ -1,11 +1,11 @@
-export type GradeType = "Member" | "Leader" | "Master";
+import { UserGrade } from "./Users";
 
 export interface ProjectNav {
   projectId: number;
   projectTitle: string;
   projectKey: string;
-  logo?: string;
-  grade: GradeType;
+  projectLogo?: string;
+  memberGrade: UserGrade;
 }
 
 //MainPage-PjCard

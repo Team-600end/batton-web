@@ -2,7 +2,7 @@ import React, { useState, useCallback, useRef, useEffect } from "react";
 import Tag from "@src/components/project/issue/IssueBadge";
 import profile_img from "@images/common/default_profile.png";
 import Navbar from "@components/nav/Navbar.tsx";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { Editor } from "@toast-ui/react-editor";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
@@ -13,18 +13,22 @@ import { IssueStatus, IssueType } from "@src/types/Issue";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
+import IssueInfoEditor from "@src/components/project/issue/IssueInfoEditor";
 
 export default function IssueManagePage() {
   const { projectKey, issueId } = useParams();
-  const editorRef = useRef<Editor>(null);
   const [issueTitle, setIssueTitle] = useState<string>("");
   const [issueKey, setIssueKey] = useState<number>(null);
   const [issueContent, setIssueContent] = useState<string>("");
   const [nickname, setNickname] = useState<string>("");
+  const [isMine, setIsMine] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<string>("");
   const [issueTag, setIssueTag] = useState<IssueType>(null);
   const [issueStatus, setIssueStatus] = useState<IssueStatus>(null);
   const [editorData, setEditorDate] = useState<string>("");
+  const [issueEditForm, setIssueEditForm] = useState<boolean>(false);
+
+  const editorRef = useRef<Editor>(null);
 
   // Project Recoil
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
@@ -32,14 +36,22 @@ export default function IssueManagePage() {
     (element: ProjectNav) => element.projectKey.toString() == projectKey
   );
 
+  const navigate = useNavigate();
+
   useEffect(() => {
     issueManagerRequest();
   }, []);
+
+  const handleEditorChange = () => {
+    setEditorDate(editorRef.current?.getInstance().getHTML());
+  };
 
   const issueManagerRequest = async () => {
     instanceAuth
       .get(`/issues/${issueId}`)
       .then((response) => {
+        console.log(response.data);
+        console.log(response.data.result);
         if (response.data.code == 200) {
           setIssueTitle(response.data.result.issueTitle as string);
           setIssueKey(response.data.result.issueKey as number);
@@ -47,11 +59,41 @@ export default function IssueManagePage() {
           setNickname(response.data.result.nickname as string);
           setProfileImage(response.data.result.profileImage as string);
           setIssueTag(response.data.result.issueTag as IssueType);
+          setIsMine(response.data.result.mine as boolean);
           setIssueStatus(response.data.result.issueStatus as IssueStatus);
-          editorRef.current
-            .getInstance()
-            .setHTML(response.data.result.reportContent as string);
-          setEditorDate(editorRef.current.getInstance().getHTML());
+          editorRef.current?.getInstance().setHTML(response.data.result.reportContent as string);
+          setEditorDate(editorRef.current?.getInstance().getHTML());
+        } else {
+          console.log("response after error");
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const issueDeleteRequest = async () => {
+    instanceAuth
+      .delete(`/issues/${issueId}`)
+      .then((response) => {
+        console.log(response.data);
+        console.log(response.data.result);
+        if (response.data.code == 200) {
+          navigate(`/project/${projectKey}/issueboard`);
+        } else {
+          console.log("response after error");
+        }
+      }).catch((error) => {
+        console.log(error);
+      });
+  }
+
+  const issueReportPatchRequest = async () => {
+    instanceAuth
+      .patch(`/reports/${issueId}`, editorData)
+      .then((response) => {
+        console.log(response.data);
+        console.log(response.data.result);
+        if (response.data.code == 200) {
         } else {
           console.log("response after error");
         }
@@ -61,11 +103,17 @@ export default function IssueManagePage() {
       });
   };
 
-  const issueReportPatchRequest = async () => {
+  const issueReportFetchRequest = async () => {
     instanceAuth
-      .patch(`/reports/${issueId}`, editorData)
+      .get(`/reports/${issueId}`)
       .then((response) => {
+        console.log(response.data);
+        console.log(response.data.result);
         if (response.data.code == 200) {
+          editorRef.current
+            .getInstance()
+            .setHTML(response.data.result.reportContent as string);
+          setEditorDate(editorRef.current.getInstance().getHTML());
         } else {
           console.log("response after error");
         }
@@ -80,7 +128,7 @@ export default function IssueManagePage() {
       <MilestoneNavbar />
       <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[60vw]">
         <div className="flex justify-start">
-          <p className="font-bold text-[2vw] text-gray-900 jusitfy-start">
+          <p className="font-suitB text-[2vw] text-gray-900 jusitfy-start">
             [{pj.projectTitle}-{issueKey}] {issueTitle}
           </p>
         </div>
@@ -92,7 +140,7 @@ export default function IssueManagePage() {
         </p>
       </div>
 
-      <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
+      {issueEditForm ? <IssueInfoEditor issueId={Number(issueId)} issueStatus={issueStatus} issueContent={issueContent} issueTag={issueTag} profileImage={profileImage} nickname={nickname}/> : <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
           <div className="ml-auto space-x-1">
@@ -123,22 +171,22 @@ export default function IssueManagePage() {
         <div className="mx-auto w-[50vw] flex flex-row pt-[5vh]">
           <button
             type="button"
-            onClick={() => editorRef.current.getInstance().setHTML(editorData)}
+            onClick={issueDeleteRequest}
             className="h-[5vh] border border-error-3 text-error-3 bg-white hover:bg-error-4 font-suitM rounded-lg text-sm py-2.5 items-center mr-[1vw] w-[6vw] ml-auto"
           >
             이슈 삭제
           </button>
           <button
             type="button"
-            onClick={() => issueReportPatchRequest()}
+            onClick={() => setIssueEditForm(true)}
             className="h-[5vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm py-2.5 items-center w-[6vw] mr-[10vw]"
           >
             이슈 수정
           </button>
         </div>
-      </div>
+      </div>}
 
-      {true && (
+      {isMine && (
         <div>
           <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
             <hr className="h-px my-8 bg-gray-200 border-0" />
@@ -157,6 +205,7 @@ export default function IssueManagePage() {
                 language="ko-KR"
                 ref={editorRef}
                 plugins={[colorSyntax]}
+                onChange={handleEditorChange}
                 toolbarItems={[
                   // 툴바 옵션 설정
                   ["heading", "bold", "italic", "strike"],
@@ -183,9 +232,9 @@ export default function IssueManagePage() {
           <div className="mx-auto w-[50vw] flex flex-row">
             <button
               type="button"
-              onClick={() =>
-                editorRef.current.getInstance().setHTML(editorData)
-              }
+              onClick={() => {
+                issueReportFetchRequest();
+              }}
               className="h-[5vh] border border-error-3 text-error-3 bg-white hover:bg-error-4 font-suitM rounded-lg text-sm py-2.5 items-center mr-[1vw] w-[6vw] ml-auto"
             >
               작성 취소
