@@ -25,21 +25,21 @@ export default function PjMemberList() {
   const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   useEffect(() => {
-    // async () => {
-    instanceAuth
-      .get(`/belongs/list/${pj.projectId}`)
-      .then((response) => {
-        console.log(response.data);
-        if (response.data.code === 200) {
-          setMemberList(response.data.result);
-        } else if (response.data.code === 707) {
-          setMemberList([]);
-        }
-      })
-      .catch((error) => {
-        console.log(error);
-      });
-    // };
+    async () => {
+      instanceAuth
+        .get(`/belongs/list/${pj.projectId}`)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.code === 200) {
+            setMemberList(response.data.result);
+          } else if (response.data.code === 707) {
+            setMemberList([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    };
   }, []);
   return (
     <>

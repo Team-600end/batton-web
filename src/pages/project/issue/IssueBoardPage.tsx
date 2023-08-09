@@ -13,6 +13,7 @@ import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
 import CommonModal from "@src/components/commonModal";
+import ProjectInfoModal from "@src/components/project/ProjectInfoModal";
 
 export default function IssueBoardPage() {
   // TODO 이슈 리스트 상태관리
@@ -129,6 +130,7 @@ export default function IssueBoardPage() {
   };
 
   const [isModalOpen, setIsModalOpen] = useState(false);
+  const [pjModal, setPjModal] = useState(false);
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
@@ -136,6 +138,15 @@ export default function IssueBoardPage() {
       <div>
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner h-screen">
           <div className="flex justify-end mr-[2.5vw] mt-[2vw] space-x-2">
+            {/* 프로젝트 정보보기 */}
+            <button
+              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
+              onClick={() => setPjModal(true)}
+            >
+              프로젝트 정보
+            </button>
+            {pjModal && <ProjectInfoModal closeModal={() => setPjModal(false)} />}
+
             {/* ----- 공통모달 시험 시작 입니다 ----- */}
             <button
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
