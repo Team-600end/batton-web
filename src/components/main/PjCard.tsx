@@ -2,6 +2,8 @@ import React, { useState, useCallback, useEffect } from "react";
 import latest_img from "@images/common/latest.png";
 import grayStarImg from "@images/icons/grayStar.png";
 import yellowStarImg from "@images/icons/yellowStar.png";
+import default_profile_img from "@images/common/default_profile.svg";
+import default_team_logo from "@images/common/team_default.png";
 import { ProjectCard } from "@typess/project";
 import { useNavigate } from "react-router-dom";
 
@@ -24,7 +26,7 @@ export default function PjCard(props: PjCardProps) {
           {/* 최상단 아이콘과 팀이름 */}
           <div className="relative w-[300px] h-[70px] mt-[10px] flex flex-row">
             <div className="rounded-full overflow-hidden ring-1 w-[70px] h-[70px] ring-[#285F43] justify-center">
-              <img className="ring-1 w-[70px] h-[70px] ring-[#285F43] rounded-full object-cover" src={props.pjCard.projectImg} alt="pj_img" />
+              <img className="ring-1 w-[70px] h-[70px] ring-[#285F43] rounded-full object-cover" src={(props.pjCard.projectImg == "" || props.pjCard.projectImg == null) ? default_team_logo : props.pjCard.projectImg} alt="pj_img" />
             </div>
             <div className="flex-col ml-[20px] mt-[5px]">
               <div className="flex flex-row">
@@ -75,7 +77,7 @@ export default function PjCard(props: PjCardProps) {
             <div className="flex -space-x-4">
               <img
                 className="w-[30px] h-[30px] border-[1px] border-white rounded-full dark:border-gray-800 object-cover"
-                src={props.pjCard.leaderProfileImg}
+                src={(props.pjCard.leaderProfileImg == "" || props.pjCard.leaderProfileImg == null) ? default_profile_img : props.pjCard.leaderProfileImg}
                 alt=""
               />
               <a
