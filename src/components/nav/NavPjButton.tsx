@@ -6,11 +6,11 @@ import grade_master_logo from "@images/common/crown.svg";
 import { useRecoilState } from "recoil";
 import { navbarNoticeDd, navbarProjectDd } from "@src/state/modalState";
 
-type NavPjBottonProps = {
+type NavPjButtonProps = {
   project: ProjectNav;
 };
 
-export default function NavPjBotton(props: NavPjBottonProps) {
+export default function NavPjButton(props: NavPjButtonProps) {
   const navigate = useNavigate();
   const [projectDropdown, setProjectDropdown] = useRecoilState(navbarProjectDd);
   const [profileDropdown, setProfileDropdown] = useState(false);

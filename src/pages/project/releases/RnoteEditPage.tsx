@@ -295,7 +295,7 @@ export default function RnoteEditPage() {
                       <input
                         type="text"
                         placeholder="0"
-                        className="border-none font-suitM outline-none resize-none w-[3.5vw] h-full"
+                        className="border-none font-suitM outline-none resize-none w-[3.5vw] h-full focus:outline-none focus:border-none focus:ring-0"
                       />
                     </div>
                     <div className="flex items-center">

@@ -2,7 +2,7 @@ import { useEffect, useRef, useState } from "react";
 import batton_logo_img from "@images/common/batton_logo_medium.svg";
 import Notice from "@components/nav/NoticeNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
-import NavPjBotton from "@components/nav/NavPjBotton";
+import NavPjButton from "@components/nav/NavPjButton";
 import { ProjectNav } from "@typess/project";
 import { useRecoilState } from "recoil";
 import {
@@ -215,7 +215,7 @@ export default function Navbar() {
           <ul className="flex flex-col py-2 text-sm text-gray-700 justify-center">
             {projects.map((project) => (
               <li key={project.projectId}>
-                <NavPjBotton project={project} />
+                <NavPjButton project={project} />
               </li>
             ))}
           </ul>
