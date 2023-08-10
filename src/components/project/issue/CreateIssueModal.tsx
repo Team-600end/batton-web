@@ -9,7 +9,8 @@ import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@typess/project";
 import { useParams } from "react-router-dom";
 import { instanceAuth } from "@src/types/AxiosInterface";
-
+import chevron_up from "@images/common/chevron_up.png";
+import chevron_down from "@images/common/chevron_down.png";
 interface CreateIssueData {
   projectId: number;
   issueTag: IssueType;
@@ -174,7 +175,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                 >
                   <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" />
                   imae
-                  {isOpenMemberList ? arrowUP : arrowDown}
+                  {isOpenMemberList ? <img className="m-1 w-[9px] h-[6px]" src={chevron_up} /> : <img className="m-1 w-[9px] h-[6px]" src={chevron_down} />}
                 </button>
               </div>
             </div>
