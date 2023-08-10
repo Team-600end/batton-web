@@ -6,6 +6,13 @@
  * @returns
  */
 
+export interface CommonModalInterface {
+  title: string;
+  description: string;
+  btnTitle: string;
+  closeModal: () => void;
+};
+
 export default function CommonModal({ title, description, btnTitle, closeModal }) {
   return (
     <>
