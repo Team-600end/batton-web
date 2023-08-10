@@ -133,7 +133,7 @@ export default function IssueManagePage() {
       <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[60vw]">
         <div className="flex justify-start">
           <p className="font-suitB text-[2vw] text-gray-900 jusitfy-start">
-            [{pj.projectTitle}-{issueKey}] {issueTitle}
+            {!issueEditForm ? `[${pj.projectTitle}-${issueKey}] ${issueTitle}` : ``}
           </p>
         </div>
       </div>
