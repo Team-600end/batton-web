@@ -17,14 +17,14 @@ export interface ProjectCard {
   versionMajor: number;
   versionMinor: number;
   versionPatch: number;
-  todoIssue: number;
-  doingIssue: number;
-  myIssue: number;
-  doneIssue: number;
-  leaderName: string;
-  leaderImg?: string;
+  progress: number; //진행중
+  todo: number; //진행 전
+  done: number; //완료
+  mine: number; //내 이슈
+  percentage: number; //진행률
   memberNum: number;
-  bookmark: boolean;
+  leaderNickname: string;
+  leaderProfileImg?: string;
 }
 
 export interface ProjectCardMember {
