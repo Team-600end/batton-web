@@ -89,7 +89,7 @@ export default function ProjectInfoModal({ closeModal }) {
       instanceAuth
         .patch(`/projects/${pj.projectId}`, createPjData)
         .then((response) => {
-          console.log(response.data);
+          //   console.log(response.data);
           if (response.data.code === 200) {
             setPjTitle(response.data.result.projectTitle);
             setPjKey(response.data.result.projectKey);
@@ -127,7 +127,7 @@ export default function ProjectInfoModal({ closeModal }) {
       instanceAuth
         .get(`/projects/${pj.projectId}`)
         .then((response) => {
-          console.log(response.data);
+          //   console.log(response.data);
           if (response.data.code === 200) {
             setPjTitle(response.data.result.projectTitle);
             setPjKey(response.data.result.projectKey);
@@ -148,7 +148,7 @@ export default function ProjectInfoModal({ closeModal }) {
 
   useEffect(() => {
     getProjectInfo();
-  }, []);
+  }, [isSaveModal]);
 
   return (
     <>
@@ -185,7 +185,7 @@ export default function ProjectInfoModal({ closeModal }) {
                   readOnly
                   type="pj-title"
                   value={pjTitle}
-                  className="font-semibold bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg block p-2.5 w-[31.0847vw] cursor-default"
+                  className="font-semibold bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg block p-2.5 w-[31.0847vw] cursor-default focus:ring-red-400 focus:border-red-500 "
                 />
               )}
             </div>

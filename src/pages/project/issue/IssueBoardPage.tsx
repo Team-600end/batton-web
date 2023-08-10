@@ -180,9 +180,9 @@ export default function IssueBoardPage() {
                 <path
                   d="M5.66667 1.33301V5.99967M5.66667 5.99967V10.6663M5.66667 5.99967H10.3333M5.66667 5.99967H1"
                   stroke="#5AAE8A"
-                  stroke-width="2"
-                  stroke-linecap="round"
-                  stroke-linejoin="round"
+                  strokeWidth="2"
+                  strokeLinecap="round"
+                  strokeLinejoin="round"
                 />
               </svg>
               이슈 생성
