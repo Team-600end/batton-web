@@ -7,17 +7,12 @@ import PjCard from "@components/main/PjCard";
 import titleBox_img from "@images/common/title_box.svg";
 import left_control_img from "@images/icons/left_control.svg";
 import right_control_img from "@images/icons/right_control.svg";
-import chevorn_img from "@images/common/chevron_down.png";
+import chevron_up from "@images/common/chevron_up.png";
+import chevron_down from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
 import { ProjectCard } from "@typess/project";
 import { MyIssues } from "@typess/Issue";
 import IssueBadge from "@components/project/issue/IssueBadge";
-//dummy
-import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
-import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
-import avatar_kch from "@images/dummy/avatar_kch.jpeg";
-import logo_600end from "@images/dummy/600end_logo.svg";
-import logo_dktechin from "@images/dummy/dktechin_logo.png";
 import { instanceAuth } from "@src/types/AxiosInterface";
 
 export default function MainPage() {
@@ -101,9 +96,9 @@ export default function MainPage() {
       }
     };
 
-    document.addEventListener("click", handleClickOutside);
+    document.addEventListener("mousedown", handleClickOutside);
     return () => {
-      document.removeEventListener("click", handleClickOutside);
+      document.removeEventListener("mousedown", handleClickOutside);
     };
   }, []);
 
@@ -171,7 +166,52 @@ export default function MainPage() {
         {/* table */}
         <div className="relative w-4/5 shadow-[0px_3px_8px_-2px_rgba(0,0,0,0.3)] sm:rounded-lg">
           <div className="flex items-center justify-between p-2">
-            <div>
+            {/* 드롭다운 */}
+            <div className="relative">
+              <button
+                onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+                className="inline-flex items-center text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-suitM rounded-lg text-sm px-3 py-1.5"
+              >
+                전체
+                {isDropdownOpen ? <img className="m-1 w-[9px] h-[6px]" src={chevron_up} /> : <img className="m-1 w-[9px] h-[6px]" src={chevron_down} />}
+              </button>
+              {isDropdownOpen && (
+                <div ref={dropdownRef} className="z-10 absolute top-full left-0 mt-2 w-48 bg-white divide-y divide-gray-100 rounded-lg shadow">
+                  <ul className="p-3 space-y-1 text-sm text-grey-2">
+                    <li>
+                      <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                        {/* <input
+                          id="filter-radio-example-1"
+                          type="radio"
+                          value=""
+                          name="filter-radio"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                        /> */}
+                        {/* <label htmlFor="filter-radio-example-1" className="w-full ml-2 text-sm font-suitM text-gray-900 rounded">
+                          전체
+                        </label> */}
+                        <p className="w-full ml-2 text-sm font-suitM text-gray-900 rounded">wjdf</p>
+                      </div>
+                    </li>
+                    <li>
+                      <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                        {/* <input
+                          id="filter-radio-example-2"
+                          type="radio"
+                          value=""
+                          name="filter-radio"
+                          className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                        /> */}
+                        <label htmlFor="filter-radio-example-2" className="w-full ml-2 text-sm font-suitM text-gray-900 rounded">
+                          New
+                        </label>
+                      </div>
+                    </li>
+                  </ul>
+                </div>
+              )}
+            </div>
+            {/* <div>
               <button
                 id="dropdownRadioButton"
                 data-dropdown-toggle="dropdownRadio"
@@ -182,7 +222,6 @@ export default function MainPage() {
                 <img className="w-2.5 h-2.5 ml-2.5" area-hidden="true" src={chevorn_img} />
               </button>
 
-              {/* 드롭다운 */}
               <div
                 id="myIssueDropdown"
                 className="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow"
@@ -229,7 +268,7 @@ export default function MainPage() {
                   </li>
                 </ul>
               </div>
-            </div>
+            </div> */}
 
             {/* 검색창 */}
             <label htmlFor="table-search" className="sr-only">
@@ -354,136 +393,3 @@ const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
     snap: "snap-x",
   },
 };
-
-// Dummy data
-
-// //참여 중인 프로젝트
-// const pjCards: ProjectCard[] = [
-//   {
-//     projectId: 1,
-//     projectKey: "dktechin",
-//     projectTitle: "dktechin",
-//     projectImg: logo_dktechin,
-//     versionMajor: 5,
-//     versionMinor: 2,
-//     versionPatch: 3,
-//     todoIssue: 70,
-//     doingIssue: 10,
-//     myIssue: 4,
-//     doneIssue: 50,
-//     leaderName: "강창훈",
-//     leaderImg: avatar_kch,
-//     memberNum: 42,
-//     bookmark: true,
-//   },
-//   {
-//     projectId: 2,
-//     projectKey: "kea",
-//     projectTitle: "KEA",
-//     projectImg: "https://logo-resources.thevc.kr/organizations/banners/cfd721742233e04a0f656f7b2b2cbf7260888fb269caff651761367c5e4876e5_1599533486309745.jpg",
-//     versionMajor: 2,
-//     versionMinor: 0,
-//     versionPatch: 1,
-//     todoIssue: 20,
-//     doingIssue: 6,
-//     myIssue: 4,
-//     doneIssue: 24,
-//     leaderName: "임혜균",
-//     leaderImg: avatar_yhg,
-//     memberNum: 8,
-//     bookmark: true,
-//   },
-//   {
-//     projectId: 3,
-//     projectKey: "600end",
-//     projectTitle: "600&",
-//     projectImg: logo_600end,
-//     versionMajor: 2,
-//     versionMinor: 0,
-//     versionPatch: 1,
-//     todoIssue: 2,
-//     doingIssue: 4,
-//     myIssue: 2,
-//     doneIssue: 3,
-//     leaderName: "이승희",
-//     leaderImg: avatar_lsh,
-//     memberNum: 6,
-//     bookmark: false,
-//   },
-// ];
-
-// //내 작업 이슈들
-// const myIssues: MyIssues[] = [
-//   {
-//     issueId: 1,
-//     issueTitle: "사용자 활동에 대한 통계 정보 제공 기능",
-//     issueTag: "CHANGED",
-//     issueStatus: "TODO",
-//     updateDate: "2023-10-20",
-//     projectTitle: "dktechin",
-//   },
-//   {
-//     issueId: 2,
-//     issueTitle: "반응형 웹 지원 모바일 뷰 개선",
-//     issueTag: "FEATURE",
-//     issueStatus: "REVIEW",
-//     updateDate: "2023-09-03",
-//     projectTitle: "dktechin",
-//   },
-//   {
-//     issueId: 3,
-//     issueTitle: "인증 기능 강화 및 취약점 보완",
-//     issueTag: "FIXED",
-//     issueStatus: "DONE",
-//     updateDate: "2023-08-15",
-//     projectTitle: "dktechin",
-//   },
-//   {
-//     issueId: 4,
-//     issueTitle: "알림 기능 업데이트 푸시 알림 디자인 변경",
-//     issueTag: "CHANGED",
-//     issueStatus: "REVIEW",
-//     updateDate: "2023-07-02",
-//     projectTitle: "KEA",
-//   },
-//   {
-//     issueId: 5,
-//     issueTitle: "로그 저장 기능 추가",
-//     issueTag: "NEW",
-//     issueStatus: "TODO",
-//     updateDate: "2023-06-10",
-//     projectTitle: "KEA",
-//   },
-//   {
-//     issueId: 6,
-//     issueTitle: "새로운 로그인 방식 생체 인증 기능 추가",
-//     issueTag: "NEW",
-//     issueStatus: "TODO",
-//     updateDate: "2021-09-01",
-//     projectTitle: "KEA",
-//   },
-//   {
-//     issueId: 7,
-//     issueTitle: "데이터 로딩 시간 개선",
-//     issueTag: "FEATURE",
-//     issueStatus: "REVIEW",
-//     updateDate: "2023-02-10",
-//     projectTitle: "KEA",
-//   },
-//   {
-//     issueId: 8,
-//     issueTitle: "일반 설문조사 종류 변경",
-//     issueTag: "NEW",
-//     issueStatus: "TODO",
-//     updateDate: "2021-09-01",
-//     projectTitle: "600&",
-//   },
-//   {
-//     issueId: 9,
-//     issueTitle: "설문조사 GPS 배포 기능",
-//     issueTag: "NEW",
-//     issueStatus: "TODO",
-//     updateDate: "2021-09-01",
-//     projectTitle: "600&",
-//   },
-// ];
