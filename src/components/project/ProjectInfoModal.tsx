@@ -6,6 +6,7 @@ import { nicknameState } from "@src/state/userState";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@typess/project";
 import { useParams } from "react-router-dom";
+import CommonModal from "../commonModal";
 
 /**
  * 프로젝트 정보 모달
@@ -60,6 +61,9 @@ export default function ProjectInfoModal({ closeModal }) {
   const [projects, setProjects] = useRecoilState(projectNavs);
   const emailRegex = /\S+@\S+\.\S+/;
 
+  // 저장 확인 모달
+  const [isSaveModal, setIsSaveModal] = useState(false);
+
   const createPjData: EditPjData = {
     projectTitle: pjTitle,
     projectKey: pjKey,
@@ -74,8 +78,13 @@ export default function ProjectInfoModal({ closeModal }) {
   };
 
   const handleSave = () => {
-    //TODO: patch 요청
+    setIsSaveModal(true);
     setIsEdit(false);
+    saveProject();
+    getProjectInfo();
+  };
+
+  const saveProject = () => {
     (async () => {
       instanceAuth
         .patch(`/projects/${pj.projectId}`, createPjData)
@@ -113,7 +122,7 @@ export default function ProjectInfoModal({ closeModal }) {
     setContentInputCount(e.target.value.length);
   };
 
-  useEffect(() => {
+  const getProjectInfo = () => {
     (async () => {
       instanceAuth
         .get(`/projects/${pj.projectId}`)
@@ -135,6 +144,10 @@ export default function ProjectInfoModal({ closeModal }) {
           console.log(error);
         });
     })();
+  };
+
+  useEffect(() => {
+    getProjectInfo();
   }, []);
 
   return (
@@ -190,30 +203,45 @@ export default function ProjectInfoModal({ closeModal }) {
             <div className="px-14 pb-5">
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">프로젝트 설명</p>
               {isEdit ? (
-                <input
-                  type="pj-title"
-                  value={pjContent}
-                  maxLength={200}
-                  onChange={onContentChangeHandler}
-                  className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
-                  style={{
-                    verticalAlign: "top",
-                    width: "31.0847vw",
-                    minHeight: "14.6640vh",
-                  }}
-                />
+                <div>
+                  <input
+                    type="pj-title"
+                    value={pjContent}
+                    maxLength={200}
+                    onChange={onContentChangeHandler}
+                    className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
+                    style={{
+                      verticalAlign: "top",
+                      width: "31.0847vw",
+                      minHeight: "14.6640vh",
+                    }}
+                  />
+                </div>
               ) : (
-                <input
-                  readOnly
-                  type="pj-title"
-                  value={pjContent}
-                  className="items-start bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
-                  style={{
-                    verticalAlign: "top",
-                    width: "31.0847vw",
-                    minHeight: "14.6640vh",
-                  }}
-                />
+                <div>
+                  <input
+                    readOnly
+                    type="pj-title"
+                    value={pjContent}
+                    className="items-start bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
+                    style={{
+                      verticalAlign: "top",
+                      width: "31.0847vw",
+                      minHeight: "14.6640vh",
+                    }}
+                  />
+
+                  {isSaveModal && (
+                    <CommonModal
+                      title="저장 완료"
+                      description="프로젝트 정보가 저장되었습니다."
+                      btnTitle="확인"
+                      closeModal={() => {
+                        setIsSaveModal(false);
+                      }}
+                    />
+                  )}
+                </div>
               )}
             </div>
 
