@@ -1,9 +1,14 @@
-import React, { useState, useCallback } from "react";
+import React, { useState, useCallback, useRef } from "react";
 import Tag from "@src/components/project/issue/IssueBadge";
 import profile_img from "@images/common/default_profile.png";
 import Navbar from "@components/nav/Navbar.tsx";
+import { useParams } from "react-router-dom";
+import Editor from "node_modules/@toast-ui/editor/types";
 
 export default function IssueEditPage() {
+  // const { projectKey, issueId } = useParams();
+  const editorRef = useRef<Editor>(null);
+
   return (
     <>
       <Navbar />
@@ -91,11 +96,11 @@ export default function IssueEditPage() {
             />
 
             <div className="space-x-5 mt-10 ml-16">
-              <Tag issueType="New" />
-              <Tag issueType="Feature" />
-              <Tag issueType="Fixed" />
-              <Tag issueType="Changed" />
-              <Tag issueType="Deprecated" />
+              <Tag issueType="NEW" />
+              <Tag issueType="FEATURE" />
+              <Tag issueType="FIXED" />
+              <Tag issueType="CHANGED" />
+              <Tag issueType="DEPRECATED" />
             </div>
 
             <button

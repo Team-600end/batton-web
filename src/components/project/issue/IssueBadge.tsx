@@ -1,49 +1,54 @@
-import React from "react";
 import { IssueType } from "@typess/Issue";
 
 type IssueBadgeProps = {
   issueType: IssueType;
 };
 
-function IssueBadge(props: IssueBadgeProps) {
+export default function IssueBadge(props: IssueBadgeProps) {
   let backgroundColor = "";
   let textColor = "";
   let borderColor = "";
+  let text = "";
 
   switch (props.issueType) {
-    case "New":
+    case "NEW":
       backgroundColor = "#DEF7EC";
       textColor = "#03543F";
       borderColor = "#31C48D";
+      text = "New";
       break;
-    case "Changed":
+    case "CHANGED":
       backgroundColor = "#FDF6B2";
       textColor = "#723B13";
       borderColor = "#FACA15";
+      text = "Changed";
       break;
-    case "Feature":
+    case "FEATURE":
       backgroundColor = "#E1EFFE";
       textColor = "#1E429F";
       borderColor = "#76A9FA";
+      text = "Feature";
       break;
-    case "Fixed":
+    case "FIXED":
       backgroundColor = "#FDE8E8";
       textColor = "#9B1C1C";
       borderColor = "#F98080";
+      text = "Fixed";
       break;
-    case "Deprecated":
+    case "DEPRECATED":
       backgroundColor = "#F3F4F6";
       textColor = "#111928";
       borderColor = "#111928";
+      text = "Deprecated";
       break;
   }
 
   return (
-    // <span style={{ backgroundColor, color: textColor, borderColor: borderColor }} className="text-xs font-suitM mr-2 px-2.5 py-0.5 rounded-md border">
-    <span style={{ backgroundColor, color: textColor, borderColor: borderColor }} className="text-xs font-suitM px-2.5 py-0.5 rounded-md border">
-      {props.issueType}
+    <span
+      style={{ backgroundColor, color: textColor, borderColor: borderColor }}
+      className="text-xs font-suitM px-2.5 py-0.5 rounded-md border"
+    >
+      {text}
     </span>
   );
-}
-
-export default IssueBadge;
+};

@@ -10,9 +10,9 @@ type PjCardProps = {
 };
 
 export default function PjCard(props: PjCardProps) {
-  const percent = ((props.pjCard.doneIssue / (props.pjCard.todoIssue + props.pjCard.doingIssue + props.pjCard.doneIssue)) * 100).toFixed(1);
+  // const percent = ((props.pjCard.doneIssue / (props.pjCard.todoIssue + props.pjCard.doingIssue + props.pjCard.doneIssue)) * 100).toFixed(1);
   const navigate = useNavigate();
-  const [bookmark, setBookmark] = useState(false);
+  const [bookmark, setBookmark] = useState(true);
   const clickStar = () => {
     setBookmark(!bookmark);
   };
@@ -30,7 +30,7 @@ export default function PjCard(props: PjCardProps) {
               <div className="flex flex-row">
                 <p className="text-[#5AAE8A] text-2xl font-suitB">{props.pjCard.projectTitle}</p>
                 <img
-                  src={props.pjCard.bookmark ? yellowStarImg : grayStarImg}
+                  src={bookmark ? yellowStarImg : grayStarImg}
                   alt="star_img"
                   className="w-[23px] h-[23px] mt-[5px] ml-[5px]"
                   onClick={clickStar}
@@ -51,21 +51,21 @@ export default function PjCard(props: PjCardProps) {
             <div className="flex flex-row">
               <span className="w-1/2 flex flex-row">
                 <p>진행 전 이슈</p>
-                <p className="text-[#5AAE8A] ml-[20px]">{props.pjCard.todoIssue}</p>
+                <p className="text-[#5AAE8A] ml-[20px]">{props.pjCard.todo}</p>
               </span>
               <span className="w-1/2 flex flex-row">
                 <p>진행 중 이슈</p>
-                <p className="text-[#5AAE8A] ml-[20px]">{props.pjCard.doingIssue}</p>
+                <p className="text-[#5AAE8A] ml-[20px]">{props.pjCard.progress}</p>
               </span>
             </div>
             <div className="flex flex-row">
               <span className=" w-1/2 flex flex-row">
                 <p>내 할당 이슈</p>
-                <p className="text-[#5AAE8A] ml-[20px]">{props.pjCard.myIssue}</p>
+                <p className="text-[#5AAE8A] ml-[20px]">{props.pjCard.mine}</p>
               </span>
               <span className="w-1/2 flex flex-row">
                 <p>완료 이슈</p>
-                <p className="text-[#5AAE8A] ml-[37px]">{props.pjCard.doneIssue}</p>
+                <p className="text-[#5AAE8A] ml-[37px]">{props.pjCard.done}</p>
               </span>
             </div>
           </div>
@@ -73,7 +73,11 @@ export default function PjCard(props: PjCardProps) {
           {/* 사람들 */}
           <div className="relative w-[300px] h-[30px] mt-[10px]">
             <div className="flex -space-x-4">
-              <img className="w-[30px] h-[30px] border-[1px] border-white rounded-full dark:border-gray-800 object-cover" src={props.pjCard.leaderImg} alt="" />
+              <img
+                className="w-[30px] h-[30px] border-[1px] border-white rounded-full dark:border-gray-800 object-cover"
+                src={props.pjCard.leaderProfileImg}
+                alt=""
+              />
               <a
                 className="flex items-center justify-center w-[30px] h-[30px] text-xs font-suitM text-white bg-gray-700 border-[1px] border-white rounded-full hover:bg-gray-600 dark:border-gray-800"
                 href="#"
@@ -81,7 +85,7 @@ export default function PjCard(props: PjCardProps) {
                 +{props.pjCard.memberNum - 1}
               </a>
               <p className="text-sm font-suitL text-[#C4C4C4] mt-[5px] pl-[30px] ">
-                {props.pjCard.leaderName}님 외 {props.pjCard.memberNum - 1}명
+                {props.pjCard.leaderNickname}님 외 {props.pjCard.memberNum - 1}명
               </p>
             </div>
           </div>
@@ -90,13 +94,13 @@ export default function PjCard(props: PjCardProps) {
           <div className="relative w-[300px] h-[30px]">
             <div className="flex justify-between mb-1">
               <span className="text-base font-suitM text-blue-700 dark:text-white"></span>
-              <span className="text-sm font-suitM text-[#6B7280] dark:text-white">{percent}%</span>
+              <span className="text-sm font-suitM text-[#6B7280] dark:text-white">{props.pjCard.percentage}%</span>
             </div>
             <div className="w-full bg-[#F4F4F4] rounded-full h-2.5 dark:bg-gray-700">
               <div
                 className="bg-[#5AAE8A] h-2.5 rounded-full"
                 style={{
-                  width: `${percent}%`,
+                  width: `${props.pjCard.percentage}%`,
                 }}
               ></div>
             </div>

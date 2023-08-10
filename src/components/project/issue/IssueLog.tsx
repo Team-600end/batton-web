@@ -29,11 +29,11 @@ export default function IssueLog() {
   useEffect(() => {
     // async() => {
     instanceAuth
-      .get(`/issues/projects/list/${pj.id}`)
+      .get(`/issues/projects/list/${pj.projectId}`)
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
-          setBoardissues(response.data.data);
+          setBoardissues(response.data.result);
           setTotalPage(Math.ceil(boardissues.length / itemsPerPage));
         } else if (response.data.code == 703 || response.data.code == 704) {
           setBoardissues([]);
@@ -138,40 +138,40 @@ export default function IssueLog() {
 //   {
 //     id: 1,
 //     issueTitle: "작성 질문 추천 서비스",
-//     issueTag: "New",
-//     issueStatus: "Todo",
+//     issueTag: "NEW",
+//     issueStatus: "TODO",
 //     nickname: "정현진",
 //     profileImg: avatar_jhj,
 //   },
 //   {
 //     id: 2,
 //     issueTitle: "선택지 이미지 첨부 기능",
-//     issueTag: "Feature",
-//     issueStatus: "Todo",
+//     issueTag: "FEATURE",
+//     issueStatus: "TODO",
 //     nickname: "정현진",
 //     profileImg: avatar_jhj,
 //   },
 //   {
 //     id: 3,
 //     issueTitle: "리뷰 전용 설문조사 서비스",
-//     issueTag: "New",
-//     issueStatus: "Todo",
+//     issueTag: "NEW",
+//     issueStatus: "TODO",
 //     nickname: "정현진",
 //     profileImg: avatar_jhj,
 //   },
 //   {
 //     id: 4,
 //     issueTitle: "이슈4",
-//     issueTag: "New",
-//     issueStatus: "Todo",
+//     issueTag: "NEW",
+//     issueStatus: "TODO",
 //     nickname: "닉네임1",
 //     profileImg: "https://i.pravatar.cc/300",
 //   },
 //   {
 //     id: 5,
 //     issueTitle: "이슈5",
-//     issueTag: "New",
-//     issueStatus: "Todo",
+//     issueTag: "NEW",
+//     issueStatus: "TODO",
 //     nickname: "닉네임1",
 //     profileImg: "https://i.pravatar.cc/300",
 //   },

@@ -48,12 +48,16 @@ export default function Navbar() {
   //   }
   // ];
 
+  useEffect(() => {
+    navPjRequest();
+  }, []);
+
   const navPjRequest = async () => {
     instanceAuth
       .get(`/projects/navbar`)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
+          console.log(response.data.result)
           setProjects(response.data.result as ProjectNav[])
         }
         else if (response.data.code == 707) {
@@ -128,7 +132,7 @@ export default function Navbar() {
           style={{ marginLeft: "-2vw" }}
           onClick={() => navigate("/")}
         >
-          <img src={batton_logo_img} className="h-8 mr-3" alt="Flowbite Logo" />
+          <img src={batton_logo_img} className="h-8 mr-3 select-none pointer-events-none" alt="Flowbite Logo" />
         </button>
       </div>
       <div className="items-center justify-between w-full md:flex md:w-auto">
@@ -300,6 +304,7 @@ export default function Navbar() {
               handleAllDdOff();
               removeCookie('accessToken');
               removeCookie('refreshToken');
+              localStorage.removeItem("recoil-persist");
               navigate("/login");
             }}
             className="block text-sm text-error-2 w-full text-left px-4 py-3 hover:bg-gray-100"

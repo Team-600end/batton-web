@@ -29,6 +29,9 @@ export default function MainPage() {
   const [myIssues, setMyissues] = useState<MyIssues[]>([]);
   //TODO: belongId 어떻게 받을지? useParams?
   let { belongId } = useParams();
+  // 드롭다운
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
 
   const chunkArray = (arr, chunkSize) => {
     const chunks = [];
@@ -38,7 +41,7 @@ export default function MainPage() {
     return chunks;
   };
 
-  // 배열을 cardNum만큼씩 잘라서 묶어줍니다.
+  // 배열을 cardNum만큼씩 자르기
   const chunkedPjCards = chunkArray(pjCards, cardNum);
 
   // 화면 너비에 따라 cardNum 값을 설정하는 함수
@@ -88,14 +91,29 @@ export default function MainPage() {
     return () => {
       window.removeEventListener("resize", handleResize);
     };
+  }, [window]);
+
+  // 드롭다운
+  useEffect(() => {
+    const handleClickOutside = (e: MouseEvent) => {
+      if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+        setIsDropdownOpen(false);
+      }
+    };
+
+    document.addEventListener("click", handleClickOutside);
+    return () => {
+      document.removeEventListener("click", handleClickOutside);
+    };
   }, []);
 
   useEffect(() => {
-    //메인페이지 접속 시. 모든 프로젝트를 가져옴/do a deer a female deer re a golden sun mi a name i call myself fa a long long way to run
-    async () => {
+    //메인페이지 접속 시. 모든 프로젝트를 가져옴
+    (async () => {
       instanceAuth
-        .get(`/projects/list`)
+        .get(`/projects/joinedList`)
         .then((response) => {
+          console.log("pjcards");
           console.log(response.data);
           if (response.data.code == 200) {
             setPjcards(response.data.result);
@@ -106,12 +124,8 @@ export default function MainPage() {
         .catch((error) => {
           console.log(error);
         });
-    };
-  });
 
-  useEffect(() => {
-    //메인페이지 접속 시, 내 이슈들을 가져옴
-    async () => {
+      //메인페이지 접속 시, 내 이슈들을 가져옴
       instanceAuth.get(`/issues/list/${belongId}`).then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
@@ -120,8 +134,8 @@ export default function MainPage() {
           setMyissues([]);
         }
       });
-    };
-  });
+    })();
+  }, []);
 
   return (
     <div className="mt-[7vh]" style={{ overflowY: "auto" }}>
@@ -168,9 +182,9 @@ export default function MainPage() {
                 <img className="w-2.5 h-2.5 ml-2.5" area-hidden="true" src={chevorn_img} />
               </button>
 
-              {/* Dropdown menu */}
+              {/* 드롭다운 */}
               <div
-                id="dropdownRadio"
+                id="myIssueDropdown"
                 className="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow"
                 data-popper-reference-hidden=""
                 data-popper-escaped=""
@@ -195,6 +209,21 @@ export default function MainPage() {
                       />
                       <label htmlFor="filter-radio-example-1" className="w-full ml-2 text-sm font-suitM text-gray-900 rounded">
                         전체
+                      </label>
+                    </div>
+                  </li>
+                  <li>
+                    <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                      <input
+                        // checked="checked"
+                        id="filter-radio-example-1"
+                        type="radio"
+                        value=""
+                        name="filter-radio"
+                        className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
+                      />
+                      <label htmlFor="filter-radio-example-1" className="w-full ml-2 text-sm font-suitM text-gray-900 rounded">
+                        New
                       </label>
                     </div>
                   </li>
@@ -328,133 +357,133 @@ const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
 
 // Dummy data
 
-//참여 중인 프로젝트
-const pjCards: ProjectCard[] = [
-  {
-    projectId: 1,
-    projectKey: "dktechin",
-    projectTitle: "dktechin",
-    projectImg: logo_dktechin,
-    versionMajor: 5,
-    versionMinor: 2,
-    versionPatch: 3,
-    todoIssue: 70,
-    doingIssue: 10,
-    myIssue: 4,
-    doneIssue: 50,
-    leaderName: "강창훈",
-    leaderImg: avatar_kch,
-    memberNum: 42,
-    bookmark: true,
-  },
-  {
-    projectId: 2,
-    projectKey: "kea",
-    projectTitle: "KEA",
-    projectImg: "https://logo-resources.thevc.kr/organizations/banners/cfd721742233e04a0f656f7b2b2cbf7260888fb269caff651761367c5e4876e5_1599533486309745.jpg",
-    versionMajor: 2,
-    versionMinor: 0,
-    versionPatch: 1,
-    todoIssue: 20,
-    doingIssue: 6,
-    myIssue: 4,
-    doneIssue: 24,
-    leaderName: "임혜균",
-    leaderImg: avatar_yhg,
-    memberNum: 8,
-    bookmark: true,
-  },
-  {
-    projectId: 3,
-    projectKey: "600end",
-    projectTitle: "600&",
-    projectImg: logo_600end,
-    versionMajor: 2,
-    versionMinor: 0,
-    versionPatch: 1,
-    todoIssue: 2,
-    doingIssue: 4,
-    myIssue: 2,
-    doneIssue: 3,
-    leaderName: "이승희",
-    leaderImg: avatar_lsh,
-    memberNum: 6,
-    bookmark: false,
-  },
-];
+// //참여 중인 프로젝트
+// const pjCards: ProjectCard[] = [
+//   {
+//     projectId: 1,
+//     projectKey: "dktechin",
+//     projectTitle: "dktechin",
+//     projectImg: logo_dktechin,
+//     versionMajor: 5,
+//     versionMinor: 2,
+//     versionPatch: 3,
+//     todoIssue: 70,
+//     doingIssue: 10,
+//     myIssue: 4,
+//     doneIssue: 50,
+//     leaderName: "강창훈",
+//     leaderImg: avatar_kch,
+//     memberNum: 42,
+//     bookmark: true,
+//   },
+//   {
+//     projectId: 2,
+//     projectKey: "kea",
+//     projectTitle: "KEA",
+//     projectImg: "https://logo-resources.thevc.kr/organizations/banners/cfd721742233e04a0f656f7b2b2cbf7260888fb269caff651761367c5e4876e5_1599533486309745.jpg",
+//     versionMajor: 2,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     todoIssue: 20,
+//     doingIssue: 6,
+//     myIssue: 4,
+//     doneIssue: 24,
+//     leaderName: "임혜균",
+//     leaderImg: avatar_yhg,
+//     memberNum: 8,
+//     bookmark: true,
+//   },
+//   {
+//     projectId: 3,
+//     projectKey: "600end",
+//     projectTitle: "600&",
+//     projectImg: logo_600end,
+//     versionMajor: 2,
+//     versionMinor: 0,
+//     versionPatch: 1,
+//     todoIssue: 2,
+//     doingIssue: 4,
+//     myIssue: 2,
+//     doneIssue: 3,
+//     leaderName: "이승희",
+//     leaderImg: avatar_lsh,
+//     memberNum: 6,
+//     bookmark: false,
+//   },
+// ];
 
-//내 작업 이슈들
-const myIssues: MyIssues[] = [
-  {
-    issueId: 1,
-    issueTitle: "사용자 활동에 대한 통계 정보 제공 기능",
-    issueTag: "Changed",
-    issueStatus: "Todo",
-    updateDate: "2023-10-20",
-    projectTitle: "dktechin",
-  },
-  {
-    issueId: 2,
-    issueTitle: "반응형 웹 지원 모바일 뷰 개선",
-    issueTag: "Feature",
-    issueStatus: "Review",
-    updateDate: "2023-09-03",
-    projectTitle: "dktechin",
-  },
-  {
-    issueId: 3,
-    issueTitle: "인증 기능 강화 및 취약점 보완",
-    issueTag: "Fixed",
-    issueStatus: "Done",
-    updateDate: "2023-08-15",
-    projectTitle: "dktechin",
-  },
-  {
-    issueId: 4,
-    issueTitle: "알림 기능 업데이트 푸시 알림 디자인 변경",
-    issueTag: "Changed",
-    issueStatus: "Review",
-    updateDate: "2023-07-02",
-    projectTitle: "KEA",
-  },
-  {
-    issueId: 5,
-    issueTitle: "로그 저장 기능 추가",
-    issueTag: "New",
-    issueStatus: "Todo",
-    updateDate: "2023-06-10",
-    projectTitle: "KEA",
-  },
-  {
-    issueId: 6,
-    issueTitle: "새로운 로그인 방식 생체 인증 기능 추가",
-    issueTag: "New",
-    issueStatus: "Todo",
-    updateDate: "2021-09-01",
-    projectTitle: "KEA",
-  },
-  {
-    issueId: 7,
-    issueTitle: "데이터 로딩 시간 개선",
-    issueTag: "Feature",
-    issueStatus: "Review",
-    updateDate: "2023-02-10",
-    projectTitle: "KEA",
-  },
-  {
-    issueId: 8,
-    issueTitle: "일반 설문조사 종류 변경",
-    issueTag: "New",
-    issueStatus: "Todo",
-    updateDate: "2021-09-01",
-    projectTitle: "600&",
-  },
-  {
-    issueId: 9,
-    issueTitle: "설문조사 GPS 배포 기능",
-    issueTag: "New",
-    issueStatus: "Todo",
-    updateDate: "2021-09-01",
-    projectTitle: "600&",
-  },
-];
+// //내 작업 이슈들
+// const myIssues: MyIssues[] = [
+//   {
+//     issueId: 1,
+//     issueTitle: "사용자 활동에 대한 통계 정보 제공 기능",
+//     issueTag: "CHANGED",
+//     issueStatus: "TODO",
+//     updateDate: "2023-10-20",
+//     projectTitle: "dktechin",
+//   },
+//   {
+//     issueId: 2,
+//     issueTitle: "반응형 웹 지원 모바일 뷰 개선",
+//     issueTag: "FEATURE",
+//     issueStatus: "REVIEW",
+//     updateDate: "2023-09-03",
+//     projectTitle: "dktechin",
+//   },
+//   {
+//     issueId: 3,
+//     issueTitle: "인증 기능 강화 및 취약점 보완",
+//     issueTag: "FIXED",
+//     issueStatus: "DONE",
+//     updateDate: "2023-08-15",
+//     projectTitle: "dktechin",
+//   },
+//   {
+//     issueId: 4,
+//     issueTitle: "알림 기능 업데이트 푸시 알림 디자인 변경",
+//     issueTag: "CHANGED",
+//     issueStatus: "REVIEW",
+//     updateDate: "2023-07-02",
+//     projectTitle: "KEA",
+//   },
+//   {
+//     issueId: 5,
+//     issueTitle: "로그 저장 기능 추가",
+//     issueTag: "NEW",
+//     issueStatus: "TODO",
+//     updateDate: "2023-06-10",
+//     projectTitle: "KEA",
+//   },
+//   {
+//     issueId: 6,
+//     issueTitle: "새로운 로그인 방식 생체 인증 기능 추가",
+//     issueTag: "NEW",
+//     issueStatus: "TODO",
+//     updateDate: "2021-09-01",
+//     projectTitle: "KEA",
+//   },
+//   {
+//     issueId: 7,
+//     issueTitle: "데이터 로딩 시간 개선",
+//     issueTag: "FEATURE",
+//     issueStatus: "REVIEW",
+//     updateDate: "2023-02-10",
+//     projectTitle: "KEA",
+//   },
+//   {
+//     issueId: 8,
+//     issueTitle: "일반 설문조사 종류 변경",
+//     issueTag: "NEW",
+//     issueStatus: "TODO",
+//     updateDate: "2021-09-01",
+//     projectTitle: "600&",
+//   },
+//   {
+//     issueId: 9,
+//     issueTitle: "설문조사 GPS 배포 기능",
+//     issueTag: "NEW",
+//     issueStatus: "TODO",
+//     updateDate: "2021-09-01",
+//     projectTitle: "600&",
+//   },
+// ];

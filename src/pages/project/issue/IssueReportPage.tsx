@@ -1,164 +1,222 @@
-import React from "react";
+import React, { useEffect, useRef, useState } from "react";
 import Navbar from "@components/nav/Navbar";
+import { useNavigate, useParams } from "react-router-dom";
+import IssueBadge from "@src/components/project/issue/IssueBadge";
+import { instanceAuth } from "@src/types/AxiosInterface";
+import { IssueStatus, IssueType } from "@src/types/Issue";
+import { Editor } from "@toast-ui/react-editor";
+import { useRecoilState } from "recoil";
+import { projectNavs } from "@src/state/projectState";
+import { ProjectNav } from "@src/types/project";
+import { Viewer } from "@toast-ui/react-editor";
+import "@toast-ui/editor/dist/toastui-editor-viewer.css";
+import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
+import IssueStatusBadge from "@src/components/project/issue/IssueStatusBadge";
+import profile_img from "@images/common/default_profile.png";
+import IssueCommentBadge from "@src/components/project/issue/IssueCommentBadge";
+import default_avatar_img from "@images/common/default_profile.svg";
+import { CommentType, IssueComment } from "@src/types/comment";
+import CommentCard from "@src/components/project/issue/CommentCard";
+
+interface CommentPostData {
+  commentContent?: string;
+  commentType: CommentType;
+};
+
+const issueCommentList: IssueComment[] = [
+  {
+    commentContent: "낭만. 합격",
+    commentType: "ACCEPTED",
+    nickname: "강창훈",
+    createDate: "1998-01-01",
+    memberGrade: "LEADER",
+  },
+  {
+    commentContent:
+      "이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?",
+    commentType: "DENIED",
+    nickname: "이승희",
+    createDate: "1998-01-01",
+    memberGrade: "LEADER",
+  },
+  {
+    commentContent: "ㅋㅋ바보",
+    commentType: "COMMON",
+    nickname: "정현진",
+    createDate: "1998-01-01",
+    memberGrade: "MEMBER",
+  },
+];
 
 export default function IssueReportPage() {
+  const navigate = useNavigate();
+  const { projectKey, issueId } = useParams();
+  const editorRef = useRef<Editor>(null);
+  const [issueTitle, setIssueTitle] = useState<string>("");
+  const [issueContent, setIssueContent] = useState<string>("");
+  const [nickname, setNickname] = useState<string>("");
+  const [profileImage, setProfileImage] = useState<string>("");
+  const [issueTag, setIssueTag] = useState<IssueType>(null);
+  const [issueStatus, setIssueStatus] = useState<IssueStatus>(null);
+  const [editorData, setEditorDate] = useState<string>("");
+  const [commentList, setCommentList] = useState<IssueComment[]>([]);
+  const [commentInputText, setCommentInputText] = useState<string>("");
+
+  // Project Recoil
+  const [projectNav, setProjectNav] = useRecoilState(projectNavs);
+  const pj = projectNav.find(
+    (element: ProjectNav) => element.projectKey.toString() == projectKey
+  );
+
+  useEffect(() => {
+    issueReportRequest();
+  }, []);
+
+  const handleChangeCommentInput = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setCommentInputText(e.target.value);
+  };
+
+  const issueReportRequest = async () => {
+    instanceAuth
+      .get(`/issues/reports/${issueId}`)
+      .then((response) => {
+        console.log(response.data.result);
+        if (response.data.code == 200) {
+          setIssueTitle(response.data.result.issueTitle as string);
+          setIssueContent(response.data.result.issueContent as string);
+          setNickname(response.data.result.nickname as string);
+          setProfileImage(response.data.result.profileImage as string);
+          setIssueTag(response.data.result.issueTag as IssueType);
+          setIssueStatus(response.data.result.issueStatus as IssueStatus);
+          setEditorDate(editorRef.current.getInstance().getHTML());
+          // setEditorDate(
+          //   "<strong>GPS 기반 설문조사</strong>: 이제 사용자들은 위치 기반 데이터를 설문조사에 활용할 수 있습니다. 설문조사 참가자들의 지리적 위치에 따른 응답을 분석하고 이를 바탕으로 더욱 구체적인 인사이트를 도출할 수 있습니다. <br><br><strong>지역 특성에 맞는 설문조사</strong>: GPS 기능을 활용해 특정 지역의 특성에 맞춘 설문조사를 진행할 수 있습니다. 이를 통해 지역별로 다른 문화나 관습, 선호도 등을 반영한 보다 정확한 데이터를 얻을 수 있습니다. <br><br><strong>실시간 위치</strong> 반영: 참가자의 동의 하에 실시간 위치 반영이 가능하며, 이를 통해 설문조사 결과에 대한 더욱 심층적인 분석이 가능합니다."
+          // );
+          setCommentList(response.data.result.commentList as IssueComment[]);
+          // setCommentList(issueCommentList);
+        } else {
+          console.log("response after error");
+          console.log(response.data);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const issueCommentRequest = async () => {
+    const commentPostData: CommentPostData = {
+      commentContent: commentInputText,
+      commentType: "COMMON"
+    };
+    instanceAuth
+      .post(`/reposts/comments/${issueId}`, commentPostData)
+      .then((response) => {
+        if (response.data.code == 200) {
+          alert("댓글을 등록하였습니다.");
+          setCommentInputText("");
+          issueReportRequest(); // fetch
+        } else {
+          console.log("response after error")
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
+
+  const viewer = new Viewer({
+    el: document.querySelector("#viewer"),
+    height: "600px",
+    initialValue: editorData,
+  });
+
   return (
-    <>
-      <div className="w-[90vw] m-auto mt-[10vh] flex flex-col">
-        <div className="flex justify-end mt-5 mr-10">
-          <button
-            type="button"
-            className="w-[5vw] focus:outline-none text-white bg-green-700 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-medium rounded-lg text-xs px-0.5 py-1.5 mr-2 mb-2 dark:bg-green-600 dark:hover:bg-green-700 dark:focus:ring-green-800"
-          >
-            수정
-          </button>
-        </div>
-        <div className="flex flex-row mt-7">
-          <p className="text-2xl font-bold text-gray-900 dark:text-white mr-7">
-            [600&-12] 사용자 프로필 기능 수정
-          </p>
-          <span className="bg-yellow-100 text-yellow-800 text-xs font-medium mr-7 px-2.5 py-0.5 rounded dark:bg-yellow-900 dark:text-yellow-300 border border-yellow-300">
-            Changed
-          </span>
-          <p className="text-xs font-medium text-gray-900 dark:text-white flex items-end">
-            2023.06.11
+    <div className="flex flex-col overflow-hidden">
+      <MilestoneNavbar />
+      <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[60vw]">
+        <div className="flex justify-start">
+          <p className="font-suitB text-[2vw] text-gray-900 jusitfy-start">
+            [{pj.projectTitle}-{issueId}] {issueTitle}
           </p>
         </div>
+      </div>
 
-        <div className="w-[90vw] m-auto flex flex-col">
-          {/* row1 */}
-          <div className="flex flex-row w-[80vw] ml-12 mt-14">
-            <p className="text-xl font-semibold text-gray-900 dark:text-white mr-14">
-              작성자
-            </p>
-            <div className="flex items-center ml-2">
-              <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 mr-3">
-                  <svg
-                    className="absolute w-12 h-12 text-gray-400 -left-1"
-                    fill="currentColor"
-                    viewBox="0 0 20 20"
-                    xmlns="http://www.w3.org/2000/svg"
-                  >
-                    <path
-                      fill-rule="evenodd"
-                      d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                      clip-rule="evenodd"
-                    ></path>
-                  </svg>
-                </div>
-                정현진
-              </p>
-            </div>
-            {/* <div className="flex flex-row">
-              <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 mr-3 flex items-center">
-                <svg
-                  className="absolute w-12 h-12 text-gray-400 -left-1"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-              </div>
-              <p className="text-sm font-medium text-gray-900 dark:text-white mr-7 mt-2">
-                정현진
-              </p>
-            </div> */}
+      <div className="flex flex-col mr-auto ml-auto w-[50vw] mt-[5vh]">
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
+          이슈 정보
+        </p>
+      </div>
+
+      <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
+        <div className="flex">
+          <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
+          <div className="ml-auto space-x-1">
+            <IssueStatusBadge issueStatus={issueStatus} />
           </div>
-
-          {/* row2 */}
-          <div className="flex flex-row w-[80vw] ml-12">
-            <p className="text-xl font-semibold text-gray-900 dark:text-white mr-10 mt-[5vh]">
-              작업내용
-            </p>
-            <div className="bg-gray-100 rounded-lg border border-gray-300 w-[50vw] h-[50vh] mt-[5vh] flex flex-col place-items-start">
-              <p className="text-sm font-medium text-gray-900 dark:text-white mr-7 flex items-center mt-5 ml-5">
-                정현진
-              </p>
-            </div>
+        </div>
+        <div className="flex">
+          <p className="font-suitM text-[1.4vw] text-gray-900">설명</p>
+          <p className="font-suitM text-[1vw] text-gray-900 ml-auto my-auto">
+            {issueContent}
+          </p>
+        </div>
+        <div className="flex">
+          <p className="font-suitM text-[1.4vw] text-gray-900">태그</p>
+          <div className="ml-auto my-auto">
+            <IssueBadge issueType={issueTag} />
           </div>
-
-          {/* row3 */}
-          <div className="flex flex-row w-[80vw] ml-12">
-            <p className="text-xl font-semibold text-gray-900 dark:text-white mr-10 my-5">
-              코멘트
+        </div>
+        <div className="flex">
+          <p className="font-suitM text-[1.4vw] text-gray-900">담당자</p>
+          <div className="flex flex-row ml-auto my-auto">
+            <img className="w-8 h-8 mr-3.5" src={profile_img} />
+            <p className="font-suitM text-[1vw] text-gray-900 mt-1">
+              {nickname}
             </p>
-            <div>
-              <article className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
-                <footer className="flex justify-between items-center mb-2">
-                  <div className="flex items-center">
-                    <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                      <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 mr-3">
-                        <svg
-                          className="absolute w-12 h-12 text-gray-400 -left-1"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-                      이승희
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mr-2">
-                      Feb. 8, 2022
-                    </p>
-                    <span className="bg-green-100 text-green-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-green-400 border border-green-400 w-[3vw]">
-                      승인
-                    </span>
-                  </div>
-                </footer>
-                <p className="text-gray-500 dark:text-gray-400 ml-12">
-                  개쩌네요... 진작 이렇게 하시지... 이번엔 수고했습니다.
-                  앞으로도 수고하세요. 두줄 작성시 어떻게 되나 볼게요. 굿
-                </p>
-              </article>
-              <article className="p-6 text-base bg-white rounded-lg dark:bg-gray-900">
-                <footer className="flex justify-between items-center mb-2">
-                  <div className="flex items-center">
-                    <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                      <div className="relative w-10 h-10 overflow-hidden bg-gray-100 rounded-full dark:bg-gray-600 mr-3">
-                        <svg
-                          className="absolute w-12 h-12 text-gray-400 -left-1"
-                          fill="currentColor"
-                          viewBox="0 0 20 20"
-                          xmlns="http://www.w3.org/2000/svg"
-                        >
-                          <path
-                            fill-rule="evenodd"
-                            d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
-                            clip-rule="evenodd"
-                          ></path>
-                        </svg>
-                      </div>
-                      이승희
-                    </p>
-                    <p className="text-sm text-gray-600 dark:text-gray-400 mr-2">
-                      Feb. 3, 2022
-                    </p>
-                    <span className="bg-red-100 text-red-800 text-xs font-medium mr-2 px-2.5 py-0.5 rounded-full dark:bg-gray-700 dark:text-red-400 border border-red-400 w-[3vw]">
-                      반려
-                    </span>
-                  </div>
-                </footer>
-                <p className="text-gray-500 dark:text-gray-400 ml-12">
-                  이따구로 코딩할거면 개발자 때려치세요.. 반려!! 다시
-                  해오세요!!!!
-                </p>
-              </article>
-            </div>
           </div>
         </div>
       </div>
-    </>
+
+      <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
+        <hr className="h-px my-8 bg-gray-200 border-0" />
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
+          이슈 레포트
+        </p>
+      </div>
+      <div className="mb-4 border border-gray-300 rounded-lg bg-gray-100 p-[2vw] h-full w-[48vw] font-suitM mt-[5vh] mx-auto">
+        <div>{editorData && <Viewer initialValue={editorData} />}</div>
+      </div>
+
+      <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
+        <hr className="h-px my-8 bg-gray-200 border-0" />
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
+          코멘트
+        </p>
+      </div>
+      <div className="flex flex-col w-[48vw] mx-auto divide-y divide-gray-100 mt-[3vh] border border-gray-300 rounded-lg shadow-inner py-3 mb-[7vh]">
+        {commentList.map((comment, index) => (
+          <div key={index}>
+            <CommentCard issueComment={comment} />
+          </div>
+        ))}
+        <div className="flex flex-col">
+          <p className="font-suitM text-lg pt-4 px-7 pb-3">새 코멘트 작성</p>
+          <div className="flex items-end">
+            <textarea
+              onChange={handleChangeCommentInput}
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 focus:border-gray-300 focus:ring-0 mx-[1.3vw] w-[40vw] resize-none"
+            />
+            <button
+              type="button"
+              onClick={issueCommentRequest}
+              className="h-[4vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm items-center w-[4vw] mr-[2vw] mb-[0.1vh]"
+            >
+              작성하기
+            </button>
+          </div>
+        </div>
+      </div>
+    </div>
   );
 }
