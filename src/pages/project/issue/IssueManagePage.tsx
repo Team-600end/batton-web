@@ -114,8 +114,6 @@ export default function IssueManagePage() {
     instanceAuth
       .get(`/reports/${issueId}`)
       .then((response) => {
-        console.log(response.data);
-        console.log(response.data.result);
         if (response.data.code == 200) {
           editorRef.current
             ?.getInstance()
@@ -128,6 +126,27 @@ export default function IssueManagePage() {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const issueInfoEditFetch = async () => {
+    instanceAuth
+      .get(`/issues/${issueId}/fetch`)
+      .then((response) => {
+        if (response.data.code == 200) {
+          setIssueTitle(response.data.result.issueTitle);
+          setIssueContent(response.data.result.issueContent);
+          setIssueTag(response.data.result.issueTag);
+          setManagerId(response.data.result.managerId);
+          setNickname(response.data.result.nickname);
+          setProfileImage(response.data.result.profileImage);
+          setIsMine(response.data.result.isMine);
+        } else {
+          console.log("response after error");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
   };
 
   return (
@@ -159,6 +178,7 @@ export default function IssueManagePage() {
           profileImage={profileImage}
           nickname={nickname}
           handleIssueEditForm={() => setIssueEditForm(false)}
+          handleIssueInfoChange={issueInfoEditFetch}
         />
       ) : (
         <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
@@ -280,7 +300,7 @@ export default function IssueManagePage() {
             바톤 넘겨주기
           </p>
           <p className="text-[1.6vh] font-suitL text-gray-400 ml-[2vw] mt-[2vh]">
-            이슈 알림을 받을 멤버를 선택하세요.
+            이슈 알림을 받을 멤버를 선택하실 수 있습니다.
           </p>
         </div>
       </div>

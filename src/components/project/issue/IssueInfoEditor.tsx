@@ -16,6 +16,7 @@ type IssueInfoEditorProps = {
   profileImage?: string;
   nickname?: string;
   handleIssueEditForm: () => void;
+  handleIssueInfoChange: () => void;
 };
 
 interface IssueInfoEditorData {
@@ -61,6 +62,10 @@ export default function IssueInfoEditor(props: IssueInfoEditorProps) {
     props.handleIssueEditForm();
   };
 
+  const handleIssueInfoChange = () => {
+    props.handleIssueInfoChange();
+  }
+
 
   // 변경사항 렌더링이 안됨. fetch 필요.............
   const issueInfoEditRequest = async () => {
@@ -77,6 +82,7 @@ export default function IssueInfoEditor(props: IssueInfoEditorProps) {
       console.log(response.data);
       console.log(response.data.result);
       if (response.data.code == 200) {
+        handleIssueInfoChange();
         handleIssueEditForm();
       } else {
         console.log("response after error");

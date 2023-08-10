@@ -48,57 +48,57 @@ const doneIssues: DoneIssue[] = [
   },
 //   {
 //     issueTag: "CHANGED",
-//     issueKey: 1,
+//     issueKey: 4,
 //     issueTitle: "첫번째",
 //     nickname: "ㅁ",
 //     issueContent:
-//       "첫번째.",
-//     issueId: 1,
+//       "첫번째......",
+//     issueId: 4,
 //   },
 //   {
 //     issueTag: "NEW",
-//     issueKey: 2,
+//     issueKey: 5,
 //     issueTitle: "두번째",
 //     nickname: "ㅁ",
 //     issueContent:
-//       "두번째.",
-//     issueId: 2,
+//       "두번째......",
+//     issueId: 5,
 //   },
 //   {
 //     issueTag: "NEW",
-//     issueKey: 3,
+//     issueKey: 6,
 //     issueTitle: "세번째",
 //     nickname: "ㅁ",
 //     issueContent:
-//       "세번째",
-//     issueId: 3,
+//       "세번째..........................",
+//     issueId: 6,
 //   },
 // {
 //   issueTag: "CHANGED",
-//   issueKey: 4,
+//   issueKey: 7,
 //   issueTitle: "네번째",
 //   nickname: "ㅁ",
 //   issueContent:
-//     "네번째.",
-//   issueId: 4,
+//     "네번째......",
+//   issueId: 7,
 // },
 // {
 //   issueTag: "NEW",
-//   issueKey: 5,
+//   issueKey: 8,
 //   issueTitle: "다섯번째",
 //   nickname: "ㅁ",
 //   issueContent:
 //     "다섯번째.",
-//   issueId: 5,
+//   issueId: 8,
 // },
 // {
 //   issueTag: "NEW",
-//   issueKey: 6,
+//   issueKey: 9,
 //   issueTitle: "여섯번째",
 //   nickname: "ㅁ",
 //   issueContent:
 //     "여섯번째",
-//   issueId: 6,
+//   issueId: 9,
 // },
 ];
 
@@ -106,13 +106,10 @@ const usedIssues: UsedIssue[] = [];
 
 export default function RnoteEditPage() {
   const [editorData, setEditorDate] = useState("");
-  // const [currentIssue, setIssue] = useState(-1);
   const editorRef = useRef<Editor>(null);
 
   const onChange = () => {
     setEditorDate(editorRef.current?.getInstance().getHTML());
-    // console.log(editorData);
-    // console.log(editorData.length);
   };
 
   const handleDelete: (index: number) => void = (targetIndex) => {
@@ -122,8 +119,11 @@ export default function RnoteEditPage() {
     editorRef.current.getInstance().setHTML([editorRef.current.getInstance().getHTML().slice(0, targetStartPosition), editorRef.current.getInstance().getHTML().slice(targetEndPosition, editorRef.current.getInstance().getHTML().length)].join(''));
     setEditorDate(editorRef.current.getInstance().getHTML());
     for (let num = targetIndex + 1; num < usedIssues.length; num++) {
-      usedIssues[num].startPosition - targetSize;
-      usedIssues[num].endPosition - targetSize;
+      console.log("=====이슈 삭제 이벤트 발생=====");
+      console.log(usedIssues[num].startPosition + " / " + usedIssues[num].endPosition);
+      usedIssues[num].startPosition -= targetSize;
+      usedIssues[num].endPosition -= targetSize;
+      console.log(usedIssues[num].startPosition + " / " + usedIssues[num].endPosition);
     };
     const targetItem = usedIssues[targetIndex];
     usedIssues!.splice(targetIndex, 1);
@@ -167,8 +167,10 @@ export default function RnoteEditPage() {
         
         usedIssues[usedIssues.length - 1].startPosition = tmpPosition;
         usedIssues[usedIssues.length - 1].endPosition = editorRef.current.getInstance().getHTML().length;
-        // console.log("이전 위치 :" + usedIssues[usedIssues.length - 1].startPosition); // 삭제 필요
-        // console.log("이후 위치 :" + usedIssues[usedIssues.length - 1].endPosition); // 삭제 필요
+
+        console.log("시작 위치 :" + usedIssues[usedIssues.length - 1].startPosition); // 삭제 필요
+        console.log("끝 위치 :" + usedIssues[usedIssues.length - 1].endPosition); // 삭제 필요
+
         doneIssues!.splice(sourceIndex, 1); // 원래 위치에서 제거
       } else return; // 이외의 목적지인 경우, 리턴
 
@@ -186,12 +188,18 @@ export default function RnoteEditPage() {
         let sourceContent = editorRef.current.getInstance().getHTML().slice(sourceStartPosition, sourceEndPositon);
 
         if (sourceIndex > destinationIndex) { // 상위로 옮길 경우
-          // console.log("===상위전환===")
-          // console.log(targetStartPosition, targetEndPosition, sourceStartPosition, sourceEndPositon);
-          // console.log("목적지 앞 : " + editorRef.current.getInstance().getHTML().slice(0,targetStartPosition));
-          // console.log("소스 : " + sourceContent);
-          // console.log("목적지 앞 ~ 소스 앞 : " + editorRef.current.getInstance().getHTML().slice(targetStartPosition,sourceStartPosition));
-          // console.log("소스 뒤 : " + editorRef.current.getInstance().getHTML().slice(sourceEndPositon,editorRef.current.getInstance().getHTML().length));
+
+          console.log("=======상위전환=======")
+          console.log("원본 시작 : " + sourceStartPosition + " / 원본 끝 : " + sourceEndPositon);
+          console.log("@" + sourceContent + "@");
+          console.log("목적지 시작 : " + targetStartPosition + " / 목적지 끝 : " + targetEndPosition);
+
+          console.log("==세부사항 출력==");
+          console.log("목적지 앞 : " + "@" + editorRef.current.getInstance().getHTML().slice(0,targetStartPosition) + "@");
+          console.log("소스 : " + "@" + sourceContent + "@");
+          console.log("목적지 앞 ~ 소스 앞 : " + "@" + editorRef.current.getInstance().getHTML().slice(targetStartPosition,sourceStartPosition) + "@");
+          console.log("소스 뒤 : " + "@" + editorRef.current.getInstance().getHTML().slice(sourceEndPositon,editorRef.current.getInstance().getHTML().length) + "@");
+
           editorRef.current.getInstance().setHTML([editorRef.current.getInstance().getHTML().slice(0,targetStartPosition), sourceContent, editorRef.current.getInstance().getHTML().slice(targetStartPosition,sourceStartPosition), editorRef.current.getInstance().getHTML().slice(sourceEndPositon,editorRef.current.getInstance().getHTML().length)].join(''));
           setEditorDate(editorRef.current.getInstance().getHTML());
           // console.log(editorRef.current.getInstance().getHTML());
@@ -202,20 +210,26 @@ export default function RnoteEditPage() {
             usedIssues[num].endPosition += sourceSize;
           }
         } else { // 하위로 옮길 경우
-          // console.log("===하위전환===")
-          // console.log(sourceStartPosition, sourceEndPositon, targetStartPosition, targetEndPosition);
-          // console.log("소스 앞 : " + editorRef.current.getInstance().getHTML().slice(0,sourceStartPosition));
-          // console.log("소스 뒤 ~ 목적지 뒤 : " + editorRef.current.getInstance().getHTML().slice(sourceEndPositon,targetEndPosition));
-          // console.log("소스 컨텐츠 : " + sourceContent);
-          // console.log("목적지 뒤 : " + editorRef.current.getInstance().getHTML().slice(targetEndPosition,editorRef.current.getInstance().getHTML().length));
+
+          console.log("=======하위전환=======")
+          console.log("원본 시작 : " + sourceStartPosition + "/ 원본 끝 : " + sourceEndPositon);
+          console.log("@" + sourceContent + "@");
+          console.log("목적지 시작 : " + targetStartPosition + "/ 목적지 끝 : " + targetEndPosition);
+
+          console.log("==세부사항 출력==");
+          console.log("소스 앞 : " + "@" + editorRef.current.getInstance().getHTML().slice(0,sourceStartPosition) + "@");
+          console.log("소스 뒤 ~ 목적지 뒤 : " + "@" + editorRef.current.getInstance().getHTML().slice(sourceEndPositon,targetEndPosition) + "@");
+          console.log("소스 컨텐츠 : " + "@" + sourceContent + "@");
+          console.log("목적지 뒤 : " + "@" + editorRef.current.getInstance().getHTML().slice(targetEndPosition,editorRef.current.getInstance().getHTML().length) + "@");
+
           editorRef.current.getInstance().setHTML([editorRef.current.getInstance().getHTML().slice(0,sourceStartPosition), editorRef.current.getInstance().getHTML().slice(sourceEndPositon,targetEndPosition), sourceContent, editorRef.current.getInstance().getHTML().slice(targetEndPosition,editorRef.current.getInstance().getHTML().length)].join(''));
           setEditorDate(editorRef.current.getInstance().getHTML());
-          usedIssues[sourceIndex].startPosition = targetStartPosition;
-          usedIssues[sourceIndex].endPosition = targetStartPosition + sourceSize;
           for (let num = sourceIndex + 1; num <= destinationIndex; num++) {
             usedIssues[num].startPosition -= sourceSize;
             usedIssues[num].endPosition -= sourceSize;
           }
+          usedIssues[sourceIndex].startPosition = usedIssues[destinationIndex].endPosition;
+          usedIssues[sourceIndex].endPosition = usedIssues[sourceIndex].startPosition + sourceSize;
         }
         
         const sourceItem = usedIssues![sourceIndex];

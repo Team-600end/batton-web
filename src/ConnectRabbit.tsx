@@ -24,7 +24,7 @@ export function ConnectRabbit(props: MemberIdProps) {
       brokerURL: brokerURL,
       connectHeaders: headers,
       debug: (msg) => {
-        console.log(msg);
+        // console.log(msg);
       },
     });
 
