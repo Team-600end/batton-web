@@ -37,17 +37,6 @@ export default function Navbar() {
 
   const [cookies, setCookie ,removeCookie] = useCookies(['accessToken', 'refreshToken']);
 
-  
-  // const userProjectNav: ProjectNav[] = [
-  //   {
-  //     id: 1,
-  //     projectKey: "dktechin",
-  //     projectTitle: "dktechin",
-  //     grade: "Member",
-  //     logo: dk_logo,
-  //   }
-  // ];
-
   useEffect(() => {
     navPjRequest();
   }, []);

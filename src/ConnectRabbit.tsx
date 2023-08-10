@@ -52,7 +52,7 @@ export function ConnectRabbit(props: MemberIdProps) {
 
 
   return (
-    <div>
+    <div className='hidden'>
       {message && <PushNotice
         contentId={message.contentId}
         noticeType={message.noticeType}

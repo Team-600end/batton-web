@@ -234,8 +234,12 @@ export default function SignupPage() {
   /** 이메일 중복 검사 및 인증코드 발송 요청 */
   const emailCheck = async () => {
     if (!emailRegex.test(email)) {
-      // setModalData({title: "회원가입 오류", description: "유효한 이메일을 입력해주세요.", btnTitle: "확인", closeModal: () => setIsModalOpen(false)});
-      // setIsModalOpen(true);
+      return;
+    }
+
+    if (!isEnableAuthForm) {
+      setIsEnableAuthForm(true);
+    } else {
       return;
     }
 
@@ -247,8 +251,6 @@ export default function SignupPage() {
       .post(`/auth/email`, emailReq)
       .then((response) => {
         if (response.data.code == 200) {
-          alert("인증 코드가 발송되었습니다.");
-          setIsEnableAuthForm(true); // 인증코드 입력폼 활성화
           setStartTimer(true);
         } else if (response.data.code == 601) {
           setEmailStatus("이미 가입된 이메일입니다.");
@@ -260,18 +262,26 @@ export default function SignupPage() {
   };
 
   const authCodeCheckRequest = async () => {
+    if (isEmailAuthentication) {
+      return;
+    }
+
     const authCodeReqData = {
-      eamil: email,
+      email: email,
       authCode: authCode,
     };
-    instanceAuth.post(`/auth/email/check`, authCodeReqData).then((response) => {
-      if (response.data.code == 200) {
-        setIsEmailAuthentication(true);
-      } else if (response.data.code == 606) {
-        setStartTimer(false);
-        setAuthCodeStatus("인증번호가 올바르지 않습니다.");
-      } else return;
-    });
+    instanceNonAuth
+      .post(`/auth/email/check`, authCodeReqData)
+      .then((response) => {
+        if (response.data.code == 200) {
+          setIsEmailAuthentication(true);
+          setStartTimer(false);
+          setAuthCodeStatus("이메일 인증이 완료되었습니다.");
+        } else if (response.data.code == 606) {
+          setStartTimer(false);
+          setAuthCodeStatus("인증번호가 올바르지 않습니다.");
+        } else return;
+      });
   };
 
   // 인증번호 타이머 - 3분 제한시간 설정
@@ -379,17 +389,24 @@ export default function SignupPage() {
                   )}
                 </div>
                 <button
-                  className="ml-[1vw] w-[5vw] text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-3 py-2.5 text-center"
+                  className={
+                    !isEmailAuthentication
+                      ? "ml-[1vw] w-[5vw] text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-3 py-2.5 text-center"
+                      : "w-[5vw] ml-[1vw] text-white bg-gray-300 shadow-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-3 py-2.5 text-center"
+                  }
                   type="button"
                   onClick={authCodeCheckRequest}
                 >
-                  확인
+                  {!isEmailAuthentication ? "확인" : "인증됨"}
                 </button>
-                <div>
-                  {authCodeStatus == "인증번호가 올바르지 않습니다." && (
-                    <ValidNO text={authCodeStatus} />
-                  )}
-                </div>
+              </div>
+              <div>
+                {authCodeStatus == "인증번호가 올바르지 않습니다." && (
+                  <ValidNO text={authCodeStatus} />
+                )}
+                {authCodeStatus == "이메일 인증이 완료되었습니다." && (
+                  <ValidOK text={authCodeStatus} />
+                )}
               </div>
             </div>
           )}

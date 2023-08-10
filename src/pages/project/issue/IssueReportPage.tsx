@@ -58,7 +58,7 @@ export default function IssueReportPage() {
   const [profileImage, setProfileImage] = useState<string>("");
   const [issueTag, setIssueTag] = useState<IssueType>(null);
   const [issueStatus, setIssueStatus] = useState<IssueStatus>(null);
-  const [editorData, setEditorDate] = useState<string>("");
+  const [editorData, setEditorData] = useState<string>("");
   const [commentList, setCommentList] = useState<IssueComment[]>([]);
   const [commentInputText, setCommentInputText] = useState<string>("");
 
@@ -88,12 +88,8 @@ export default function IssueReportPage() {
           setProfileImage(response.data.result.profileImage as string);
           setIssueTag(response.data.result.issueTag as IssueType);
           setIssueStatus(response.data.result.issueStatus as IssueStatus);
-          setEditorDate(editorRef.current?.getInstance().getHTML());
-          // setEditorDate(
-          //   "<strong>GPS 기반 설문조사</strong>: 이제 사용자들은 위치 기반 데이터를 설문조사에 활용할 수 있습니다. 설문조사 참가자들의 지리적 위치에 따른 응답을 분석하고 이를 바탕으로 더욱 구체적인 인사이트를 도출할 수 있습니다. <br><br><strong>지역 특성에 맞는 설문조사</strong>: GPS 기능을 활용해 특정 지역의 특성에 맞춘 설문조사를 진행할 수 있습니다. 이를 통해 지역별로 다른 문화나 관습, 선호도 등을 반영한 보다 정확한 데이터를 얻을 수 있습니다. <br><br><strong>실시간 위치</strong> 반영: 참가자의 동의 하에 실시간 위치 반영이 가능하며, 이를 통해 설문조사 결과에 대한 더욱 심층적인 분석이 가능합니다."
-          // );
+          setEditorData(response.data.result.reportContent);
           setCommentList(response.data.result.commentList as IssueComment[]);
-          // setCommentList(issueCommentList);
         } else {
           console.log("response after error");
           console.log(response.data);

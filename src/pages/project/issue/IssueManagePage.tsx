@@ -26,7 +26,7 @@ export default function IssueManagePage() {
   const [profileImage, setProfileImage] = useState<string>("");
   const [issueTag, setIssueTag] = useState<IssueType>(null);
   const [issueStatus, setIssueStatus] = useState<IssueStatus>(null);
-  const [editorData, setEditorDate] = useState<string>("");
+  const [editorData, setEditorData] = useState<string>("");
   const [issueEditForm, setIssueEditForm] = useState<boolean>(false);
 
   const editorRef = useRef<Editor>(null);
@@ -44,7 +44,7 @@ export default function IssueManagePage() {
   }, []);
 
   const handleEditorChange = () => {
-    setEditorDate(editorRef.current?.getInstance().getHTML());
+    setEditorData(editorRef.current?.getInstance().getHTML());
   };
 
   const issueManagerRequest = async () => {
@@ -63,8 +63,7 @@ export default function IssueManagePage() {
           setIsMine(response.data.result.mine as boolean);
           setManagerId(response.data.result.managerId as number);
           setIssueStatus(response.data.result.issueStatus as IssueStatus);
-          editorRef.current?.getInstance().setHTML(response.data.result.reportContent as string);
-          setEditorDate(editorRef.current?.getInstance().getHTML());
+          setEditorData(response.data.result.reportContent as string);
         } else {
           console.log("response after error");
         }
@@ -72,6 +71,10 @@ export default function IssueManagePage() {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    editorRef.current?.getInstance().setHTML(editorData);
+  }, [editorRef]);
 
   const issueDeleteRequest = async () => {
     instanceAuth
@@ -112,10 +115,9 @@ export default function IssueManagePage() {
         console.log(response.data);
         console.log(response.data.result);
         if (response.data.code == 200) {
-          editorRef.current
-            .getInstance()
+          editorRef.current?.getInstance()
             .setHTML(response.data.result.reportContent as string);
-          setEditorDate(editorRef.current.getInstance().getHTML());
+          setEditorData(editorRef.current.getInstance().getHTML());
         } else {
           console.log("response after error");
         }
@@ -202,6 +204,7 @@ export default function IssueManagePage() {
                 previewStyle="vertical"
                 height="500px"
                 initialEditType="wysiwyg"
+                initialValue={editorData}
                 useCommandShortcut={true}
                 hideModeSwitch={true}
                 language="ko-KR"
