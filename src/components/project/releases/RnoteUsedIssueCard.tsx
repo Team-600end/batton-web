@@ -14,7 +14,7 @@ type IssueUsedCardProps = {
 export default function RnoteUsedIssueCard(props: IssueUsedCardProps) {
   const handleDelete = () => {
     props.onDelClick(props.index);
-  }
+  };
 
   return (
     <div className="rounded-md font-suitM border border-gray-400 bg-gray-100 w-[15.5vw] h-[5vh] p-[0.7vw] mb-[0.6vw] shadow-sm flex items-center mx-auto">

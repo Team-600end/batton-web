@@ -12,7 +12,7 @@ import { instanceAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
-import CommonModal from "@src/components/commonModal";
+import CommonModal from "@src/components/CommonModal";
 
 export default function IssueBoardPage() {
   // TODO 이슈 리스트 상태관리

@@ -10,10 +10,15 @@ import { instanceAuth, instanceNonAuth } from "@typess/AxiosInterface";
 import { APIResponse } from "@src/types/ResponseInterface";
 import axios from "axios";
 // import { getCookie, setCookie } from "@src/state/tokenState";
-import { useCookies } from 'react-cookie';
+import { useCookies } from "react-cookie";
 import { getCookie } from "@src/state/tokenState";
-import { emailState, nicknameState, profileImgState } from "@src/state/userState";
+import {
+  emailState,
+  nicknameState,
+  profileImgState,
+} from "@src/state/userState";
 import { useRecoilState } from "recoil";
+import CommonModal from "@src/components/CommonModal";
 
 interface LoginData {
   email: string;
@@ -24,12 +29,14 @@ export default function LoginPage() {
   const navigate = useNavigate();
   const [email, setEmail] = useState(``);
   const [password, setPassword] = useState(``);
-  const [cookies, setCookie, removeCookie] = useCookies(['accessToken', 'refreshToken']);
-
+  const [cookies, setCookie, removeCookie] = useCookies([
+    "accessToken",
+    "refreshToken",
+  ]);
   const [userNickname, setUserNickname] = useRecoilState(nicknameState);
   const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
   const [userEmail, setUserEmaiil] = useRecoilState(emailState);
-
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -40,7 +47,7 @@ export default function LoginPage() {
   };
 
   const handleEnterPress = (e: React.KeyboardEvent<HTMLInputElement>) => {
-    if (e.key === 'Enter') {
+    if (e.key === "Enter") {
       loginRequest(); // Enter 입력이 되면 클릭 이벤트 실행
     }
   };
@@ -53,32 +60,33 @@ export default function LoginPage() {
 
     instanceNonAuth
       .post(`/auth/login`, loginData)
-      .then((response) =>  {
-        setCookie('accessToken', response.data.accessToken, {
-          path: `/`,
-        })
-        setCookie('refreshToken', response.data.refreshToken, {
-          path: `/`,
-        })
-        
-        instanceAuth.get(`/members`)
-        .then((response) => {
-          console.log("=====");
-          setUserEmaiil(response.data.result.email);
-          setUserNickname(response.data.result.nickname);
-          setUserProfileImg(response.data.result.profileImage);
-        })
-        .catch((error) => {
-          console.log(error);
-          alert(`정상적인 접근이 아닙니다`);
-        })
-        
-        alert("로그인 성공");
-        navigate(`/main`);
+      .then((response) => {
+        if (response.data.code == 200) {
+          setCookie("accessToken", response.data.accessToken, {
+            path: `/`,
+          });
+          setCookie("refreshToken", response.data.refreshToken, {
+            path: `/`,
+          });
+          instanceAuth
+            .get(`/members`)
+            .then((response) => {
+              console.log("=====");
+              setUserEmaiil(response.data.result.email);
+              setUserNickname(response.data.result.nickname);
+              setUserProfileImg(response.data.result.profileImage);
+            })
+            .catch((error) => {
+              console.log(error);
+              alert(`정상적인 접근이 아닙니다`);
+            });
+          alert("로그인 성공");
+          navigate(`/main`);
+        }
       })
       .catch((error) => {
         console.log(error);
-        alert("로그인 실패! - 수정필요");
+        setIsModalOpen(true);
       });
   };
 
@@ -131,6 +139,14 @@ export default function LoginPage() {
             로그인
           </button>
         </form>
+        {isModalOpen && (
+          <CommonModal
+            title="로그인 실패"
+            description="이메일 혹은 비밀번호가 일치하지 않습니다."
+            btnTitle="확인"
+            closeModal={() => setIsModalOpen(false)}
+          />
+        )}
         <hr className="w-[30vw] h-px bg-[#DBDBDB] border-0" />
         <button
           type="button"

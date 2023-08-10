@@ -20,6 +20,7 @@ export default function IssueManagePage() {
   const [issueTitle, setIssueTitle] = useState<string>("");
   const [issueKey, setIssueKey] = useState<number>(null);
   const [issueContent, setIssueContent] = useState<string>("");
+  const [managerId, setManagerId] = useState<number>(null);
   const [nickname, setNickname] = useState<string>("");
   const [isMine, setIsMine] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<string>("");
@@ -60,6 +61,7 @@ export default function IssueManagePage() {
           setProfileImage(response.data.result.profileImage as string);
           setIssueTag(response.data.result.issueTag as IssueType);
           setIsMine(response.data.result.mine as boolean);
+          setManagerId(response.data.result.managerId as number);
           setIssueStatus(response.data.result.issueStatus as IssueStatus);
           editorRef.current?.getInstance().setHTML(response.data.result.reportContent as string);
           setEditorDate(editorRef.current?.getInstance().getHTML());
@@ -140,7 +142,7 @@ export default function IssueManagePage() {
         </p>
       </div>
 
-      {issueEditForm ? <IssueInfoEditor issueId={Number(issueId)} issueStatus={issueStatus} issueContent={issueContent} issueTag={issueTag} profileImage={profileImage} nickname={nickname}/> : <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
+      {issueEditForm ? <IssueInfoEditor issueId={Number(issueId)} issueTitle={issueTitle} issueStatus={issueStatus} issueContent={issueContent} issueTag={issueTag} managerId={managerId} profileImage={profileImage} nickname={nickname} handleIssueEditForm={() => setIssueEditForm(false)}/> : <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
           <div className="ml-auto space-x-1">
