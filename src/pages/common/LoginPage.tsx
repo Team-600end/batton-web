@@ -7,13 +7,14 @@ import google_logo_img from "@assets/images/loginPage/google_logo.svg";
 import { useNavigate } from "react-router-dom";
 import useInput from "@src/hooks/useInput";
 import { instanceAuth, instanceNonAuth } from "@typess/AxiosInterface";
-import { APIResponse } from "@src/types/ResponseInterface";
-import axios from "axios";
-// import { getCookie, setCookie } from "@src/state/tokenState";
 import { useCookies } from "react-cookie";
-import { getCookie } from "@src/state/tokenState";
-import { emailState, nicknameState, profileImgState } from "@src/state/userState";
+import {
+  emailState,
+  nicknameState,
+  profileImgState,
+} from "@src/state/userState";
 import { useRecoilState } from "recoil";
+import CommonModal from "@src/components/CommonModal";
 
 interface LoginData {
   email: string;
@@ -29,11 +30,21 @@ type ValidOKProps = {
 };
 
 const ValidNO: React.FC<ValidNOProps> = ({ text }) => {
-  return <p style={{ color: "red", margin: "3px", padding: "0", fontSize: "10pt" }}>{text}</p>;
+  return (
+    <p style={{ color: "red", margin: "3px", padding: "0", fontSize: "10pt" }}>
+      {text}
+    </p>
+  );
 };
 
 const ValidOK: React.FC<ValidOKProps> = ({ text }) => {
-  return <p style={{ color: "green", margin: "3px", padding: "0", fontSize: "10pt" }}>{text}</p>;
+  return (
+    <p
+      style={{ color: "green", margin: "3px", padding: "0", fontSize: "10pt" }}
+    >
+      {text}
+    </p>
+  );
 };
 
 export default function LoginPage() {
@@ -42,11 +53,11 @@ export default function LoginPage() {
   const [email, setEmail] = useState(``);
   const [emailStatus, setEmailStatus] = useState("");
   const [password, setPassword] = useState(``);
-  const [cookies, setCookie, removeCookie] = useCookies(["accessToken", "refreshToken"]);
-
+  const [cookies, setCookie, removeCookie] = useCookies([ "accessToken", "refreshToken"]);
   const [userNickname, setUserNickname] = useRecoilState(nicknameState);
   const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
   const [userEmail, setUserEmaiil] = useRecoilState(emailState);
+  const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
     setEmail(e.target.value);
@@ -88,54 +99,68 @@ export default function LoginPage() {
     instanceNonAuth
       .post(`/auth/login`, loginData)
       .then((response) => {
-        setCookie("accessToken", response.data.accessToken, {
-          path: `/`,
-        });
-        setCookie("refreshToken", response.data.refreshToken, {
-          path: `/`,
-        });
-
-        instanceAuth
-          .get(`/members`)
-          .then((response) => {
-            console.log("=====");
-            setUserEmaiil(response.data.result.email);
-            setUserNickname(response.data.result.nickname);
-            setUserProfileImg(response.data.result.profileImage);
-          })
-          .catch((error) => {
-            console.log(error);
-            alert(`정상적인 접근이 아닙니다`);
+        console.log(response.data);
+        if (response.data.accessToken && response.data.accessTokenExpiredDate) {
+          setCookie("accessToken", response.data.accessToken, {
+            path: `/`,
           });
-
-        alert("로그인 성공");
-        navigate(`/main`);
+          setCookie("refreshToken", response.data.refreshToken, {
+            path: `/`,
+          });
+          instanceAuth
+            .get(`/members`)
+            .then((response) => {
+              console.log("=====");
+              setUserEmaiil(response.data.result.email);
+              setUserNickname(response.data.result.nickname);
+              setUserProfileImg(response.data.result.profileImage);
+            })
+            .catch((error) => {
+              console.log(error);
+              alert(`정상적인 접근이 아닙니다`);
+            });
+          navigate(`/main`);
+        }
       })
       .catch((error) => {
         console.log(error);
-        alert("로그인 실패! - 수정필요");
+        setIsModalOpen(true);
       });
   };
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
-      <img className="absolute z-0" src={login_lefthand_img} style={{ marginTop: "20vh", marginLeft: "-92vw" }} />
+      <img
+        className="absolute z-0"
+        src={login_lefthand_img}
+        style={{ marginTop: "20vh", marginLeft: "-92vw" }}
+      />
       <img className="relative z-10 mb-2" src={batton_logo_img} />
       <div className="flex flex-col space-y-6 relative z-10 items-center justify-center w-[38vw] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
         <form className="space-y-6 w-[30vw]">
           <h4 className="text-2xl font-suitM text-[black]">로그인</h4>
           <div>
-            <label className="block mb-2 text-sm font-suitM text-[black]">이메일</label>
+            <label className="block mb-2 text-sm font-suitM text-[black]">
+              이메일
+            </label>
             <input
               type="text"
               onChange={onChangeEmail}
               onKeyDown={handleEnterPress}
               className="bg-gray-50 border border-gray-300 text-[black] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             />
-            <div>{emailStatus == "사용 가능한 이메일입니다." ? <ValidOK text="" /> : <ValidNO text={emailStatus} />}</div>
+            <div>
+              {emailStatus == "사용 가능한 이메일입니다." ? (
+                <ValidOK text="" />
+              ) : (
+                <ValidNO text={emailStatus} />
+              )}
+            </div>
           </div>
           <div>
-            <label className="block mb-2 text-sm font-suitM text-[black] dark:text-white">비밀번호</label>
+            <label className="block mb-2 text-sm font-suitM text-[black] dark:text-white">
+              비밀번호
+            </label>
             <input
               type="password"
               onChange={onChangePassword}
@@ -144,7 +169,10 @@ export default function LoginPage() {
             />
           </div>
           <div className="flex items-start">
-            <a href="#" className="ml-auto text-sm font-suitM text-[#1C64F2] hover:underline">
+            <a
+              href="#"
+              className="ml-auto text-sm font-suitM text-[#1C64F2] hover:underline"
+            >
               비밀번호 찾기
             </a>
           </div>
@@ -156,6 +184,14 @@ export default function LoginPage() {
             로그인
           </button>
         </form>
+        {isModalOpen && (
+          <CommonModal
+            title="로그인 실패"
+            description="이메일 혹은 비밀번호가 일치하지 않습니다."
+            btnTitle="확인"
+            closeModal={() => setIsModalOpen(false)}
+          />
+        )}
         <hr className="w-[30vw] h-px bg-[#DBDBDB] border-0" />
         <button
           type="button"
@@ -171,12 +207,20 @@ export default function LoginPage() {
         </button>
         <div className="text-sm font-suitM text-gray-400">
           계정이 없으신가요?{" "}
-          <button onClick={() => navigate(`/signup`)} type="button" className="text-[#1C64F2] font-suitM hover:underline ml-[1vw]">
+          <button
+            onClick={() => navigate(`/signup`)}
+            type="button"
+            className="text-[#1C64F2] font-suitM hover:underline ml-[1vw]"
+          >
             회원가입 하기
           </button>
         </div>
       </div>
-      <img className="absolute z-0" src={login_righthand_img} style={{ marginRight: "-70vw" }} />
+      <img
+        className="absolute z-0"
+        src={login_righthand_img}
+        style={{ marginRight: "-70vw" }}
+      />
     </div>
   );
 }

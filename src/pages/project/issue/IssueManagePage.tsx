@@ -20,12 +20,13 @@ export default function IssueManagePage() {
   const [issueTitle, setIssueTitle] = useState<string>("");
   const [issueKey, setIssueKey] = useState<number>(null);
   const [issueContent, setIssueContent] = useState<string>("");
+  const [managerId, setManagerId] = useState<number>(null);
   const [nickname, setNickname] = useState<string>("");
   const [isMine, setIsMine] = useState<boolean>(false);
   const [profileImage, setProfileImage] = useState<string>("");
   const [issueTag, setIssueTag] = useState<IssueType>(null);
   const [issueStatus, setIssueStatus] = useState<IssueStatus>(null);
-  const [editorData, setEditorDate] = useState<string>("");
+  const [editorData, setEditorData] = useState<string>("");
   const [issueEditForm, setIssueEditForm] = useState<boolean>(false);
 
   const editorRef = useRef<Editor>(null);
@@ -43,7 +44,7 @@ export default function IssueManagePage() {
   }, []);
 
   const handleEditorChange = () => {
-    setEditorDate(editorRef.current?.getInstance().getHTML());
+    setEditorData(editorRef.current?.getInstance().getHTML());
   };
 
   const issueManagerRequest = async () => {
@@ -60,9 +61,9 @@ export default function IssueManagePage() {
           setProfileImage(response.data.result.profileImage as string);
           setIssueTag(response.data.result.issueTag as IssueType);
           setIsMine(response.data.result.mine as boolean);
+          setManagerId(response.data.result.managerId as number);
           setIssueStatus(response.data.result.issueStatus as IssueStatus);
-          editorRef.current?.getInstance().setHTML(response.data.result.reportContent as string);
-          setEditorDate(editorRef.current?.getInstance().getHTML());
+          setEditorData(response.data.result.reportContent as string);
         } else {
           console.log("response after error");
         }
@@ -70,6 +71,10 @@ export default function IssueManagePage() {
         console.log(error);
       });
   };
+
+  useEffect(() => {
+    editorRef.current?.getInstance().setHTML(editorData);
+  }, [editorRef]);
 
   const issueDeleteRequest = async () => {
     instanceAuth
@@ -110,10 +115,9 @@ export default function IssueManagePage() {
         console.log(response.data);
         console.log(response.data.result);
         if (response.data.code == 200) {
-          editorRef.current
-            .getInstance()
+          editorRef.current?.getInstance()
             .setHTML(response.data.result.reportContent as string);
-          setEditorDate(editorRef.current.getInstance().getHTML());
+          setEditorData(editorRef.current.getInstance().getHTML());
         } else {
           console.log("response after error");
         }
@@ -140,7 +144,7 @@ export default function IssueManagePage() {
         </p>
       </div>
 
-      {issueEditForm ? <IssueInfoEditor issueId={Number(issueId)} issueStatus={issueStatus} issueContent={issueContent} issueTag={issueTag} profileImage={profileImage} nickname={nickname}/> : <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
+      {issueEditForm ? <IssueInfoEditor issueId={Number(issueId)} issueTitle={issueTitle} issueStatus={issueStatus} issueContent={issueContent} issueTag={issueTag} managerId={managerId} profileImage={profileImage} nickname={nickname} handleIssueEditForm={() => setIssueEditForm(false)}/> : <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
           <div className="ml-auto space-x-1">
@@ -200,6 +204,7 @@ export default function IssueManagePage() {
                 previewStyle="vertical"
                 height="500px"
                 initialEditType="wysiwyg"
+                initialValue={editorData}
                 useCommandShortcut={true}
                 hideModeSwitch={true}
                 language="ko-KR"

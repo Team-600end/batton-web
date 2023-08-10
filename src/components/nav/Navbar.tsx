@@ -1,4 +1,4 @@
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import batton_logo_img from "@images/common/batton_logo_medium.svg";
 import Notice from "@components/nav/NoticeNavbar";
 import { useLocation, useNavigate } from "react-router-dom";
@@ -16,6 +16,7 @@ import default_profile_img from "@images/common/default_profile.svg";
 import { instanceAuth } from "@src/types/AxiosInterface";
 import { useCookies } from "react-cookie";
 import { emailState, nicknameState, profileImgState } from "@src/state/userState";
+import { ConnectRabbit } from "@src/ConnectRabbit";
 
 export default function Navbar() {
   const [projects, setProjects] = useRecoilState(projectNavs);
@@ -23,6 +24,7 @@ export default function Navbar() {
   const [profileDd, setProfileDd] = useRecoilState(navbarProfileDd);
   const [noticeDd, setNoticeDd] = useRecoilState(navbarNoticeDd);
 
+  const [memberId, setMemberId] = useState(0);
   const [userNickname, setUserNickname] = useRecoilState(nicknameState);
   const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
   const [userEmail, setUserEmaiil] = useRecoilState(emailState);
@@ -34,17 +36,6 @@ export default function Navbar() {
   const outside = useRef<HTMLDivElement>(null);
 
   const [cookies, setCookie ,removeCookie] = useCookies(['accessToken', 'refreshToken']);
-
-  
-  // const userProjectNav: ProjectNav[] = [
-  //   {
-  //     id: 1,
-  //     projectKey: "dktechin",
-  //     projectTitle: "dktechin",
-  //     grade: "Member",
-  //     logo: dk_logo,
-  //   }
-  // ];
 
   useEffect(() => {
     navPjRequest();
@@ -68,6 +59,24 @@ export default function Navbar() {
         console.log(error);
       })
   };
+
+  const getMemberId = async () => {
+    instanceAuth
+    .get(`/members/id`)
+    .then((response) => {
+      console.log(response.data);
+      if (response.data.code == 200) {
+        setMemberId(response.data.result.memberId);
+      }
+    })
+    .catch((error) => {
+      console.log(error);
+    })
+  }
+
+  useEffect(() => {
+    getMemberId();
+  }, []);
 
   const handleProjectDd = () => {
     setProjectDd(!projectDd);
@@ -105,6 +114,7 @@ export default function Navbar() {
         }
       }}
     >
+      {memberId !== 0 && <ConnectRabbit memberId={memberId} />}
       <div className="flex items-center p-4">
         <button
           className="flex items-center flex-1"

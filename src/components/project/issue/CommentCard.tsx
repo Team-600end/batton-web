@@ -21,7 +21,7 @@ export default function CommentCard(props: CommentCardProps) {
           }
           className="h-[1.7vw] mr-3"
         />
-        {props.issueComment.memberGrade == "LEADER" && <img className="w-[1vw] h-[1vw]" src={grade_master_logo} />}
+        {props.issueComment.memberGrade == "LEADER" && <img className="w-[1vw] h-[1vw] mr-[0.2vw]" src={grade_master_logo} />}
         <p className="items-center mr-3 text-sm font-suitM text-gray-900">
           {props.issueComment.nickname}
         </p>

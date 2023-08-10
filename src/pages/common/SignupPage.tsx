@@ -2,39 +2,69 @@ import React, { useState, useCallback, useEffect } from "react";
 import signup_hand_image from "@assets/images/signupPage/signup_hand3.svg";
 import batton_logo_img from "@images/common/batton_logo_big.svg";
 import { useNavigate } from "react-router-dom";
-import { instanceNonAuth } from "@src/types/AxiosInterface";
+import { instanceAuth, instanceNonAuth } from "@src/types/AxiosInterface";
 import useInput from "@src/hooks/useInput";
-// import styled from "styled-components";
+import Modal, { CommonModalInterface } from "@src/components/CommonModal";
 
-// const ValidOK = styled.p`
-//   color: green;
-//   margin: 3px;
-//   padding: 0;
-//   font-size: 5pt;
-// `;
+interface SignupData {
+  email: string;
+  authCode: string;
+  nickname: string;
+  password: string;
+  checkPassword: string;
+}
 
-// const ValidNO = styled.p`
-//   color: red;
-//   margin: 3px;
-//   padding: 0;
-//   font-size: 5pt;
-// `;
+interface EmailReq {
+  email: string;
+}
 
 export default function SignupPage() {
-  //검증 코드
+  // 이메일 및 비밀번호 정규식 모음
   const emailRegex = /\S+@\S+\.\S+/;
-  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!~*])[A-Za-z\d!~*]{8,15}$/;
+  const passwordRegex =
+    /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!~*])[A-Za-z\d!~*]{8,15}$/;
 
-  const [email, , setEmail] = useInput("");
+  /** 이메일 입력 상태관리 */
+  const [email, , setEmail] = useInput<string>("");
+  /** 닉네임 입력 상태관리 */
   const [nickname, , setNickname] = useInput("");
+  /** 비밀번호 입력 상태관리 */
   const [password, , setPassword] = useInput("");
+  // 비밀번호확인 입력 상태관리
   const [checkPassword, , setCheckPassword] = useInput("");
-  const [authCode, setAuthCode] = useState("");
+  // 인증번호 입력 상태관리
+  const [authCode, setAuthCode] = useState<string>("");
 
+  // 이메일 인증번호 폼 flag 변수 상태관리
+  const [isEnableAuthForm, setIsEnableAuthForm] = useState(false);
+  // 타이머 작동 flag 변수 상태관리
+  const [startTimer, setStartTimer] = useState(false);
+  /** 이메일 인증 여부 상태관리 */
+  const [isEmailAuthentication, setIsEmailAuthentication] = useState(false);
+  // 닉네임 안내메세지 상태관리
   const [nicknameStatus, setNicknameStatus] = useState("");
+  // 이메일 안내메시지 상태관리
   const [emailStatus, setEmailStatus] = useState("");
+  /** 이메일 인증 안내메시지 상태관리 */
+  const [authCodeStatus, setAuthCodeStatus] = useState("");
+  // 비밀번호 안내메세지 상태관리
   const [passwordStatus, setPasswordStatus] = useState("");
+  // 비밀번호 확인 안내메시지 상태관리
   const [checkPasswordStatus, setCheckPasswordStatus] = useState("");
+
+  // CommonModal 표시
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  // CommonModal Data
+  const [modalData, setModalData] = useState<CommonModalInterface>({
+    title: "",
+    description: "",
+    btnTitle: "",
+    closeModal: () => {},
+  });
+
+  // 인증코드 타이머 상태관리 - 3분 설정
+  const [minutes, setMinutes] = useState<number>(3);
+  const [seconds, setSeconds] = useState<number>(0);
 
   const navigate = useNavigate();
   type ValidNOProps = {
@@ -46,42 +76,30 @@ export default function SignupPage() {
   };
 
   const ValidNO: React.FC<ValidNOProps> = ({ text }) => {
-    return <p style={{ color: "red", margin: "3px", padding: "0", fontSize: "10pt" }}>{text}</p>;
+    return (
+      <p
+        style={{ color: "red", margin: "3px", padding: "0", fontSize: "10pt" }}
+      >
+        {text}
+      </p>
+    );
   };
 
   const ValidOK: React.FC<ValidOKProps> = ({ text }) => {
-    return <p style={{ color: "green", margin: "3px", padding: "0", fontSize: "10pt" }}>{text}</p>;
+    return (
+      <p
+        style={{
+          color: "green",
+          margin: "3px",
+          padding: "0",
+          fontSize: "10pt",
+        }}
+      >
+        {text}
+      </p>
+    );
   };
 
-  interface SignupData {
-    email: string;
-    authCode: string;
-    nickname: string;
-    password: string;
-    checkPassword: string;
-  }
-
-  interface EmailReq {
-    email: string;
-  }
-
-  // const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setEmail(e.target.value);
-  // };
-
-  // const onChangeNickname = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setNickname(e.target.value);
-  // };
-
-  // const onChangePassword = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setPassword(e.target.value);
-  //   // 비밀번호 재확인 관련 추가 필요.
-  // };
-
-  // const onChangePasswordCheck = (e: React.ChangeEvent<HTMLInputElement>) => {
-  //   setCheckPassword(e.target.value);
-  //   // 비밀번호 재확인 관련 추가 필요.
-  // };
   const onChangeEmail = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
       setEmail(e.target.value);
@@ -91,6 +109,7 @@ export default function SignupPage() {
 
   const onChangeAuthCode = useCallback(
     (e: React.ChangeEvent<HTMLInputElement>) => {
+      e.target.value = e.target.value.replace(/[^0-9]/g, "");
       setAuthCode(e.target.value);
     },
     [authCode]
@@ -145,7 +164,9 @@ export default function SignupPage() {
     if (password === "") {
       setPasswordStatus("");
     } else if (!passwordRegex.test(password)) {
-      setPasswordStatus("8~15자의 영문, 숫자, 특수문자(!, ~, *)를 입력해야합니다.");
+      setPasswordStatus(
+        "8~15자의 영문, 숫자, 특수문자(!, ~, *)를 입력해야합니다."
+      );
     } else {
       setPasswordStatus("사용 가능한 비밀번호입니다.");
     }
@@ -176,7 +197,9 @@ export default function SignupPage() {
     //가능한 비밀번호 예시: kafeine1~!
     // 비밀번호 필드 검증
     if (!passwordRegex.test(password)) {
-      alert("비밀번호는 8~15자의 영문, 숫자, 특수문자(!, ~, *)를 혼합해야 합니다.");
+      alert(
+        "비밀번호는 8~15자의 영문, 숫자, 특수문자(!, ~, *)를 혼합해야 합니다."
+      );
       return;
     }
 
@@ -208,20 +231,78 @@ export default function SignupPage() {
     }
   };
 
+  /** 이메일 중복 검사 및 인증코드 발송 요청 */
   const emailCheck = async () => {
+    if (!emailRegex.test(email)) {
+      return;
+    }
+
+    if (!isEnableAuthForm) {
+      setIsEnableAuthForm(true);
+    } else {
+      return;
+    }
+
     const emailReq: EmailReq = {
-      email: email
+      email: email,
     };
 
     instanceNonAuth
-    .post(`/auth/email`, emailReq)
-    .then(() => {
-      alert("인증 코드가 발송되었습니다.")
-    })
-    .catch((error) => {
-      console.log(error);
-    });
-  }
+      .post(`/auth/email`, emailReq)
+      .then((response) => {
+        if (response.data.code == 200) {
+          setStartTimer(true);
+        } else if (response.data.code == 601) {
+          setEmailStatus("이미 가입된 이메일입니다.");
+        } else return;
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
+
+  const authCodeCheckRequest = async () => {
+    if (isEmailAuthentication) {
+      return;
+    }
+
+    const authCodeReqData = {
+      email: email,
+      authCode: authCode,
+    };
+    instanceNonAuth
+      .post(`/auth/email/check`, authCodeReqData)
+      .then((response) => {
+        if (response.data.code == 200) {
+          setIsEmailAuthentication(true);
+          setStartTimer(false);
+          setAuthCodeStatus("이메일 인증이 완료되었습니다.");
+        } else if (response.data.code == 606) {
+          setStartTimer(false);
+          setAuthCodeStatus("인증번호가 올바르지 않습니다.");
+        } else return;
+      });
+  };
+
+  // 인증번호 타이머 - 3분 제한시간 설정
+  useEffect(() => {
+    let countdown;
+
+    if (startTimer && (minutes > 0 || seconds > 0)) {
+      countdown = setInterval(() => {
+        if (seconds > 0) {
+          setSeconds(seconds - 1);
+        } else {
+          if (minutes > 0) {
+            setMinutes(minutes - 1);
+            setSeconds(59);
+          }
+        }
+      }, 1000);
+    }
+
+    return () => clearInterval(countdown);
+  }, [startTimer, minutes, seconds]);
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
@@ -232,43 +313,109 @@ export default function SignupPage() {
       />
       <img className="relative z-10 mb-4" src={batton_logo_img} />
       <div className="flex flex-col space-y-6 relative z-10 items-center justify-center w-[38vw] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
+        {isModalOpen && (
+          <Modal
+            title={modalData.title}
+            description={modalData.description}
+            btnTitle={modalData.btnTitle}
+            closeModal={() => setIsModalOpen(false)}
+          />
+        )}
         <form className="space-y-6 w-[30vw]">
           <h4 className="text-2xl font-suitM text-gray-900">회원가입</h4>
           <div>
-            <label id="email" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
+            <label
+              id="email"
+              className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white"
+            >
               이메일
             </label>
             <div className="flex">
-            <input
-              type="text"
-              value={email}
-              onChange={onChangeEmail}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="이메일을 입력하세요"
-            />
-            <button className="w-[130px] ml-[10px] text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-3 py-2.5 text-center"
-            type="button"
-            onClick={emailCheck}>
-              이메일 인증
-            </button>
+              <input
+                type="text"
+                value={email}
+                onChange={onChangeEmail}
+                className={
+                  !isEnableAuthForm
+                    ? "bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:border-gray-300 focus:ring-0"
+                    : "bg-gray-50 border border-gray-300 text-gray-400 text-sm rounded-lg block w-full p-2.5 focus:outline-none focus:border-gray-300 focus:ring-0"
+                }
+                placeholder="이메일을 입력하세요"
+                readOnly={isEnableAuthForm}
+              />
+              <button
+                className={
+                  !isEnableAuthForm
+                    ? "w-[130px] ml-[10px] text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:outline-none focus:ring-0 font-suitM rounded-lg text-sm px-3 py-2.5 text-center"
+                    : "w-[130px] ml-[10px] text-white bg-gray-300 shadow-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-3 py-2.5 text-center"
+                }
+                type="button"
+                onClick={emailCheck}
+              >
+                {!isEnableAuthForm ? "이메일 인증" : "메일 발송됨"}
+              </button>
+            </div>
+            <div>
+              {emailStatus == "사용 가능한 이메일입니다." ? (
+                <ValidOK text={emailStatus} />
+              ) : (
+                <ValidNO text={emailStatus} />
+              )}
+            </div>
           </div>
-          <div>{emailStatus == "사용 가능한 이메일입니다." ? <ValidOK text={emailStatus} /> : <ValidNO text={emailStatus} />}</div>
-          </div>
+          {isEnableAuthForm && (
+            <div>
+              <label
+                id="email"
+                className="block mb-1 text-sm font-suitM text-gray-900"
+              >
+                이메일 인증번호
+              </label>
+              <div className="flex flex-row">
+                <div className="w-[24vw] bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-300 focus:ring-0 flex py-2.5">
+                  <input
+                    type="text"
+                    value={authCode}
+                    onChange={onChangeAuthCode}
+                    maxLength={10}
+                    className="w-[18vw] h-[2vh] bg-gray-50 border-none text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-50 focus:ring-0 p-2.5"
+                    placeholder="이메일 인증 코드를 입력하세요"
+                  />
+                  {/* 인증 유효 시간 표시 */}
+                  {startTimer && (
+                    <p className="font-suitM text-[1.8vh] text-primary-4 ml-auto mr-[1vw]">
+                      {minutes}:{seconds < 10 ? `0${seconds}` : seconds}
+                    </p>
+                  )}
+                </div>
+                <button
+                  className={
+                    !isEmailAuthentication
+                      ? "ml-[1vw] w-[5vw] text-white bg-[#5AAE8A] shadow-md hover:bg-[#285F43] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-3 py-2.5 text-center"
+                      : "w-[5vw] ml-[1vw] text-white bg-gray-300 shadow-md hover:bg-gray-200 focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-3 py-2.5 text-center"
+                  }
+                  type="button"
+                  onClick={authCodeCheckRequest}
+                >
+                  {!isEmailAuthentication ? "확인" : "인증됨"}
+                </button>
+              </div>
+              <div>
+                {authCodeStatus == "인증번호가 올바르지 않습니다." && (
+                  <ValidNO text={authCodeStatus} />
+                )}
+                {authCodeStatus == "이메일 인증이 완료되었습니다." && (
+                  <ValidOK text={authCodeStatus} />
+                )}
+              </div>
+            </div>
+          )}
+
           <div>
-          <label id="email" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
-              인증번호
-            </label>
-            <input
-              type="text"
-              value={authCode}
-              onChange={onChangeAuthCode}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
-              placeholder="이메일 인증 코드를 입력하세요"
-            />
-            <div></div>
-          </div>
-          <div>
-            <label id="nickname" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
+            <label
+              id="nickname"
+              className="block mb-1 text-sm font-suitM text-gray-900"
+            >
               닉네임
             </label>
             <input
@@ -277,10 +424,19 @@ export default function SignupPage() {
               placeholder="닉네임을 입력하세요"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             />
-            <div>{nicknameStatus == "사용 가능한 닉네임입니다." ? <ValidOK text={nicknameStatus} /> : <ValidNO text={nicknameStatus} />}</div>
+            <div>
+              {nicknameStatus == "사용 가능한 닉네임입니다." ? (
+                <ValidOK text={nicknameStatus} />
+              ) : (
+                <ValidNO text={nicknameStatus} />
+              )}
+            </div>
           </div>
           <div>
-            <label id="password" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
+            <label
+              id="password"
+              className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white"
+            >
               비밀번호
             </label>
             <input
@@ -289,10 +445,19 @@ export default function SignupPage() {
               placeholder="비밀번호를 입력하세요"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             />
-            <div>{passwordStatus == "사용 가능한 비밀번호입니다." ? <ValidOK text={passwordStatus} /> : <ValidNO text={passwordStatus} />}</div>
+            <div>
+              {passwordStatus == "사용 가능한 비밀번호입니다." ? (
+                <ValidOK text={passwordStatus} />
+              ) : (
+                <ValidNO text={passwordStatus} />
+              )}
+            </div>
           </div>
-          <div className="pb-[3vh]">
-            <label id="password-check" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
+          <div className="pb-[2vh]">
+            <label
+              id="password-check"
+              className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white"
+            >
               비밀번호 확인
             </label>
             <input
@@ -302,7 +467,13 @@ export default function SignupPage() {
               placeholder="비밀번호를 재입력 하세요"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
             />
-            <div>{checkPasswordStatus == "비밀번호가 일치합니다." ? <ValidOK text={checkPasswordStatus} /> : <ValidNO text={checkPasswordStatus} />}</div>
+            <div>
+              {checkPasswordStatus == "비밀번호가 일치합니다." ? (
+                <ValidOK text={checkPasswordStatus} />
+              ) : (
+                <ValidNO text={checkPasswordStatus} />
+              )}
+            </div>
           </div>
           <button
             onClick={signupRequest}

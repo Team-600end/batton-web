@@ -59,12 +59,12 @@ export default function CreatePjPage() {
     navigate(-1); // 이전 페이지로 이동
   };
 
-  const onTitleChangeHandler = (e) => {
+  const onTitleChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setPjTitle(e.target.value);
     setTitleInputCount(e.target.value.length);
   };
 
-  const onKeyChangeHandler = (e) => {
+  const onKeyChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, "");
     setPjKey(e.target.value);
     setKeyInputCount(e.target.value.length);
@@ -72,12 +72,12 @@ export default function CreatePjPage() {
     if (e.target.value == "") setKeyChecked(-1);
   };
 
-  const onContentChangeHandler = (e) => {
+  const onContentChangeHandler = (e: React.ChangeEvent<HTMLTextAreaElement>) => {
     setPjContent(e.target.value);
     setContentInputCount(e.target.value.length);
   };
 
-  const onFindByEmailChangeHandler = (e) => {
+  const onFindByEmailChangeHandler = (e: React.ChangeEvent<HTMLInputElement>) => {
     setFindByEmail(e.target.value);
   };
 
