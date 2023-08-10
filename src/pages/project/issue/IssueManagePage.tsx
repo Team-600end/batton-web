@@ -67,7 +67,8 @@ export default function IssueManagePage() {
         } else {
           console.log("response after error");
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
       });
   };
@@ -87,10 +88,11 @@ export default function IssueManagePage() {
         } else {
           console.log("response after error");
         }
-      }).catch((error) => {
+      })
+      .catch((error) => {
         console.log(error);
       });
-  }
+  };
 
   const issueReportPatchRequest = async () => {
     instanceAuth
@@ -112,10 +114,9 @@ export default function IssueManagePage() {
     instanceAuth
       .get(`/reports/${issueId}`)
       .then((response) => {
-        console.log(response.data);
-        console.log(response.data.result);
         if (response.data.code == 200) {
-          editorRef.current?.getInstance()
+          editorRef.current
+            ?.getInstance()
             .setHTML(response.data.result.reportContent as string);
           setEditorData(editorRef.current.getInstance().getHTML());
         } else {
@@ -127,68 +128,105 @@ export default function IssueManagePage() {
       });
   };
 
+  const issueInfoEditFetch = async () => {
+    instanceAuth
+      .get(`/issues/${issueId}/fetch`)
+      .then((response) => {
+        if (response.data.code == 200) {
+          setIssueTitle(response.data.result.issueTitle);
+          setIssueContent(response.data.result.issueContent);
+          setIssueTag(response.data.result.issueTag);
+          setManagerId(response.data.result.managerId);
+          setNickname(response.data.result.nickname);
+          setProfileImage(response.data.result.profileImage);
+          setIsMine(response.data.result.isMine);
+        } else {
+          console.log("response after error");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      })
+  };
+
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
       <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[60vw]">
         <div className="flex justify-start">
           <p className="font-suitB text-[2vw] text-gray-900 jusitfy-start">
-            [{pj.projectTitle}-{issueKey}] {issueTitle}
+            [{pj.projectTitle}-{issueKey}]
+            {!issueEditForm ? ` ${issueTitle}` : ``}
           </p>
         </div>
       </div>
 
       <div className="flex flex-col mr-auto ml-auto w-[50vw] mt-[5vh]">
         <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          이슈 정보
+          이슈 정보 {issueEditForm ? `수정` : ``}
         </p>
       </div>
 
-      {issueEditForm ? <IssueInfoEditor issueId={Number(issueId)} issueTitle={issueTitle} issueStatus={issueStatus} issueContent={issueContent} issueTag={issueTag} managerId={managerId} profileImage={profileImage} nickname={nickname} handleIssueEditForm={() => setIssueEditForm(false)}/> : <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
-        <div className="flex">
-          <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
-          <div className="ml-auto space-x-1">
-            <IssueStatusBadge issueStatus={issueStatus} />
+      {issueEditForm ? (
+        <IssueInfoEditor
+          issueId={Number(issueId)}
+          issueTitle={issueTitle}
+          issueStatus={issueStatus}
+          issueContent={issueContent}
+          issueTag={issueTag}
+          managerId={managerId}
+          profileImage={profileImage}
+          nickname={nickname}
+          handleIssueEditForm={() => setIssueEditForm(false)}
+          handleIssueInfoChange={issueInfoEditFetch}
+        />
+      ) : (
+        <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
+          <div className="flex">
+            <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
+            <div className="ml-auto space-x-1">
+              <IssueStatusBadge issueStatus={issueStatus} />
+            </div>
           </div>
-        </div>
-        <div className="flex">
-          <p className="font-suitM text-[1.4vw] text-gray-900">설명</p>
-          <p className="font-suitM text-[1vw] text-gray-900 ml-auto my-auto">
-            {issueContent}
-          </p>
-        </div>
-        <div className="flex">
-          <p className="font-suitM text-[1.4vw] text-gray-900">태그</p>
-          <div className="ml-auto my-auto">
-            <IssueBadge issueType={issueTag} />
-          </div>
-        </div>
-        <div className="flex">
-          <p className="font-suitM text-[1.4vw] text-gray-900">담당자</p>
-          <div className="flex flex-row ml-auto my-auto">
-            <img className="w-8 h-8 mr-3.5" src={profile_img} />
-            <p className="font-suitM text-[1vw] text-gray-900 mt-1">
-              {nickname}
+          <div className="flex">
+            <p className="font-suitM text-[1.4vw] text-gray-900">설명</p>
+            <p className="font-suitM text-[1vw] text-gray-900 ml-auto my-auto">
+              {issueContent}
             </p>
           </div>
+          <div className="flex">
+            <p className="font-suitM text-[1.4vw] text-gray-900">태그</p>
+            <div className="ml-auto my-auto">
+              <IssueBadge issueType={issueTag} />
+            </div>
+          </div>
+          <div className="flex">
+            <p className="font-suitM text-[1.4vw] text-gray-900">담당자</p>
+            <div className="flex flex-row ml-auto my-auto">
+              <img className="w-8 h-8 mr-3.5" src={profile_img} />
+              <p className="font-suitM text-[1vw] text-gray-900 mt-1">
+                {nickname}
+              </p>
+            </div>
+          </div>
+          <div className="mx-auto w-[50vw] flex flex-row pt-[5vh]">
+            <button
+              type="button"
+              onClick={issueDeleteRequest}
+              className="h-[5vh] border border-error-3 text-error-3 bg-white hover:bg-error-4 font-suitM rounded-lg text-sm py-2.5 items-center mr-[1vw] w-[6vw] ml-auto"
+            >
+              이슈 삭제
+            </button>
+            <button
+              type="button"
+              onClick={() => setIssueEditForm(true)}
+              className="h-[5vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm py-2.5 items-center w-[6vw] mr-[10vw]"
+            >
+              이슈 수정
+            </button>
+          </div>
         </div>
-        <div className="mx-auto w-[50vw] flex flex-row pt-[5vh]">
-          <button
-            type="button"
-            onClick={issueDeleteRequest}
-            className="h-[5vh] border border-error-3 text-error-3 bg-white hover:bg-error-4 font-suitM rounded-lg text-sm py-2.5 items-center mr-[1vw] w-[6vw] ml-auto"
-          >
-            이슈 삭제
-          </button>
-          <button
-            type="button"
-            onClick={() => setIssueEditForm(true)}
-            className="h-[5vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm py-2.5 items-center w-[6vw] mr-[10vw]"
-          >
-            이슈 수정
-          </button>
-        </div>
-      </div>}
+      )}
 
       {isMine && (
         <div>
@@ -262,7 +300,7 @@ export default function IssueManagePage() {
             바톤 넘겨주기
           </p>
           <p className="text-[1.6vh] font-suitL text-gray-400 ml-[2vw] mt-[2vh]">
-            이슈 알림을 받을 멤버를 선택하세요.
+            이슈 알림을 받을 멤버를 선택하실 수 있습니다.
           </p>
         </div>
       </div>

@@ -14,6 +14,7 @@ type IssueUsedCardProps = {
 export default function RnoteUsedIssueCard(props: IssueUsedCardProps) {
   const handleDelete = () => {
     props.onDelClick(props.index);
+    console.log("===== 삭제 요청 =====> " + props.index);
   };
 
   return (

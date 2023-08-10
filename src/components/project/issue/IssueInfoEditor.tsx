@@ -16,6 +16,7 @@ type IssueInfoEditorProps = {
   profileImage?: string;
   nickname?: string;
   handleIssueEditForm: () => void;
+  handleIssueInfoChange: () => void;
 };
 
 interface IssueInfoEditorData {
@@ -61,8 +62,12 @@ export default function IssueInfoEditor(props: IssueInfoEditorProps) {
     props.handleIssueEditForm();
   };
 
+  const handleIssueInfoChange = () => {
+    props.handleIssueInfoChange();
+  }
 
-  // 변경사항 렌더링 확인해야됨. 꼭 확인. 삭제 필요. 확인. 삭제.
+
+  // 변경사항 렌더링이 안됨. fetch 필요.............
   const issueInfoEditRequest = async () => {
     const issueInfoEditorData: IssueInfoEditorData = {
       issueTitle: issueTitleInput,
@@ -77,6 +82,7 @@ export default function IssueInfoEditor(props: IssueInfoEditorProps) {
       console.log(response.data);
       console.log(response.data.result);
       if (response.data.code == 200) {
+        handleIssueInfoChange();
         handleIssueEditForm();
       } else {
         console.log("response after error");
@@ -89,12 +95,6 @@ export default function IssueInfoEditor(props: IssueInfoEditorProps) {
       <div className="flex">
         <p className="font-suitM text-[1.4vw] text-gray-900">제목</p>
         <input value={issueTitleInput} onChange={handleIssueTitleInput} type="text" className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block focus:border-gray-300 focus:ring-0 ml-auto my-auto w-[27vw] resize-none" />
-      </div>
-      <div className="flex">
-        <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
-        <div className="ml-auto space-x-1">
-          <IssueStatusBadge issueStatus={props.issueStatus} />
-        </div>
       </div>
       <div className="flex">
         <p className="font-suitM text-[1.4vw] text-gray-900">설명</p>
