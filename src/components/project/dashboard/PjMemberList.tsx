@@ -25,7 +25,7 @@ export default function PjMemberList() {
   const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   useEffect(() => {
-    async () => {
+    (async () => {
       instanceAuth
         .get(`/belongs/list/${pj.projectId}`)
         .then((response) => {
@@ -39,7 +39,7 @@ export default function PjMemberList() {
         .catch((error) => {
           console.log(error);
         });
-    };
+    })();
   }, []);
   return (
     <>

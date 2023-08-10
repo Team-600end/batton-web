@@ -123,7 +123,7 @@ export default function MainPage() {
         });
 
       //메인페이지 접속 시, 내 이슈들을 가져옴
-      instanceAuth.get(`/issues/list`).then((response) => {
+      instanceAuth.get(`/issues/list/`).then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
           setMyissues(response.data.result);
