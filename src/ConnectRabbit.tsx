@@ -1,5 +1,5 @@
-import React, { useState, useEffect } from 'react';
-import { Client, Message } from '@stomp/stompjs';
+import React, { useState, useEffect } from "react";
+import { Client, Message } from "@stomp/stompjs";
 import { NoticeMessage } from "@typess/Notice";
 import PushNotice from "@components/nav/PushNotice";
 
@@ -9,13 +9,14 @@ interface MemberIdProps {
 
 export function ConnectRabbit(props: MemberIdProps) {
   let stompClient: Client;
-  const brokerURL = 'ws://localhost:15674/ws'; // WebSocket URL 문자열
-  const queueName = '/queue/user.queue.' + props.memberId.toString();
-  const headers = { // 헤더
-    login: 'guest',
-    passcode: 'guest',
-    'durable': 'true',
-    'auto-delete': 'false',
+  const brokerURL = "ws://localhost:15674/ws"; // WebSocket URL 문자열
+  const queueName = "/queue/user.queue." + props.memberId.toString();
+  const headers = {
+    // 헤더
+    login: "guest",
+    passcode: "guest",
+    durable: "true",
+    "auto-delete": "false",
   };
   const [message, setMessage] = useState<NoticeMessage>(); // 메세지 바디
 
@@ -24,16 +25,16 @@ export function ConnectRabbit(props: MemberIdProps) {
       brokerURL: brokerURL,
       connectHeaders: headers,
       debug: (msg) => {
-        console.log(msg);
+        // console.log(msg);
       },
     });
 
     stompClient.onConnect = (frame) => {
-      console.log('Connected');
+      console.log("Connected");
       const subscription = stompClient.subscribe(queueName, (message: Message) => {
         const body = JSON.parse(message.body) as NoticeMessage;
 
-        console.log('Received NoticeMessage:', body);
+        console.log("Received NoticeMessage:", body);
 
         setMessage(body);
 
@@ -50,17 +51,17 @@ export function ConnectRabbit(props: MemberIdProps) {
     };
   }, []);
 
-
   return (
-    <div className='hidden'>
-      {message && <PushNotice
-        contentId={message.contentId}
-        noticeType={message.noticeType}
-        noticeContent={message.noticeContent}
-        noticeDate={message.noticeDate}
-        senderProfileImage={message.senderProfileImage}
-      />
-      }
+    <div className="hidden">
+      {message && (
+        <PushNotice
+          contentId={message.contentId}
+          noticeType={message.noticeType}
+          noticeContent={message.noticeContent}
+          noticeDate={message.noticeDate}
+          senderProfileImage={message.senderProfileImage}
+        />
+      )}
     </div>
   );
 }

@@ -23,7 +23,6 @@ import IssueReportPage from "@pages/project/issue/IssueReportPage";
 import IssueEditPage from "@pages/project/issue/IssueEditPage";
 import EditPjPage from "@pages/project/EditPjPage";
 import ChangePasswordPage from "@pages/ChangePasswordPage";
-import CommonModal from "./components/commonModal";
 
 function App() {
   return (

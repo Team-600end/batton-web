@@ -34,7 +34,7 @@ export interface MyIssues {
   issueTitle: string;
   issueTag: IssueType;
   issueStatus: IssueStatus;
-  updateDate: string;
+  updatedDate: string;
   projectTitle: string;
 }
 

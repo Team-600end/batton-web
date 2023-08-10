@@ -11,7 +11,7 @@ export interface CommonModalInterface {
   description: string;
   btnTitle: string;
   closeModal: () => void;
-};
+}
 
 export default function CommonModal({ title, description, btnTitle, closeModal }) {
   return (

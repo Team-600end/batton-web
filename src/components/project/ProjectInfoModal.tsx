@@ -6,7 +6,7 @@ import { nicknameState } from "@src/state/userState";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@typess/project";
 import { useParams } from "react-router-dom";
-import CommonModal from "../commonModal";
+import CommonModal from "@src/components/CommonModal";
 
 /**
  * 프로젝트 정보 모달

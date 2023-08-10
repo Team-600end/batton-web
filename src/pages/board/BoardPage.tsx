@@ -1,10 +1,11 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect, useCallback, useRef } from "react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
 import { IssueType } from "@src/types/Issue";
-import chevorn_img from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
 import titleBox_img from "@images/common/title_box.svg";
+import chevron_up from "@images/common/chevron_up.png";
+import chevron_down from "@images/common/chevron_down.png";
 
 interface BoardS {
   projecttId: number;
@@ -23,6 +24,10 @@ export default function BoardPage() {
   const [cardNum, setCardNum] = useState(3);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
+  // 드롭다운
+  const [dropdownValue, setDropdownValue] = useState("전체");
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+  const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
 
   const setIssueNumByHeight = () => {
     const screenHeight = window.innerHeight;
@@ -69,49 +74,46 @@ export default function BoardPage() {
       {/* table */}
       <div className="relative w-4/5 shadow-[0px_3px_8px_-2px_rgba(0,0,0,0.3)] sm:rounded-l mt-[10px]">
         <div className="flex items-center justify-between p-2">
-          <div>
+          <div className="relative flex justify-center">
             <button
-              id="dropdownRadioButton"
-              data-dropdown-toggle="dropdownRadio"
-              className="inline-flex items-center text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-4 focus:ring-gray-200 font-suitM rounded-lg text-sm px-3 py-1.5"
-              type="button"
+              onClick={() => setIsDropdownOpen(!isDropdownOpen)}
+              className="flex items-center justify-between w-[140px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3 py-1.5"
             >
-              전체
-              <img className="w-2.5 h-2.5 ml-2.5" area-hidden="true" src={chevorn_img} />
+              <div className="flex items-center justify-center">
+                {dropdownValue === "전체" ? <div className="ml-2 text-sm">전체</div> : <IssueBadge issueType={dropdownValue as IssueType} />}
+              </div>
+              <div className="flex items-center justify-center">
+                {isDropdownOpen ? (
+                  <img className="m-1 w-[9px] h-[6px]" src={chevron_up} alt="chevron up" />
+                ) : (
+                  <img className="m-1 w-[9px] h-[6px]" src={chevron_down} alt="chevron down" />
+                )}
+              </div>
             </button>
-
-            {/* Dropdown menu */}
-            <div
-              id="dropdownRadio"
-              className="z-10 hidden w-48 bg-white divide-y divide-gray-100 rounded-lg shadow"
-              data-popper-reference-hidden=""
-              data-popper-escaped=""
-              data-popper-placement="top"
-              style={{
-                position: "absolute",
-                inset: "auto auto 0px 0px",
-                margin: "0px",
-                transform: "translate3d(522.5px, 3847.5px, 0px)",
-              }}
-            >
-              <ul className="p-3 space-y-1 text-sm text-gray-700" aria-labelledby="dropdownRadioButton">
-                <li>
-                  <div className="flex items-center p-2 rounded hover:bg-gray-100">
-                    <input
-                      // checked="checked"
-                      id="filter-radio-example-1"
-                      type="radio"
-                      value=""
-                      name="filter-radio"
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 focus:ring-blue-500 focus:ring-2"
-                    />
-                    <label htmlFor="filter-radio-example-1" className="w-full ml-2 text-sm font-suitM text-gray-900 rounded">
-                      전체
-                    </label>
-                  </div>
-                </li>
-              </ul>
-            </div>
+            {isDropdownOpen && (
+              <div
+                ref={dropdownRef}
+                className="flex justify-center z-10 absolute top-full left-0 mt-2 w-32 bg-white divide-y divide-gray-100 rounded-lg shadow"
+              >
+                <ul className="p-1 space-y-1 text-sm text-grey-2">
+                  {["전체", "NEW", "FEATURE", "CHANGED", "FIXED", "DEPRECATED"].map((value) => (
+                    <li key={value}>
+                      <div className="flex items-center justify-center p-1 rounded hover:bg-gray-100">
+                        <div
+                          onClick={() => {
+                            setDropdownValue(value);
+                            setIsDropdownOpen(false);
+                          }}
+                          className="flex items-center justify-center w-full  text-xs font-suitM text-gray-900 rounded"
+                        >
+                          {value === "전체" ? <div className="text-sm">전체</div> : <IssueBadge issueType={value as IssueType} />}
+                        </div>
+                      </div>
+                    </li>
+                  ))}
+                </ul>
+              </div>
+            )}
           </div>
 
           {/* 검색창 */}

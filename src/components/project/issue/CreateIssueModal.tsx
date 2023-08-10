@@ -27,17 +27,6 @@ export default function CreateIssueModal({ visible, onClose }) {
 
   //member list
   const [isOpenMemberList, setIsOpenMemberList] = useState(false);
-  const arrowDown = (
-    <svg className="w-3 h-3 mt-2 ml-2 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 1L7 7M7 7L13 1M1 1L7 7M7 7L1 1" />
-    </svg>
-  );
-  const arrowUP = (
-    <svg className="w-3 h-3 mb-1 ml-2 mr-2" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-      <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M1 13L7 7M7 7L13 13M1 13L7 7M7 7L1 13" />
-    </svg>
-  );
-
   //projectId
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectKey } = useParams();

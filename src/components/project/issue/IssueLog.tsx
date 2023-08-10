@@ -58,7 +58,7 @@ export default function IssueLog() {
                   이슈태그
                 </th>
                 <th scope="col" className="px-16 py-3">
-                  이슈 타이틀
+                  이슈
                 </th>
                 <th scope="col" className="px-4 py-3">
                   상태
