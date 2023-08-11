@@ -7,9 +7,9 @@ export interface Manager {
   profileImg?: string;
 }
 export interface Issue {
-  issueTag: IssueType;
-  issueTitle: string;
   issueId: number;
+  issueTitle: string;
+  issueTag: IssueType;
   issueKey: number;
   nickname?: string;
   profileImage?: string;
@@ -22,13 +22,23 @@ export interface AbsIssue {
 }
 
 export interface DoneIssue extends Issue {
-  issueContent?: string;
+  issueSeq: number;
+  issueStatus: IssueStatus;
 }
 
-export interface UsedIssue extends DoneIssue {
+export interface UsedIssue extends Issue {
+  startPosition?: number;
+  endPosition?: number;
+  issueSeq: number;
+  issueStatus: IssueStatus;
+}
+
+export interface EnrolledIssue {
+  issueId: number;
   startPosition?: number;
   endPosition?: number;
 }
+
 export interface MyIssues {
   issueId: number;
   issueTitle: string;

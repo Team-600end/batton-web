@@ -10,7 +10,7 @@ import { ProjectNav } from "@src/types/project";
 export default function ReleasesPuzzle() {
   const [puzzle, setPuzzle] = useState<Release[][]>([]);
   const [releasesList, setReleasesList] = useState<Release[]>([]);
-  const reverseList = [...releasesList].reverse();
+  // const reverseList = [...releasesList].reverse();
 
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectKey } = useParams();
@@ -36,20 +36,20 @@ export default function ReleasesPuzzle() {
     // };
   }, []);
 
-  useEffect(() => {
-    let puzzleState: Release[][] = [];
-    let temp: Release[] = [];
+  // useEffect(() => {
+  //   let puzzleState: Release[][] = [];
+  //   let temp: Release[] = [];
 
-    reverseList.forEach((release, idx) => {
-      if ((release.versionChanged === "Major" && idx !== 0) || idx === reverseList.length - 1) {
-        puzzleState.unshift(temp);
-        temp = [];
-      }
-      temp.push(release);
-    });
+  //   reverseList.forEach((release, idx) => {
+  //     if ((release.versionChanged === "Major" && idx !== 0) || idx === reverseList.length - 1) {
+  //       puzzleState.unshift(temp);
+  //       temp = [];
+  //     }
+  //     temp.push(release);
+  //   });
 
-    setPuzzle(puzzleState);
-  }, []);
+  //   setPuzzle(puzzleState);
+  // }, []);
 
   return (
     <>

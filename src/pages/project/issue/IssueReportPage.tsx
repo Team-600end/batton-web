@@ -197,7 +197,7 @@ export default function IssueReportPage() {
           </div>
         ))}
         <div className="flex flex-col">
-          <p className="font-suitM text-lg pt-4 px-7 pb-3">새 코멘트 작성</p>
+          <p className="font-suitM text-lg pt-4 px-7 pb-3">일반 코멘트 작성</p>
           <div className="flex items-end">
             <textarea
               onChange={handleChangeCommentInput}
