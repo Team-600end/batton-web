@@ -51,63 +51,8 @@ import { useParams } from "react-router-dom";
 //     issueContent:
 //       "중복 배포 방지 기능은 사용자들이 동일하거나 매우 유사한 설문조사를 여러 번 배포하는 것을 방지하는 새로운 기능입니다. 이 기능은 자동으로 시스템이 사용자가 작성하고 있는 설문조사와 과거에 배포된 설문조사를 비교하며, 이러한 중복성을 탐지합니다. <br><br><strong>자동 유사성 체크</strong>: 사용자가 설문조사를 작성하는 동안, 시스템은 이전에 생성된 설문조사와 현재 작성 중인 설문조사를 비교합니다. 이는 문항 내용, 선택지, 설문조사의 목적 등 다양한 요소를 기반으로 유사성을 체크합니다. <br><br><strong>중복 알림</strong>: 만약 시스템이 중복성을 탐지하면, 사용자에게 알림을 보냅니다. 이 알림은 사용자가 중복 배포를 방지할 수 있도록 돕습니다. 사용자는 알림을 통해 중복 배포를 예방하거나, 필요하다면 설문조사의 내용을 수정하거나 개선할 수 있습니다. <br><br><strong>유사성 점수</strong>: 설문조사가 완성되면, 시스템은 설문조사의 유사성 점수를 제공합니다. 이 점수는 0에서 100까지 범위이며, 점수가 높을수록 이전에 배포된 설문조사와 유사성이 높다는 것을 의미합니다.",
 //     issueId: 2,
-//   },
-//   {
-//     issueTag: "CHANGED",
-//     issueKey: 4,
-//     issueTitle: "첫번째",
-//     nickname: "ㅁ",
-//     issueContent:
-//       "첫번째......",
-//     issueId: 4,
-//   },
-//   {
-//     issueTag: "NEW",
-//     issueKey: 5,
-//     issueTitle: "두번째",
-//     nickname: "ㅁ",
-//     issueContent:
-//       "두번째......",
-//     issueId: 5,
-//   },
-//   {
-//     issueTag: "NEW",
-//     issueKey: 6,
-//     issueTitle: "세번째",
-//     nickname: "ㅁ",
-//     issueContent:
-//       "세번째..........................",
-//     issueId: 6,
-//   },
-// {
-//   issueTag: "CHANGED",
-//   issueKey: 7,
-//   issueTitle: "네번째",
-//   nickname: "ㅁ",
-//   issueContent:
-//     "네번째......",
-//   issueId: 7,
-// },
-// {
-//   issueTag: "NEW",
-//   issueKey: 8,
-//   issueTitle: "다섯번째",
-//   nickname: "ㅁ",
-//   issueContent:
-//     "다섯번째.",
-//   issueId: 8,
-// },
-// {
-//   issueTag: "NEW",
-//   issueKey: 9,
-//   issueTitle: "여섯번째",
-//   nickname: "ㅁ",
-//   issueContent:
-//     "여섯번째",
-//   issueId: 9,
-// },
+//   }
 // ];
-
 // const usedIssues: UsedIssue[] = [];
 
 export default function RnoteEditPage() {
@@ -126,7 +71,7 @@ export default function RnoteEditPage() {
   const [versionPatch, setVersionPatch] = useState<number>(0);
 
   // CommonModal 표시
-  const [isModalOpen, setIsModalOpen] = useState(false);
+  const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
   // CommonModal Data
   const [modalData, setModalData] = useState<CommonModalInterface>({
     title: "",
@@ -341,6 +286,7 @@ export default function RnoteEditPage() {
     };
     instanceAuth.post(`/releases`, rnoteCreateData)
     .then((response) => {
+      console.log(response.data);
       if (response.data.code == 200) {
         setModalData({
           title: "저장 성공",
@@ -354,18 +300,18 @@ export default function RnoteEditPage() {
     })
     .catch((error) => {
       console.log(error);
-    }).finally(() => setIsModalOpen(true));
+    }).finally(() => {setIsModalOpen(true); console.log(modalData)});
   };
 
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
       <div className="flex flex-row w-screen mt-[1vh]">
-        <div className="flex flex-row rounded-t-lg border border-gray-300 bg-gray-100 w-[95vw] mx-auto mt-[2vh] shadow-inner h-screen px-2 py-5">
-          {isModalOpen && <Modal title={modalData.title}
+      {isModalOpen && (<Modal title={modalData.title}
             description={modalData.description}
             btnTitle={modalData.btnTitle}
-            closeModal={modalData.closeModal()}/>}
+            closeModal={() => modalData.closeModal()}/>)}
+        <div className="flex flex-row rounded-t-lg border border-gray-300 bg-gray-100 w-[95vw] mx-auto mt-[2vh] shadow-inner h-screen px-2 py-5">
           <DragDropContext onDragEnd={handleDragEnd}>
             <div className="border rounded-t-lg ml-[2vw] mr-[2vw] bg-white w-[19vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.3)] mt-[2vh]">
               <div className="border-b font-suitSB border-gray-400 p-[1vw] flex justify-between drop-shadow-lg">

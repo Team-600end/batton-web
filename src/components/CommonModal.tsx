@@ -13,7 +13,7 @@ export interface CommonModalInterface {
   closeModal: () => void;
 }
 
-export default function CommonModal({ title, description, btnTitle, closeModal }) {
+export default function CommonModal({ title, description, btnTitle, closeModal }: CommonModalInterface) {
   return (
     <>
       <div className="fixed flex justify-center items-center z-50 p-20 overflow-x-hidden overflow-y-hidden md:inset-0 w-full h-full max-h-full">
