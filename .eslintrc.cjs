@@ -11,4 +11,12 @@ module.exports = {
   rules: {
     'react-refresh/only-export-components': 'warn',
   },
+  settings: {
+    "import/parsers": {
+      "@typescript-eslint/parser": [".ts", ".tsx"]
+    },
+    "import/resolver": {
+      "typescript": "./tsconfig.json"
+    }
+  },
 }
