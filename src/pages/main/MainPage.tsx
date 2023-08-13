@@ -14,6 +14,7 @@ import { ProjectCard } from "@typess/project";
 import { IssueType, MyIssues } from "@typess/Issue";
 import IssueBadge from "@components/project/issue/IssueBadge";
 import { instanceAuth } from "@src/types/AxiosInterface";
+import IssueStatusBadge from "@src/components/project/issue/IssueStatusBadge";
 
 export default function MainPage() {
   const navigate = useNavigate();
@@ -22,8 +23,6 @@ export default function MainPage() {
   const [currentPage, setCurrentPage] = useState(1);
   const [pjCards, setPjcards] = useState<ProjectCard[]>([]);
   const [myIssues, setMyissues] = useState<MyIssues[]>([]);
-  //TODO: belongId 어떻게 받을지? useParams?
-  let { belongId } = useParams();
   // 드롭다운
   const [dropdownValue, setDropdownValue] = useState("전체");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
@@ -233,19 +232,19 @@ export default function MainPage() {
             <thead className="text-xs text-gray-700 uppercase bg-gray-50">
               <tr>
                 <th scope="col" className="px-6 py-3">
-                  프로젝트
+                  프로젝트명
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  이슈태그
+                  이슈 태그
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  이슈
+                  이슈명
                 </th>
                 <th scope="col" className="px-6 py-3">
                   최종 수정 날짜
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  상태
+                  이슈 상태
                 </th>
               </tr>
             </thead>
@@ -260,7 +259,7 @@ export default function MainPage() {
                   </td>
                   <td className="px-6 py-4">{issueId.issueTitle}</td>
                   <td className="px-6 py-4">{issueId.updatedDate}</td>
-                  <td className="px-6 py-4">{issueId.issueStatus}</td>
+                  <td className="px-6 py-4"><IssueStatusBadge issueStatus={issueId.issueStatus}/></td>
                 </tr>
               ))}
             </tbody>

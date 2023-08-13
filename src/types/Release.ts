@@ -2,14 +2,16 @@ import { AbsIssue } from "@typess/Issue";
 
 export type VersionChanged = "Major" | "Minor" | "Patch";
 
+export type PublishType = "PUBLISH" | "UNPUBLISH";
+
 export interface Release {
     versionChanged: VersionChanged;
     versionMajor: number;
     versionMinor: number;
     versionPatch: number;
-    date: string;
+    createdDate: string;
     issueList?: AbsIssue[];
-    id: number;
+    releasesId: number;
 }
 
 export interface Puzzle {

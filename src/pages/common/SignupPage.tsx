@@ -285,7 +285,6 @@ export default function SignupPage() {
           setStartTimer(false);
           setAuthCodeStatus("이메일 인증이 완료되었습니다.");
         } else if (response.data.code == 606) {
-          setStartTimer(false);
           setAuthCodeStatus("인증번호가 올바르지 않습니다.");
         } else return;
       });
@@ -306,6 +305,15 @@ export default function SignupPage() {
           }
         }
       }, 1000);
+    }
+
+    if (startTimer && (minutes == 0 && seconds == 0)) {
+      setStartTimer(false);
+      setEmail("");
+      setIsEnableAuthForm(false);
+      setMinutes(3);
+      setModalData({ title: "안내메세지", description: "이메일 인증 시간이 만료되었습니다. 다시 인증을 진행해주세요.",  btnTitle: "확인", closeModal: () => setIsModalOpen(false)});
+      setIsModalOpen(true);
     }
 
     return () => clearInterval(countdown);

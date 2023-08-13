@@ -23,31 +23,6 @@ interface CommentPostData {
   commentType: CommentType;
 };
 
-// const issueCommentList: IssueComment[] = [
-//   {
-//     commentContent: "낭만. 합격",
-//     commentType: "ACCEPTED",
-//     nickname: "강창훈",
-//     createDate: "1998-01-01",
-//     memberGrade: "LEADER",
-//   },
-//   {
-//     commentContent:
-//       "이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?이게 뭔가요?",
-//     commentType: "DENIED",
-//     nickname: "이승희",
-//     createDate: "1998-01-01",
-//     memberGrade: "LEADER",
-//   },
-//   {
-//     commentContent: "ㅋㅋ바보",
-//     commentType: "COMMON",
-//     nickname: "정현진",
-//     createDate: "1998-01-01",
-//     memberGrade: "MEMBER",
-//   },
-// ];
-
 export default function IssueReportPage() {
   const navigate = useNavigate();
   const { projectKey, issueId } = useParams();
@@ -181,7 +156,7 @@ export default function IssueReportPage() {
         </p>
       </div>
       <div className="mb-4 border border-gray-300 rounded-lg bg-gray-100 p-[2vw] h-full w-[48vw] font-suitM mt-[5vh] mx-auto">
-        <div>{editorData && <Viewer initialValue={editorData} />}</div>
+        <div>{editorData && <Viewer initialValue={editorData}/>}</div>
       </div>
 
       <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
@@ -193,7 +168,7 @@ export default function IssueReportPage() {
       <div className="flex flex-col w-[48vw] mx-auto divide-y divide-gray-100 mt-[3vh] border border-gray-300 rounded-lg shadow-inner pt-3 pb-5 mb-[7vh]">
         {commentList && commentList.map((comment, index) => (
           <div key={index}>
-            <CommentCard issueComment={comment} />
+            <CommentCard issueComment={comment}/>
           </div>
         ))}
         <div className="flex flex-col">

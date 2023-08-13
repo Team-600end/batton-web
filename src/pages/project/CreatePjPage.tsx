@@ -320,7 +320,7 @@ export default function CreatePjPage() {
                 placeholder=""
                 maxLength={200}
                 onChange={onContentChangeHandler}
-                className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
+                className="resize-none items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
                 style={{
                   verticalAlign: "top",
                   width: "31.0847vw",

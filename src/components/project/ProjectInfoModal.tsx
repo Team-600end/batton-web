@@ -108,7 +108,7 @@ export default function ProjectInfoModal({ closeModal }) {
     })();
   };
 
-  const handleDelete = () => {
+  const handleDelete = async () => {
     //TODO: 프로젝트 삭제 api 요청
   };
 

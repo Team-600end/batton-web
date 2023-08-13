@@ -27,6 +27,8 @@ export default function BoardPage() {
   // 드롭다운
   const [dropdownValue, setDropdownValue] = useState("전체");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const [searchInput, setSearchInput] = useState("");
   const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
 
   const setIssueNumByHeight = () => {
@@ -46,6 +48,10 @@ export default function BoardPage() {
     const startIndex = (currentPage - 1) * itemsPerPage;
     const endIndex = startIndex + itemsPerPage;
     return boards.slice(startIndex, endIndex);
+  };
+
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
   };
 
   const totalPage = Math.ceil(boards.length / itemsPerPage);
@@ -117,16 +123,13 @@ export default function BoardPage() {
           </div>
 
           {/* 검색창 */}
-          <label htmlFor="table-search" className="sr-only">
-            Search
-          </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <img className="w-5 h-5 text-gray-500" area-hidden="true" src={search_img} />
             </div>
             <input
               type="text"
-              id="table-search"
+              onChange={handleSearchInputChange}
               className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-[#4AA366] focus:border-[#4AA366]"
               placeholder="검색"
             />
@@ -243,133 +246,133 @@ const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
   },
 };
 
-const boards: BoardS[] = [
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v2.3.0",
-    issueTags: ["NEW", "FEATURE"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v3.0.0",
-    issueTags: ["NEW", "CHANGED", "FEATURE"],
-    releaseDate: new Date(2023, 7, 28),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "600&",
-    releaseVersion: "v2.0.1",
-    issueTags: ["FIXED"],
-    releaseDate: new Date(2023, 7, 27),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v2.2.0",
-    issueTags: ["CHANGED", "FEATURE"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v2.1.0",
-    issueTags: ["CHANGED", "FEATURE"],
-    releaseDate: new Date(2023, 7, 22),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "600&",
-    releaseVersion: "v1.1.2",
-    issueTags: ["DEPRECATED"],
-    releaseDate: new Date(2023, 7, 18),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v2.0.1",
-    issueTags: ["FIXED", "DEPRECATED"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "600&",
-    releaseVersion: "v1.1.1",
-    issueTags: ["CHANGED", "FIXED"],
-    releaseDate: new Date(2023, 7, 18),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v2.0.0",
-    issueTags: ["NEW"],
-    releaseDate: new Date(2023, 7, 17),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v2.0.1",
-    issueTags: ["FIXED"],
-    releaseDate: new Date(2023, 7, 17),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v2.0.0",
-    issueTags: ["NEW", "FEATURE", "DEPRECATED"],
-    releaseDate: new Date(2023, 7, 10),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v1.2.0",
-    issueTags: ["FEATURE", "FIXED"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v1.2.0",
-    issueTags: ["NEW", "CHANGED"],
-    releaseDate: new Date(2023, 7, 3),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "600&",
-    releaseVersion: "v1.0.1",
-    issueTags: ["NEW"],
-    releaseDate: new Date(2023, 7, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v1.0.0",
-    issueTags: ["NEW"],
-    releaseDate: new Date(2023, 6, 22),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v1.0.0",
-    issueTags: ["NEW", "FEATURE"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-];
+// const boards: BoardS[] = [
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v2.3.0",
+//     issueTags: ["NEW", "FEATURE"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v3.0.0",
+//     issueTags: ["NEW", "CHANGED", "FEATURE"],
+//     releaseDate: new Date(2023, 7, 28),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "600&",
+//     releaseVersion: "v2.0.1",
+//     issueTags: ["FIXED"],
+//     releaseDate: new Date(2023, 7, 27),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v2.2.0",
+//     issueTags: ["CHANGED", "FEATURE"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v2.1.0",
+//     issueTags: ["CHANGED", "FEATURE"],
+//     releaseDate: new Date(2023, 7, 22),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "600&",
+//     releaseVersion: "v1.1.2",
+//     issueTags: ["DEPRECATED"],
+//     releaseDate: new Date(2023, 7, 18),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v2.0.1",
+//     issueTags: ["FIXED", "DEPRECATED"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "600&",
+//     releaseVersion: "v1.1.1",
+//     issueTags: ["CHANGED", "FIXED"],
+//     releaseDate: new Date(2023, 7, 18),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v2.0.0",
+//     issueTags: ["NEW"],
+//     releaseDate: new Date(2023, 7, 17),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v2.0.1",
+//     issueTags: ["FIXED"],
+//     releaseDate: new Date(2023, 7, 17),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v2.0.0",
+//     issueTags: ["NEW", "FEATURE", "DEPRECATED"],
+//     releaseDate: new Date(2023, 7, 10),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v1.2.0",
+//     issueTags: ["FEATURE", "FIXED"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v1.2.0",
+//     issueTags: ["NEW", "CHANGED"],
+//     releaseDate: new Date(2023, 7, 3),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "600&",
+//     releaseVersion: "v1.0.1",
+//     issueTags: ["NEW"],
+//     releaseDate: new Date(2023, 7, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v1.0.0",
+//     issueTags: ["NEW"],
+//     releaseDate: new Date(2023, 6, 22),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v1.0.0",
+//     issueTags: ["NEW", "FEATURE"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+// ];

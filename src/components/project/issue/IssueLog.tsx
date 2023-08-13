@@ -7,6 +7,9 @@ import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@typess/project";
 import { useParams } from "react-router-dom";
+import IssueStatusBadge from "./IssueStatusBadge";
+import default_profile_img from "@images/common/default_profile.png";
+
 
 export default function IssueLog() {
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -58,7 +61,7 @@ export default function IssueLog() {
                   이슈태그
                 </th>
                 <th scope="col" className="px-16 py-3">
-                  이슈
+                  이슈명
                 </th>
                 <th scope="col" className="px-4 py-3">
                   상태
@@ -78,9 +81,9 @@ export default function IssueLog() {
                   <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap dark:text-white">
                     {index.issueTitle}
                   </th>
-                  <td className="px-6 py-4">{index.issueStatus}</td>
+                  <td className="px-6 py-4"><IssueStatusBadge issueStatus={index.issueStatus}/></td>
                   <td className="px-6 py-4 flex justify-center items-center ">
-                    <img className="w-6 h-6 rounded-full mr-[10px] object-cover" src={index.profileImg} alt="Profile" />
+                    <img className="w-6 h-6 rounded-full mr-[10px] object-cover" src={(index.profileImg == "" || index.profileImg == null) ? default_profile_img : index.profileImg} alt="Profile" />
                     {index.nickname}
                   </td>
                 </tr>

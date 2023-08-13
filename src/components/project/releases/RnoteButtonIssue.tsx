@@ -8,8 +8,8 @@ type RnoteButtonIssueProps = {
 export default function RnoteButtonIssue(props: RnoteButtonIssueProps) {
   return (
     <div className="flex">
-      <IssueBadge issueType={props.issue.type} />
-      <p className="ml-[0.5vw] font-suitM text-gray-900">{props.issue.title}</p>
+      <IssueBadge issueType={props.issue.issueTag} />
+      <p className="ml-[0.5vw] font-suitM text-gray-900">{props.issue.issueTitle}</p>
     </div>
   );
 }
