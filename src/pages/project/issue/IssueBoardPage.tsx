@@ -14,6 +14,7 @@ import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
 import ProjectInfoModal from "@src/components/project/ProjectInfoModal";
 import CommonModal from "@src/components/CommonModal";
+import IssueComment from "./IssueComment";
 
 export default function IssueBoardPage() {
   // TODO 이슈 리스트 상태관리
@@ -24,6 +25,26 @@ export default function IssueBoardPage() {
   const [reviewIssues, setReviewIssues] = useState<Issue[]>([]);
   // DONE 이슈 리스트 상태관리
   const [doneIssues, setDoneIssues] = useState<Issue[]>([]);
+
+  //이슈 생성 모달
+  const [createIssueModal, setCreateIssueModal] = useState(false);
+
+  //공통모달
+  const [isModalOpen, setIsModalOpen] = useState(false);
+  //프로젝트 정보 보기 모달
+  const [pjModal, setPjModal] = useState(false);
+
+  //이슈 코멘트 모달
+  const [issueCommentModal, setIssuCommentModal] = useState(false);
+  const [issueStatusChanged, setIssueStatusChanged] = useState("");
+  const [issueId, setIssueId] = useState(0);
+  //이슈 변겅 불가 모달
+  const [cannotMoveIssueModal, setCannotMoveIssueModal] = useState(false);
+
+  const handleOnClose = () => {
+    patchIssueBoard();
+    setCreateIssueModal(false);
+  };
 
   const checkIssueList = (locationId: string) => {
     switch (locationId) {
@@ -114,7 +135,25 @@ export default function IssueBoardPage() {
       // console.log(modifyIssueBoardBody); //TODO: 해결 후 삭제
 
       if (response.data.code === 200) {
+        if (destination.droppableId == "DONE" && source.droppableId !== destination.droppableId) {
+          setIssueStatusChanged("승인");
+          setIssuCommentModal(true);
+          setIssueId(issueId);
+        }
+        if ((source.droppableId == "REVIEW" && destination.droppableId == "TODO") || destination.droppableId == "PROGRESS") {
+          setIssueStatusChanged("반려");
+          setIssuCommentModal(true);
+        }
         await patchIssueBoard();
+      } else if (response.data.code === 707) {
+        //TODO: 에러 변경. 이슈 변경 권한이 없을 떄 발생하는 에러
+        setCannotMoveIssueModal(true);
+        // <CommonModal
+        //   title="이슈 변경 권한이 없습니다."
+        //   description="이슈는 프로젝트 리더만 변경할 수 있습니다."
+        //   btnTitle="확인"
+        //   closeModal={() => setCannotMoveIssueModal(false)}
+        // />;
       } else {
         console.log("잘못된 접근입니다.");
       }
@@ -123,14 +162,6 @@ export default function IssueBoardPage() {
     }
   };
 
-  const [showModal, setShowModal] = useState(false);
-  const handleOnClose = () => {
-    patchIssueBoard();
-    setShowModal(false);
-  };
-
-  const [isModalOpen, setIsModalOpen] = useState(false);
-  const [pjModal, setPjModal] = useState(false);
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
@@ -172,7 +203,7 @@ export default function IssueBoardPage() {
               히스토리
             </button>
             <button
-              onClick={() => setShowModal(true)}
+              onClick={() => setCreateIssueModal(true)}
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-[0.3vw]">
@@ -187,7 +218,7 @@ export default function IssueBoardPage() {
               </svg>
               이슈 생성
             </button>
-            <CreateIssueModal onClose={handleOnClose} visible={showModal} />
+            <CreateIssueModal onClose={handleOnClose} visible={createIssueModal} />
           </div>
           <DragDropContext onDragEnd={handleDragEnd}>
             <div className="flex m-[1.5vw] justify-center">
@@ -289,6 +320,16 @@ export default function IssueBoardPage() {
               </Droppable>
             </div>
           </DragDropContext>
+
+          {issueCommentModal && <IssueComment issueId={issueId} issueStatusChanged={issueStatusChanged} closeModal={() => setIssuCommentModal(false)} />}
+          {cannotMoveIssueModal && (
+            <CommonModal
+              title="이슈 변경 권한이 없습니다."
+              description="이슈는 프로젝트 리더만 변경할 수 있습니다."
+              btnTitle="확인"
+              closeModal={() => setCannotMoveIssueModal(false)}
+            />
+          )}
         </div>
       </div>
     </div>
