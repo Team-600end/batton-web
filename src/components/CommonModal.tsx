@@ -13,7 +13,7 @@ export interface CommonModalInterface {
   closeModal: () => void;
 }
 
-export default function CommonModal({ title, description, btnTitle, closeModal }) {
+export default function CommonModal({ title, description, btnTitle, closeModal }: CommonModalInterface) {
   return (
     <>
       <div className="fixed flex justify-center items-center z-50 p-20 overflow-x-hidden overflow-y-hidden md:inset-0 w-full h-full max-h-full">
@@ -21,11 +21,11 @@ export default function CommonModal({ title, description, btnTitle, closeModal }
           <div className="bg-white rounded-lg shadow dark:bg-gray-700">
             {/* title */}
             <div className="flex items-start justify-between px-10 pt-10 rounded-t dark:border-gray-600">
-              <h3 className="text-[24px] font-bold text-gray-900 dark:text-white">{title}</h3>
+              <h3 className="text-[24px] font-suitB text-gray-900">{title}</h3>
               <button
                 type="button"
                 onClick={closeModal}
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
               >
                 <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -35,7 +35,7 @@ export default function CommonModal({ title, description, btnTitle, closeModal }
 
             {/* description */}
             <div className="px-14">
-              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">{description}</p>
+              <p className="text-[16px] font-suitSB leading-relaxed text-gray-900 mt-6">{description}</p>
             </div>
 
             {/* btnTitle */}
@@ -43,7 +43,7 @@ export default function CommonModal({ title, description, btnTitle, closeModal }
               <button
                 type="button"
                 onClick={closeModal}
-                className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-primary-5 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:outline-none focus:ring-primary-5 font-suitM rounded-lg text-sm px-5 py-2.5 text-center"
               >
                 {btnTitle}
               </button>

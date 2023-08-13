@@ -140,9 +140,9 @@ export default function ReleasesNote() {
         <div className="flex flex-col p-4 pt-0 mx-auto">
           <p className="text-2xl font-suitB text-black mx-[2vw] my-[3vh]">릴리즈 히스토리</p>
           <div>
-            {releasesList.map((release) => (
+            {/* {releasesList.map((release) => (
               <RnoteButton release={release} />
-            ))}
+            ))} */}
           </div>
         </div>
 
