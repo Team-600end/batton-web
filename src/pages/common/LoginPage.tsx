@@ -116,8 +116,8 @@ export default function LoginPage() {
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
-      <img className="absolute z-0" src={login_lefthand_img} style={{ marginTop: "20vh", marginLeft: "-92vw" }} />
-      <img className="relative z-10 mb-2" src={batton_logo_img} />
+      <img className="absolute z-0 select-none pointer-events-none" src={login_lefthand_img} style={{ marginTop: "20vh", marginLeft: "-92vw" }} />
+      <img className="relative z-10 mb-2 select-none pointer-events-none" src={batton_logo_img} />
       <div className="flex flex-col space-y-6 relative z-10 items-center justify-center w-[38vw] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
         <form className="space-y-6 w-[30vw]">
           <h4 className="text-2xl font-suitM text-[black]">로그인</h4>
@@ -127,7 +127,7 @@ export default function LoginPage() {
               type="text"
               onChange={onChangeEmail}
               onKeyDown={handleEnterPress}
-              className="bg-gray-50 border border-gray-300 text-[black] text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-50 border border-gray-300 text-[black] text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block w-full p-2.5"
             />
             <div>{emailStatus == "사용 가능한 이메일입니다." ? <ValidOK text="" /> : <ValidNO text={emailStatus} />}</div>
           </div>
@@ -137,13 +137,13 @@ export default function LoginPage() {
               type="password"
               onChange={onChangePassword}
               onKeyDown={handleEnterPress}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-300 focus:ring-0 block w-full p-2.5"
             />
           </div>
           <div className="flex items-start">
-            <a href="#" className="ml-auto text-sm font-suitM text-[#1C64F2] hover:underline">
+            <button type="button" className="ml-auto text-sm font-suitM text-[#1C64F2] hover:underline" onClick={() => navigate(`/forget-pw`)}>
               비밀번호 찾기
-            </a>
+            </button>
           </div>
           <button
             onClick={loginRequest}
@@ -161,14 +161,14 @@ export default function LoginPage() {
           type="button"
           className="w-[30vw] h-[5vh] text-black bg-[#FEE500] shadow-md hover:bg-[#E2CC00] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center"
         >
-          <img className="mr-2 w-[1.3vw]" src={kakao_logo_img} /> 카카오 로그인
+          <img className="mr-2 w-[1.3vw] select-none pointer-events-none" src={kakao_logo_img} /> 카카오 로그인
         </button>
-        <button
+        {/* <button
           type="button"
           className="w-[30vw] h-[5vh] text-gray-400 bg-[#FFFFFF] border border-grey-100 shadow-md hover:bg-[#E7E7E7] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center"
         >
           <img className="mr-2" src={google_logo_img} /> 구글 로그인
-        </button>
+        </button> */}
         <div className="text-sm font-suitM text-gray-400">
           계정이 없으신가요?{" "}
           <button onClick={() => navigate(`/signup`)} type="button" className="text-[#1C64F2] font-suitM hover:underline ml-[1vw]">

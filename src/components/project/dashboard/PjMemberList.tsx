@@ -43,7 +43,7 @@ export default function PjMemberList() {
   }, []);
   return (
     <>
-      <div className="relative w-[220px] h-[400px] bg-white rounded-xl shadow-md">
+      <div className="w-[12vw] min-w-[200px] h-[400px] bg-white rounded-xl shadow-md">
         <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">프로젝트 멤버</p>
         <div>
           {/* map 반복문 사용 */}

@@ -31,9 +31,9 @@ export default function NavPjButton(props: NavPjButtonProps) {
       }}
     >
       <div className="flex items-center">
-        <img className="w-[2vw] h-[2vw] border object-cover rounded-full mr-[1vw]" src={(props.project.projectLogo == null || props.project.projectLogo == "") ? default_team_logo : props.project.projectLogo} />
-        <p className="font-suitL text-[#6B7280] mr-[0.3vw]">{props.project.projectTitle}</p>
-        {props.project.memberGrade == "LEADER" && <img className="w-[1vw] h-[1vw]" src={grade_master_logo} />}
+        <img className="w-[2vw] h-[2vw] border object-cover rounded-full mr-[1vw] select-none pointer-events-none" src={(props.project.projectLogo == null || props.project.projectLogo == "") ? default_team_logo : props.project.projectLogo} />
+        <p className="font-suitL text-[#6B7280] mr-[0.3vw] break-keep">{props.project.projectTitle}</p>
+        {props.project.memberGrade == "LEADER" && <img className="w-[1vw] h-[1vw] select-none pointer-events-none" src={grade_master_logo} />}
       </div>
     </button>
   );

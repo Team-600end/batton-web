@@ -20,9 +20,9 @@ export default function PuzzleHoverItem(props: PuzzleHoverProps) {
         {props.puzzle.issueList.map((issue, index) => (
           <div key={index} className="flex flex-row w-auto my-1">
             <div className="w-[100px] flex justify-center items-center">
-              <IssueBadge issueType={issue.type} />
+              <IssueBadge issueType={issue.issueTag} />
             </div>
-            <p className="text-xs ml-1 mr-2 whitespace-nowrap overflow-hidden overflow-ellipsis">{issue.title}</p>
+            <p className="text-xs ml-1 mr-2 whitespace-nowrap overflow-hidden overflow-ellipsis">{issue.issueTitle}</p>
           </div>
         ))}
       </div>

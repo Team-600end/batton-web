@@ -114,7 +114,6 @@ export default function Navbar() {
         }
       }}
     >
-      {memberId !== 0 && <ConnectRabbit memberId={memberId} />}
       <div className="flex items-center p-4">
         <button
           className="flex items-center flex-1"
@@ -123,6 +122,7 @@ export default function Navbar() {
         >
           <img src={batton_logo_img} className="h-8 mr-3 select-none pointer-events-none" alt="Flowbite Logo" />
         </button>
+        {memberId !== 0 && <ConnectRabbit memberId={memberId} />}
       </div>
       <div className="items-center justify-between w-full md:flex md:w-auto">
         <ul className="flex flex-row font-suitM rounded-lg space-x-[4vw]">
@@ -207,11 +207,11 @@ export default function Navbar() {
           onClick={handleProfileDd}
         >
           <span className="sr-only">Open user menu</span>
-          <img className="w-8 h-8 rounded-full object-cover" src={(userProfileImg == '' || userProfileImg == null) ? default_profile_img : userProfileImg} />
+          <img className="w-8 h-8 rounded-full object-cover select-none pointer-events-none" src={(userProfileImg == '' || userProfileImg == null) ? default_profile_img : userProfileImg} />
         </button>
       </div>
       {projectDd && (
-        <div className="absolute z-20 font-suitL top-[6.5vh] left-1/2 translate-x-[-50%] mr-[1.3vw] bg-white divide-y divide-gray-100 rounded-lg shadow w-44">
+        <div className="absolute z-20 font-suitL top-[6.5vh] left-1/2 translate-x-[-50%] mr-[1.3vw] bg-white divide-y divide-gray-100 rounded-lg shadow">
           <ul className="flex flex-col py-2 text-sm text-gray-700 justify-center">
             {projects.map((project) => (
               <li key={project.projectId}>
@@ -266,14 +266,6 @@ export default function Navbar() {
                 className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
               >
                 내 정보 수정
-              </button>
-            </li>
-            <li>
-              <button
-                onClick={handleAllDdOff}
-                className="block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100 w-full text-left"
-              >
-                프로젝트 관리
               </button>
             </li>
             <li>

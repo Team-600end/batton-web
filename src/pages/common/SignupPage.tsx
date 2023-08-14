@@ -5,6 +5,7 @@ import { useNavigate } from "react-router-dom";
 import { instanceAuth, instanceNonAuth } from "@src/types/AxiosInterface";
 import useInput from "@src/hooks/useInput";
 import Modal, { CommonModalInterface } from "@src/components/CommonModal";
+import CommonModal from "@src/components/CommonModal";
 
 interface SignupData {
   email: string;
@@ -21,8 +22,7 @@ interface EmailReq {
 export default function SignupPage() {
   // 이메일 및 비밀번호 정규식 모음
   const emailRegex = /\S+@\S+\.\S+/;
-  const passwordRegex =
-    /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!~*])[A-Za-z\d!~*]{8,15}$/;
+  const passwordRegex = /^(?=.*\d)(?=.*[a-zA-Z])(?=.*[!~*])[A-Za-z\d!~*]{8,15}$/;
 
   /** 이메일 입력 상태관리 */
   const [email, , setEmail] = useInput<string>("");
@@ -78,13 +78,7 @@ export default function SignupPage() {
   };
 
   const ValidNO: React.FC<ValidNOProps> = ({ text }) => {
-    return (
-      <p
-        style={{ color: "red", margin: "3px", padding: "0", fontSize: "10pt" }}
-      >
-        {text}
-      </p>
-    );
+    return <p style={{ color: "red", margin: "3px", padding: "0", fontSize: "10pt" }}>{text}</p>;
   };
 
   const ValidOK: React.FC<ValidOKProps> = ({ text }) => {
@@ -166,9 +160,7 @@ export default function SignupPage() {
     if (password === "") {
       setPasswordStatus("");
     } else if (!passwordRegex.test(password)) {
-      setPasswordStatus(
-        "8~15자의 영문, 숫자, 특수문자(!, ~, *)를 입력해야합니다."
-      );
+      setPasswordStatus("8~15자의 영문, 숫자, 특수문자(!, ~, *)를 입력해야합니다.");
     } else {
       setPasswordStatus("사용 가능한 비밀번호입니다.");
     }
@@ -184,35 +176,39 @@ export default function SignupPage() {
     }
   }, [password, checkPassword]);
 
+  const [nicknameCheck, setNicknameCheck] = useState(false);
+  const [isEmailCheck, setIsEmailCheck] = useState(false);
+  const [passwordCheck, setPasswordCheck] = useState(false);
+  const [checkPasswordCheck, setCheckPasswordCheck] = useState(false);
+  const [checkEmail, setCheckEmail] = useState(false);
+  const [canSignup, setCanSignup] = useState(false);
   const signupRequest = async () => {
-    // 닉네임 필드 검증
-    if (nickname.length < 2) {
-      alert("닉네임은 2글자 이상이어야 합니다.");
-      return;
-    }
     // 이메일 필드 검증
     if (!emailRegex.test(email)) {
-      alert("이메일 형식이 올바르지 않습니다.");
-      return;
-    }
-
-    //가능한 비밀번호 예시: kafeine1~!
-    // 비밀번호 필드 검증
-    if (!passwordRegex.test(password)) {
-      alert(
-        "비밀번호는 8~15자의 영문, 숫자, 특수문자(!, ~, *)를 혼합해야 합니다."
-      );
+      setIsEmailCheck(true);
       return;
     }
 
     if (!isEmailAuthentication) {
-      alert("이메일 인증을 진행해주세요.");
+      setCheckEmail(true);
+      return;
+    }
+
+    // 닉네임 필드 검증
+    if (nickname.length < 2) {
+      setNicknameCheck(true);
+      return;
+    }
+    //가능한 비밀번호 예시: kafeine1~!
+    // 비밀번호 필드 검증
+    if (!passwordRegex.test(password)) {
+      setPasswordCheck(true);
       return;
     }
 
     // 비밀번호 확인 필드 검증
     if (password !== checkPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
+      setCheckPasswordCheck(true);
       return;
     }
     try {
@@ -227,8 +223,9 @@ export default function SignupPage() {
       const result = instanceNonAuth.post(`/auth/signup`, signupData);
       console.log(result);
 
-      alert("회원가입이 완료되었습니다.");
-      alert("로그인을 진행해주세요.");
+      // alert("회원가입이 완료되었습니다.");
+      setCanSignup(true);
+      // alert("로그인을 진행해주세요.");
       navigate(`/login`);
     } catch (error) {
       console.log(error);
@@ -285,7 +282,6 @@ export default function SignupPage() {
           setStartTimer(false);
           setAuthCodeStatus("이메일 인증이 완료되었습니다.");
         } else if (response.data.code == 606) {
-          setStartTimer(false);
           setAuthCodeStatus("인증번호가 올바르지 않습니다.");
         } else return;
       });
@@ -308,33 +304,34 @@ export default function SignupPage() {
       }, 1000);
     }
 
+    if (startTimer && (minutes == 0 && seconds == 0)) {
+      setStartTimer(false);
+      setEmail("");
+      setIsEnableAuthForm(false);
+      setMinutes(3);
+      setModalData({ title: "안내메세지", description: "이메일 인증 시간이 만료되었습니다. 다시 인증을 진행해주세요.",  btnTitle: "확인", closeModal: () => setIsModalOpen(false)});
+      setIsModalOpen(true);
+    }
+
     return () => clearInterval(countdown);
   }, [startTimer, minutes, seconds]);
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
       <img
-        className="absolute z-0"
+        className="absolute z-0 select-none pointer-events-none"
         src={signup_hand_image}
         style={{ marginTop: "20vh", marginLeft: "-45vw" }}
       />
-      <img className="relative z-10 mb-4" src={batton_logo_img} />
+      <img className="relative z-10 mb-4 select-none pointer-events-none" src={batton_logo_img} />
       <div className="flex flex-col space-y-6 relative z-10 items-center justify-center w-[38vw] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
         {isModalOpen && (
-          <Modal
-            title={modalData.title}
-            description={modalData.description}
-            btnTitle={modalData.btnTitle}
-            closeModal={() => setIsModalOpen(false)}
-          />
+          <Modal title={modalData.title} description={modalData.description} btnTitle={modalData.btnTitle} closeModal={() => setIsModalOpen(false)} />
         )}
         <form className="space-y-6 w-[30vw]">
           <h4 className="text-2xl font-suitM text-gray-900">회원가입</h4>
           <div>
-            <label
-              id="email"
-              className="block mb-1 text-sm font-suitM text-gray-900"
-            >
+            <label id="email" className="block mb-1 text-sm font-suitM text-gray-900">
               이메일
             </label>
             <div className="flex flex-row">
@@ -352,22 +349,8 @@ export default function SignupPage() {
                   readOnly={isEnableAuthForm}
                 />
                 {isAuthCodeLoading && (
-                  <svg
-                    width="2.5vh"
-                    height="2.5vh"
-                    viewBox="0 0 50 50"
-                    xmlns="http://www.w3.org/2000/svg"
-                    className="animate-spin ml-auto mr-[0.8vw]"
-                  >
-                    <circle
-                      cx="25"
-                      cy="25"
-                      r="20"
-                      fill="none"
-                      stroke="#5AAE8A"
-                      stroke-width="4"
-                      stroke-dasharray="80, 70"
-                    />
+                  <svg width="2.5vh" height="2.5vh" viewBox="0 0 50 50" xmlns="http://www.w3.org/2000/svg" className="animate-spin ml-auto mr-[0.8vw]">
+                    <circle cx="25" cy="25" r="20" fill="none" stroke="#5AAE8A" stroke-width="4" stroke-dasharray="80, 70" />
                   </svg>
                 )}
               </div>
@@ -383,20 +366,11 @@ export default function SignupPage() {
                 {!isEnableAuthForm ? "이메일 인증" : "인증 요청됨"}
               </button>
             </div>
-            <div>
-              {emailStatus == "사용 가능한 이메일입니다." ? (
-                <ValidOK text={emailStatus} />
-              ) : (
-                <ValidNO text={emailStatus} />
-              )}
-            </div>
+            <div>{emailStatus == "사용 가능한 이메일입니다." ? <ValidOK text={emailStatus} /> : <ValidNO text={emailStatus} />}</div>
           </div>
           {isEnableAuthForm && (
             <div>
-              <label
-                id="email"
-                className="block mb-1 text-sm font-suitM text-gray-900"
-              >
+              <label id="email" className="block mb-1 text-sm font-suitM text-gray-900">
                 이메일 인증번호
               </label>
               <div className="flex flex-row">
@@ -406,7 +380,11 @@ export default function SignupPage() {
                     value={authCode}
                     onChange={onChangeAuthCode}
                     maxLength={10}
-                    className={!isEmailAuthentication ? "w-[16vw] h-[2vh] bg-gray-50 border-none text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-50 focus:ring-0 p-2.5" : "w-[16vw] h-[2vh] bg-gray-50 border-none text-gray-400 text-sm rounded-lg focus:outline-none focus:border-gray-50 focus:ring-0 p-2.5"}
+                    className={
+                      !isEmailAuthentication
+                        ? "w-[16vw] h-[2vh] bg-gray-50 border-none text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-50 focus:ring-0 p-2.5"
+                        : "w-[16vw] h-[2vh] bg-gray-50 border-none text-gray-400 text-sm rounded-lg focus:outline-none focus:border-gray-50 focus:ring-0 p-2.5"
+                    }
                     readOnly={isEmailAuthentication}
                     placeholder="이메일 인증 코드를 입력하세요"
                   />
@@ -430,21 +408,14 @@ export default function SignupPage() {
                 </button>
               </div>
               <div>
-                {authCodeStatus == "인증번호가 올바르지 않습니다." && (
-                  <ValidNO text={authCodeStatus} />
-                )}
-                {authCodeStatus == "이메일 인증이 완료되었습니다." && (
-                  <ValidOK text={authCodeStatus} />
-                )}
+                {authCodeStatus == "인증번호가 올바르지 않습니다." && <ValidNO text={authCodeStatus} />}
+                {authCodeStatus == "이메일 인증이 완료되었습니다." && <ValidOK text={authCodeStatus} />}
               </div>
             </div>
           )}
 
           <div>
-            <label
-              id="nickname"
-              className="block mb-1 text-sm font-suitM text-gray-900"
-            >
+            <label id="nickname" className="block mb-1 text-sm font-suitM text-gray-900">
               닉네임
             </label>
             <input
@@ -453,19 +424,11 @@ export default function SignupPage() {
               placeholder="닉네임을 입력하세요"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-300 focus:ring-0 block w-full p-2.5"
             />
-            <div>
-              {nicknameStatus == "사용 가능한 닉네임입니다." ? (
-                <ValidOK text={nicknameStatus} />
-              ) : (
-                <ValidNO text={nicknameStatus} />
-              )}
-            </div>
+            <div>{nicknameStatus == "사용 가능한 닉네임입니다." ? <ValidOK text={nicknameStatus} /> : <ValidNO text={nicknameStatus} />}</div>
           </div>
+
           <div>
-            <label
-              id="password"
-              className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white"
-            >
+            <label id="password" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
               비밀번호
             </label>
             <input
@@ -474,19 +437,10 @@ export default function SignupPage() {
               placeholder="비밀번호를 입력하세요"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-300 focus:ring-0 block w-full p-2.5"
             />
-            <div>
-              {passwordStatus == "사용 가능한 비밀번호입니다." ? (
-                <ValidOK text={passwordStatus} />
-              ) : (
-                <ValidNO text={passwordStatus} />
-              )}
-            </div>
+            <div>{passwordStatus == "사용 가능한 비밀번호입니다." ? <ValidOK text={passwordStatus} /> : <ValidNO text={passwordStatus} />}</div>
           </div>
           <div className="pb-[2vh]">
-            <label
-              id="password-check"
-              className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white"
-            >
+            <label id="password-check" className="block mb-1 text-sm font-suitM text-gray-900 dark:text-white">
               비밀번호 확인
             </label>
             <input
@@ -496,13 +450,7 @@ export default function SignupPage() {
               placeholder="비밀번호를 재입력 하세요"
               className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-300 focus:ring-0 block w-full p-2.5"
             />
-            <div>
-              {checkPasswordStatus == "비밀번호가 일치합니다." ? (
-                <ValidOK text={checkPasswordStatus} />
-              ) : (
-                <ValidNO text={checkPasswordStatus} />
-              )}
-            </div>
+            <div>{checkPasswordStatus == "비밀번호가 일치합니다." ? <ValidOK text={checkPasswordStatus} /> : <ValidNO text={checkPasswordStatus} />}</div>
           </div>
           <button
             onClick={signupRequest}
@@ -513,6 +461,49 @@ export default function SignupPage() {
           </button>
         </form>
       </div>
+      {nicknameCheck && (
+        <CommonModal
+          title="닉네임이 올바르지 않습니다."
+          description="닉네임은 2글자 이상이어야 합니다."
+          btnTitle="확인"
+          closeModal={() => setNicknameCheck(false)}
+        />
+      )}
+      {isEmailCheck && (
+        <CommonModal
+          title="이메일 형식이 올바르지 않습니다."
+          description="이메일 형식을 확인해주세요."
+          btnTitle="확인"
+          closeModal={() => setIsEmailCheck(false)}
+        />
+      )}
+      {passwordCheck && (
+        <CommonModal
+          title="비밀번호를 다시 설정해 주세요."
+          description="비밀번호는 8~15자의 영문, 숫자, 특수문자(!, ~, *)를 혼합해야 합니다."
+          btnTitle="확인"
+          closeModal={() => setPasswordCheck(false)}
+        />
+      )}
+      {checkPasswordCheck && (
+        <CommonModal
+          title="비밀번호가 일치하지 않습니다."
+          description="비밀번호를 확인해주세요."
+          btnTitle="확인"
+          closeModal={() => setCheckPasswordCheck(false)}
+        />
+      )}
+      {checkEmail && (
+        <CommonModal
+          title="이메일 인증이 완료되지 않았습니다."
+          description="이메일 인증을 진행해주세요."
+          btnTitle="확인"
+          closeModal={() => setCheckEmail(false)}
+        />
+      )}
+      {canSignup && (
+        <CommonModal title="회원가입이 완료되었습니다." description="로그인을 진행해 주세요." btnTitle="로그인하기" closeModal={() => setIsModalOpen(true)} />
+      )}
     </div>
   );
 }
