@@ -66,7 +66,8 @@ export default function CreateIssueModal({ visible, onClose }) {
 
   const handleMemberDropdown = () => {
     setIsMemberDropdownOpen(!isMemberDropdownOpen);
-    if (isMemberDropdownOpen) {
+    // (async () => {
+    if (!isMemberDropdownOpen) {
       instanceAuth
         .get(`/belongs/list/${pj.projectId}`)
         .then((response) => {
@@ -81,6 +82,7 @@ export default function CreateIssueModal({ visible, onClose }) {
           console.log(error);
         });
     }
+    // })();
   };
 
   const handleCreateIssue = async () => {
@@ -113,6 +115,20 @@ export default function CreateIssueModal({ visible, onClose }) {
         console.log(error);
       });
   };
+
+  // 드롭다운
+  // useEffect(() => {
+  //   const handleClickOutside = (e: MouseEvent) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+  //       setIsMemberDropdownOpen(false);
+  //     }
+  //   };
+
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
 
   return (
     <>
@@ -165,66 +181,7 @@ export default function CreateIssueModal({ visible, onClose }) {
               />
 
               <div className="flex items-center mt-6">
-                <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">담당자</p>
-                {/* <button
-                  id="dropdownButton"
-                  data-dropdown-toggle="dropdownMenu"
-                  className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-primary-4 font-medium rounded-lg text-[12px] text-center inline-flex items-center ml-[20px] justify-center"
-                  type="button"
-                  style={{ height: "40px" }}
-                  onClick={() => setIsOpenMemberList(!isOpenMemberList)}
-                >
-                  <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" />
-                  imae
-                  {isOpenMemberList ? <img className="m-1 w-[9px] h-[6px]" src={chevron_up} /> : <img className="m-1 w-[9px] h-[6px]" src={chevron_down} />}
-                </button> */}
-
-                {/* <button
-                  onClick={() => handleMemberDropdown()}
-                  className="flex items-center justify-between w-[140px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3 py-1.5"
-                >
-                  <div className="flex items-center justify-center">
-                    {memberDropdownValue === "멤버 선택" ? (
-                      <div className="ml-2 text-sm text-grey-4">멤버 선택</div>
-                    ) : (
-                      <div>
-                        <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" />
-                        <div className="ml-2 text-sm">memberDropdownValue</div>
-                      </div>
-                    )}
-                  </div>
-                  <div className="flex items-center justify-center">
-                    {isMemberDropdownOpen ? (
-                      <img className="m-1 w-[9px] h-[6px]" src={chevron_up} />
-                    ) : (
-                      <img className="m-1 w-[9px] h-[6px]" src={chevron_down} />
-                    )}
-                  </div>
-                </button>
-                {isMemberDropdownOpen && (
-                  <div
-                    ref={dropdownRef}
-                    className="flex justify-center z-10 absolute top-full left-0 mt-2 w-32 bg-white divide-y divide-gray-100 rounded-lg shadow"
-                  >
-                    {memberList.length === 0 ? (
-                      <div className="py-2 px-4 text-center">멤버 없음</div>
-                    ) : (
-                      memberList.map((member) => (
-                        <div
-                          key={member.memberId}
-                          className="py-2 px-4 cursor-pointer hover:bg-gray-100"
-                          onClick={() => {
-                            setMemberDropdownValue(member.nickname);
-                            setBelongId(member.memberId);
-                          }}
-                        >
-                          <img id="manager_icon" src={member.img} alt="M" className="w-6 h-6 ml-4 mr-3" />
-                          <div className="ml-2 text-sm">{member.nickname}</div>
-                        </div>
-                      ))
-                    )}
-                  </div>
-                )} */}
+                <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mr-3">담당자</p>
                 <div>
                   <div className="relative">
                     <button
@@ -235,7 +192,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                         {memberDropdownValue === "멤버 선택" ? (
                           <div className="ml-2 text-sm text-grey-4">멤버 선택</div>
                         ) : (
-                          <div className="flex items-center">
+                          <div className="flex flex-row items-center">
                             <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" alt="Profile" />
                             <div className="ml-2 text-sm">{memberDropdownValue}</div>
                           </div>
@@ -246,7 +203,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                       </div>
                     </button>
                     {isMemberDropdownOpen && (
-                      <div ref={dropdownRef} className="absolute z-10 top-full left-0 mt-2 w-32 bg-white divide-y divide-gray-100 rounded-lg shadow">
+                      <div ref={dropdownRef} className="absolute z-10 top-full left-0 mt-2 w-[140px] bg-white divide-y divide-gray-100 rounded-lg shadow">
                         {/* 멤버 리스트 목록 map으로 보이기 */}
                         {memberList.length === 0 ? (
                           <div className="py-2 px-4 text-center">멤버 없음</div>
@@ -254,10 +211,11 @@ export default function CreateIssueModal({ visible, onClose }) {
                           memberList.map((member) => (
                             <div
                               key={member.memberId}
-                              className="py-2 px-4 cursor-pointer hover:bg-gray-100"
+                              className="flex flex-row py-2 px-4 cursor-pointer hover:bg-gray-100"
                               onClick={() => {
                                 setMemberDropdownValue(member.nickname);
                                 setBelongId(member.memberId);
+                                setIsMemberDropdownOpen(false);
                               }}
                             >
                               <img id="manager_icon" src={member.img} alt="M" className="w-6 h-6 ml-4 mr-3" />

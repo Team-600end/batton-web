@@ -102,7 +102,7 @@ export default function MainPage() {
     };
   }, []);
 
-  useEffect(() => {});
+  // useEffect(() => {});
 
   useEffect(() => {
     //메인페이지 접속 시. 모든 프로젝트를 가져옴
