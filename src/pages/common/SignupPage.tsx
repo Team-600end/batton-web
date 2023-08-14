@@ -223,9 +223,9 @@ export default function SignupPage() {
       const result = instanceNonAuth.post(`/auth/signup`, signupData);
       console.log(result);
 
-      // alert("회원가입이 완료되었습니다.");
       setCanSignup(true);
-      // alert("로그인을 진행해주세요.");
+      alert("회원가입이 완료되었습니다.");
+      alert("로그인을 진행해주세요.");
       navigate(`/login`);
     } catch (error) {
       console.log(error);
@@ -488,7 +488,7 @@ export default function SignupPage() {
         />
       )}
       {canSignup && (
-        <CommonModal title="회원가입이 완료되었습니다." description="로그인을 진행해 주세요." btnTitle="로그인하기" closeModal={() => setIsModalOpen(true)} />
+        <CommonModal title="회원가입이 완료되었습니다." description="로그인을 진행해 주세요." btnTitle="로그인하기" closeModal={() => setCanSignup(false)} />
       )}
     </div>
   );
