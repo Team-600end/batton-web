@@ -12,7 +12,7 @@ import { Viewer } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/toastui-editor-viewer.css";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 import IssueStatusBadge from "@src/components/project/issue/IssueStatusBadge";
-import profile_img from "@images/common/default_profile.png";
+import default_profile from "@images/common/default_profile.png";
 import IssueCommentBadge from "@src/components/project/issue/IssueCommentBadge";
 import default_avatar_img from "@images/common/default_profile.svg";
 import { CommentType, IssueComment } from "@src/types/comment";
@@ -141,7 +141,7 @@ export default function IssueReportPage() {
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">담당자</p>
           <div className="flex flex-row ml-auto my-auto">
-            <img className="w-8 h-8 mr-3.5" src={profile_img} />
+            <img className="w-8 h-8 mr-3.5 rounded-full" src={(profileImage == null || profileImage == "") ? default_profile : profileImage} />
             <p className="font-suitM text-[1vw] text-gray-900 mt-1">
               {nickname}
             </p>
@@ -155,8 +155,8 @@ export default function IssueReportPage() {
           이슈 레포트
         </p>
       </div>
-      <div className="mb-4 border border-gray-300 rounded-lg bg-gray-100 p-[2vw] h-full w-[48vw] font-suitM mt-[5vh] mx-auto">
-        <div>{editorData && <Viewer initialValue={editorData}/>}</div>
+      <div className="mb-4 border border-gray-300 rounded-lg bg-gray-50 p-[2vw] h-full w-[48vw] font-suitM mt-[5vh] mx-auto">
+        <div>{editorData ? <Viewer initialValue={editorData}/> : <p className="font-suitM text-lg text-gray-500 text-center">이슈 레포트가 작성되지 않았습니다.</p>}</div>
       </div>
 
       <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
@@ -177,12 +177,12 @@ export default function IssueReportPage() {
             <textarea
               onChange={handleChangeCommentInput}
               value={commentInputText}
-              className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg block p-2.5 focus:border-gray-300 focus:ring-0 mx-[1.3vw] w-[40vw] resize-none"
+              className="bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg block p-2.5 focus:border-gray-300 focus:ring-0 mx-[1.3vw] w-[40vw] resize-none"
             />
             <button
               type="button"
               onClick={issueCommentRequest}
-              className="h-[4vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm items-center w-[4vw] mr-[2vw] mb-[0.1vh]"
+              className="border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm items-center mr-[2vw] mb-[0.1vh] p-3 w-[7vw]"
             >
               작성하기
             </button>

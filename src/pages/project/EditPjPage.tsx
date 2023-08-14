@@ -155,7 +155,6 @@ export default function EditPjPage() {
                   minHeight: "14.6640vh",
                 }}
               />
-
               <p
                 className="font-medium text-[14px] text-gray-400 text-right mt-[4px]"
                 style={{ width: "31.0847vw" }}

@@ -31,8 +31,6 @@ export default function IssueBoardPage() {
 
   //공통모달
   const [isModalOpen, setIsModalOpen] = useState(false);
-  //프로젝트 정보 보기 모달
-  const [pjModal, setPjModal] = useState(false);
 
   //이슈 코멘트 모달
   const [issueCommentModal, setIssuCommentModal] = useState(false);
@@ -169,14 +167,6 @@ export default function IssueBoardPage() {
       <div>
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner h-screen">
           <div className="flex justify-end mr-[2.5vw] mt-[2vw] space-x-2">
-            {/* 프로젝트 정보보기 */}
-            <button
-              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
-              onClick={() => setPjModal(true)}
-            >
-              프로젝트 정보
-            </button>
-            {pjModal && <ProjectInfoModal closeModal={() => setPjModal(false)} />}
 
             {/* ----- 공통모달 시험 시작 입니다 ----- */}
             <button
@@ -196,12 +186,13 @@ export default function IssueBoardPage() {
 
             {/* ----- 공통모달 시험 끝 입니다 ----- */}
 
-            <button
+            {/** 히스토리 임시 보류 */}
+            {/* <button
               onClick={() => navigate(`/project/${projectKey}/issue-history`)}
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center font-suitM text-[1vw] hover:bg-primary-5"
             >
               히스토리
-            </button>
+            </button> */}
             <button
               onClick={() => setCreateIssueModal(true)}
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"

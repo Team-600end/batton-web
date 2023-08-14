@@ -139,7 +139,7 @@ export default function CreateIssueModal({ visible, onClose }) {
 
             {/* 모달 내용 */}
             <div className="px-14">
-              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">이슈태그</p>
+              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">이슈 태그</p>
 
               <div className="flex items-center space-x-3 mt-4">
                 {["NEW", "FEATURE", "CHANGED", "FIXED", "DEPRECATED"].map((type: IssueType) => (

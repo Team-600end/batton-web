@@ -87,19 +87,19 @@ function Notice() {
         </div>
         <div className="divide-y divide-gray-100">
           {notices.map((notice) => (
-            <a href="#" className="flex px-4 py-3 hover:bg-gray-100">
+            <div className="flex px-4 py-3 hover:bg-gray-100">
               <div className="flex-shrink-0">
                 {notice.senderProfileImage ? (
-                  <img className="rounded-full w-11 h-11 object-cover" src={notice.senderProfileImage} alt="Profile" />
+                  <img className="rounded-full w-11 h-11 object-cover select-none pointer-events-none" src={notice.senderProfileImage} alt="Profile" />
                 ) : (
-                  <img className="rounded-full w-11 h-11 object-cover" src={default_profile} alt="Default Profile" />
+                  <img className="rounded-full w-11 h-11 object-cover select-none pointer-events-none" src={default_profile} alt="Default Profile" />
                 )}
               </div>
               <div className="w-full pl-3">
                 <div className="text-gray-500 break-all font-suitM text-sm mb-1.5">{notice.noticeContent}</div>
                 <div className="text-green-500 font-suitL text-xs">{notice.noticeDate}</div>
               </div>
-            </a>
+            </div>
           ))}
         </div>
         <Link

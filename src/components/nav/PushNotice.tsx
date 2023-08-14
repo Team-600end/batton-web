@@ -13,7 +13,7 @@ function PushNotice(NoticeMessage: NoticeMessage) {
             const hideNotificationTimeout = setTimeout(() => {
                 setShowNotification(false);
                 setTimeout(() => setVisible(false), 900);
-            }, 4000);
+            }, 3000);
 
             // 컴포넌트가 언마운트될 때 타이머 해제
             return () => clearTimeout(hideNotificationTimeout);
@@ -28,7 +28,7 @@ function PushNotice(NoticeMessage: NoticeMessage) {
                     <div className="left-[36px] top-[42px] pr-[20px] absolute font-suitM">{NoticeMessage.noticeContent}</div>
                     <div className="left-[36px] top-[16px] absolute text-black text-xs font-suitSB">새로운 알림</div>
                     <div className="w-[278px] h-[7px] top-0 absolute bg-primary-4 rounded-tl-[15px] rounded-tr-[15px]" />
-                    <img className="w-5 h-5 left-[12px] top-[13px] absolute" src={push_notice_bell} />
+                    <img className="w-5 h-5 left-[12px] top-[13px] absolute select-none pointer-events-none" src={push_notice_bell} />
                 </div>
             </div>
             )};

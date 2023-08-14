@@ -322,11 +322,11 @@ export default function SignupPage() {
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
       <img
-        className="absolute z-0"
+        className="absolute z-0 select-none pointer-events-none"
         src={signup_hand_image}
         style={{ marginTop: "20vh", marginLeft: "-45vw" }}
       />
-      <img className="relative z-10 mb-4" src={batton_logo_img} />
+      <img className="relative z-10 mb-4 select-none pointer-events-none" src={batton_logo_img} />
       <div className="flex flex-col space-y-6 relative z-10 items-center justify-center w-[38vw] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
         {isModalOpen && (
           <Modal

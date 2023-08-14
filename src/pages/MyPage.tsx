@@ -3,6 +3,7 @@ import { useRecoilValue, useRecoilState } from "recoil";
 import { emailState, nicknameState, profileImgState } from "@src/state/userState";
 import { instanceImageAuth } from "@src/types/AxiosInterface";
 import { useNavigate } from "react-router-dom";
+import default_profile from "@images/common/default_profile.png";
 
 export default function MyPage() {
   const navigate = useNavigate();
@@ -14,6 +15,7 @@ export default function MyPage() {
 
   const [nickname, setNickname] = useState(userNickname);
   const [profileImg, setProfileImg] = useState(userProfileImg);
+
   const [viewImg, setViewImg] = useState(userProfileImg);
 
   const nicknameChange = (event) => {
@@ -68,7 +70,7 @@ export default function MyPage() {
         </div>
         <div className="flex flex-row w-screen " style={{}}>
           <div className="flex flex-col w-screen mt-[40px] items-center" style={{ width: "13.8889vw", marginLeft: "24.2540vw" }}>
-            <img className="w-[106px] h-auto rounded-full" src={viewImg}></img>
+            <img className="w-[20vw] h-[14vw] rounded-full object-cover" src={(viewImg == "" || viewImg == null) ? default_profile : viewImg}></img>
             <p className="text-[16px] font-suitM text-gray-900 mt-[20px]">계정</p>
             <p className="text-[20px] font-suitSB text-gray-900 mt-[4px]">{userEmail}</p>
           </div>

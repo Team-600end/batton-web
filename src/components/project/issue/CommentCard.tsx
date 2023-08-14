@@ -19,7 +19,7 @@ export default function CommentCard(props: CommentCardProps) {
               ? default_avatar_img
               : props.issueComment.profileImage
           }
-          className="h-[1.7vw] mr-3"
+          className="w-6 h-6 mr-2 rounded-full"
         />
         {props.issueComment.memberGrade == "LEADER" && <img className="w-[1vw] h-[1vw] mr-[0.2vw]" src={grade_master_logo} />}
         <p className="items-center mr-3 text-sm font-suitM text-gray-900">
@@ -34,7 +34,7 @@ export default function CommentCard(props: CommentCardProps) {
           )}
         </div>
       </div>
-      <p className="text-gray-500 font-suitL text-xs break-all pl-10 pr-2 mt-2">
+      <p className="text-gray-500 font-suitL text-xs break-all pl-[2.9vw] pr-2 mt-2">
         {props.issueComment.commentContent}
       </p>
     </div>

@@ -28,7 +28,9 @@ export default function ProjectInfoModal({ closeModal }) {
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectKey } = useParams();
 
-  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
+  const pj = projectNav.find(
+    (element: ProjectNav) => element.projectKey.toString() == projectKey
+  );
 
   const [isEdit, setIsEdit] = useState(false);
   // 프로젝트의 이름
@@ -157,51 +159,69 @@ export default function ProjectInfoModal({ closeModal }) {
           <div className="bg-white rounded-lg shadow dark:bg-gray-700">
             {/* title */}
             <div className="flex items-start justify-between px-10 pt-10 rounded-t dark:border-gray-600">
-              <h3 className="mr-20 text-[24px] font-bold text-gray-900 dark:text-white">프로젝트 </h3>
+              <h3 className="mr-20 text-[24px] font-suitB text-gray-900 dark:text-white">
+                프로젝트{" "}
+              </h3>
               <button
                 type="button"
                 onClick={closeModal}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               >
-                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                <svg
+                  className="w-3 h-3"
+                  aria-hidden="true"
+                  xmlns="http://www.w3.org/2000/svg"
+                  fill="none"
+                  viewBox="0 0 14 14"
+                >
+                  <path
+                    stroke="currentColor"
+                    strokeLinecap="round"
+                    strokeLinejoin="round"
+                    strokeWidth="2"
+                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                  />
                 </svg>
               </button>
             </div>
 
             {/* 내용 */}
             <div className="px-14 py-5">
-              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">프로젝트 명</p>
+              <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
+                프로젝트 명
+              </p>
               {isEdit ? (
                 <input
-                  type="pj-title"
                   value={pjTitle}
                   onChange={onTitleChangeHandler}
                   maxLength={20}
-                  className="bg-gray-50 border border-gray-300 text-gray-700 text-sm rounded-lg block p-2.5 w-[31.0847vw]  focus:ring-[#4AA366] focus:border-[#4AA366]"
+                  className="bg-gray-50 border-gray-300 text-gray-700 text-sm rounded-lg block p-2.5 w-[31.0847vw] focus:outline-primary-4 focus:ring-primary-4 focus:border-primary-4 border"
                 />
               ) : (
                 <input
                   readOnly
-                  type="pj-title"
                   value={pjTitle}
-                  className="font-semibold bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg block p-2.5 w-[31.0847vw] cursor-default focus:ring-red-400 focus:border-red-500 "
+                  className="font-suitSB bg-gray-100 border-gray-300 text-gray-400 text-sm rounded-lg block p-2.5 w-[31.0847vw] cursor-default focus:outline-none border"
                 />
               )}
             </div>
 
             <div className="px-14 pb-5">
-              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">프로젝트 키</p>
+              <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
+                프로젝트 키
+              </p>
               <input
                 type="pj-key"
                 readOnly
                 value={pjKey}
-                className="bg-gray-200 border border-gray-300 text-gray-700 text-sm rounded-lg block p-2.5 w-[31.0847vw] cursor-default"
+                className="bg-gray-100 border border-gray-300 text-gray-400 text-sm rounded-lg block p-2.5 w-[31.0847vw]  focus:outline-none cursor-default"
               />
             </div>
 
             <div className="px-14 pb-5">
-              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">프로젝트 설명</p>
+              <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
+                프로젝트 설명
+              </p>
               {isEdit ? (
                 <div>
                   <input
@@ -209,7 +229,7 @@ export default function ProjectInfoModal({ closeModal }) {
                     value={pjContent}
                     maxLength={200}
                     onChange={onContentChangeHandler}
-                    className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
+                    className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l focus:outline-primary-4 focus:ring-primary-4 focus:border-primary-4 block p-2.5"
                     style={{
                       verticalAlign: "top",
                       width: "31.0847vw",
@@ -223,7 +243,7 @@ export default function ProjectInfoModal({ closeModal }) {
                     readOnly
                     type="pj-title"
                     value={pjContent}
-                    className="items-start bg-gray-200 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
+                    className="items-start bg-gray-100 border border-gray-300 text-gray-400 text-sm rounded-lg  focus:outline-none block p-2.5"
                     style={{
                       verticalAlign: "top",
                       width: "31.0847vw",
@@ -246,23 +266,32 @@ export default function ProjectInfoModal({ closeModal }) {
             </div>
 
             <div className="flex justify-center">
-              <button
-                onClick={handleDelete}
-                className="text-white bg-red-500 hover:bg-red-700 focus:ring-2 focus:outline-none focus:ring-red-400 font-medium rounded-lg text-sm px-4 py-2.5 text-center m-3 mb-5"
-              >
-                삭 제
-              </button>
+              {!isEdit ? (
+                <button
+                  onClick={handleDelete}
+                  className="text-white bg-error-3 hover:bg-error-2 focus:ring-2 focus:outline-none focus:ring-red-400 font-suitM rounded-lg text-sm px-4 py-2.5 text-center m-3 mb-5"
+                >
+                  삭 제
+                </button>
+              ) : (
+                <button
+                  onClick={closeModal}
+                  className="text-white bg-grey-4 hover:bg-grey-3 focus:ring-2 focus:outline-none focus:ring-grey-5 font-suitM rounded-lg text-sm px-4 py-2.5 text-center m-3 mb-5"
+                >
+                  취 소
+                </button>
+              )}
               {isEdit ? (
                 <button
                   onClick={handleSave}
-                  className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-2 focus:outline-none focus:ring-primary-5 font-medium rounded-lg text-sm px-4 py-2.5 text-center m-3 mb-5"
+                  className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-2 focus:outline-none focus:ring-primary-5 font-suitM rounded-lg text-sm px-4 py-2.5 text-center m-3 mb-5"
                 >
                   저 장
                 </button>
               ) : (
                 <button
                   onClick={handleEdit}
-                  className="text-white bg-grey-3 hover:bg-blue-800 focus:ring-2 focus:outline-none focus:ring-blue-5 font-medium rounded-lg text-sm px-4 py-2.5 text-center m-3 mb-5"
+                  className="text-white bg-grey-4 hover:bg-grey-3 focus:ring-2 focus:outline-none focus:ring-grey-5 font-suitM rounded-lg text-sm px-4 py-2.5 text-center m-3 mb-5"
                 >
                   수 정
                 </button>

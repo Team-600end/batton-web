@@ -17,7 +17,7 @@ export default function IssueComment({ issueStatusChanged, closeModal, issueId }
   const createIssueComment = async () => {
     //TODO: 이슈 코멘트 생성 api
     console.log(issueCommentData);
-    instanceAuth.put(`/reports/comments/${issueId}`, issueCommentData).then((response) => {
+    instanceAuth.post(`/reports/comments/${issueId}`, issueCommentData).then((response) => {
       if (response.data.code === 200) {
         closeModal();
       } else {
@@ -48,7 +48,7 @@ export default function IssueComment({ issueStatusChanged, closeModal, issueId }
 
               {/* description */}
               <div className="flex items-start justify-start">
-                <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">{issueStatusChanged} 코멘트를 작성해 주세요.</p>
+                <p className="text-[16px] font-semibold leading-relaxed text-gray-900 mt-6 mb-2 ml-1">{issueStatusChanged} 코멘트를 작성해 주세요.</p>
               </div>
 
               {/* 코멘트 */}
@@ -57,7 +57,7 @@ export default function IssueComment({ issueStatusChanged, closeModal, issueId }
                   type="issue"
                   placeholder=""
                   onChange={handleIssueComment}
-                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
+                  className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary-4 focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
                 />
               </div>
               {/* btnTitle */}
