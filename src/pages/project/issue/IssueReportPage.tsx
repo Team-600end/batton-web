@@ -151,7 +151,7 @@ export default function IssueReportPage() {
         </div>
       </div>
 
-      <hr className="h-px my-[1vw] bg-gray-200 border-0 w-[80vw] mx-auto" />
+      <hr className="h-px my-[1vw] mt-[2vw] bg-gray-200 border-0 w-[80vw] mx-auto" />
 
       <div className="flex flex-col mx-auto w-[70vw] mt-[3vh]">
         <div className="flex my-auto">
@@ -165,7 +165,7 @@ export default function IssueReportPage() {
         </div>
       </div>
 
-      <hr className="h-px my-[3vw] bg-gray-200 border-0 w-[80vw] mx-auto" />
+      <hr className="h-px my-[3vw] bg-gray-100 border-0 w-[70vw] mx-auto" />
 
       <div className="flex flex-col mx-auto w-[70vw] mt-[2vh]">
         <div className="flex my-auto">
@@ -181,8 +181,8 @@ export default function IssueReportPage() {
               {index !== commentList.length - 1 && <hr className="h-[2px] bg-gray-50 border-0 w-[60vw] mx-auto" />}
             </div>
           ))}
+        {commentList.length > 0 && <hr className="h-[2px] my-[1vw] bg-gray-100 border-0 w-[64vw] mx-auto" />}
         <div className="flex flex-col">
-          <hr className="h-[2px] my-[1vw] bg-gray-100 border-0 w-[64vw] mx-auto" />
           <p className="font-suitM text-[1.5vw] my-[1vw] px-[2vw]">일반 코멘트 작성</p>
           <div className="flex items-end">
             <textarea

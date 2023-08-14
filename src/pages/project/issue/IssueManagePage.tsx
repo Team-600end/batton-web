@@ -17,6 +17,7 @@ import IssueInfoEditor from "@src/components/project/issue/IssueInfoEditor";
 import { PjMember } from "@src/types/Users";
 import chevron_up from "@images/common/chevron_up.png";
 import chevron_down from "@images/common/chevron_down.png";
+import titleBox_img from "@images/common/title_box.svg";
 
 export default function IssueManagePage() {
   const { projectKey, issueId } = useParams();
@@ -225,7 +226,7 @@ export default function IssueManagePage() {
           />
         </div>
       ) : (
-        <div className="space-y-[1.5vh]">
+        <div className="space-y-[1.7vh]">
           <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
             <p className="font-suitB text-[2vw] text-gray-900 pl-[2.5vw]">제목</p>
             <p className="font-suitM text-[1.7vw] text-gray-900 ml-[3.6vw] my-auto">{issueTitle}</p>
@@ -260,16 +261,18 @@ export default function IssueManagePage() {
         </div>
       )}
 
-      <hr className="h-px my-[1vw] bg-gray-200 border-0 w-[80vw] mx-auto" />
+      <hr className="h-px my-[1vw] mt-[3vw] bg-gray-200 border-0 w-[80vw] mx-auto" />
       {/* 바톤 멤버 선택 */}
       <div className="flex flex-col mx-auto my-[2vw] w-[80vw]">
-        <div className="flex">
-          <p className="font-suitB text-[1.6vw] text-gray-900 ml-[2vw] my-auto">바톤 넘겨주기</p>
-
-          <div className=" relative flex items-start justify-start ml-[2vw] my-auto ">
+        <div className="flex flex-col space-y-3">
+          <div className="flex my-auto mb-[1vw]">
+            <img className="mr-2" src={titleBox_img} />
+            <p className="font-suitB text-[1.6vw] text-gray-900 my-auto">바톤 넘겨주기</p>
+          </div>
+          <div className=" relative flex items-center justify-start ml-[2vw] my-auto ">
             <button
               onClick={handleMemberDropdown}
-              className=" flex items-center justify-between w-[140px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3 py-1.5"
+              className=" flex items-center justify-between w-[140px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3"
             >
               <div className="flex items-center justify-center">
                 {memberDropdownValue === "멤버 선택" ? (
@@ -312,14 +315,17 @@ export default function IssueManagePage() {
         </div>
       </div>
 
-      <hr className="h-px my-[1vw] bg-gray-200 border-0 w-[80vw] mx-auto" />
+      <hr className="h-px my-[1vw] bg-gray-100 border-0 w-[80vw] mx-auto" />
 
       {isMine && (
         <div className="mb-[5vh]">
           <div className="flex flex-col mx-auto w-[80vw] mt-[2vh]">
-            <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">이슈 레포트</p>
+            <div className="flex my-auto">
+              <img className="mr-2" src={titleBox_img} />
+              <p className="font-bold text-[1.6vw] text-gray-900 mt-1">이슈 레포트</p>
+            </div>
           </div>
-          <div className="mb-4 border border-gray-300 rounded-lg bg-white p-[0.2vw] h-full w-[48vw] font-suitM mt-[5vh] mx-auto">
+          <div className="border border-primary-5 rounded-lg bg-white p-[0.2vw] w-[80vw] font-suitM my-[3vh] mx-auto">
             <div>
               <Editor
                 previewStyle="vertical"
