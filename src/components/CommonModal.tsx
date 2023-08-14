@@ -16,16 +16,16 @@ export interface CommonModalInterface {
 export default function CommonModal({ title, description, btnTitle, closeModal }: CommonModalInterface) {
   return (
     <>
-      <div className="fixed flex justify-center items-center z-50 p-20 overflow-x-hidden overflow-y-hidden md:inset-0 w-full h-full max-h-full">
+      <div className="fixed flex justify-center items-center z-50 p-20 overflow-x-hidden overflow-y-hidden md:inset-0 w-full h-full max-h-full bg-black bg-opacity-30">
         <div className="flex max-w-full max-h-full">
           <div className="bg-white rounded-lg shadow dark:bg-gray-700">
             {/* title */}
-            <div className="flex items-start justify-between px-10 pt-10 rounded-t dark:border-gray-600">
-              <h3 className="text-[24px] font-suitB text-gray-900">{title}</h3>
+            <div className="flex items-start justify-between px-8 pt-10 rounded-t dark:border-gray-600">
+              <h3 className="text-[24px] mr-5 font-suitB text-gray-900">{title}</h3>
               <button
                 type="button"
                 onClick={closeModal}
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-5 inline-flex justify-center items-center"
               >
                 <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -34,7 +34,7 @@ export default function CommonModal({ title, description, btnTitle, closeModal }
             </div>
 
             {/* description */}
-            <div className="px-14">
+            <div className="px-10 mr-10">
               <p className="text-[16px] font-suitSB leading-relaxed text-gray-900 mt-6">{description}</p>
             </div>
 
