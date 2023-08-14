@@ -85,7 +85,6 @@ export default function LoginPage() {
     instanceNonAuth
       .post(`/auth/login`, loginData)
       .then((response) => {
-        console.log(response.data);
         if (response.data.accessToken && response.data.accessTokenExpiredDate) {
           setCookie("accessToken", response.data.accessToken, {
             path: `/`,
