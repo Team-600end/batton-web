@@ -175,8 +175,6 @@ export default function IssueManagePage() {
   };
 
   return (
-    // <div className="flex flex-col overflow-hidden">
-
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
       {/* 이슈 정보 */}
@@ -186,13 +184,15 @@ export default function IssueManagePage() {
       </div>
 
       {/* [프로젝트명-이슈키] 이슈타이틀 */}
-      <div className="flex flex-row mr-auto ml-[10vw] w-[80vw] mt-[1vh] font-suitB text-[2vw] text-gray-900 jusitfy-start">
+      <div className="flex flex-row mr-auto ml-[10vw] w-[80vw] my-[1.5vh] font-suitB text-[2vw] text-gray-900 jusitfy-start">
         <p className="text-primary-3">
           [{pj.projectTitle}-{issueKey}]
         </p>
-        <p className="ml-[3vw]">{!issueEditForm ? ` ${issueTitle}` : ``}</p>
+        {/* <p className="ml-[3vw]">{!issueEditForm ? ` ${issueTitle}` : ``}</p> */}
+      </div>
 
-        <div className="items-center justify-end mx-auto w-[65vw] flex flex-row ">
+      {!issueEditForm && (
+        <div className="items-center justify-end mx-auto w-[71vw] flex flex-row ">
           <button
             type="button"
             onClick={issueDeleteRequest}
@@ -208,23 +208,29 @@ export default function IssueManagePage() {
             수정
           </button>
         </div>
-      </div>
-
+      )}
       {issueEditForm ? (
-        <IssueInfoEditor
-          issueId={Number(issueId)}
-          issueTitle={issueTitle}
-          issueStatus={issueStatus}
-          issueContent={issueContent}
-          issueTag={issueTag}
-          managerId={managerId}
-          profileImage={profileImage}
-          nickname={nickname}
-          handleIssueEditForm={() => setIssueEditForm(false)}
-          handleIssueInfoChange={issueInfoEditFetch}
-        />
+        <div className="w-[100vw]">
+          <IssueInfoEditor
+            issueId={Number(issueId)}
+            issueTitle={issueTitle}
+            issueStatus={issueStatus}
+            issueContent={issueContent}
+            issueTag={issueTag}
+            managerId={managerId}
+            profileImage={profileImage}
+            nickname={nickname}
+            handleIssueEditForm={() => setIssueEditForm(false)}
+            handleIssueInfoChange={issueInfoEditFetch}
+          />
+        </div>
       ) : (
-        <div>
+        <div className="space-y-[1.5vh]">
+          <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
+            <p className="font-suitB text-[2vw] text-gray-900 pl-[2.5vw]">제목</p>
+            <p className="font-suitM text-[1.7vw] text-gray-900 ml-[3.6vw] my-auto">{issueTitle}</p>
+          </div>
+
           <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
             <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">설명</p>
             <p className="font-suitM text-[1.3vw] text-gray-900 ml-[4vw] my-auto">{issueContent}</p>
@@ -245,13 +251,12 @@ export default function IssueManagePage() {
           </div>
 
           <div className="flex flex-row mx-auto mt-[1vw] w-[80vw]">
-            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[2.5vw]">담당자</p>
-            <div className="flex flex-row ml-[3vw] my-auto">
+            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[1.8vw]">담당자</p>
+            <div className="flex flex-row ml-[3.7vw] my-auto">
               <img className="w-6 h-6 m-auto mr-3" src={profile_img} />
               <p className="font-suitM text-[1.3vw] text-gray-900 m-auto">{nickname}</p>
             </div>
           </div>
-          {/* <hr className="h-px my-[1vw] bg-gray-200 border-0 w-[80vw] mx-auto" /> */}
         </div>
       )}
 
