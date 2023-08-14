@@ -14,6 +14,9 @@ import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
 import IssueInfoEditor from "@src/components/project/issue/IssueInfoEditor";
+import { PjMember } from "@src/types/Users";
+import chevron_up from "@images/common/chevron_up.png";
+import chevron_down from "@images/common/chevron_down.png";
 
 export default function IssueManagePage() {
   const { projectKey, issueId } = useParams();
@@ -31,11 +34,16 @@ export default function IssueManagePage() {
 
   const editorRef = useRef<Editor>(null);
 
+  // 프로젝트 멤버 모달
+  const [isMemberDropdownOpen, setIsMemberDropdownOpen] = useState(false);
+  const [memberDropdownValue, setMemberDropdownValue] = useState("멤버 선택");
+  const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
+  const [memberList, setMemberList] = useState<PjMember[]>([]);
+  const [belongId, setBelongId] = useState(0); //TODO: 담당자 id
+
   // Project Recoil
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
-  const pj = projectNav.find(
-    (element: ProjectNav) => element.projectKey.toString() == projectKey
-  );
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   const navigate = useNavigate();
 
@@ -115,9 +123,7 @@ export default function IssueManagePage() {
       .get(`/reports/${issueId}`)
       .then((response) => {
         if (response.data.code == 200) {
-          editorRef.current
-            ?.getInstance()
-            .setHTML(response.data.result.reportContent as string);
+          editorRef.current?.getInstance().setHTML(response.data.result.reportContent as string);
           setEditorData(editorRef.current.getInstance().getHTML());
         } else {
           console.log("response after error");
@@ -146,25 +152,62 @@ export default function IssueManagePage() {
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
+  };
+
+  const handleMemberDropdown = () => {
+    setIsMemberDropdownOpen(!isMemberDropdownOpen);
+    if (isMemberDropdownOpen) {
+      instanceAuth
+        .get(`/belongs/list/${pj.projectId}`)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.code === 200) {
+            setMemberList(response.data.result);
+          } else if (response.data.code === 707) {
+            setMemberList([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
   };
 
   return (
+    // <div className="flex flex-col overflow-hidden">
+
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
-      <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[60vw]">
-        <div className="flex justify-start">
-          <p className="font-suitB text-[2vw] text-gray-900 jusitfy-start">
-            [{pj.projectTitle}-{issueKey}]
-            {!issueEditForm ? ` ${issueTitle}` : ``}
-          </p>
-        </div>
+      {/* 이슈 정보 */}
+      <div className="flex items-center justify-start ml-auto mr-auto mt-[5vh] h-[5vh] w-[90vw]">
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-[2vw]">이슈 정보</p>
+        {issueEditForm && <p className=" text-primary-3 ml-[1vw] text-[1.6vw]">수정중</p>}
       </div>
 
-      <div className="flex flex-col mr-auto ml-auto w-[50vw] mt-[5vh]">
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          이슈 정보 {issueEditForm ? `수정` : ``}
+      {/* [프로젝트명-이슈키] 이슈타이틀 */}
+      <div className="flex flex-row mr-auto ml-[10vw] w-[80vw] mt-[1vh] font-suitB text-[2vw] text-gray-900 jusitfy-start">
+        <p className="text-primary-3">
+          [{pj.projectTitle}-{issueKey}]
         </p>
+        <p className="ml-[3vw]">{!issueEditForm ? ` ${issueTitle}` : ``}</p>
+
+        <div className="items-center justify-end mx-auto w-[65vw] flex flex-row ">
+          <button
+            type="button"
+            onClick={issueDeleteRequest}
+            className="h-[4vh] border border-error-3 text-error-3 bg-white hover:bg-error-4 font-suitM rounded-lg text-sm w-11 items-center mx-[0.5vw]"
+          >
+            삭제
+          </button>
+          <button
+            type="button"
+            onClick={() => setIssueEditForm(true)}
+            className="h-[4vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm w-11 items-center mx-[0.5vw]"
+          >
+            수정
+          </button>
+        </div>
       </div>
 
       {issueEditForm ? (
@@ -181,60 +224,95 @@ export default function IssueManagePage() {
           handleIssueInfoChange={issueInfoEditFetch}
         />
       ) : (
-        <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
-          <div className="flex">
-            <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
-            <div className="ml-auto space-x-1">
+        <div>
+          <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
+            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">설명</p>
+            <p className="font-suitM text-[1.3vw] text-gray-900 ml-[4vw] my-auto">{issueContent}</p>
+          </div>
+
+          <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
+            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">상태</p>
+            <div className="ml-[4vw] my-auto">
               <IssueStatusBadge issueStatus={issueStatus} />
             </div>
           </div>
-          <div className="flex">
-            <p className="font-suitM text-[1.4vw] text-gray-900">설명</p>
-            <p className="font-suitM text-[1vw] text-gray-900 ml-auto my-auto">
-              {issueContent}
-            </p>
-          </div>
-          <div className="flex">
-            <p className="font-suitM text-[1.4vw] text-gray-900">태그</p>
-            <div className="ml-auto my-auto">
+
+          <div className="flex flex-row mx-auto mt-[1vw] w-[80vw]">
+            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">태그</p>
+            <div className="ml-[4vw] my-auto">
               <IssueBadge issueType={issueTag} />
             </div>
           </div>
-          <div className="flex">
-            <p className="font-suitM text-[1.4vw] text-gray-900">담당자</p>
-            <div className="flex flex-row ml-auto my-auto">
-              <img className="w-8 h-8 mr-3.5" src={profile_img} />
-              <p className="font-suitM text-[1vw] text-gray-900 mt-1">
-                {nickname}
-              </p>
+
+          <div className="flex flex-row mx-auto mt-[1vw] w-[80vw]">
+            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[2.5vw]">담당자</p>
+            <div className="flex flex-row ml-[3vw] my-auto">
+              <img className="w-6 h-6 m-auto mr-3" src={profile_img} />
+              <p className="font-suitM text-[1.3vw] text-gray-900 m-auto">{nickname}</p>
             </div>
           </div>
-          <div className="mx-auto w-[50vw] flex flex-row pt-[5vh]">
-            <button
-              type="button"
-              onClick={issueDeleteRequest}
-              className="h-[5vh] border border-error-3 text-error-3 bg-white hover:bg-error-4 font-suitM rounded-lg text-sm py-2.5 items-center mr-[1vw] w-[6vw] ml-auto"
-            >
-              이슈 삭제
-            </button>
-            <button
-              type="button"
-              onClick={() => setIssueEditForm(true)}
-              className="h-[5vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm py-2.5 items-center w-[6vw] mr-[10vw]"
-            >
-              이슈 수정
-            </button>
-          </div>
+          {/* <hr className="h-px my-[1vw] bg-gray-200 border-0 w-[80vw] mx-auto" /> */}
         </div>
       )}
 
+      <hr className="h-px my-[1vw] bg-gray-200 border-0 w-[80vw] mx-auto" />
+      {/* 바톤 멤버 선택 */}
+      <div className="flex flex-col mx-auto my-[2vw] w-[80vw]">
+        <div className="flex">
+          <p className="font-suitB text-[1.6vw] text-gray-900 ml-[2vw] my-auto">바톤 넘겨주기</p>
+
+          <div className=" relative flex items-start justify-start ml-[2vw] my-auto ">
+            <button
+              onClick={handleMemberDropdown}
+              className=" flex items-center justify-between w-[140px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3 py-1.5"
+            >
+              <div className="flex items-center justify-center">
+                {memberDropdownValue === "멤버 선택" ? (
+                  <div className="ml-2 text-sm text-grey-4 ">멤버 선택</div>
+                ) : (
+                  <div className="flex items-center">
+                    <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" alt="Profile" />
+                    <div className="ml-2 text-sm">{memberDropdownValue}</div>
+                  </div>
+                )}
+              </div>
+              <div className="flex items-center justify-center">
+                <img className="m-1 w-[9px] h-[6px]" src={isMemberDropdownOpen ? chevron_up : chevron_down} alt="Dropdown Icon" />
+              </div>
+            </button>
+            {isMemberDropdownOpen && (
+              <div ref={dropdownRef} className=" absolute z-10 top-full left-auto mt-2 w-[140px] bg-white divide-y divide-gray-100 rounded-lg shadow">
+                {/* 멤버 리스트 목록 map으로 보이기 */}
+                {memberList.length === 0 ? (
+                  <div className="py-2 px-4 text-center">멤버 없음</div>
+                ) : (
+                  memberList.map((member) => (
+                    <div
+                      key={member.memberId}
+                      className="py-2 px-4 flex cursor-pointer hover:bg-gray-100"
+                      onClick={() => {
+                        setMemberDropdownValue(member.nickname);
+                        setBelongId(member.memberId);
+                      }}
+                    >
+                      <img id="manager_icon" src={member.img} alt="M" className="w-6 h-6 ml-4 mr-3" />
+                      <div className="ml-2 text-sm">{member.nickname}</div>
+                    </div>
+                  ))
+                )}
+              </div>
+            )}
+          </div>
+          <p className="text-[1.6vh] font-suitL text-gray-400 ml-[2vw] my-auto">이슈 알림을 받을 멤버를 선택하실 수 있습니다.</p>
+        </div>
+      </div>
+
+      <hr className="h-px my-[1vw] bg-gray-200 border-0 w-[80vw] mx-auto" />
+
       {isMine && (
-        <div>
-          <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
-            <hr className="h-px my-8 bg-gray-200 border-0" />
-            <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-              이슈 레포트
-            </p>
+        <div className="mb-[5vh]">
+          <div className="flex flex-col mx-auto w-[80vw] mt-[2vh]">
+            <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">이슈 레포트</p>
           </div>
           <div className="mb-4 border border-gray-300 rounded-lg bg-white p-[0.2vw] h-full w-[48vw] font-suitM mt-[5vh] mx-auto">
             <div>
@@ -272,7 +350,7 @@ export default function IssueManagePage() {
               />
             </div>
           </div>
-          <div className="mx-auto w-[50vw] flex flex-row">
+          <div className="mx-auto w-[80vw] flex flex-row">
             <button
               type="button"
               onClick={() => {
@@ -292,197 +370,6 @@ export default function IssueManagePage() {
           </div>
         </div>
       )}
-
-      <div className="flex flex-col mr-auto ml-auto w-[50vw]">
-        <hr className="h-px my-8 bg-gray-200 border-0 mt-5" />
-        <div className="flex">
-          <p className="font-suitB text-[1.6vw] text-gray-900 ml-10 mt-1">
-            바톤 넘겨주기
-          </p>
-          <p className="text-[1.6vh] font-suitL text-gray-400 ml-[2vw] mt-[2vh]">
-            이슈 알림을 받을 멤버를 선택하실 수 있습니다.
-          </p>
-        </div>
-      </div>
-
-      <div className="flex mr-auto ml-auto w-[50vw] flex-col">
-        <div className="flex flex-col justify-start mt-10 space-y-7 mb-[10vh]">
-          <div className="flex">
-            <div
-              id="dropdownSearch"
-              className="z-10 bg-white rounded-lg shadow w-60 dark:bg-gray-700"
-              style={{ width: "26.3139vw" }}
-            >
-              <div className="p-3">
-                <label htmlFor="input-group-search" className="sr-only">
-                  Search
-                </label>
-                <div className="relative">
-                  <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
-                    <svg
-                      className="w-4 h-4 text-gray-500 dark:text-gray-400"
-                      aria-hidden="true"
-                      xmlns="http://www.w3.org/2000/svg"
-                      fill="none"
-                      viewBox="0 0 20 20"
-                    >
-                      <path
-                        stroke="currentColor"
-                        strokeLinecap="round"
-                        strokeLinejoin="round"
-                        strokeWidth="2"
-                        d="m19 19-4-4m0-7A7 7 0 1 1 1 8a7 7 0 0 1 14 0Z"
-                      />
-                    </svg>
-                  </div>
-                  <input
-                    type="text"
-                    id="input-group-search"
-                    className="block w-full p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg bg-gray-50 focus:ring-blue-500 focus:border-blue-500 dark:bg-gray-600 dark:border-gray-500 dark:placeholder-gray-400 dark:text-white dark:focus:ring-blue-500 dark:focus:border-blue-500"
-                    placeholder="Search user"
-                  />
-                </div>
-              </div>
-              <ul
-                className="h-48 px-3 pb-3 overflow-y-auto text-sm text-gray-700 dark:text-gray-200"
-                aria-labelledby="dropdownSearchButton"
-              >
-                <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
-                    <input
-                      id="checkbox-item-11"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                    />
-                    <label
-                      htmlFor="checkbox-item-11"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
-                    >
-                      Bonnie Green
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
-                    <input
-                      checked
-                      id="checkbox-item-12"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                    />
-                    <label
-                      htmlFor="checkbox-item-12"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
-                    >
-                      Jese Leos
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
-                    <input
-                      id="checkbox-item-13"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                    />
-                    <label
-                      htmlFor="checkbox-item-13"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
-                    >
-                      Michael Gough
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
-                    <input
-                      id="checkbox-item-14"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                    />
-                    <label
-                      htmlFor="checkbox-item-14"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
-                    >
-                      Robert Wall
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
-                    <input
-                      id="checkbox-item-15"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                    />
-                    <label
-                      htmlFor="checkbox-item-15"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded"
-                    >
-                      Joseph Mcfall
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100">
-                    <input
-                      id="checkbox-item-16"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                    />
-                    <label
-                      htmlFor="checkbox-item-16"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                    >
-                      Leslie Livingston
-                    </label>
-                  </div>
-                </li>
-                <li>
-                  <div className="flex items-center pl-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
-                    <input
-                      id="checkbox-item-17"
-                      type="checkbox"
-                      value=""
-                      className="w-4 h-4 text-blue-600 bg-gray-100 border-gray-300 rounded focus:ring-blue-500 focus:ring-2"
-                    />
-                    <label
-                      htmlFor="checkbox-item-17"
-                      className="w-full py-2 ml-2 text-sm font-medium text-gray-900 rounded dark:text-gray-300"
-                    >
-                      Roberta Casas
-                    </label>
-                  </div>
-                </li>
-              </ul>
-              <a
-                href="#"
-                className="flex items-center p-3 text-sm font-medium text-red-600 border-t border-gray-200 rounded-b-lg bg-gray-50 hover:bg-gray-100 hover:underline"
-              >
-                <svg
-                  className="w-4 h-4 mr-2"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="currentColor"
-                  viewBox="0 0 20 18"
-                >
-                  <path d="M6.5 9a4.5 4.5 0 1 0 0-9 4.5 4.5 0 0 0 0 9ZM8 10H5a5.006 5.006 0 0 0-5 5v2a1 1 0 0 0 1 1h11a1 1 0 0 0 1-1v-2a5.006 5.006 0 0 0-5-5Zm11-3h-6a1 1 0 1 0 0 2h6a1 1 0 1 0 0-2Z" />
-                </svg>
-                Delete user
-              </a>
-            </div>
-          </div>
-          <button className="h-[5vh] border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm py-2.5 items-center ml-4 w-[6vw]">
-            설정
-          </button>
-        </div>
-      </div>
     </div>
   );
 }
