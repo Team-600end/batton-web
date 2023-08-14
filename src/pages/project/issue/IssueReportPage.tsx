@@ -21,7 +21,7 @@ import CommentCard from "@src/components/project/issue/CommentCard";
 interface CommentPostData {
   commentContent?: string;
   commentType: CommentType;
-};
+}
 
 export default function IssueReportPage() {
   const navigate = useNavigate();
@@ -39,9 +39,7 @@ export default function IssueReportPage() {
 
   // Project Recoil
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
-  const pj = projectNav.find(
-    (element: ProjectNav) => element.projectKey.toString() == projectKey
-  );
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   useEffect(() => {
     issueReportRequest();
@@ -78,22 +76,22 @@ export default function IssueReportPage() {
   const issueCommentRequest = async () => {
     const commentPostData: CommentPostData = {
       commentContent: commentInputText,
-      commentType: "COMMON"
+      commentType: "COMMON",
     };
     instanceAuth
       .post(`/reports/comments/${issueId}`, commentPostData)
       .then((response) => {
         if (response.data.code == 200) {
           alert("댓글을 등록하였습니다.");
-          setCommentInputText('');
+          setCommentInputText("");
           issueReportRequest(); // fetch
         } else {
-          console.log("response after error")
+          console.log("response after error");
         }
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   };
 
   const viewer = new Viewer({
@@ -114,9 +112,7 @@ export default function IssueReportPage() {
       </div>
 
       <div className="flex flex-col mr-auto ml-auto w-[50vw] mt-[5vh]">
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          이슈 정보
-        </p>
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">이슈 정보</p>
       </div>
 
       <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
@@ -128,9 +124,7 @@ export default function IssueReportPage() {
         </div>
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">설명</p>
-          <p className="font-suitM text-[1vw] text-gray-900 ml-auto my-auto">
-            {issueContent}
-          </p>
+          <p className="font-suitM text-[1vw] text-gray-900 ml-auto my-auto">{issueContent}</p>
         </div>
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">태그</p>
@@ -141,38 +135,35 @@ export default function IssueReportPage() {
         <div className="flex">
           <p className="font-suitM text-[1.4vw] text-gray-900">담당자</p>
           <div className="flex flex-row ml-auto my-auto">
-            <img className="w-8 h-8 mr-3.5 rounded-full" src={(profileImage == null || profileImage == "") ? default_profile : profileImage} />
-            <p className="font-suitM text-[1vw] text-gray-900 mt-1">
-              {nickname}
-            </p>
+            <img className="w-8 h-8 mr-3.5 rounded-full" src={profileImage == null || profileImage == "" ? default_profile : profileImage} />
+            <p className="font-suitM text-[1vw] text-gray-900 mt-1">{nickname}</p>
           </div>
         </div>
       </div>
 
       <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
         <hr className="h-px my-8 bg-gray-200 border-0" />
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          이슈 레포트
-        </p>
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-[1vw] mt-1">이슈 레포트</p>
       </div>
-      <div className="mb-4 border border-gray-300 rounded-lg bg-gray-50 p-[2vw] h-full w-[48vw] font-suitM mt-[5vh] mx-auto">
-        <div>{editorData ? <Viewer initialValue={editorData}/> : <p className="font-suitM text-lg text-gray-500 text-center">이슈 레포트가 작성되지 않았습니다.</p>}</div>
+      <div className="border border-gray-100 rounded-lg p-[2vw] h-full w-[48vw] font-suitM mt-[3vh] shadow-inner mx-auto">
+        <div>
+          {editorData ? <Viewer initialValue={editorData} /> : <p className="font-suitM text-[2vw] text-gray-300 text-center">작성된 이슈 레포트가 없어요!</p>}
+        </div>
       </div>
 
       <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
         <hr className="h-px my-8 bg-gray-200 border-0" />
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          코멘트
-        </p>
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-[1vw] mt-1">코멘트</p>
       </div>
       <div className="flex flex-col w-[48vw] mx-auto divide-y divide-gray-100 mt-[3vh] border border-gray-300 rounded-lg shadow-inner pt-3 pb-5 mb-[7vh]">
-        {commentList && commentList.map((comment, index) => (
-          <div key={index}>
-            <CommentCard issueComment={comment}/>
-          </div>
-        ))}
+        {commentList &&
+          commentList.map((comment, index) => (
+            <div key={index}>
+              <CommentCard issueComment={comment} />
+            </div>
+          ))}
         <div className="flex flex-col">
-          <p className="font-suitM text-lg pt-4 px-7 pb-3">일반 코멘트 작성</p>
+          <p className="font-suitM text-[1.5vw] pt-4 px-[2vw] pb-3">일반 코멘트 작성</p>
           <div className="flex items-end">
             <textarea
               onChange={handleChangeCommentInput}
@@ -182,9 +173,9 @@ export default function IssueReportPage() {
             <button
               type="button"
               onClick={issueCommentRequest}
-              className="border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm items-center mr-[2vw] mb-[0.1vh] p-3 w-[7vw]"
+              className="border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm items-center mr-[1.5vw] my-auto p-2 w-[50px]"
             >
-              작성하기
+              작성
             </button>
           </div>
         </div>
