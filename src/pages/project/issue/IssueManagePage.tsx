@@ -8,7 +8,7 @@ import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
 import IssueStatusBadge from "@src/components/project/issue/IssueStatusBadge";
-import { instanceAuth } from "@src/types/AxiosInterface";
+import { instanceAuth, instanceImageAuth } from "@src/types/AxiosInterface";
 import { IssueStatus, IssueType } from "@src/types/Issue";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
@@ -110,6 +110,7 @@ export default function IssueManagePage() {
         console.log(response.data);
         console.log(response.data.result);
         if (response.data.code == 200) {
+          console.log(editorData);
         } else {
           console.log("response after error");
         }
@@ -266,7 +267,7 @@ export default function IssueManagePage() {
       <div className="flex flex-col mx-auto my-[2vw] w-[80vw]">
         <div className="flex flex-col space-y-3">
           <div className="flex my-auto mb-[1vw]">
-            <img className="mr-2" src={titleBox_img} />
+            <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
             <p className="font-suitB text-[1.6vw] text-gray-900 my-auto">바톤 넘겨주기</p>
           </div>
           <div className=" relative flex items-center justify-start ml-[2vw] my-auto ">
@@ -303,7 +304,7 @@ export default function IssueManagePage() {
                         setBelongId(member.memberId);
                       }}
                     >
-                      <img id="manager_icon" src={member.img} alt="M" className="w-6 h-6 ml-4 mr-3" />
+                      <img id="manager_icon" src={member.profileImage} alt="M" className="w-6 h-6 ml-4 mr-3" />
                       <div className="ml-2 text-sm">{member.nickname}</div>
                     </div>
                   ))
@@ -321,7 +322,7 @@ export default function IssueManagePage() {
         <div className="mb-[5vh]">
           <div className="flex flex-col mx-auto w-[80vw] mt-[2vh]">
             <div className="flex my-auto">
-              <img className="mr-2" src={titleBox_img} />
+              <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
               <p className="font-bold text-[1.6vw] text-gray-900 mt-1">이슈 레포트</p>
             </div>
           </div>
@@ -342,21 +343,25 @@ export default function IssueManagePage() {
                   // 툴바 옵션 설정
                   ["heading", "bold", "italic", "strike"],
                   ["hr", "quote"],
-                  ["ul", "ol", "task", "indent", "outdent"],
-                  ["table", "image", "link"],
+                  ["ul", "ol", "task"],
+                  ["image", "link"],
                   ["code", "codeblock"],
                 ]}
-                // hooks 에서 addImageBlobHook 를 주물러 주면 된다.
                 hooks={{
                   addImageBlobHook: async (blob, callback) => {
-                    console.log(blob); // File {name: '카레유.png', ... }
-
-                    // 1. 첨부된 이미지 파일을 서버로 전송후, 이미지 경로 url을 받아온다.
-                    // const imgUrl = await .... 서버 전송 / 경로 수신 코드 ...
-
-                    // 2. 첨부된 이미지를 화면에 표시(경로는 임의로 넣었다.)
-                    callback("http://localhost:5000/img/카레유.png", "카레유");
-                  },
+                    const imgData = new FormData();
+                    imgData.append('profileImg', blob);
+                    instanceImageAuth
+                      .post(`/releases/images/upload`, imgData)
+                      .then((response) => {
+                        if (response.data.code == 200) {
+                          callback(response.data.result);
+                        }
+                      })
+                      .catch(() => {
+                        callback("");
+                    })
+                  }
                 }}
               />
             </div>

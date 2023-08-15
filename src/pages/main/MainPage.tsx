@@ -138,7 +138,7 @@ export default function MainPage() {
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
         <div className="h-10"></div>
         <div className="flex flex-row items-center justify-left w-full px-8 ml-[15vw]">
-          <img className="mr-2" src={titleBox_img} />
+          <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
           <h1 className="text-2xl font-suitB text-black mr-4">참여 중인 프로젝트</h1>
 
           <button
@@ -179,7 +179,7 @@ export default function MainPage() {
           )}
         </div>
         <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-[15vw]">
-          <img className="mr-2" src={titleBox_img} />
+          <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
           <h1 className="text-2xl font-suitB text-black mr-4">내 작업 이슈들</h1>
         </div>
         {/* table */}

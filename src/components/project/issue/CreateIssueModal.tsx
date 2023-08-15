@@ -218,7 +218,7 @@ export default function CreateIssueModal({ visible, onClose }) {
                                 setIsMemberDropdownOpen(false);
                               }}
                             >
-                              <img id="manager_icon" src={member.img} alt="M" className="w-6 h-6 ml-4 mr-3" />
+                              <img id="manager_icon" src={(member.profileImage == null || member.profileImage == "") ? profile_img : member.profileImage} alt="M" className="w-6 h-6 ml-4 mr-3" />
                               <div className="ml-2 text-sm">{member.nickname}</div>
                             </div>
                           ))

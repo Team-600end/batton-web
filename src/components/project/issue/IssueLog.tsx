@@ -83,7 +83,7 @@ export default function IssueLog() {
                   </th>
                   <td className="px-6 py-4"><IssueStatusBadge issueStatus={item.issueStatus}/></td>
                   <td className="px-6 py-4 flex justify-center items-center ">
-                    <img className="w-6 h-6 rounded-full mr-[10px] object-cover" src={(item.profileImg == "" || item.profileImg == null) ? default_profile_img : item.profileImg} alt="Profile" />
+                    <img className="w-6 h-6 rounded-full mr-[10px] object-cover select-none pointer-events-none" src={(item.profileImg == "" || item.profileImg == null) ? default_profile_img : item.profileImg} alt="Profile" />
                     {item.nickname}
                   </td>
                 </tr>

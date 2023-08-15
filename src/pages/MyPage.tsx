@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
 import { emailState, nicknameState, profileImgState } from "@src/state/userState";
-import { instanceImageAuth } from "@src/types/AxiosInterface";
+import { instanceAuth, instanceImageAuth } from "@src/types/AxiosInterface";
 import { useNavigate } from "react-router-dom";
 import default_profile from "@images/common/default_profile.png";
 

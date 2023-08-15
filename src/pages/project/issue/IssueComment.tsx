@@ -1,7 +1,11 @@
 import { instanceAuth } from "@src/types/AxiosInterface";
 import React, { useState } from "react";
 
-export default function IssueComment({ issueStatusChanged, closeModal, issueId }) {
+export default function IssueComment({
+  issueStatusChanged,
+  closeModal,
+  issueId,
+}) {
   const [commentContent, setCommentContent] = useState("");
   const handleIssueComment = (e) => {
     setCommentContent(e.target.value);
@@ -17,13 +21,15 @@ export default function IssueComment({ issueStatusChanged, closeModal, issueId }
   const createIssueComment = async () => {
     //TODO: 이슈 코멘트 생성 api
     console.log(issueCommentData);
-    instanceAuth.post(`/reports/comments/${issueId}`, issueCommentData).then((response) => {
-      if (response.data.code === 200) {
-        closeModal();
-      } else {
-        alert("이슈 코멘트 생성에 실패했습니다.");
-      }
-    });
+    instanceAuth
+      .post(`/reports/comments/${issueId}`, issueCommentData)
+      .then((response) => {
+        if (response.data.code === 200) {
+          closeModal();
+        } else {
+          alert("이슈 코멘트 생성에 실패했습니다.");
+        }
+      });
   };
 
   return (
@@ -34,21 +40,47 @@ export default function IssueComment({ issueStatusChanged, closeModal, issueId }
             <div className="bg-white rounded-lg shadow dark:bg-gray-700 px-7">
               {/* title */}
               <div className="flex items-start justify-between pt-10 rounded-t dark:border-gray-600">
-                <h3 className="text-[20px] font-bold text-gray-900 dark:text-white">이슈 코멘트</h3>
+                <h3 className="text-[20px] font-suitB text-gray-900 dark:text-white">
+                  이슈 코멘트
+                </h3>
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                  className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
                 >
-                  <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
+                  <svg
+                    className="w-3 h-3"
+                    aria-hidden="true"
+                    xmlns="http://www.w3.org/2000/svg"
+                    fill="none"
+                    viewBox="0 0 14 14"
+                  >
+                    <path
+                      stroke="currentColor"
+                      strokeLinecap="round"
+                      strokeLinejoin="round"
+                      strokeWidth="2"
+                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
+                    />
                   </svg>
                 </button>
               </div>
 
               {/* description */}
-              <div className="flex items-start justify-start">
-                <p className="text-[16px] font-semibold leading-relaxed text-gray-900 mt-6 mb-2 ml-1">{issueStatusChanged} 코멘트를 작성해 주세요.</p>
+              <div className="flex items-center justify-start">
+                <p
+                  className={
+                    issueStatusChanged == "승인"
+                      ? "text-lg font-suitSB leading-relaxed text-primary-3 mt-6 mb-2 ml-1"
+                      : "text-lg font-suitSB leading-relaxed text-error-3 mt-6 mb-2 ml-1"
+                  }
+                >
+                  {issueStatusChanged}
+                </p>
+                <p className="text-base font-suitSB leading-relaxed text-gray-900 mt-6 mb-2 ml-1">
+                  {" "}
+                  코멘트를 작성해 주세요.
+                </p>
               </div>
 
               {/* 코멘트 */}
@@ -65,14 +97,14 @@ export default function IssueComment({ issueStatusChanged, closeModal, issueId }
                 <button
                   type="button"
                   onClick={closeModal}
-                  className="text-white bg-grey-4 hover:bg-grey-3 focus:ring-2 focus:outline-none focus:ring-grey-5 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  className="text-white bg-grey-4 hover:bg-grey-3 focus:ring-2 focus:outline-none focus:ring-grey-5 font-suitM rounded-lg text-sm px-5 py-2.5 text-center"
                 >
                   취소
                 </button>
                 <button
                   type="button"
                   onClick={createIssueComment}
-                  className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-2 focus:outline-none focus:ring-primary-5 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                  className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-2 focus:outline-none focus:ring-primary-5 font-suitM rounded-lg text-sm px-5 py-2.5 text-center"
                 >
                   확인
                 </button>

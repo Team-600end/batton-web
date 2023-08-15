@@ -22,7 +22,7 @@ export default function PjMember(props: PjMemberProps) {
     <>
       <div className="flex flex-row h-[38px] min-w-[170px] w-[10vw] mx-auto my-[16] items-center justify-center text-green-700 bg-white border border-green-500 font-suitM rounded-lg hover:bg-gray-50 text-sm px-5 py-2.5 mt-2">
         <div className="width-[60px]">
-          <img className="w-6 h-6 rounded-full object-cover" src={(props.member.profileImage == null || props.member.profileImage == "") ? default_profile : props.member.profileImage} alt="avatar" />
+          <img className="w-6 h-6 rounded-full object-cover select-none pointer-events-none" src={(props.member.profileImage == null || props.member.profileImage == "") ? default_profile : props.member.profileImage} alt="avatar" />
         </div>
         <div className="w-auto px-[20px] text-xs text-gray-500 font-suitM break-keep select-none pointer-events-none">{props.member.nickname}</div>
         {isLeader && (

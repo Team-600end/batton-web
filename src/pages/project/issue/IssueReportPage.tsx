@@ -155,7 +155,7 @@ export default function IssueReportPage() {
 
       <div className="flex flex-col mx-auto w-[70vw] mt-[3vh]">
         <div className="flex my-auto">
-          <img className="mr-2" src={titleBox_img} />
+          <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
           <p className="font-bold text-[1.6vw] text-gray-900 my-auto">이슈 레포트</p>
         </div>
       </div>
@@ -169,7 +169,7 @@ export default function IssueReportPage() {
 
       <div className="flex flex-col mx-auto w-[70vw] mt-[2vh]">
         <div className="flex my-auto">
-          <img className="mr-2" src={titleBox_img} />
+          <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
           <p className="font-bold text-[1.6vw] text-gray-900 my-auto">이슈 코멘트</p>
         </div>
       </div>

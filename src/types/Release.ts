@@ -12,6 +12,7 @@ export interface Release {
     createdDate: string;
     issueList?: AbsIssue[];
     releasesId: number;
+    isPublished: string;
 }
 
 export interface Puzzle {

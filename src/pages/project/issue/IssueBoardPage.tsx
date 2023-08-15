@@ -7,7 +7,6 @@ import MilestoneNavbar from "@components/nav/MilestoneNavbar";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { useNavigate, useParams } from "react-router-dom";
 import CreateIssueModal from "@components/project/issue/CreateIssueModal";
-
 import { instanceAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";

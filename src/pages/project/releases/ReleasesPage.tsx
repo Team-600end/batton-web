@@ -135,21 +135,21 @@ export default function ReleasesPage() {
                 <button
                   type="button"
                   onClick={releasesEditRequest}
-                  className="focus:outline-none text-white bg-primary-4 hover:bg-green-800 focus:ring-4 focus:ring-green-300 font-suitM rounded-lg text-base px-5 py-1.5 mr-2 mb-2"
+                  className="focus:outline-none text-primary-4 border border-primary-4 bg-white hover:bg-primary-5 focus:ring-4 focus:ring-green-300 font-suitM rounded-lg text-base px-5 py-1.5 mr-2 mb-2"
                 >
                   수정
                 </button>
                 <button
                   type="button"
                   onClick={releasesDeleteRequest}
-                  className="focus:outline-none text-white bg-error-3 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-suitM rounded-lg text-base px-5 py-1.5 mr-2 mb-2"
+                  className="focus:outline-none text-error-3 bg-white border border-error-3 hover:bg-error-4 focus:ring-4 focus:ring-red-300 font-suitM rounded-lg text-base px-5 py-1.5 mr-2 mb-2"
                 >
                   삭제
                 </button>
                 <button
                   type="button"
                   onClick={releasesPublishRequest}
-                  className="focus:outline-none text-white bg-error-3 hover:bg-red-800 focus:ring-4 focus:ring-red-300 font-suitM rounded-lg text-base px-5 py-1.5 mr-2 mb-2"
+                  className="focus:outline-none text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-suitM rounded-lg text-base px-5 py-1.5 mr-2 mb-2"
                 >
                   발행
                 </button>
