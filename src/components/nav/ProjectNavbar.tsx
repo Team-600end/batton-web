@@ -64,7 +64,7 @@ export default function ProjectNavbar() {
             className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.4vh] px-[0.8vw] items-center hover:bg-primary-5 font-suitM text-base justify-end ml-auto mr-[5vw] mt-[-3.5vh]"
             onClick={() => setPjModal(true)}
           >
-            <img src={setting_icon} className="w-[1.0vw] mr-[0.3vw]"/>
+            <img src={setting_icon} className="w-[0.8vw] mr-[0.4vw] select-none pointer-events-none"/>
             프로젝트 정보
           </button>
           {pjModal && <ProjectInfoModal closeModal={() => setPjModal(false)} />}

@@ -102,7 +102,7 @@ export default function MainPage() {
     };
   }, []);
 
-  useEffect(() => {});
+  // useEffect(() => {});
 
   useEffect(() => {
     //메인페이지 접속 시. 모든 프로젝트를 가져옴
@@ -137,8 +137,8 @@ export default function MainPage() {
     <div className="mt-[7vh]" style={{ overflowY: "auto" }}>
       <div className="relative w-screen h-screen flex flex-col items-center justify-start overflow-hidden">
         <div className="h-10"></div>
-        <div className="flex flex-row items-center justify-left w-full px-8 ml-40">
-          <img className="mr-2" src={titleBox_img} />
+        <div className="flex flex-row items-center justify-left w-full px-8 ml-[15vw]">
+          <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
           <h1 className="text-2xl font-suitB text-black mr-4">참여 중인 프로젝트</h1>
 
           <button
@@ -150,18 +150,36 @@ export default function MainPage() {
           </button>
         </div>
         <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
-          <Carousel theme={customCarouselTheme} leftControl={<img src={left_control_img} />} rightControl={<img src={right_control_img} />}>
-            {chunkedPjCards.map((chunk, index) => (
-              <div key={index} className="flex h-[300px] w-5/6 flex-row items-center justify-center">
-                {chunk.map((pjCard, cardIndex) => (
-                  <PjCard key={cardIndex} pjCard={pjCard} />
-                ))}
+          {pjCards.length === 0 ? (
+            // 프로젝트가 없을 때
+            <div onClick={() => navigate("/new-project")}>
+              <div className="flex w-[350px] h-[250px] p-[10px] shadow-[2px_6px_6px_-2px_rgba(0,0,0,0.3)] bg-white border border-gray-200 rounded-lg hover:bg-gray-100 mx-2 dark:bg-gray-800 dark:border-gray-700 dark:hover:bg-gray-700">
+                <div className="m-auto flex flex-col justify-center items-center text-primary-4 text-[20px] font-suitSB">
+                  <p>+</p>
+                  <p>참여중인 프로젝트가 없습니다.</p>
+                  <p>첫 프로젝트를 생성해 보세요!</p>
+                </div>
               </div>
-            ))}
-          </Carousel>
+            </div>
+          ) : (
+            <Carousel
+              theme={customCarouselTheme}
+              slide={false}
+              leftControl={pjCards.length > cardNum ? <img src={left_control_img} /> : <div />}
+              rightControl={pjCards.length > cardNum ? <img src={right_control_img} /> : <div />}
+            >
+              {chunkedPjCards.map((chunk, index) => (
+                <div key={index} className="flex h-[300px] w-5/6 flex-row items-center justify-center">
+                  {chunk.map((pjCard, cardIndex) => (
+                    <PjCard key={cardIndex} pjCard={pjCard} />
+                  ))}
+                </div>
+              ))}
+            </Carousel>
+          )}
         </div>
-        <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
-          <img className="mr-2" src={titleBox_img} />
+        <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-[15vw]">
+          <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
           <h1 className="text-2xl font-suitB text-black mr-4">내 작업 이슈들</h1>
         </div>
         {/* table */}
@@ -259,7 +277,9 @@ export default function MainPage() {
                   </td>
                   <td className="px-6 py-4">{issueId.issueTitle}</td>
                   <td className="px-6 py-4">{issueId.updatedDate}</td>
-                  <td className="px-6 py-4"><IssueStatusBadge issueStatus={issueId.issueStatus}/></td>
+                  <td className="px-6 py-4">
+                    <IssueStatusBadge issueStatus={issueId.issueStatus} />
+                  </td>
                 </tr>
               ))}
             </tbody>
@@ -311,6 +331,7 @@ export default function MainPage() {
 }
 
 const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
+  // interval: 50000,
   root: {
     base: "relative h-[270px] w-full mx-4",
     leftControl: "absolute top-0 left-0 flex h-full items-center justify-center px-4 focus:outline-none",

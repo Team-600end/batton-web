@@ -24,5 +24,5 @@ export interface CpMember {
 export interface PjMember {
   memberId: number;
   nickname: string;
-  img: string;
+  profileImage: string;
 }

@@ -8,10 +8,8 @@ import {
 } from "@typess/Issue";
 import RnoteIssueCard from "@components/project/releases/RnoteIssueCard";
 import refresh_img from "@assets/images/icons/refresh.svg";
-// import ContentEditable, { ContentEditableEvent } from "react-contenteditable";
 import "@toast-ui/editor/dist/toastui-editor.css";
 import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
-// import 'tui-color-picker/dist/tui-color-picker.css';
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/i18n/ko-kr";
@@ -24,7 +22,7 @@ import {
 import Modal, { CommonModalInterface } from "@src/components/CommonModal";
 import RnoteUsedIssueCard from "@components/project/releases/RnoteUsedIssueCard";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
-import { instanceAuth } from "@src/types/AxiosInterface";
+import { instanceAuth, instanceImageAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
@@ -124,6 +122,49 @@ export default function RnoteWritePage() {
       .catch((error) => {
         console.log(error);
       });
+  };
+
+  const rnotePublishRequest = async () => {
+    const enrolledIssueList: EnrolledIssue[] = usedIssueList;
+    const rnoteCreateData = {
+      projectId: pj.projectId,
+      versionMajor: versionMajor,
+      versionMinor: versionMinor,
+      versionPatch: versionPatch,
+      releaseContent: editorData,
+      issueList: enrolledIssueList,
+    };
+    instanceAuth
+      .post(`/releases`, rnoteCreateData)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          instanceAuth
+            .patch(`/releases/${response.data.result}/publish`)
+            .then((response) => {
+              if (response.data.code == 200) {
+                setModalData({
+                  title: "안내 메세지",
+                  description: "릴리즈 노트가 정상적으로 발행되었습니다.",
+                  btnTitle: "확인",
+                  closeModal: () => {
+                    setIsModalOpen(false);
+                    navigate(`/project/${projectKey}/releasesnote`);
+                  },
+                });
+              } else {
+                console.log("response error");
+              }
+            })
+            .catch((error) => {
+              console.log(error);
+            })
+            .finally(() => {
+              setIsModalOpen(true);
+            });
+        }
+      })
+      .catch(() => console.log("error"));
   };
 
   /** 사용 이슈 삭제 요청 */
@@ -388,6 +429,8 @@ export default function RnoteWritePage() {
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
+          console.log("==========================================");
+          console.log(rnoteCreateData.releaseContent);
           setModalData({
             title: "안내 메세지",
             description: "작성하신 릴리즈 레포트가 저장되었습니다.",
@@ -462,7 +505,9 @@ export default function RnoteWritePage() {
                 <div className="flex mb-[1vh] h-[6vh]">
                   <div className="flex border-gray-200 border rounded-lg bg-white shadow-[2px_2px_10px_1px_rgba(0,0,0,0.1)] w-[68.5vw]">
                     <div className="my-auto mx-[1vw] h-[3.7vh] border-r-2 border-gray-200 flex items-center">
-                      <p className="font-suitSB pl-[0.3vw] pr-[1.5vw]">릴리즈 노트 에디터</p>
+                      <p className="font-suitSB pl-[0.3vw] pr-[1.5vw]">
+                        릴리즈 노트 에디터
+                      </p>
                     </div>
                     <div className="ml-[0.5vw] flex items-center">
                       <p className="font-suitL text-base">Release Version .</p>
@@ -500,7 +545,9 @@ export default function RnoteWritePage() {
                     <div className="flex ml-auto items-center">
                       <button
                         type="button"
-                        onClick={() => navigate(`/project/${projectKey}/releasesnote`)}
+                        onClick={() =>
+                          navigate(`/project/${projectKey}/releasesnote`)
+                        }
                         className="focus:outline-none text-gray-900 bg-white font-suitM text-[0.8vw] py-2 w-[5.3vw] ml-[1vw] h-[3.7vh] border-r-2 border-gray-200"
                       >
                         나가기
@@ -514,7 +561,7 @@ export default function RnoteWritePage() {
                       </button>
                       <button
                         type="button"
-                        onClick={() => {}}
+                        onClick={rnotePublishRequest}
                         className="focus:outline-none text-gray-900 bg-white font-suitM rounded-lg text-[0.8vw] py-2 mr-[0.5vw] w-[5.3vw] h-[3.7vh]"
                       >
                         발행하기
@@ -542,12 +589,29 @@ export default function RnoteWritePage() {
                             ref={editorRef}
                             plugins={[colorSyntax]}
                             toolbarItems={[
+                              // 툴바 옵션 설정
                               ["heading", "bold", "italic", "strike"],
                               ["hr", "quote"],
-                              ["ul", "ol"],
+                              ["ul", "ol", "task"],
                               ["image", "link"],
-                              ["code", "codeblock"]
+                              ["code", "codeblock"],
                             ]}
+                            hooks={{
+                              addImageBlobHook: async (blob, callback) => {
+                                const imgData = new FormData();
+                                imgData.append('imgData', blob);
+                                instanceImageAuth
+                                  .post(`/releases/images/upload`, imgData)
+                                  .then((response) => {
+                                    if (response.data.code == 200) {
+                                      callback(response.data.result);
+                                    }
+                                  })
+                                  .catch(() => {
+                                    callback("");
+                                })
+                              }
+                            }}
                           />
                         </div>
                         {provided.placeholder}

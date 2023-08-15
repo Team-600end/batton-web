@@ -73,7 +73,7 @@ export default function BoardPage() {
   return (
     <div className="relative w-screen h-screen flex flex-col items-center mt-[100px]">
       <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
-        <img className="mr-2" src={titleBox_img} />
+        <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
         <h1 className="text-2xl font-suitB text-black mr-4">릴리즈 게시판</h1>
       </div>
 

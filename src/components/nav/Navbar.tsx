@@ -225,16 +225,6 @@ export default function Navbar() {
               onClick={handleAllDdOff}
             >
               <div className="flex items-center">
-                <p className="font-suitL text-sm text-[#6B7280]">
-                  모든 프로젝트 보기
-                </p>
-              </div>
-            </button>
-            <button
-              className="block px-4 py-2 hover:bg-gray-100 w-full"
-              onClick={handleAllDdOff}
-            >
-              <div className="flex items-center">
                 <p className="font-suitL text-sm text-[#6B7280]" onClick={() => navigate("/new-project")}>
                   프로젝트 생성하기
                 </p>

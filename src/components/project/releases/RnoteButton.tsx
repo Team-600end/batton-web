@@ -18,6 +18,7 @@ export default function RnoteButton(props: RnoteButtonProps) {
       className="p-6 bg-white border border-gray-200 rounded-lg shadow hover:bg-gray-200 mb-5 items-center w-[70vw] grid-cols-[11vw,1vw,11vw,1vw,30vw,11vw] grid mx-[2vw]"
     >
       <p className="text-xl font-suitSB text-black mr-[1vw]">
+      {props.release.isPublished == "UNPUBLISH" && <p className="text-sm text-gray-400 font-suitM">{"발행 대기중"}</p>}
         v.{props.release.versionMajor}.{props.release.versionMinor}.{props.release.versionPatch}
       </p>
       <div className="mr-[1.5vw] h-5/6 border-r-2 border-gray-100 rounded-md" />

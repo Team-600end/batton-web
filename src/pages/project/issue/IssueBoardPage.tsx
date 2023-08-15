@@ -7,7 +7,6 @@ import MilestoneNavbar from "@components/nav/MilestoneNavbar";
 import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import { useNavigate, useParams } from "react-router-dom";
 import CreateIssueModal from "@components/project/issue/CreateIssueModal";
-
 import { instanceAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
@@ -28,9 +27,6 @@ export default function IssueBoardPage() {
 
   //이슈 생성 모달
   const [createIssueModal, setCreateIssueModal] = useState(false);
-
-  //공통모달
-  const [isModalOpen, setIsModalOpen] = useState(false);
 
   //이슈 코멘트 모달
   const [issueCommentModal, setIssuCommentModal] = useState(false);
@@ -167,25 +163,6 @@ export default function IssueBoardPage() {
       <div>
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner h-screen">
           <div className="flex justify-end mr-[2.5vw] mt-[2vw] space-x-2">
-
-            {/* ----- 공통모달 시험 시작 입니다 ----- */}
-            <button
-              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
-              onClick={() => setIsModalOpen(true)}
-            >
-              공통모달 시험
-            </button>
-            {isModalOpen && (
-              <CommonModal
-                title="제목"
-                description="설명입니다. 설명입니다. 설명입니다. 설명입니다. "
-                btnTitle="버튼"
-                closeModal={() => setIsModalOpen(false)}
-              />
-            )}
-
-            {/* ----- 공통모달 시험 끝 입니다 ----- */}
-
             {/** 히스토리 임시 보류 */}
             {/* <button
               onClick={() => navigate(`/project/${projectKey}/issue-history`)}
@@ -195,7 +172,7 @@ export default function IssueBoardPage() {
             </button> */}
             <button
               onClick={() => setCreateIssueModal(true)}
-              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
+              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] mx-[0.5vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"
             >
               <svg width="12" height="12" viewBox="0 0 12 12" fill="none" xmlns="http://www.w3.org/2000/svg" className="mr-[0.3vw]">
                 <path d="M5.66667 5.99967H1H5.66667Z" fill="#5AAE8A" />
