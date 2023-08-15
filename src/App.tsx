@@ -24,6 +24,7 @@ import IssueEditPage from "@pages/project/issue/IssueEditPage";
 import EditPjPage from "@pages/project/EditPjPage";
 import ChangePasswordPage from "@pages/ChangePasswordPage";
 import RnoteEditPage from "@pages/project/releases/RnoteEditPage";
+import KakaoRedirectHandler from "@components/login/KakaoRedirectHandler";
 
 function App() {
   return (
@@ -35,6 +36,7 @@ function App() {
           <Route path="/signup" element={<SignupPage />} />
           <Route path="/forget-pw" element={<ForgetPwPage />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/notfound" element={<NotFoundPage />} />
           <Route element={<Layout />}>
             <Route path="/main" element={<MainPage />} />
             <Route path="/project/:projectKey/dashboard" element={<DashBoardPage />} />
@@ -48,6 +50,7 @@ function App() {
             <Route path="/project/:projectKey/releasesnote/write" element={<RnoteWritePage />} />
             <Route path="/project/:projectKey/releasesnote/:releaseId/edit" element={<RnoteEditPage />} />
             <Route path="/project/:projectKey/project-edit" element={<EditPjPage />} />
+            <Route path="/kakao" element={<KakaoRedirectHandler />} />
             <Route path="/myinfo-edit" element={<MyPage />} />
             <Route path="/change-pw" element={<ChangePasswordPage />} />
             <Route path="/new-project" element={<CreatePjPage />} />
