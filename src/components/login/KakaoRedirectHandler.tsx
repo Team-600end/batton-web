@@ -1,12 +1,11 @@
-import { setCookie } from "@src/state/tokenState";
+import { getCookie, setCookie } from "@src/state/tokenState";
 import {
   emailState,
   nicknameState,
   profileImgState,
 } from "@src/state/userState";
 import { instanceAuth, instanceNonAuth } from "@src/types/AxiosInterface";
-import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
@@ -32,7 +31,9 @@ export default function KakaoRedirectHandler() {
     // };
 
     instanceNonAuth
-      .post(`https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${client_id}&redirect_uri=${redirect_uri}&code=${code}`,{},
+      .post(
+        `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${client_id}&redirect_uri=${redirect_uri}&code=${code}`,
+        {},
         {
           headers: {
             "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
@@ -44,7 +45,6 @@ export default function KakaoRedirectHandler() {
           .post(`/auth/kakao/${response.data.access_token}`)
           .then((response) => {
             if (response.data.code == 200) {
-							console.log("here : " + response);
               setCookie("accessToken", response.data.result.accessToken, {
                 path: `/`,
               });
@@ -60,12 +60,14 @@ export default function KakaoRedirectHandler() {
                     setUserProfileImg(response.data.result.profileImage);
                   }
                 })
-                .catch((error) => {
-                  console.log(error);
+                .catch(() => {
                   alert(`정상적인 접근이 아닙니다`);
-                });
-              navigate(`/main`);
+                })
+                .finally(() => navigate("/main"));
             }
+          })
+          .catch(() => {
+            navigate("/login");
           });
       })
       .catch(() => navigate("/login"));

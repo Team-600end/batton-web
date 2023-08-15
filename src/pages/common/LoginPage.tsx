@@ -219,12 +219,6 @@ export default function LoginPage() {
           />{" "}
           카카오 로그인
         </button>
-        {/* <button
-          type="button"
-          className="w-[30vw] h-[5vh] text-gray-400 bg-[#FFFFFF] border border-grey-100 shadow-md hover:bg-[#E7E7E7] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center"
-        >
-          <img className="mr-2" src={google_logo_img} /> 구글 로그인
-        </button> */}
         <div className="text-sm font-suitM text-gray-400">
           계정이 없으신가요?{" "}
           <button

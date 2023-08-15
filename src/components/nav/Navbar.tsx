@@ -39,9 +39,11 @@ export default function Navbar() {
 
   useEffect(() => {
     navPjRequest();
+    getMemberId();
   }, []);
 
   const navPjRequest = async () => {
+    console.log("navPjRequestnavPjRequestnavPjRequest");
     instanceAuth
       .get(`/projects/navbar`)
       .then((response) => {
@@ -61,6 +63,7 @@ export default function Navbar() {
   };
 
   const getMemberId = async () => {
+    console.log("getMemberIdgetMemberIdgetMemberId");
     instanceAuth
     .get(`/members/id`)
     .then((response) => {
@@ -73,10 +76,6 @@ export default function Navbar() {
       console.log(error);
     })
   }
-
-  useEffect(() => {
-    getMemberId();
-  }, []);
 
   const handleProjectDd = () => {
     setProjectDd(!projectDd);
