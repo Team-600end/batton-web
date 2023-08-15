@@ -5,7 +5,7 @@ export default function PjMemberModal() {
     <>
       <div
         id="dropdownDots"
-        className="absolute w-[100px] -mt-[30px] ml-[100px] bg-white divide-y divide-gray-100 rounded-lg shadow w-44 dark:bg-gray-700 dark:divide-gray-600"
+        className="absolute w-[90px] -mt-[10px] ml-[90px] bg-white divide-y divide-gray-100 rounded-lg shadow dark:bg-gray-700 dark:divide-gray-600"
       >
         <ul className="py-2 text-sm font-suitM text-gray-700 dark:text-gray-200" aria-labelledby="dropdownMenuIconButton">
           <li>
