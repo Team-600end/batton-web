@@ -17,11 +17,12 @@ import IssueCommentBadge from "@src/components/project/issue/IssueCommentBadge";
 import default_avatar_img from "@images/common/default_profile.svg";
 import { CommentType, IssueComment } from "@src/types/comment";
 import CommentCard from "@src/components/project/issue/CommentCard";
+import titleBox_img from "@images/common/title_box.svg";
 
 interface CommentPostData {
   commentContent?: string;
   commentType: CommentType;
-};
+}
 
 export default function IssueReportPage() {
   const navigate = useNavigate();
@@ -39,9 +40,7 @@ export default function IssueReportPage() {
 
   // Project Recoil
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
-  const pj = projectNav.find(
-    (element: ProjectNav) => element.projectKey.toString() == projectKey
-  );
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   useEffect(() => {
     issueReportRequest();
@@ -78,22 +77,22 @@ export default function IssueReportPage() {
   const issueCommentRequest = async () => {
     const commentPostData: CommentPostData = {
       commentContent: commentInputText,
-      commentType: "COMMON"
+      commentType: "COMMON",
     };
     instanceAuth
       .post(`/reports/comments/${issueId}`, commentPostData)
       .then((response) => {
         if (response.data.code == 200) {
           alert("댓글을 등록하였습니다.");
-          setCommentInputText('');
+          setCommentInputText("");
           issueReportRequest(); // fetch
         } else {
-          console.log("response after error")
+          console.log("response after error");
         }
       })
       .catch((error) => {
         console.log(error);
-      })
+      });
   };
 
   const viewer = new Viewer({
@@ -105,86 +104,98 @@ export default function IssueReportPage() {
   return (
     <div className="flex flex-col overflow-hidden">
       <MilestoneNavbar />
-      <div className="flex items-center justify-between ml-auto mr-auto mt-[6vh] h-[5vh] w-[60vw]">
-        <div className="flex justify-start">
-          <p className="font-suitB text-[2vw] text-gray-900 jusitfy-start">
-            [{pj.projectTitle}-{issueId}] {issueTitle}
-          </p>
-        </div>
+      {/* 이슈 정보 */}
+      <div className="flex items-center justify-start ml-auto mr-auto mt-[5vh] h-[5vh] w-[90vw]">
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-[2vw]">이슈 조회</p>
       </div>
 
-      <div className="flex flex-col mr-auto ml-auto w-[50vw] mt-[5vh]">
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          이슈 정보
+      {/* [프로젝트명-이슈키] 이슈타이틀 */}
+      <div className="flex flex-row mr-auto ml-[10vw] w-[80vw] my-[1.5vh] font-suitB text-[2vw] text-gray-900 jusitfy-start">
+        <p className="text-primary-3">
+          [{pj.projectTitle}-{issueId}]
         </p>
+        <p className="text-black ml-[1vw]">{issueTitle}</p>
       </div>
 
-      <div className="flex flex-col mt-[5vh] mx-auto w-[50vw] px-[7vw] space-y-5">
-        <div className="flex">
-          <p className="font-suitM text-[1.4vw] text-gray-900">상태</p>
-          <div className="ml-auto space-x-1">
+      <div className="space-y-[1.5vh]">
+        <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
+          <p className="font-suitB text-[2vw] text-gray-900 pl-[2.5vw]">제목</p>
+          <p className="font-suitM text-[1.7vw] text-gray-900 ml-[3.6vw] my-auto">{issueTitle}</p>
+        </div>
+
+        <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
+          <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">설명</p>
+          <p className="font-suitM text-[1.3vw] text-gray-900 ml-[4vw] my-auto">{issueContent}</p>
+        </div>
+
+        <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
+          <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">상태</p>
+          <div className="ml-[4vw] my-auto">
             <IssueStatusBadge issueStatus={issueStatus} />
           </div>
         </div>
-        <div className="flex">
-          <p className="font-suitM text-[1.4vw] text-gray-900">설명</p>
-          <p className="font-suitM text-[1vw] text-gray-900 ml-auto my-auto">
-            {issueContent}
-          </p>
-        </div>
-        <div className="flex">
-          <p className="font-suitM text-[1.4vw] text-gray-900">태그</p>
-          <div className="ml-auto my-auto">
+
+        <div className="flex flex-row mx-auto mt-[1vw] w-[80vw]">
+          <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">태그</p>
+          <div className="ml-[4vw] my-auto">
             <IssueBadge issueType={issueTag} />
           </div>
         </div>
-        <div className="flex">
-          <p className="font-suitM text-[1.4vw] text-gray-900">담당자</p>
-          <div className="flex flex-row ml-auto my-auto">
-            <img className="w-8 h-8 mr-3.5 rounded-full" src={(profileImage == null || profileImage == "") ? default_profile : profileImage} />
-            <p className="font-suitM text-[1vw] text-gray-900 mt-1">
-              {nickname}
-            </p>
+
+        <div className="flex flex-row mx-auto mt-[1vw] w-[80vw]">
+          <p className="font-suitM text-[1.5vw] text-gray-900 pl-[1.8vw]">담당자</p>
+          <div className="flex flex-row ml-[3.7vw] my-auto">
+            <img className="w-6 h-6 m-auto mr-3 rounded-full" src={profileImage == null || profileImage == "" ? default_profile : profileImage} />
+            <p className="font-suitM text-[1.3vw] text-gray-900 m-auto">{nickname}</p>
           </div>
         </div>
       </div>
 
-      <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
-        <hr className="h-px my-8 bg-gray-200 border-0" />
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          이슈 레포트
-        </p>
+      <hr className="h-px my-[1vw] mt-[2vw] bg-gray-200 border-0 w-[80vw] mx-auto" />
+
+      <div className="flex flex-col mx-auto w-[70vw] mt-[3vh]">
+        <div className="flex my-auto">
+          <img className="mr-2" src={titleBox_img} />
+          <p className="font-bold text-[1.6vw] text-gray-900 my-auto">이슈 레포트</p>
+        </div>
       </div>
-      <div className="mb-4 border border-gray-300 rounded-lg bg-gray-50 p-[2vw] h-full w-[48vw] font-suitM mt-[5vh] mx-auto">
-        <div>{editorData ? <Viewer initialValue={editorData}/> : <p className="font-suitM text-lg text-gray-500 text-center">이슈 레포트가 작성되지 않았습니다.</p>}</div>
+      <div className="border border-gray-100 rounded-lg p-[2vw] h-full w-[65vw] font-suitM mt-[3vh] shadow-inner mx-auto">
+        <div>
+          {editorData ? <Viewer initialValue={editorData} /> : <p className="font-suitM text-[2vw] text-gray-300 text-center">작성된 이슈 레포트가 없어요!</p>}
+        </div>
       </div>
 
-      <div className="flex flex-col mx-auto w-[50vw] mt-[2vh]">
-        <hr className="h-px my-8 bg-gray-200 border-0" />
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-10 mt-1">
-          코멘트
-        </p>
+      <hr className="h-px my-[3vw] bg-gray-100 border-0 w-[70vw] mx-auto" />
+
+      <div className="flex flex-col mx-auto w-[70vw] mt-[2vh]">
+        <div className="flex my-auto">
+          <img className="mr-2" src={titleBox_img} />
+          <p className="font-bold text-[1.6vw] text-gray-900 my-auto">이슈 코멘트</p>
+        </div>
       </div>
-      <div className="flex flex-col w-[48vw] mx-auto divide-y divide-gray-100 mt-[3vh] border border-gray-300 rounded-lg shadow-inner pt-3 pb-5 mb-[7vh]">
-        {commentList && commentList.map((comment, index) => (
-          <div key={index}>
-            <CommentCard issueComment={comment}/>
-          </div>
-        ))}
+      <div className="flex flex-col w-[65vw] mx-auto divide-gray-100 mt-[3vh] border border-gray-300 rounded-lg shadow-inner pt-3 pb-5 mb-[7vh]">
+        {commentList &&
+          commentList.map((comment, index) => (
+            <div key={index}>
+              <CommentCard issueComment={comment} />
+              {index !== commentList.length - 1 && <hr className="h-[2px] bg-gray-50 border-0 w-[60vw] mx-auto" />}
+            </div>
+          ))}
+        {commentList.length > 0 && <hr className="h-[2px] my-[1vw] bg-gray-100 border-0 w-[64vw] mx-auto" />}
         <div className="flex flex-col">
-          <p className="font-suitM text-lg pt-4 px-7 pb-3">일반 코멘트 작성</p>
+          <p className="font-suitM text-[1.5vw] my-[1vw] px-[2vw]">일반 코멘트 작성</p>
           <div className="flex items-end">
             <textarea
               onChange={handleChangeCommentInput}
               value={commentInputText}
-              className="bg-gray-50 border border-gray-300 text-gray-800 text-sm rounded-lg block p-2.5 focus:border-gray-300 focus:ring-0 mx-[1.3vw] w-[40vw] resize-none"
+              className="border border-gray-100 text-gray-800 text-sm rounded-lg block p-2.5 focus:border-primary-5 focus:ring-0 mx-[1.3vw] w-[60vw] shadow-inner resize-none"
             />
             <button
               type="button"
               onClick={issueCommentRequest}
-              className="border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm items-center mr-[2vw] mb-[0.1vh] p-3 w-[7vw]"
+              className="border border-primary-4 text-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-sm items-center mr-[1.5vw] my-auto p-2 w-[50px]"
             >
-              작성하기
+              작성
             </button>
           </div>
         </div>
