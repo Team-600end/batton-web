@@ -69,9 +69,8 @@ instanceAuth.interceptors.response.use(
     if (err.response && err.response.status == 401) {
       try {
         console.log("만료 확인");
-        // // 기존에 쿠키에 저장된 refresh token을 가져옴
-        // const refreshToken = await getCookie("refreshToken");
-        // axios.defaults.headers.common["refreshToken"] = refreshToken;
+        // 기존에 쿠키에 저장된 refresh token을 가져옴
+        axios.defaults.headers.common["refreshToken"] = getCookie("refreshToken");;
 		    // 토큰을 다시 발급 받는 api 호출 함수 
         // refreshAccessToken();
       } catch (err: any) {
@@ -81,7 +80,7 @@ instanceAuth.interceptors.response.use(
       return Promise.reject(err);
     } else if (err.response && err.response.status == 403) {
       console.log("거부 확인");
-      window.location.href = "*";
+      // window.location.href = "*";
     }
     return Promise.reject(err);
   }
