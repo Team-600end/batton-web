@@ -30,3 +30,10 @@ export interface ProjectCard {
 export interface ProjectCardMember {
   img?: string;
 }
+
+//프로젝트 목록 검색 조회
+export interface ProjectSearch {
+  projectId: number;
+  projectTitle: string;
+  projectLogo?: string;
+}
