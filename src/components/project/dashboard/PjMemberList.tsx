@@ -4,13 +4,6 @@ import avatar_img from "@images/common/default_profile.png";
 import MemberList from "@src/types/Users";
 import PjMember from "@components/project/dashboard/PjMember";
 
-//dummy data
-// import avatar_yhg from "@images/dummy/avatar_yhg.jpg";
-// import avatar_lsh from "@images/dummy/avatar_lsh.jpeg";
-// import avatar_kch from "@images/dummy/avatar_kch.jpeg";
-// import avatar_lyh from "@images/dummy/avatar_lyh.jpeg";
-// import avatar_pmsc from "@images/dummy/avatar_pmsc.jpeg";
-// import avatar_jhj from "@images/dummy/avatar_jhj.jpeg";
 import { instanceAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
@@ -43,11 +36,16 @@ export default function PjMemberList() {
   }, []);
   return (
     <>
-      <div className="relative w-[220px] h-[400px] bg-white rounded-xl shadow-md">
+      <div className="w-[22vw] h-[400px] bg-white rounded-xl shadow-md">
         <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">프로젝트 멤버</p>
         <div>
           {/* map 반복문 사용 */}
           {memberList && memberList.map((member) => <PjMember key={member.memberId} member={member} />)}
+
+          <div className="flex flex-row h-[30px] w-[15vw] mx-auto my-[16] items-center justify-center text-primary-3 bg-white border border-primary-4 font-suitM rounded-lg hover:bg-gray-50 text-sm px-5 py-2.5 mt-2">
+            <p className="mx-auto">+</p>
+            <p className="mx-auto">멤버 추가</p>
+          </div>
         </div>
       </div>
     </>

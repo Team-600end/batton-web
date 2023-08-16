@@ -2,9 +2,10 @@ import React, { useState, useCallback, useEffect } from "react";
 import signup_hand_image from "@assets/images/signupPage/signup_hand3.svg";
 import batton_logo_img from "@images/common/batton_logo_big.svg";
 import { useNavigate } from "react-router-dom";
-import { instanceAuth, instanceNonAuth } from "@src/types/AxiosInterface";
+import { instanceNonAuth } from "@src/types/AxiosInterface";
 import useInput from "@src/hooks/useInput";
 import Modal, { CommonModalInterface } from "@src/components/CommonModal";
+import CommonModal from "@src/components/CommonModal";
 
 interface SignupData {
   email: string;
@@ -184,35 +185,40 @@ export default function SignupPage() {
     }
   }, [password, checkPassword]);
 
+  const [nicknameCheck, setNicknameCheck] = useState(false);
+  const [isEmailCheck, setIsEmailCheck] = useState(false);
+  const [passwordCheck, setPasswordCheck] = useState(false);
+  const [checkPasswordCheck, setCheckPasswordCheck] = useState(false);
+  const [checkEmail, setCheckEmail] = useState(false);
+  const [canSignup, setCanSignup] = useState(false);
+
   const signupRequest = async () => {
-    // 닉네임 필드 검증
-    if (nickname.length < 2) {
-      alert("닉네임은 2글자 이상이어야 합니다.");
-      return;
-    }
     // 이메일 필드 검증
     if (!emailRegex.test(email)) {
-      alert("이메일 형식이 올바르지 않습니다.");
-      return;
-    }
-
-    //가능한 비밀번호 예시: kafeine1~!
-    // 비밀번호 필드 검증
-    if (!passwordRegex.test(password)) {
-      alert(
-        "비밀번호는 8~15자의 영문, 숫자, 특수문자(!, ~, *)를 혼합해야 합니다."
-      );
+      setIsEmailCheck(true);
       return;
     }
 
     if (!isEmailAuthentication) {
-      alert("이메일 인증을 진행해주세요.");
+      setCheckEmail(true);
+      return;
+    }
+
+    // 닉네임 필드 검증
+    if (nickname.length < 2) {
+      setNicknameCheck(true);
+      return;
+    }
+    //가능한 비밀번호 예시: kafeine1~!
+    // 비밀번호 필드 검증
+    if (!passwordRegex.test(password)) {
+      setPasswordCheck(true);
       return;
     }
 
     // 비밀번호 확인 필드 검증
     if (password !== checkPassword) {
-      alert("비밀번호가 일치하지 않습니다.");
+      setCheckPasswordCheck(true);
       return;
     }
     try {
@@ -224,12 +230,14 @@ export default function SignupPage() {
         checkPassword: checkPassword,
       };
 
-      const result = instanceNonAuth.post(`/auth/signup`, signupData);
-      console.log(result);
-
-      alert("회원가입이 완료되었습니다.");
-      alert("로그인을 진행해주세요.");
-      navigate(`/login`);
+      instanceNonAuth.post(`/auth/signup`, signupData).then((response) => {
+        console.log("===회원가입데이터===");
+        console.log(signupData);
+        if (response.data.code == 200) {
+          setCanSignup(true);
+          navigate(`/login`);
+        }
+      });
     } catch (error) {
       console.log(error);
     }
@@ -285,7 +293,6 @@ export default function SignupPage() {
           setStartTimer(false);
           setAuthCodeStatus("이메일 인증이 완료되었습니다.");
         } else if (response.data.code == 606) {
-          setStartTimer(false);
           setAuthCodeStatus("인증번호가 올바르지 않습니다.");
         } else return;
       });
@@ -308,17 +315,35 @@ export default function SignupPage() {
       }, 1000);
     }
 
+    if (startTimer && minutes == 0 && seconds == 0) {
+      setStartTimer(false);
+      setEmail("");
+      setIsEnableAuthForm(false);
+      setMinutes(3);
+      setModalData({
+        title: "안내메세지",
+        description:
+          "이메일 인증 시간이 만료되었습니다. 다시 인증을 진행해주세요.",
+        btnTitle: "확인",
+        closeModal: () => setIsModalOpen(false),
+      });
+      setIsModalOpen(true);
+    }
+
     return () => clearInterval(countdown);
   }, [startTimer, minutes, seconds]);
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center justify-center overflow-hidden">
       <img
-        className="absolute z-0"
+        className="absolute z-0 select-none pointer-events-none"
         src={signup_hand_image}
         style={{ marginTop: "20vh", marginLeft: "-45vw" }}
       />
-      <img className="relative z-10 mb-4" src={batton_logo_img} />
+      <img
+        className="relative z-10 mb-4 select-none pointer-events-none"
+        src={batton_logo_img}
+      />
       <div className="flex flex-col space-y-6 relative z-10 items-center justify-center w-[38vw] p-4 bg-white border border-gray-200 rounded-lg shadow sm:p-6 md:p-8">
         {isModalOpen && (
           <Modal
@@ -406,7 +431,11 @@ export default function SignupPage() {
                     value={authCode}
                     onChange={onChangeAuthCode}
                     maxLength={10}
-                    className={!isEmailAuthentication ? "w-[16vw] h-[2vh] bg-gray-50 border-none text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-50 focus:ring-0 p-2.5" : "w-[16vw] h-[2vh] bg-gray-50 border-none text-gray-400 text-sm rounded-lg focus:outline-none focus:border-gray-50 focus:ring-0 p-2.5"}
+                    className={
+                      !isEmailAuthentication
+                        ? "w-[16vw] h-[2vh] bg-gray-50 border-none text-gray-900 text-sm rounded-lg focus:outline-none focus:border-gray-50 focus:ring-0 p-2.5"
+                        : "w-[16vw] h-[2vh] bg-gray-50 border-none text-gray-400 text-sm rounded-lg focus:outline-none focus:border-gray-50 focus:ring-0 p-2.5"
+                    }
                     readOnly={isEmailAuthentication}
                     placeholder="이메일 인증 코드를 입력하세요"
                   />
@@ -461,6 +490,7 @@ export default function SignupPage() {
               )}
             </div>
           </div>
+
           <div>
             <label
               id="password"
@@ -513,6 +543,54 @@ export default function SignupPage() {
           </button>
         </form>
       </div>
+      {nicknameCheck && (
+        <CommonModal
+          title="닉네임이 올바르지 않습니다."
+          description="닉네임은 2글자 이상이어야 합니다."
+          btnTitle="확인"
+          closeModal={() => setNicknameCheck(false)}
+        />
+      )}
+      {isEmailCheck && (
+        <CommonModal
+          title="이메일 형식이 올바르지 않습니다."
+          description="이메일 형식을 확인해주세요."
+          btnTitle="확인"
+          closeModal={() => setIsEmailCheck(false)}
+        />
+      )}
+      {passwordCheck && (
+        <CommonModal
+          title="비밀번호를 다시 설정해 주세요."
+          description="비밀번호는 8~15자의 영문, 숫자, 특수문자(!, ~, *)를 혼합해야 합니다."
+          btnTitle="확인"
+          closeModal={() => setPasswordCheck(false)}
+        />
+      )}
+      {checkPasswordCheck && (
+        <CommonModal
+          title="비밀번호가 일치하지 않습니다."
+          description="비밀번호를 확인해주세요."
+          btnTitle="확인"
+          closeModal={() => setCheckPasswordCheck(false)}
+        />
+      )}
+      {checkEmail && (
+        <CommonModal
+          title="이메일 인증이 완료되지 않았습니다."
+          description="이메일 인증을 진행해주세요."
+          btnTitle="확인"
+          closeModal={() => setCheckEmail(false)}
+        />
+      )}
+      {canSignup && (
+        <CommonModal
+          title="회원가입이 완료되었습니다."
+          description="로그인을 진행해 주세요."
+          btnTitle="로그인하기"
+          closeModal={() => setCanSignup(false)}
+        />
+      )}
     </div>
   );
 }

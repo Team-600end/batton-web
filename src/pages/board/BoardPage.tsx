@@ -21,12 +21,14 @@ function getFullDate(delimiter: string, year: number, month: number, date: numbe
 }
 
 export default function BoardPage() {
-  const [cardNum, setCardNum] = useState(3);
+  const [, setCardNum] = useState(3);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
   // 드롭다운
   const [dropdownValue, setDropdownValue] = useState("전체");
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
+
+  const [searchInput, setSearchInput] = useState("");
   const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
 
   const setIssueNumByHeight = () => {
@@ -48,6 +50,10 @@ export default function BoardPage() {
     return boards.slice(startIndex, endIndex);
   };
 
+  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchInput(e.target.value);
+  };
+
   const totalPage = Math.ceil(boards.length / itemsPerPage);
 
   // 컴포넌트가 마운트될 때와 화면 크기가 변경될 때마다 화면 너비에 따라 cardNum 값을 업데이트.
@@ -67,7 +73,7 @@ export default function BoardPage() {
   return (
     <div className="relative w-screen h-screen flex flex-col items-center mt-[100px]">
       <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
-        <img className="mr-2" src={titleBox_img} />
+        <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
         <h1 className="text-2xl font-suitB text-black mr-4">릴리즈 게시판</h1>
       </div>
 
@@ -117,16 +123,13 @@ export default function BoardPage() {
           </div>
 
           {/* 검색창 */}
-          <label htmlFor="table-search" className="sr-only">
-            Search
-          </label>
           <div className="relative">
             <div className="absolute inset-y-0 left-0 flex items-center pl-3 pointer-events-none">
               <img className="w-5 h-5 text-gray-500" area-hidden="true" src={search_img} />
             </div>
             <input
               type="text"
-              id="table-search"
+              onChange={handleSearchInputChange}
               className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-[#4AA366] focus:border-[#4AA366]"
               placeholder="검색"
             />

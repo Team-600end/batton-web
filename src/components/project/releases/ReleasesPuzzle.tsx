@@ -10,20 +10,28 @@ import { ProjectNav } from "@src/types/project";
 export default function ReleasesPuzzle() {
   const [puzzle, setPuzzle] = useState<Release[][]>([]);
   const [releasesList, setReleasesList] = useState<Release[]>([]);
-  // const reverseList = [...releasesList].reverse();
 
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectKey } = useParams();
   const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   useEffect(() => {
-    // async () => {
+    releasesPuzzleRequest();
+  }, []);
+  
+  const releasesPuzzleRequest = () => {
+    let puzzleState: Release[][] = [];
+    let temp: Release[] = [];
+
     instanceAuth
       .get(`/releases/project/${pj.projectId}`)
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
-          setReleasesList(response.data.data);
+          // setReleasesList(response.data.result && [...response.data.result].reverse());
+          setReleasesList(response.data.result);
+      
+          setPuzzle(puzzleState);
         } else if (response.data.code == 710) {
           //TODO: 에러코드 확인 필요
           alert("릴리즈가 없습니다.");
@@ -32,24 +40,17 @@ export default function ReleasesPuzzle() {
       })
       .catch((error) => {
         console.log(error);
+      })
+      .finally(() => {
+        releasesList.forEach((release, idx) => {
+          if ((release.versionChanged === "Major" && idx !== 0) || idx === releasesList.length - 1) {
+            puzzleState.unshift(temp);
+            temp = [];
+          }
+          temp.push(release);
+        });
       });
-    // };
-  }, []);
-
-  // useEffect(() => {
-  //   let puzzleState: Release[][] = [];
-  //   let temp: Release[] = [];
-
-  //   reverseList.forEach((release, idx) => {
-  //     if ((release.versionChanged === "Major" && idx !== 0) || idx === reverseList.length - 1) {
-  //       puzzleState.unshift(temp);
-  //       temp = [];
-  //     }
-  //     temp.push(release);
-  //   });
-
-  //   setPuzzle(puzzleState);
-  // }, []);
+  };
 
   return (
     <>

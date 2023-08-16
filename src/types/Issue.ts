@@ -16,9 +16,8 @@ export interface Issue {
 }
 
 export interface AbsIssue {
-  type: IssueType;
-  title: string;
-  // id: number;
+  issueTag: IssueType;
+  issueTitle: string;
 }
 
 export interface DoneIssue extends Issue {

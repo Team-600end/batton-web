@@ -28,9 +28,8 @@ export default function DashBoardPage() {
           <div className="relative w-[42vw] h-[320px] bg-white rounded-xl shadow-md">
             <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">릴리즈 퍼즐</p>
             <div className=" flex items-center">
-              <img src={releases_info} alt="releases_info" className="p-2" />
+              <img src={releases_info} alt="releases_info" className="p-2 select-none pointer-events-none" />
             </div>
-            {/* <ReleasesPuzzle releaseList={reverseList} /> */}
             <ReleasesPuzzle />
           </div>
         </div>

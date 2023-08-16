@@ -26,23 +26,27 @@ export default function PjCard(props: PjCardProps) {
           {/* 최상단 아이콘과 팀이름 */}
           <div className="relative w-[300px] h-[70px] mt-[10px] flex flex-row">
             <div className="rounded-full overflow-hidden ring-1 w-[70px] h-[70px] ring-[#285F43] justify-center">
-              <img className="ring-1 w-[70px] h-[70px] ring-[#285F43] rounded-full object-cover" src={(props.pjCard.projectImg == "" || props.pjCard.projectImg == null) ? default_team_logo : props.pjCard.projectImg} alt="pj_img" />
+              <img
+                className="ring-1 w-[70px] h-[70px] ring-[#285F43] rounded-full object-cover"
+                src={props.pjCard.projectImg == "" || props.pjCard.projectImg == null ? default_team_logo : props.pjCard.projectImg}
+                alt="pj_img"
+              />
             </div>
             <div className="flex-col ml-[20px] mt-[5px]">
               <div className="flex flex-row">
                 <p className="text-[#5AAE8A] text-2xl font-suitB">{props.pjCard.projectTitle}</p>
-                <img
+                {/* <img
                   src={bookmark ? yellowStarImg : grayStarImg}
                   alt="star_img"
                   className="w-[23px] h-[23px] mt-[5px] ml-[5px]"
                   onClick={clickStar}
                   style={{ cursor: "pointer" }}
-                />
+                /> */}
               </div>
               <div className="flex flex-row items-center mt-[2px]">
                 <img className="w-[50px] h-[18px] mt-[2px]" src={latest_img} alt="pj_latest_img" />
                 <p className="ml-[5px] text-[#707070] font-suitSB">
-                  v{props.pjCard.versionMajor}.{props.pjCard.versionMinor}.{props.pjCard.versionPatch}
+                  v.{props.pjCard.versionMajor}.{props.pjCard.versionMinor}.{props.pjCard.versionPatch}
                 </p>
               </div>
             </div>
@@ -77,7 +81,7 @@ export default function PjCard(props: PjCardProps) {
             <div className="flex -space-x-4">
               <img
                 className="w-[30px] h-[30px] border-[1px] border-white rounded-full dark:border-gray-800 object-cover"
-                src={(props.pjCard.leaderProfileImg == "" || props.pjCard.leaderProfileImg == null) ? default_profile_img : props.pjCard.leaderProfileImg}
+                src={props.pjCard.leaderProfileImg == "" || props.pjCard.leaderProfileImg == null ? default_profile_img : props.pjCard.leaderProfileImg}
                 alt=""
               />
               <a
