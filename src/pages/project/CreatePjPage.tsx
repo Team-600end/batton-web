@@ -3,7 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Dropdown } from "flowbite";
 import type { DropdownOptions, DropdownInterface } from "flowbite";
 import { instanceAuth } from "@src/types/AxiosInterface";
-import { CpMember, Member } from "@typess/Users";
+import { CpMember, Member, UserGrade } from "@typess/Users";
 import CreatePjMember from "@src/components/project/CreatePjMember";
 import g_check_icon from "@images/icons/grey-check.svg";
 import w_check_icon from "@images/icons/white_check.svg";
@@ -34,6 +34,7 @@ export default function CreatePjPage() {
   const [pjMemList, setPjMemList] = useState<CpMember[]>([]);
   // 프로젝트 멤버 리스트 요청 상태관리
   const [pjMemReqList, setPjMemReqList] = useState<Member[]>([]);
+  const [grade, setGrade] = useState<UserGrade>("MEMBER");
   // pjTitle 길이 상태관리
   const [titleInputCount, setTitleInputCount] = useState(0);
   // pjKey 길이 상태관리
@@ -102,25 +103,44 @@ export default function CreatePjPage() {
   };
 
   const pjMemberRequest = async () => {
+    let isMemberAdded = false;
     pjMemList.forEach((member) => {
       if (member.email === findByEmail) {
         // 특정 값이 있는 경우 원하는 동작 수행
         setEmailStatus("이미 추가한 멤버입니다.");
+        isMemberAdded = true;
         return;
       }
     });
+
+    if (isMemberAdded) {
+      return;
+    }
+
     instanceAuth
       .get(`/members/list/${findByEmail}`)
       .then((response) => {
         console.log(response.data);
-        if (response.data.code == 200) {
+
+        if (response.data.code === 200) {
           setPjMemList((pjMemList) => [...pjMemList, response.data.result as CpMember]);
+          setPjMemReqList((pjMemReqList) => [
+            ...pjMemReqList,
+            { memberId: response.data.result.memberId, nickname: response.data.result.nickname, gradeType: grade },
+          ]);
+        } else if (response.data.code === 600) {
+          // 해당 이메일로 가입한 회원이 없을 때
+          setEmailStatus("존재하지 않는 이메일입니다.");
+        } else if (response.data.code === 0) {
+          //TODO: 08160646: 멤버 리스트 가져와서 판단
+          setEmailStatus("이미 속해있는 멤버입니다.");
         } else {
-          // 해당 이메일로 가입한 회원이 없을 때의 처리가 있어야 함!
           alert("정상적인 접근이 아닙니다.");
         }
       })
-      .catch(() => alert("error"));
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   // 프로젝트 키 중복 체크 요청
@@ -130,7 +150,7 @@ export default function CreatePjPage() {
       alert("키 값을 입력해주세요.");
       return;
     }
-    instanceAuth
+    await instanceAuth
       .get(`/projects/project-key/${pjKey}`)
       .then((response) => {
         console.log(response.data);
@@ -144,6 +164,10 @@ export default function CreatePjPage() {
         console.log(error);
         alert("정상적인 접근이 아닙니다.");
       });
+  };
+
+  const onGradeChangeHandler = (grade: UserGrade) => {
+    setGrade(grade);
   };
 
   useEffect(() => {
@@ -380,6 +404,9 @@ export default function CreatePjPage() {
                           value=""
                           name="default-radio"
                           className="w-4 h-4 text-primary-4 bg-gray-100 border-gray-300 focus:ring-primary-4 focus:ring-2"
+                          onClick={() => {
+                            onGradeChangeHandler("LEADER");
+                          }}
                         />
                         <label htmlFor="default-radio-4" className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded">
                           프로젝트 리더
@@ -394,6 +421,9 @@ export default function CreatePjPage() {
                           value=""
                           name="default-radio"
                           className="w-4 h-4 text-primary-4 bg-gray-100 border-gray-300 focus:ring-primary-4 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
+                          onClick={() => {
+                            onGradeChangeHandler("MEMBER");
+                          }}
                         />
                         <label htmlFor="default-radio-5" className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded">
                           프로젝트 팀원
