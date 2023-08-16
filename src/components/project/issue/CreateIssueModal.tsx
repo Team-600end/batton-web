@@ -1,4 +1,4 @@
-import React, { useState, useCallback, useEffect } from "react";
+import React, { useState, useRef, useCallback, useEffect } from "react";
 import "@assets/index.css";
 import profile_img from "@images/common/default_profile.png";
 import Tag from "@src/components/project/issue/IssueBadge";
@@ -11,6 +11,7 @@ import { useParams } from "react-router-dom";
 import { instanceAuth } from "@src/types/AxiosInterface";
 import chevron_up from "@images/common/chevron_up.png";
 import chevron_down from "@images/common/chevron_down.png";
+import { PjMember } from "@src/types/Users";
 interface CreateIssueData {
   projectId: number;
   issueTag: IssueType;
@@ -24,15 +25,20 @@ export default function CreateIssueModal({ visible, onClose }) {
   const [issueTitle, setIssueTitle] = useState("");
   const [issueContent, setIssueContent] = useState("");
   const [belongId, setBelongId] = useState(0); //TODO: 담당자 id
+  // 프로젝트 멤버 모달
+  const [isMemberDropdownOpen, setIsMemberDropdownOpen] = useState(false);
+  const [memberDropdownValue, setMemberDropdownValue] = useState("멤버 선택");
+  const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
+  const [memberList, setMemberList] = useState<PjMember[]>([]);
 
-  //member list
-  const [isOpenMemberList, setIsOpenMemberList] = useState(false);
+  // //member list
+  // const [isOpenMemberList, setIsOpenMemberList] = useState(false);
   //projectId
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectKey } = useParams();
   const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
-  const handleTagClick = (issueType) => {
+  const handleTagClick = (issueType: IssueType) => {
     setActiveTag(issueType);
   };
 
@@ -40,11 +46,11 @@ export default function CreateIssueModal({ visible, onClose }) {
     onClose();
   };
 
-  const handleIssueTitle = (e) => {
+  const handleIssueTitle = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIssueTitle(e.target.value);
   };
 
-  const handleIssueContent = (e) => {
+  const handleIssueContent = (e: React.ChangeEvent<HTMLInputElement>) => {
     setIssueContent(e.target.value);
   };
 
@@ -56,6 +62,27 @@ export default function CreateIssueModal({ visible, onClose }) {
     issueTitle: issueTitle,
     issueContent: issueContent,
     belongId: belongId,
+  };
+
+  const handleMemberDropdown = () => {
+    setIsMemberDropdownOpen(!isMemberDropdownOpen);
+    // (async () => {
+    if (!isMemberDropdownOpen) {
+      instanceAuth
+        .get(`/belongs/list/${pj.projectId}`)
+        .then((response) => {
+          console.log(response.data);
+          if (response.data.code === 200) {
+            setMemberList(response.data.result);
+          } else if (response.data.code === 707) {
+            setMemberList([]);
+          }
+        })
+        .catch((error) => {
+          console.log(error);
+        });
+    }
+    // })();
   };
 
   const handleCreateIssue = async () => {
@@ -89,6 +116,20 @@ export default function CreateIssueModal({ visible, onClose }) {
       });
   };
 
+  // 드롭다운
+  // useEffect(() => {
+  //   const handleClickOutside = (e: MouseEvent) => {
+  //     if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
+  //       setIsMemberDropdownOpen(false);
+  //     }
+  //   };
+
+  //   document.addEventListener("mousedown", handleClickOutside);
+  //   return () => {
+  //     document.removeEventListener("mousedown", handleClickOutside);
+  //   };
+  // }, []);
+
   return (
     <>
       <div
@@ -97,14 +138,14 @@ export default function CreateIssueModal({ visible, onClose }) {
         className="fixed justify-center flex items-center bg-black bg-opacity-30 top-0 left-0 right-0 bottom-0 z-50 p-4 backdrop-blur-sm overflow-x-hidden overflow-y-hidden md:inset-0 w-full h-full max-h-full"
       >
         <div className="flex w-full max-w-2xl max-h-full mr-auto ml-auto">
-          <div className="bg-white rounded-lg shadow dark:bg-gray-700">
+          <div className="bg-white rounded-lg shadow">
             {/* 모달 헤더 */}
             <div className="flex items-start justify-between p-10 rounded-t dark:border-gray-600">
               <h3 className="text-[24px] font-bold text-gray-900 dark:text-white">이슈 생성하기</h3>
               <button
                 type="button"
                 onClick={handleOnClose}
-                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
+                className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
               >
                 <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
                   <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
@@ -114,10 +155,10 @@ export default function CreateIssueModal({ visible, onClose }) {
 
             {/* 모달 내용 */}
             <div className="px-14">
-              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">이슈태그</p>
+              <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">이슈 태그</p>
 
               <div className="flex items-center space-x-3 mt-4">
-                {["NEW", "FEATURE", "CHANGED", "FIXED", "DEPRECATED"].map((type) => (
+                {["NEW", "FEATURE", "CHANGED", "FIXED", "DEPRECATED"].map((type: IssueType) => (
                   <div key={type} style={{ cursor: "pointer" }} onClick={() => handleTagClick(type)}>
                     {activeTag === type ? <Tag issueType={type as IssueType} /> : <TagDisabled issueType={type as IssueType} />}
                   </div>
@@ -140,32 +181,52 @@ export default function CreateIssueModal({ visible, onClose }) {
               />
 
               <div className="flex items-center mt-6">
-                <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400">담당자</p>
-                {/* <button
-                  id="dropdownButton"
-                  data-dropdown-toggle="dropdownMenu"
-                  className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-primary-4 font-medium rounded-lg text-[12px] text-center inline-flex items-center ml-[20px] justify-center"
-                  type="button"
-                  style={{ height: "40px" }}
-                >
-                  <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" />
-                  imae
-                  <svg className="w-2.5 h-2.5 ml-3 mr-4" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
-                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
-                  </svg>
-                </button> */}
-                <button
-                  id="dropdownButton"
-                  data-dropdown-toggle="dropdownMenu"
-                  className="border border-gray-300 border-1 text-text-gray-900 bg-white focus:ring-2 focus:outline-none focus:ring-primary-4 font-medium rounded-lg text-[12px] text-center inline-flex items-center ml-[20px] justify-center"
-                  type="button"
-                  style={{ height: "40px" }}
-                  onClick={() => setIsOpenMemberList(!isOpenMemberList)}
-                >
-                  <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" />
-                  imae
-                  {isOpenMemberList ? <img className="m-1 w-[9px] h-[6px]" src={chevron_up} /> : <img className="m-1 w-[9px] h-[6px]" src={chevron_down} />}
-                </button>
+                <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mr-3">담당자</p>
+                <div>
+                  <div className="relative">
+                    <button
+                      onClick={handleMemberDropdown}
+                      className="flex items-center justify-between w-[140px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3 py-1.5"
+                    >
+                      <div className="flex items-center justify-center">
+                        {memberDropdownValue === "멤버 선택" ? (
+                          <div className="ml-2 text-sm text-grey-4">멤버 선택</div>
+                        ) : (
+                          <div className="flex flex-row items-center">
+                            <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" alt="Profile" />
+                            <div className="ml-2 text-sm">{memberDropdownValue}</div>
+                          </div>
+                        )}
+                      </div>
+                      <div className="flex items-center justify-center">
+                        <img className="m-1 w-[9px] h-[6px]" src={isMemberDropdownOpen ? chevron_up : chevron_down} alt="Dropdown Icon" />
+                      </div>
+                    </button>
+                    {isMemberDropdownOpen && (
+                      <div ref={dropdownRef} className="absolute z-10 top-full left-0 mt-2 w-[140px] bg-white divide-y divide-gray-100 rounded-lg shadow">
+                        {/* 멤버 리스트 목록 map으로 보이기 */}
+                        {memberList.length === 0 ? (
+                          <div className="py-2 px-4 text-center">멤버 없음</div>
+                        ) : (
+                          memberList.map((member) => (
+                            <div
+                              key={member.memberId}
+                              className="flex flex-row py-2 px-4 cursor-pointer hover:bg-gray-100"
+                              onClick={() => {
+                                setMemberDropdownValue(member.nickname);
+                                setBelongId(member.memberId);
+                                setIsMemberDropdownOpen(false);
+                              }}
+                            >
+                              <img id="manager_icon" src={(member.profileImage == null || member.profileImage == "") ? profile_img : member.profileImage} alt="M" className="w-6 h-6 ml-4 mr-3" />
+                              <div className="ml-2 text-sm">{member.nickname}</div>
+                            </div>
+                          ))
+                        )}
+                      </div>
+                    )}
+                  </div>
+                </div>
               </div>
             </div>
 

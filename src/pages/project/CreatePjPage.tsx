@@ -114,10 +114,7 @@ export default function CreatePjPage() {
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
-          setPjMemList((pjMemList) => [
-            ...pjMemList,
-            response.data.result as CpMember,
-          ]);
+          setPjMemList((pjMemList) => [...pjMemList, response.data.result as CpMember]);
         } else {
           // 해당 이메일로 가입한 회원이 없을 때의 처리가 있어야 함!
           alert("정상적인 접근이 아닙니다.");
@@ -136,14 +133,17 @@ export default function CreatePjPage() {
     instanceAuth
       .get(`/projects/project-key/${pjKey}`)
       .then((response) => {
-        console.log(response.data)
+        console.log(response.data);
         if (response.data.isSuccess == true) {
           setKeyChecked(1);
         } else {
           setKeyChecked(-2);
         }
       })
-      .catch((error) => {console.log(error); alert("정상적인 접근이 아닙니다.")});
+      .catch((error) => {
+        console.log(error);
+        alert("정상적인 접근이 아닙니다.");
+      });
   };
 
   useEffect(() => {
@@ -151,9 +151,7 @@ export default function CreatePjPage() {
     const $targetEl = document.getElementById("dropdownMenu") as HTMLDivElement;
 
     // set the element that trigger the dropdown menu on click
-    const $triggerEl = document.getElementById(
-      "dropdownButton"
-    ) as HTMLButtonElement | null;
+    const $triggerEl = document.getElementById("dropdownButton") as HTMLButtonElement | null;
 
     // options with default values
     const options: DropdownOptions = {
@@ -169,11 +167,7 @@ export default function CreatePjPage() {
      * triggerEl: required
      * options: optional
      */
-    const dropdown: DropdownInterface = new Dropdown(
-      $targetEl,
-      $triggerEl,
-      options
-    );
+    const dropdown: DropdownInterface = new Dropdown($targetEl, $triggerEl, options);
 
     // show the dropdown
     // dropdown.show();
@@ -194,6 +188,7 @@ export default function CreatePjPage() {
     instanceAuth
       .post(`/projects`, createPjData)
       .then(async (response) => {
+        console.log("프로젝트 생성 요청");
         console.log(response.data);
         if (response.data.code == 200) {
           await instanceAuth
@@ -223,20 +218,13 @@ export default function CreatePjPage() {
     <>
       <div className="relative w-screen h-screen flex flex-col mt-[100px]">
         {/* 프로젝트 생성하기 타이틀 */}
-        <div
-          className="flex flex-row items-center"
-          style={{ marginLeft: "16.9312vw" }}
-        >
+        <div className="flex flex-row items-center" style={{ marginLeft: "16.9312vw" }}>
           <div className="w-[10px] h-[27px] bg-primary-5 mr-[10px]"></div>
-          <p className="text-[28px] font-suitB text-gray-900">
-            프로젝트 생성하기
-          </p>
+          <p className="text-[28px] font-suitB text-gray-900">프로젝트 생성하기</p>
         </div>
         <div className="flex flex-col items-center">
           <div className="flex flex-row mt-[8vh]">
-            <p className="w-[21vw] text-[20px] font-suitM text-gray-900">
-              프로젝트명
-            </p>
+            <p className="w-[21vw] text-[20px] font-suitM text-gray-900">프로젝트명</p>
             <div>
               <input
                 type="text"
@@ -245,16 +233,12 @@ export default function CreatePjPage() {
                 onChange={onTitleChangeHandler}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
               />
-              <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] w-[31.0847vw]">
-                {titleInputCount}/20
-              </p>
+              <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] w-[31.0847vw]">{titleInputCount}/20</p>
             </div>
           </div>
           <div className="flex flex-row mt-[6vh]">
             <div className="flex flex-col">
-              <p className="w-[21vw] text-[20px] font-suitM text-gray-900">
-                프로젝트 키
-              </p>
+              <p className="w-[21vw] text-[20px] font-suitM text-gray-900">프로젝트 키</p>
               <p className="text-[1.6vh] font-suitL text-gray-400 mt-[0.5vh]">
                 * 생성 후 변경 불가능한 고유 주소입니다.
                 <br />
@@ -282,19 +266,13 @@ export default function CreatePjPage() {
                       : "w-[3.3vw] ml-[0.7vw] fonrt-suitL text-[1vh] border border-1 border-primary-4 bg-primary-3 rounded-lg"
                   }
                 >
-                  {!(keyChecked == 1) ? (
-                    <img src={g_check_icon} className="m-auto" />
-                  ) : (
-                    <img src={w_check_icon} className="m-auto" />
-                  )}
+                  {!(keyChecked == 1) ? <img src={g_check_icon} className="m-auto" /> : <img src={w_check_icon} className="m-auto" />}
                 </button>
               </div>
               <div className="flex w-[31.0847vw]">
                 <p
                   className={
-                    keyChecked == 1
-                      ? "text-primary-4 pl-[0.4vw] font-suitL text-[13px] mt-[4px]"
-                      : "text-error-3 pl-[0.4vw] font-suitL text-[13px] mt-[4px]"
+                    keyChecked == 1 ? "text-primary-4 pl-[0.4vw] font-suitL text-[13px] mt-[4px]" : "text-error-3 pl-[0.4vw] font-suitL text-[13px] mt-[4px]"
                   }
                 >
                   {keyChecked == 1
@@ -305,22 +283,18 @@ export default function CreatePjPage() {
                     ? ""
                     : "사용 불가능한 키입니다."}
                 </p>
-                <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] ml-auto pr-[4.2vw]">
-                  {keyInputCount}/20
-                </p>
+                <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px] ml-auto pr-[4.2vw]">{keyInputCount}/20</p>
               </div>
             </div>
           </div>
           <div className="flex flex-row mt-[6vh]">
-            <p className="w-[21vw] text-[20px] font-suitM text-gray-900">
-              프로젝트 설명
-            </p>
+            <p className="w-[21vw] text-[20px] font-suitM text-gray-900">프로젝트 설명</p>
             <div>
               <textarea
                 placeholder=""
                 maxLength={200}
                 onChange={onContentChangeHandler}
-                className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
+                className="resize-none items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5"
                 style={{
                   verticalAlign: "top",
                   width: "31.0847vw",
@@ -328,18 +302,13 @@ export default function CreatePjPage() {
                 }}
               />
 
-              <p
-                className="font-suitM text-[14px] text-gray-400 text-right mt-[4px]"
-                style={{ width: "31.0847vw" }}
-              >
+              <p className="font-suitM text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
                 {contentInputCount}/200
               </p>
             </div>
           </div>
           <div className="flex flex-row mt-[8vh]">
-            <p className="w-[21vw] text-[20px] font-suitM text-gray-900">
-              팀원 추가하기
-            </p>
+            <p className="w-[21vw] text-[20px] font-suitM text-gray-900">팀원 추가하기</p>
             <div className="flex flex-col">
               <div className="flex flex-row w-[31.0847vw]">
                 <div className="relative z-0">
@@ -378,20 +347,8 @@ export default function CreatePjPage() {
                   }}
                 >
                   권한
-                  <svg
-                    className="w-2.5 h-2.5 ml-2.5"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 10 6"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 4 4 4-4"
-                    />
+                  <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                   </svg>
                 </button>
 
@@ -414,10 +371,7 @@ export default function CreatePjPage() {
                     marginLeft: "22.1vw",
                   }}
                 >
-                  <ul
-                    className="p-3 space-y-1 text-sm text-gray-700"
-                    aria-labelledby="dropdownButton"
-                  >
+                  <ul className="p-3 space-y-1 text-sm text-gray-700" aria-labelledby="dropdownButton">
                     <li>
                       <div className="flex items-center p-2 rounded hover:bg-gray-100">
                         <input
@@ -427,10 +381,7 @@ export default function CreatePjPage() {
                           name="default-radio"
                           className="w-4 h-4 text-primary-4 bg-gray-100 border-gray-300 focus:ring-primary-4 focus:ring-2"
                         />
-                        <label
-                          htmlFor="default-radio-4"
-                          className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded"
-                        >
+                        <label htmlFor="default-radio-4" className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded">
                           프로젝트 리더
                         </label>
                       </div>
@@ -444,10 +395,7 @@ export default function CreatePjPage() {
                           name="default-radio"
                           className="w-4 h-4 text-primary-4 bg-gray-100 border-gray-300 focus:ring-primary-4 focus:ring-2 dark:bg-gray-600 dark:border-gray-500"
                         />
-                        <label
-                          htmlFor="default-radio-5"
-                          className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded"
-                        >
+                        <label htmlFor="default-radio-5" className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded">
                           프로젝트 팀원
                         </label>
                       </div>

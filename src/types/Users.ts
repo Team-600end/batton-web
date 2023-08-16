@@ -20,3 +20,9 @@ export interface CpMember {
   email: string;
   profileImage?: string;
 }
+
+export interface PjMember {
+  memberId: number;
+  nickname: string;
+  profileImage: string;
+}

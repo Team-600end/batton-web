@@ -7,6 +7,9 @@ import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@typess/project";
 import { useParams } from "react-router-dom";
+import IssueStatusBadge from "./IssueStatusBadge";
+import default_profile_img from "@images/common/default_profile.png";
+
 
 export default function IssueLog() {
   const [itemsPerPage, setItemsPerPage] = useState(3);
@@ -47,7 +50,7 @@ export default function IssueLog() {
 
   return (
     <>
-      <div className="relative w-[1000px] h-[400px] bg-white rounded-xl shadow-md">
+      <div className="w-[70vw] h-[400px] bg-white rounded-xl shadow-md">
         <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">이슈 로그</p>
         {/* 테이블 */}
         <div className="pt-[20px]">
@@ -58,7 +61,7 @@ export default function IssueLog() {
                   이슈태그
                 </th>
                 <th scope="col" className="px-16 py-3">
-                  이슈
+                  이슈명
                 </th>
                 <th scope="col" className="px-4 py-3">
                   상태
@@ -70,18 +73,18 @@ export default function IssueLog() {
             </thead>
             <tbody>
               {/* 테이블 내용 */}
-              {getCurrentPageItems().map((index) => (
-                <tr key={index.id} className="bg-white border-b hover:bg-gray-50">
+              {getCurrentPageItems().map((item, index) => (
+                <tr key={index} className="bg-white border-b hover:bg-gray-50">
                   <td className="px-6 py-4">
-                    <IssueBadge issueType={index.issueTag} />
+                    <IssueBadge issueType={item.issueTag} />
                   </td>
                   <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap dark:text-white">
-                    {index.issueTitle}
+                    {item.issueTitle}
                   </th>
-                  <td className="px-6 py-4">{index.issueStatus}</td>
+                  <td className="px-6 py-4"><IssueStatusBadge issueStatus={item.issueStatus}/></td>
                   <td className="px-6 py-4 flex justify-center items-center ">
-                    <img className="w-6 h-6 rounded-full mr-[10px] object-cover" src={index.profileImg} alt="Profile" />
-                    {index.nickname}
+                    <img className="w-6 h-6 rounded-full mr-[10px] object-cover select-none pointer-events-none" src={(item.profileImg == "" || item.profileImg == null) ? default_profile_img : item.profileImg} alt="Profile" />
+                    {item.nickname}
                   </td>
                 </tr>
               ))}
@@ -102,7 +105,7 @@ export default function IssueLog() {
                 </a>
               </li>
 
-              {Array.from({ length: totalPage }).map((_, index) => (
+              {Array.from({ length: totalPage }).map((element, index) => (
                 <li key={index}>
                   <a
                     className={`flex items-center justify-center px-3 h-8 leading-tight ${
