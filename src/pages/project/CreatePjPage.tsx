@@ -8,7 +8,7 @@ import CreatePjMember from "@src/components/project/CreatePjMember";
 import g_check_icon from "@images/icons/grey-check.svg";
 import w_check_icon from "@images/icons/white_check.svg";
 import { useRecoilState } from "recoil";
-import { nicknameState } from "@src/state/userState";
+import { emailState, nicknameState } from "@src/state/userState";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
 
@@ -49,6 +49,7 @@ export default function CreatePjPage() {
   const [emailStatus, setEmailStatus] = useState("");
   // 현재 사용자 닉네임 recoil
   const [userNickname, setUserNickname] = useRecoilState(nicknameState);
+  const [userEmail, setUserEmail] = useRecoilState(emailState);
   // 프로젝트 recoil
   const [projects, setProjects] = useRecoilState(projectNavs);
   const emailRegex = /\S+@\S+\.\S+/;
@@ -82,28 +83,41 @@ export default function CreatePjPage() {
     setFindByEmail(e.target.value);
   };
 
+  //처음 내 정보 받아오기
+  useEffect(() => {
+    (async () => {
+      instanceAuth.get(`/members/list/${userEmail}`).then((response) => {
+        const myInfo = { ...(response.data.result as CpMember), grade: "LEADER" as UserGrade };
+        setPjMemList((pjMemList) => [...pjMemList, myInfo]);
+      });
+    })();
+  }, []);
+
+  // 팀원 삭제
+  const handleRemoveMember = (memberToRemove: CpMember) => {
+    const updatedList = pjMemList.filter((member) => member.memberId !== memberToRemove.memberId);
+    setPjMemList(updatedList);
+  };
+
+  //이메일 형식 검증
   useEffect(() => {
     // 이메일 형식 검증
     if (findByEmail === "") {
       setEmailStatus("");
     } else if (!emailRegex.test(findByEmail)) {
-      setEmailStatus("이메일 형식이 올바르지 않습니다.");
+      setEmailStatus("형식이 올바르지 않습니다.");
     } else {
       setEmailStatus("");
     }
   }, [findByEmail]);
 
-  const createPjData: CreatePjData = {
-    projectTitle: pjTitle,
-    projectKey: pjKey,
-    projectContent: pjContent,
-    projectImage: pjImage,
-    nickname: userNickname,
-    projectMemberList: pjMemReqList,
-  };
-
+  // 팀원 추가하기
   const pjMemberRequest = async () => {
     let isMemberAdded = false;
+    if (findByEmail === "") {
+      // setEmailStatus("입력해주새요.");
+      return;
+    }
     pjMemList.forEach((member) => {
       if (member.email === findByEmail) {
         // 특정 값이 있는 경우 원하는 동작 수행
@@ -123,7 +137,8 @@ export default function CreatePjPage() {
         console.log(response.data);
 
         if (response.data.code === 200) {
-          setPjMemList((pjMemList) => [...pjMemList, response.data.result as CpMember]);
+          const memberInfo = { ...(response.data.result as CpMember), grade: grade };
+          setPjMemList((pjMemList) => [...pjMemList, memberInfo]);
           setPjMemReqList((pjMemReqList) => [
             ...pjMemReqList,
             { memberId: response.data.result.memberId, nickname: response.data.result.nickname, gradeType: grade },
@@ -131,9 +146,6 @@ export default function CreatePjPage() {
         } else if (response.data.code === 600) {
           // 해당 이메일로 가입한 회원이 없을 때
           setEmailStatus("존재하지 않는 이메일입니다.");
-        } else if (response.data.code === 0) {
-          //TODO: 08160646: 멤버 리스트 가져와서 판단
-          setEmailStatus("이미 속해있는 멤버입니다.");
         } else {
           alert("정상적인 접근이 아닙니다.");
         }
@@ -208,6 +220,15 @@ export default function CreatePjPage() {
       alert("프로젝트 키 중복 검사를 진행해주세요.");
       return;
     }
+
+    const createPjData: CreatePjData = {
+      projectTitle: pjTitle,
+      projectKey: pjKey,
+      projectContent: pjContent,
+      projectImage: pjImage,
+      nickname: userNickname,
+      projectMemberList: pjMemReqList,
+    };
 
     instanceAuth
       .post(`/projects`, createPjData)
@@ -342,8 +363,8 @@ export default function CreatePjPage() {
                     id="floating_standard"
                     className={
                       emailStatus == ""
-                        ? "block py-2.5 px-0 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary-4 peer ml-1"
-                        : "block py-2.5 px-0 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-error-3 peer ml-1"
+                        ? "block py-2.5 px-2 my-2 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-primary-4 peer ml-1"
+                        : "block py-2.5 px-2 my-2 w-[15vw] text-sm text-gray-900 bg-transparent border-0 border-b-2 border-gray-300 appearance-none focus:outline-none focus:ring-0 focus:border-error-3 peer ml-1"
                     }
                     placeholder=" "
                   />
@@ -363,14 +384,15 @@ export default function CreatePjPage() {
                 <button
                   id="dropdownButton"
                   data-dropdown-toggle="dropdownMenu"
-                  className="ml-auto border border-gray-300 border-1 text-text-gray-900 bg-white hover:bg-grey-6 font-suitM rounded-lg text-[12px] text-center inline-flex items-center justify-center"
+                  className="ml-auto my-2 border border-gray-300 border-1 text-text-gray-900 bg-white hover:bg-grey-6 font-suitM rounded-lg text-[12px] text-center inline-flex items-center justify-center"
                   type="button"
                   style={{
                     width: "86px",
                     height: "40px",
                   }}
                 >
-                  권한
+                  {grade == "LEADER" ? "리더" : "멤버"}
+
                   <svg className="w-2.5 h-2.5 ml-2.5" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 10 6">
                     <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 4 4 4-4" />
                   </svg>
@@ -380,7 +402,7 @@ export default function CreatePjPage() {
                 <button
                   id="addTeamMember"
                   onClick={pjMemberRequest}
-                  className="ml-[0.5vw] w-[86px] h-[40px] text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-[12px] mb-2 focus:outline-none"
+                  className="ml-[0.5vw] my-2 w-[86px] h-[40px] text-primary-4 border border-1 border-primary-4 bg-white hover:bg-primary-5 font-suitM rounded-lg text-[12px] mb-2 focus:outline-none"
                 >
                   추가
                 </button>
@@ -390,14 +412,14 @@ export default function CreatePjPage() {
               <div className="relative flex flex-col">
                 <div
                   id="dropdownMenu"
-                  className="z-20 hidden w-[150px] bg-white divide-y divide-gray-100 rounded-lg shadow"
+                  className="z-20 hidden w-[90px] bg-white divide-y divide-gray-100 rounded-lg shadow"
                   style={{
                     marginLeft: "22.1vw",
                   }}
                 >
-                  <ul className="p-3 space-y-1 text-sm text-gray-700" aria-labelledby="dropdownButton">
+                  <ul className="p-2 space-y-1 text-sm text-gray-700" aria-labelledby="dropdownButton">
                     <li>
-                      <div className="flex items-center p-2 rounded hover:bg-gray-100">
+                      <div className="flex items-center pl-2 rounded hover:bg-gray-100">
                         <input
                           id="default-radio-4"
                           type="radio"
@@ -408,13 +430,13 @@ export default function CreatePjPage() {
                             onGradeChangeHandler("LEADER");
                           }}
                         />
-                        <label htmlFor="default-radio-4" className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded">
-                          프로젝트 리더
+                        <label htmlFor="default-radio-4" className="w-full ml-3 text-[14px] font-suitM text-gray-900 rounded">
+                          리더
                         </label>
                       </div>
                     </li>
                     <li>
-                      <div className="flex items-center p-2 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
+                      <div className="flex items-center pl-2 pt-1 rounded hover:bg-gray-100 dark:hover:bg-gray-600">
                         <input
                           id="default-radio-5"
                           type="radio"
@@ -425,8 +447,8 @@ export default function CreatePjPage() {
                             onGradeChangeHandler("MEMBER");
                           }}
                         />
-                        <label htmlFor="default-radio-5" className="w-full ml-2 text-[14px] font-suitM text-gray-900 rounded">
-                          프로젝트 팀원
+                        <label htmlFor="default-radio-5" className="w-full ml-3 text-[14px] font-suitM text-gray-900 rounded">
+                          멤버
                         </label>
                       </div>
                     </li>
@@ -434,10 +456,18 @@ export default function CreatePjPage() {
                 </div>
 
                 {/* 추가한 팀원 목록 */}
-                <div className="flex flex-col justify-center space-x-5 bg-gray-50 border border-gray-300 rounded-lg z-5 px-5 py-5 w-[31.1847vw]">
+                {/* <div className="flex flex-col justify-center space-x-5 bg-gray-50 border border-gray-300 rounded-lg z-5 px-5 py-5 w-[31.1847vw] overflow-auto">
                   <ul className="max-w-md divide-y divide-gray-200">
                     {pjMemList.map((member) => (
-                      <CreatePjMember pjMember={member} />
+                      <CreatePjMember key={member.memberId} pjMember={member} onRemove={() => handleRemoveMember(member)} />
+                    ))}
+                  </ul>
+                </div> */}
+                <div className="flex flex-col justify-center space-x-5 bg-gray-50 border border-gray-300 rounded-lg z-5 px-5 py-5 w-[31.1847vw] overflow-x-auto">
+                  <ul className="max-w-md divide-y divide-gray-200">
+                    {/* <CreatePjMember pjMember={grade:"LEADER", memberId: memberId} onRemove={null} /> */}
+                    {pjMemList.map((member) => (
+                      <CreatePjMember key={member.memberId} pjMember={member} onRemove={() => handleRemoveMember(member)} />
                     ))}
                   </ul>
                 </div>
