@@ -1,11 +1,9 @@
-import React, { useState, useEffect, useCallback } from "react";
+import React, { useState, useEffect } from "react";
 import login_lefthand_img from "@assets/images/loginPage/login_lefthand.svg";
 import login_righthand_img from "@assets/images/loginPage/login_righthand.svg";
 import batton_logo_img from "@images/common/batton_logo_big.svg";
 import kakao_logo_img from "@assets/images/loginPage/kakao_logo.svg";
-import google_logo_img from "@assets/images/loginPage/google_logo.svg";
 import { useNavigate } from "react-router-dom";
-import useInput from "@src/hooks/useInput";
 import { instanceAuth, instanceNonAuth } from "@typess/AxiosInterface";
 import { useCookies } from "react-cookie";
 import {
@@ -53,13 +51,13 @@ export default function LoginPage() {
   const [email, setEmail] = useState(``);
   const [emailStatus, setEmailStatus] = useState("");
   const [password, setPassword] = useState(``);
-  const [cookies, setCookie, removeCookie] = useCookies([
+  const [, setCookie, ] = useCookies([
     "accessToken",
     "refreshToken",
   ]);
-  const [userNickname, setUserNickname] = useRecoilState(nicknameState);
-  const [userProfileImg, setUserProfileImg] = useRecoilState(profileImgState);
-  const [userEmail, setUserEmail] = useRecoilState(emailState);
+  const [, setUserNickname] = useRecoilState(nicknameState);
+  const [, setUserProfileImg] = useRecoilState(profileImgState);
+  const [, setUserEmail] = useRecoilState(emailState);
   const [isModalOpen, setIsModalOpen] = useState(false);
 
   const onChangeEmail = (e: React.ChangeEvent<HTMLInputElement>) => {
@@ -102,8 +100,6 @@ export default function LoginPage() {
     instanceNonAuth
       .post(`/auth/login`, loginData)
       .then((response) => {
-        console.log("===로그인데이터===");
-        console.log(loginData);
         if (response.data.code == 200) {
           setCookie("accessToken", response.data.result.accessToken, {
             path: `/`,
@@ -134,9 +130,14 @@ export default function LoginPage() {
   };
 
   const kakaoBtnClicked = async () => {
-    window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${
-      import.meta.env.VITE_KAKAO_KEY
-    }&redirect_uri=${import.meta.env.VITE_KAKAO_REDIRECT}&response_type=code`;
+    instanceNonAuth
+      .get(`/auth/kakao/key`)
+      .then((response) => {
+        if (response.data.code == 200) {
+          window.location.href = `https://kauth.kakao.com/oauth/authorize?client_id=${response.data.result.key}&redirect_uri=${response.data.result.redirect}&response_type=code`;
+        }
+      })
+      .catch(() => navigate("/"));
   };
 
   return (
@@ -219,12 +220,6 @@ export default function LoginPage() {
           />{" "}
           카카오 로그인
         </button>
-        {/* <button
-          type="button"
-          className="w-[30vw] h-[5vh] text-gray-400 bg-[#FFFFFF] border border-grey-100 shadow-md hover:bg-[#E7E7E7] focus:ring-4 focus:outline-none focus:ring-[#F9F9F9] font-suitM rounded-lg text-sm px-5 py-2.5 text-center flex justify-center items-center"
-        >
-          <img className="mr-2" src={google_logo_img} /> 구글 로그인
-        </button> */}
         <div className="text-sm font-suitM text-gray-400">
           계정이 없으신가요?{" "}
           <button
@@ -237,7 +232,7 @@ export default function LoginPage() {
         </div>
       </div>
       <img
-        className="absolute z-0"
+        className="absolute z-0 select-none pointer-events-none"
         src={login_righthand_img}
         style={{ marginRight: "-70vw" }}
       />

@@ -1,5 +1,4 @@
 import React, { useState, useCallback, useEffect, useRef } from "react";
-import { useParams } from "react-router-dom";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import { Carousel } from "flowbite-react";
 import { useNavigate } from "react-router-dom";

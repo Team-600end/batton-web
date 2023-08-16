@@ -1,4 +1,3 @@
-import React, { useState, useCallback } from "react";
 import signup_hand_image from "@assets/images/signupPage/signup_hand3.svg";
 import batton_logo_img from "@assets/images/common/batton_logo_medium.svg";
 
@@ -15,7 +14,7 @@ export default function ForgetPwPage() {
               이메일
             </label>
             <input
-              className="bg-gray-50 border font-suitM border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+              className="bg-gray-50 border font-suitM border-gray-300 text-gray-900 text-sm rounded-lg focus:outline-primary-4 block w-full p-2.5"
               placeholder=""
               required
             />

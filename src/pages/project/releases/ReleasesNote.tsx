@@ -37,19 +37,18 @@ export default function ReleasesNote() {
         console.log(response.data);
         if (response.data.code == 200) {
           setReleasesList(
-            response.data.result && [...response.data.result].reverse()
+            response.data.result && [...response.data.result.releasesList].reverse()
           );
+          setVMj(response.data.result.latestVersionMajor);
+          setVMi(response.data.result.latestVersionMinor);
+          setVPt(response.data.result.latestVersionPatch);
         } else if (response.data.code == 710) {
           setReleasesList([]);
         }
       })
       .catch((error) => {
         console.log(error);
-      }).finally(() => {
-        setVMj(releasesList[0].versionMajor);
-        setVMi(releasesList[0].versionMinor);
-        setVPt(releasesList[0].versionPatch);
-      });
+      })
   };
 
   return (

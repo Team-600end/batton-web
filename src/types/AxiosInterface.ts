@@ -1,11 +1,6 @@
 import axios, {
-  Axios,
   AxiosInstance,
-  AxiosInterceptorManager,
-  AxiosRequestConfig,
-  AxiosResponse,
 } from "axios";
-import { APIResponse } from "@typess/ResponseInterface";
 import { getCookie } from "@src/state/tokenState";
 // import { getCookie, setCookie } from "@state/tokenState";
 

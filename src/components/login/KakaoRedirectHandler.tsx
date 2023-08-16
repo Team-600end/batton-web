@@ -1,12 +1,11 @@
-import { setCookie } from "@src/state/tokenState";
+import { getCookie, setCookie } from "@src/state/tokenState";
 import {
   emailState,
   nicknameState,
   profileImgState,
 } from "@src/state/userState";
 import { instanceAuth, instanceNonAuth } from "@src/types/AxiosInterface";
-import axios from "axios";
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useRecoilState } from "recoil";
 
@@ -20,55 +19,56 @@ export default function KakaoRedirectHandler() {
 
   //엑세스 토큰 발급 받기
   const kakaoTokenLogin = async () => {
-    let grant_type = "authorization_code";
-    let client_id = import.meta.env.VITE_KAKAO_KEY;
-    let redirect_uri = import.meta.env.VITE_KAKAO_REDIRECT;
+    instanceNonAuth.get(`/auth/kakao/key`).then((response) => {
+      if (response.data.code == 200) {
+        let grant_type = "authorization_code";
+        let client_id = response.data.result.key;
+        let redirect_uri = response.data.result.redirect;
 
-    // const payload = {
-    //   grant_type: "authorization_code",
-    //   client_id: import.meta.env.VITE_KAKAO_KEY,
-    //   redirect_uri: import.meta.env.VITE_KAKAO_REDIRECT,
-    //   code: code,
-    // };
-
-    instanceNonAuth
-      .post(`https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${client_id}&redirect_uri=${redirect_uri}&code=${code}`,{},
-        {
-          headers: {
-            "Content-type": "application/x-www-form-urlencoded;charset=utf-8",
-          },
-        }
-      )
-      .then((response) => {
         instanceNonAuth
-          .post(`/auth/kakao/${response.data.access_token}`)
-          .then((response) => {
-            if (response.data.code == 200) {
-							console.log("here : " + response);
-              setCookie("accessToken", response.data.result.accessToken, {
-                path: `/`,
-              });
-              setCookie("refreshToken", response.data.result.refreshToken, {
-                path: `/`,
-              });
-              instanceAuth
-                .get(`/members`)
-                .then((response) => {
-                  if (response.data.code == 200) {
-                    setUserEmail(response.data.result.email);
-                    setUserNickname(response.data.result.nickname);
-                    setUserProfileImg(response.data.result.profileImage);
-                  }
-                })
-                .catch((error) => {
-                  console.log(error);
-                  alert(`정상적인 접근이 아닙니다`);
-                });
-              navigate(`/main`);
+          .post(
+            `https://kauth.kakao.com/oauth/token?grant_type=${grant_type}&client_id=${client_id}&redirect_uri=${redirect_uri}&code=${code}`,
+            {},
+            {
+              headers: {
+                "Content-type":
+                  "application/x-www-form-urlencoded;charset=utf-8",
+              },
             }
-          });
-      })
-      .catch(() => navigate("/login"));
+          )
+          .then((response) => {
+            instanceNonAuth
+              .post(`/auth/kakao/${response.data.access_token}`)
+              .then((response) => {
+                if (response.data.code == 200) {
+                  setCookie("accessToken", response.data.result.accessToken, {
+                    path: `/`,
+                  });
+                  setCookie("refreshToken", response.data.result.refreshToken, {
+                    path: `/`,
+                  });
+                  instanceAuth
+                    .get(`/members`)
+                    .then((response) => {
+                      if (response.data.code == 200) {
+                        setUserEmail(response.data.result.email);
+                        setUserNickname(response.data.result.nickname);
+                        setUserProfileImg(response.data.result.profileImage);
+                      }
+                    })
+                    .catch(() => {
+                      alert(`정상적인 접근이 아닙니다`);
+                    })
+                    .finally(() => navigate("/main"));
+                }
+              })
+              .catch(() => {
+                navigate("/login");
+              });
+          })
+          .catch(() => navigate("/login"));
+      }
+    });
   };
 
   useEffect(() => {

@@ -21,7 +21,7 @@ function getFullDate(delimiter: string, year: number, month: number, date: numbe
 }
 
 export default function BoardPage() {
-  const [cardNum, setCardNum] = useState(3);
+  const [, setCardNum] = useState(3);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
   // 드롭다운

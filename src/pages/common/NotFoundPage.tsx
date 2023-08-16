@@ -1,4 +1,3 @@
-import React from "react";
 import not_found_img from "@assets/images/notFoundPage/NotFound.svg";
 import { useNavigate } from "react-router-dom";
 
