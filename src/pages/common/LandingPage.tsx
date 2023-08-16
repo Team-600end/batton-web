@@ -1,4 +1,3 @@
-import React from "react";
 import landing from "@images/landingPage/landing.png";
 import { useNavigate } from "react-router-dom";
 
@@ -6,7 +5,7 @@ export default function LandingPage() {
   const navigate = useNavigate();
 
   // 로그인 되어있으면, 메인. 안되어있으면, 로그인 창으로 가게 해야됨.
-  const handleLandingNavigate = () => {};
+  // const handleLandingNavigate = () => {};
 
   return (
     <div className="relative w-screen h-screen overflow-hidden flex items-center justify-center">

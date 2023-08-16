@@ -2,7 +2,7 @@ import React, { useState, useCallback, useEffect } from "react";
 import signup_hand_image from "@assets/images/signupPage/signup_hand3.svg";
 import batton_logo_img from "@images/common/batton_logo_big.svg";
 import { useNavigate } from "react-router-dom";
-import { instanceAuth, instanceNonAuth } from "@src/types/AxiosInterface";
+import { instanceNonAuth } from "@src/types/AxiosInterface";
 import useInput from "@src/hooks/useInput";
 import Modal, { CommonModalInterface } from "@src/components/CommonModal";
 import CommonModal from "@src/components/CommonModal";
