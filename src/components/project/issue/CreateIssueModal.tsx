@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import "@assets/index.css";
-import profile_img from "@images/common/default_profile.png";
+import default_profile_img from "@images/common/default_profile.png";
 import Tag from "@src/components/project/issue/IssueBadge";
 import TagDisabled from "@src/components/project/issue/IssueBadgeDisabled";
 import { IssueType } from "@src/types/Issue";
@@ -24,7 +24,8 @@ export default function CreateIssueModal({ visible, onClose }) {
   const [activeTag, setActiveTag] = useState(null);
   const [issueTitle, setIssueTitle] = useState("");
   const [issueContent, setIssueContent] = useState("");
-  const [belongId, setBelongId] = useState(0); //TODO: 담당자 id
+  const [belongId, setBelongId] = useState(0);
+  const [userProfileImg, setUserProfileImg] = useState("");
   // 프로젝트 멤버 모달
   const [isMemberDropdownOpen, setIsMemberDropdownOpen] = useState(false);
   const [memberDropdownValue, setMemberDropdownValue] = useState("멤버 선택");
@@ -193,7 +194,10 @@ export default function CreateIssueModal({ visible, onClose }) {
                           <div className="ml-2 text-sm text-grey-4">멤버 선택</div>
                         ) : (
                           <div className="flex flex-row items-center">
-                            <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" alt="Profile" />
+                            <img
+                              className="w-6 h-6 rounded-full m-2 object-cover select-none pointer-events-none"
+                              src={userProfileImg == "" || userProfileImg == null ? default_profile_img : userProfileImg}
+                            />
                             <div className="ml-2 text-sm">{memberDropdownValue}</div>
                           </div>
                         )}
@@ -216,13 +220,14 @@ export default function CreateIssueModal({ visible, onClose }) {
                                 setMemberDropdownValue(member.nickname);
                                 setBelongId(member.belongId);
                                 setIsMemberDropdownOpen(false);
+                                setUserProfileImg(member.profileImage);
                               }}
                             >
                               <img
                                 id="manager_icon"
-                                src={member.profileImage == null || member.profileImage == "" ? profile_img : member.profileImage}
+                                src={member.profileImage == null || member.profileImage == "" ? default_profile_img : member.profileImage}
                                 alt="M"
-                                className="w-6 h-6 ml-4 mr-3"
+                                className="w-6 h-6 ml-4 mr-3 rounded-full"
                               />
                               <div className="ml-2 text-sm">{member.nickname}</div>
                             </div>

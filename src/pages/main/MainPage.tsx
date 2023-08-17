@@ -167,7 +167,7 @@ export default function MainPage() {
             + 새 프로젝트 생성
           </button>
         </div>
-        <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
+        <div className="flex flex-row items-center justify-center w-full h-[300px] px-10 cursor-pointer">
           {pjCards.length === 0 ? (
             // 프로젝트가 없을 때
             <div onClick={() => navigate("/new-project")}>
