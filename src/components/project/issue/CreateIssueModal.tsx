@@ -132,7 +132,7 @@ export default function CreateIssueModal({ visible, onClose }) {
   // }, []);
 
   return (
-    <>
+    <div className="m-0">
       <div
         id="defaultModal"
         aria-hidden="true"
@@ -260,6 +260,6 @@ export default function CreateIssueModal({ visible, onClose }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

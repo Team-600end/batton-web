@@ -126,6 +126,7 @@ export default function ProjectInfoModal({ closeModal }) {
 
   /** 프로젝트 정보 조회 요청 */
   const getProjectInfo = () => {
+    console.log("keykeykey" + pj.projectKey);
     (async () => {
       instanceAuth
         .get(`/projects/${pj.projectId}`)
