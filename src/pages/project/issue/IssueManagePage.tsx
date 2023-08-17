@@ -18,6 +18,7 @@ import { PjMember } from "@src/types/Users";
 import chevron_up from "@images/common/chevron_up.png";
 import chevron_down from "@images/common/chevron_down.png";
 import titleBox_img from "@images/common/title_box.svg";
+import CommonModal from "@src/components/CommonModal";
 
 export default function IssueManagePage() {
   const { projectKey, issueId } = useParams();
@@ -32,6 +33,7 @@ export default function IssueManagePage() {
   const [issueStatus, setIssueStatus] = useState<IssueStatus>(null);
   const [editorData, setEditorData] = useState<string>("");
   const [issueEditForm, setIssueEditForm] = useState<boolean>(false);
+  const [isReportModalOpen, setIsReportModalOpen] = useState<boolean>(false);
 
   const editorRef = useRef<Editor>(null);
 
@@ -110,7 +112,7 @@ export default function IssueManagePage() {
         console.log(response.data);
         console.log(response.data.result);
         if (response.data.code == 200) {
-          console.log(editorData);
+          setIsReportModalOpen(true);
         } else {
           console.log("response after error");
         }
@@ -384,6 +386,14 @@ export default function IssueManagePage() {
             </button>
           </div>
         </div>
+      )}
+      {isReportModalOpen && (
+        <CommonModal
+          title="안내메세지"
+          description="이슈레포트가 정상적으로 수정되었습니다."
+          btnTitle="확인"
+          closeModal={() => setIsReportModalOpen(false)}
+        />
       )}
     </div>
   );

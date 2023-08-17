@@ -140,7 +140,7 @@ export default function RnoteWritePage() {
         console.log(response.data);
         if (response.data.code == 200) {
           instanceAuth
-            .patch(`/releases/${response.data.result}/publish`)
+            .patch(`/releases/${response.data.result}/status`)
             .then((response) => {
               if (response.data.code == 200) {
                 setModalData({

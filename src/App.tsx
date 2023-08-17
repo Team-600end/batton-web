@@ -4,7 +4,7 @@ import { RecoilRoot } from "recoil";
 import LoginPage from "@pages/common/LoginPage";
 import ForgetPwPage from "@pages/common/ForgetPwPage";
 import SignupPage from "@src/pages/common/SignupPage";
-import Releases from "@src/pages/project/releases/ReleasesPage";
+import ReleasesPage from "@src/pages/project/releases/ReleasesPage";
 import RnoteWritePage from "@src/pages/project/releases/RnoteWritePage";
 import ReleasesNote from "@pages/project/releases/ReleasesNote";
 import MainPage from "@pages/main/MainPage";
@@ -25,6 +25,7 @@ import EditPjPage from "@pages/project/EditPjPage";
 import ChangePasswordPage from "@pages/ChangePasswordPage";
 import RnoteEditPage from "@pages/project/releases/RnoteEditPage";
 import KakaoRedirectHandler from "@components/login/KakaoRedirectHandler";
+import PublishedReleasesPage from "@pages/project/releases/PublishedReleasesPage";
 
 function App() {
   return (
@@ -47,10 +48,11 @@ function App() {
             <Route path="/project/:projectKey/issue/:issueId" element={<IssueReportPage />} />
             <Route path="/project/:projectKey/issue-history" element={<IssueHistoryPage />} />
             <Route path="/project/:projectKey/releasesnote" element={<ReleasesNote />} />
-            <Route path="/project/:projectKey/releasesnote/:releaseId" element={<Releases />} />
+            <Route path="/project/:projectKey/releasesnote/:releaseId" element={<ReleasesPage />} />
             <Route path="/project/:projectKey/releasesnote/write" element={<RnoteWritePage />} />
             <Route path="/project/:projectKey/releasesnote/:releaseId/edit" element={<RnoteEditPage />} />
             <Route path="/project/:projectKey/project-edit" element={<EditPjPage />} />
+            <Route path="/releasesnote/:releaseId" element={<PublishedReleasesPage />} />
             <Route path="/myinfo-edit" element={<MyPage />} />
             <Route path="/change-pw" element={<ChangePasswordPage />} />
             <Route path="/new-project" element={<CreatePjPage />} />

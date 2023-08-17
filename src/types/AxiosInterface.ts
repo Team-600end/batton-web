@@ -71,7 +71,10 @@ instanceAuth.interceptors.response.use(
       return Promise.reject(err);
     } else if (err.response && err.response.status == 403) {
       console.log("거부 확인");
-      // window.location.href = "*";
+      window.location.href = "/notfound";
+    } else if (err.response && err.response.status == 703) {
+      console.log("거부 확인");
+      window.location.href = "/notfound";
     }
     return Promise.reject(err);
   }

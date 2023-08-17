@@ -83,7 +83,6 @@ export default function IssueReportPage() {
       .post(`/reports/comments/${issueId}`, commentPostData)
       .then((response) => {
         if (response.data.code == 200) {
-          alert("댓글을 등록하였습니다.");
           setCommentInputText("");
           issueReportRequest(); // fetch
         } else {

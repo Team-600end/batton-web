@@ -112,7 +112,7 @@ export default function MainPage() {
     //메인페이지 접속 시. 모든 프로젝트를 가져옴
     (async () => {
       instanceAuth
-        .get(`/projects/joinedList`)
+        .get(`/projects/joined-list`)
         .then((response) => {
           console.log(response.data);
           if (response.data.code == 200) {

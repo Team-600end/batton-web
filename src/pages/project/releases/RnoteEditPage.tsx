@@ -80,7 +80,7 @@ export default function RnoteEditPage() {
   /** 레포트 수정페이지 조회 요청 */
   const rnoteEditPageRequest = async () => {
     instanceAuth
-      .get(`/releases/edit/${releaseId}`)
+      .get(`/releases/editor/${releaseId}`)
       .then((response) => {
         console.log("---------");
         console.log(response.data);

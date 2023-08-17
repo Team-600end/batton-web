@@ -11,6 +11,7 @@ import { useRecoilState } from "recoil";
 import { emailState, nicknameState } from "@src/state/userState";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
+import CommonModal from "@src/components/CommonModal";
 
 interface CreatePjData {
   projectTitle: string;
@@ -54,6 +55,7 @@ export default function CreatePjPage() {
   const [projects, setProjects] = useRecoilState(projectNavs);
   const emailRegex = /\S+@\S+\.\S+/;
 
+  const [isCreateSuccess, setIsCreateSuccess] = useState(false);
   // router-dom
   const navigate = useNavigate();
 
@@ -233,8 +235,6 @@ export default function CreatePjPage() {
     instanceAuth
       .post(`/projects`, createPjData)
       .then(async (response) => {
-        console.log("프로젝트 생성 요청");
-        console.log(response.data);
         if (response.data.code == 200) {
           await instanceAuth
             .get(`/projects/navbar`)
@@ -242,6 +242,7 @@ export default function CreatePjPage() {
               console.log(response.data);
               if (response.data.code == 200) {
                 setProjects(response.data.result as ProjectNav[]);
+                setIsCreateSuccess(true);
               } else if (response.data.code == 707) {
                 setProjects([]);
               } else {
@@ -251,7 +252,6 @@ export default function CreatePjPage() {
             .catch((error) => {
               console.log(error);
             });
-          navigate(`/project/${response.data.result.projectKey}/dashboard`);
         } else {
           alert("요청 실패");
         }
@@ -479,6 +479,14 @@ export default function CreatePjPage() {
           </button>
         </div>
       </div>
+      {isCreateSuccess && (
+        <CommonModal
+          title="안내메세지"
+          description="프로젝트가 정상적으로 생성되었습니다."
+          btnTitle="이동하기"
+          closeModal={() => {setIsCreateSuccess(false); navigate(`/project/${pjKey}/dashboard`);}}
+        />
+      )}
     </>
   );
 }
