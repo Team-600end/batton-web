@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import { useState, useEffect } from "react";
 import { Client, Message } from "@stomp/stompjs";
 import { NoticeMessage } from "@typess/Notice";
 import PushNotice from "@components/nav/PushNotice";
@@ -9,7 +9,7 @@ interface MemberIdProps {
 
 export function ConnectRabbit(props: MemberIdProps) {
   let stompClient: Client;
-  const brokerURL = "ws://localhost:15674/ws"; // WebSocket URL 문자열
+  const brokerURL = "ws://10.0.2.84:15674/ws"; // WebSocket URL 문자열
   const queueName = "/queue/user.queue." + props.memberId.toString();
   const headers = {
     // 헤더
