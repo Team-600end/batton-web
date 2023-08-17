@@ -9,7 +9,7 @@ interface MemberIdProps {
 
 export function ConnectRabbit(props: MemberIdProps) {
   let stompClient: Client;
-  const brokerURL = "ws://localhost:15674/ws"; // WebSocket URL 문자열
+  const brokerURL = "ws://61.109.214.47:10012//ws"; // WebSocket URL 문자열
   const queueName = "/queue/user.queue." + props.memberId.toString();
   const headers = {
     // 헤더
