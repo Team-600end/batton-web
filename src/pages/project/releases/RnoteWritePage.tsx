@@ -467,7 +467,7 @@ export default function RnoteWritePage() {
         )}
         <div className="flex flex-row rounded-t-lg border border-gray-300 bg-gray-100 w-[95vw] mx-auto mt-[2vh] shadow-inner min-h-screen px-2 py-5 h-fit">
           <DragDropContext onDragEnd={handleDragEnd}>
-            <div className="border rounded-t-lg ml-[2vw] mr-[2vw] bg-white w-[19vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.1)] mt-[2vh] min-h-screen h-fit">
+            <div className="border rounded-t-lg ml-[2vw] mr-[2vw] bg-white w-[19vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.1)] mt-[2vh] min-h-screen h-[2000px]">
               <div className="border-b font-suitSB border-gray-400 p-[1vw] flex justify-between drop-shadow-lg">
                 완료 이슈 리스트
               </div>
@@ -618,7 +618,7 @@ export default function RnoteWritePage() {
                       </div>
                     )}
                   </Droppable>
-                  <div className="border rounded-t-lg ml-[1.5vw] mr-[1vw] bg-white w-[18vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.1)] mt-[2vh] min-h-screen h-fit">
+                  <div className="border rounded-t-lg ml-[1.5vw] mr-[1vw] bg-white w-[18vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.1)] mt-[2vh] min-h-screen h-[2000px]">
                     <div className="border-b font-suitSB border-gray-400 p-[1vw] flex justify-between drop-shadow-lg">
                       등록 이슈 리스트
                       <p className="font-suitM text-lg text-grey-3 mr-[1vw]">
