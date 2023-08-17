@@ -1,7 +1,7 @@
 import React, { useState, useEffect, useCallback, useRef } from "react";
 import type { CustomFlowbiteTheme } from "flowbite-react";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
-import { IssueType } from "@src/types/Issue";
+import { AbsIssue, IssueType } from "@src/types/Issue";
 import search_img from "@images/icons/search_outline.png";
 import titleBox_img from "@images/common/title_box.svg";
 import chevron_up from "@images/common/chevron_up.png";
@@ -11,12 +11,18 @@ import { ProjectSearch } from "@src/types/project";
 import default_team_logo from "@images/common/team_default.png";
 
 interface BoardS {
-  projecttId: number;
-  releaseId: number;
+  issueList: AbsIssue[];
   projectTitle: string;
-  releaseVersion: string;
-  issueTags: IssueType[];
-  releaseDate: Date;
+  publishedDate: Date;
+  releasesId: number;
+  version: string;
+
+  // projecttId: number;
+  // releaseId: number;
+  // projectTitle: string;
+  // releaseVersion: string;
+  // issueTags: IssueType[];
+  // releaseDate: Date;
 }
 
 // export interface ProjectSearch {
@@ -25,8 +31,11 @@ interface BoardS {
 //   projectLogo?: string;
 // }
 
-function getFullDate(delimiter: string, year: number, month: number, date: number): string {
-  return `${year}${delimiter}${month.toString().padStart(2, "0")}${delimiter}${date.toString().padStart(2, "0")}`;
+// function getFullDate(delimiter: string, year: number, month: number, date: number): string {
+//   return `${year}${delimiter}${month.toString().padStart(2, "0")}${delimiter}${date.toString().padStart(2, "0")}`;
+// }
+function getFullDate(separator, year, month, day) {
+  return `${year}${separator}${month}${separator}${day}`;
 }
 
 export default function BoardPage() {
@@ -41,7 +50,7 @@ export default function BoardPage() {
   const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
 
   //필터링
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(null);
   //TODO: 테스트 성공 후 아래 코드 주석 풀고 그 밑에꺼 지우기
   const [boards, setBoards] = useState<BoardS[]>([]);
   const [searchProject, setSearchProject] = useState("전체");
@@ -108,7 +117,7 @@ export default function BoardPage() {
         console.log(response.data);
         if (response.data.code == 200) {
           setBoards(response.data.result);
-          setBoards(boards);
+          // setBoards(boards);
         } else {
           setBoards([]);
         }
@@ -257,18 +266,21 @@ export default function BoardPage() {
             </tr>
           </thead>
           <tbody>
+            {/* issueList: AbsIssue[]; projectTitle: string; publishedDate: Date; releasesId: number; version: string; */}
             {getCurrentPageItems().map((board) => (
               <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
                 <th scope="row" className="py-4">
                   {board.projectTitle}
                 </th>
-                <td className="py-4">{board.releaseVersion}</td>
+                <td className="py-4">{board.version}</td>
                 <td className="py-4 space-x-1">
-                  {board.issueTags.map((issue) => (
-                    <IssueBadge issueType={issue} />
+                  {board.issueList.map((issue) => (
+                    <IssueBadge issueType={issue.issueTag} />
                   ))}
                 </td>
-                <td className="py-4">{getFullDate(". ", board.releaseDate.getFullYear(), board.releaseDate.getMonth(), board.releaseDate.getDate())}</td>
+                <td className="py-4">{board.publishedDate.toLocaleString()}</td>
+
+                {/* <td className="py-4">{getFullDate(". ", board.publishedDate.getFullYear(), board.publishedDate.getMonth(), board.publishedDate.getDate())}</td> */}
               </tr>
             ))}
           </tbody>
