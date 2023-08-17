@@ -24,7 +24,7 @@ function PushNotice(NoticeMessage: NoticeMessage) {
         <div>
             {visible && (
             <div className={`fixed bottom-8 right-8 z-99 bg-[#FFFFFF] ${showNotification ? "animate-slide-up" : "animate-slide-down"}`}>
-                <div className="w-[300px] h-[140px] relative border border-gray-300 rounded-[10px]">
+                <div className="w-[280px] h-[140px] relative border border-gray-300 rounded-[10px]">
                     <div className="left-[36px] top-[42px] pr-[20px] absolute font-suitM">{NoticeMessage.noticeContent}</div>
                     <div className="left-[36px] top-[16px] absolute text-black text-xs font-suitSB">새로운 알림</div>
                     <div className="w-[278px] h-[7px] top-0 absolute bg-primary-4 rounded-tl-[15px] rounded-tr-[15px]" />
