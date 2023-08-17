@@ -24,7 +24,9 @@ export default function IssueComment({
     instanceAuth
       .post(`/reports/comments/${issueId}`, issueCommentData)
       .then((response) => {
-        if (response.data.code === 200) {
+        console.log("이슈 아이디 : " + issueId)
+        console.log(response.data);
+        if (response.data.code == 200) {
           closeModal();
         } else {
           alert("이슈 코멘트 생성에 실패했습니다.");
