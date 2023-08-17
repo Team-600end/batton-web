@@ -1,12 +1,13 @@
 import { instanceAuth } from "@src/types/AxiosInterface";
 import { CpMember, Member } from "@src/types/Users";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
 import { nicknameState } from "@src/state/userState";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@typess/project";
 import { useParams } from "react-router-dom";
 import CommonModal from "@src/components/CommonModal";
+import default_team_logo from "@images/common/team_default.png";
 
 /**
  * 프로젝트 정보 모달
@@ -51,8 +52,6 @@ export default function ProjectInfoModal({ closeModal }) {
   const [keyInputCount, setKeyInputCount] = useState(0);
   // pjContent 길이 상태관리
   const [contentInputCount, setContentInputCount] = useState(0);
-  // pjKey 가용 여부 상태관리
-  const [keyChecked, setKeyChecked] = useState(-1); // 작성중 0, 성공 1, 공백 -1, 실패 -2
   // 초대 멤버 조회용 이메일
   const [findByEmail, setFindByEmail] = useState("");
   // 이메일 유효성 검사 결과
@@ -62,6 +61,9 @@ export default function ProjectInfoModal({ closeModal }) {
   // 프로젝트 recoil
   const [projects, setProjects] = useRecoilState(projectNavs);
   const emailRegex = /\S+@\S+\.\S+/;
+
+  const [profileImg, setProjectLogo] = useState<string | ArrayBuffer>("");
+  const [viewImg, setViewImg] = useState<string | ArrayBuffer>("");
 
   // 저장 확인 모달
   const [isSaveModal, setIsSaveModal] = useState(false);
@@ -112,6 +114,19 @@ export default function ProjectInfoModal({ closeModal }) {
 
   const handleDelete = async () => {
     //TODO: 프로젝트 삭제 api 요청
+  };
+
+  const handleFileChange = (event) => {
+    const file = event.target.files[0];
+    console.log(file);
+    if (file) {
+      const reader = new FileReader();
+      reader.onloadend = () => {
+        setViewImg(reader.result);
+      };
+      reader.readAsDataURL(file);
+    }
+    setProjectLogo(file);
   };
 
   const onTitleChangeHandler = (e) => {
@@ -185,84 +200,103 @@ export default function ProjectInfoModal({ closeModal }) {
               </button>
             </div>
 
-            {/* 내용 */}
-            <div className="px-14 py-5">
-              <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
-                프로젝트 명
-              </p>
-              {isEdit ? (
-                <input
-                  value={pjTitle}
-                  onChange={onTitleChangeHandler}
-                  maxLength={20}
-                  className="bg-gray-50 border-gray-300 text-gray-700 text-sm rounded-lg block p-2.5 w-[31.0847vw] focus:outline-primary-4 focus:ring-primary-4 focus:border-primary-4 border"
-                />
-              ) : (
-                <input
-                  readOnly
-                  value={pjTitle}
-                  className="font-suitSB bg-gray-100 border-gray-300 text-gray-400 text-sm rounded-lg block p-2.5 w-[31.0847vw] cursor-default focus:outline-none border"
-                />
-              )}
-            </div>
-
-            <div className="px-14 pb-5">
-              <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
-                프로젝트 키
-              </p>
-              <input
-                type="pj-key"
-                readOnly
-                value={pjKey}
-                className="bg-gray-100 border border-gray-300 text-gray-400 text-sm rounded-lg block p-2.5 w-[31.0847vw]  focus:outline-none cursor-default"
-              />
-            </div>
-
-            <div className="px-14 pb-5">
-              <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
-                프로젝트 설명
-              </p>
-              {isEdit ? (
-                <div>
+            <div className="flex">
+              {/** 프로젝트 로고 */}
+              <div className="flex flex-col px-14 py-5">
+                <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
+                  프로젝트 로고
+                </p>
+                <label className="my-auto mx-auto">
+                  <img className="w-[18vw] rounded-full object-cover cursor-pointer border border-gray-700 ml-[2.5vw] mr-[-2.5vw]" src={(pj.projectLogo == null || pj.projectLogo == "") ? default_team_logo : pj.projectLogo} />
                   <input
-                    type="pj-title"
-                    value={pjContent}
-                    maxLength={200}
-                    onChange={onContentChangeHandler}
-                    className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l focus:outline-primary-4 focus:ring-primary-4 focus:border-primary-4 block p-2.5"
-                    style={{
-                      verticalAlign: "top",
-                      width: "31.0847vw",
-                      minHeight: "14.6640vh",
-                    }}
+                    id="dropzone-file"
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileChange}
                   />
-                </div>
-              ) : (
-                <div>
-                  <input
-                    readOnly
-                    type="pj-title"
-                    value={pjContent}
-                    className="items-start bg-gray-100 border border-gray-300 text-gray-400 text-sm rounded-lg  focus:outline-none block p-2.5"
-                    style={{
-                      verticalAlign: "top",
-                      width: "31.0847vw",
-                      minHeight: "14.6640vh",
-                    }}
-                  />
-
-                  {isSaveModal && (
-                    <CommonModal
-                      title="저장 완료"
-                      description="프로젝트 정보가 저장되었습니다."
-                      btnTitle="확인"
-                      closeModal={() => {
-                        setIsSaveModal(false);
-                      }}
+                </label>
+              </div>
+              <div className="flex flex-col">
+                {/* 내용 */}
+                <div className="px-14 py-5">
+                  <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
+                    프로젝트 명
+                  </p>
+                  {isEdit ? (
+                    <input
+                      value={pjTitle}
+                      onChange={onTitleChangeHandler}
+                      maxLength={20}
+                      className="bg-gray-50 border-gray-300 text-gray-700 text-sm rounded-lg block p-2.5 w-[31.0847vw] focus:outline-primary-4 focus:ring-primary-4 focus:border-primary-4 border"
+                    />
+                  ) : (
+                    <input
+                      readOnly
+                      value={pjTitle}
+                      className="font-suitSB bg-gray-100 border-gray-300 text-gray-400 text-sm rounded-lg block p-2.5 w-[31.0847vw] cursor-default focus:outline-none border"
                     />
                   )}
                 </div>
-              )}
+
+                <div className="px-14 pb-5">
+                  <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
+                    프로젝트 키
+                  </p>
+                  <input
+                    type="pj-key"
+                    readOnly
+                    value={pjKey}
+                    className="bg-gray-100 border border-gray-300 text-gray-400 text-sm rounded-lg block p-2.5 w-[31.0847vw]  focus:outline-none cursor-default"
+                  />
+                </div>
+
+                <div className="px-14 pb-5">
+                  <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
+                    프로젝트 설명
+                  </p>
+                  {isEdit ? (
+                    <div>
+                      <input
+                        type="pj-title"
+                        value={pjContent}
+                        maxLength={200}
+                        onChange={onContentChangeHandler}
+                        className="items-start bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-l focus:outline-primary-4 focus:ring-primary-4 focus:border-primary-4 block p-2.5"
+                        style={{
+                          verticalAlign: "top",
+                          width: "31.0847vw",
+                          minHeight: "14.6640vh",
+                        }}
+                      />
+                    </div>
+                  ) : (
+                    <div>
+                      <input
+                        readOnly
+                        type="pj-title"
+                        value={pjContent}
+                        className="items-start bg-gray-100 border border-gray-300 text-gray-400 text-sm rounded-lg  focus:outline-none block p-2.5"
+                        style={{
+                          verticalAlign: "top",
+                          width: "31.0847vw",
+                          minHeight: "14.6640vh",
+                        }}
+                      />
+
+                      {isSaveModal && (
+                        <CommonModal
+                          title="저장 완료"
+                          description="프로젝트 정보가 저장되었습니다."
+                          btnTitle="확인"
+                          closeModal={() => {
+                            setIsSaveModal(false);
+                          }}
+                        />
+                      )}
+                    </div>
+                  )}
+                </div>
+              </div>
             </div>
 
             <div className="flex justify-center">

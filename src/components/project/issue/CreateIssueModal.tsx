@@ -170,14 +170,14 @@ export default function CreateIssueModal({ visible, onClose }) {
                 type="pj_title"
                 placeholder=""
                 onChange={handleIssueTitle}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 focus:outline-primary-4 block p-2.5 w-[31.0847vw]"
               />
               <p className="text-[16px] font-semibold leading-relaxed text-gray-900 dark:text-gray-400 mt-6">이슈 설명</p>
               <input
                 type="pj_content"
                 placeholder=""
                 onChange={handleIssueContent}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 focus:outline-primary-4 block p-2.5 w-[31.0847vw]"
               />
 
               <div className="flex items-center mt-6">

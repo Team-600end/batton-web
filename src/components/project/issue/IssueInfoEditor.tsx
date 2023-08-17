@@ -66,7 +66,6 @@ export default function IssueInfoEditor(props: IssueInfoEditorProps) {
     props.handleIssueInfoChange();
   };
 
-  // 변경사항 렌더링이 안됨. fetch 필요.............
   const issueInfoEditRequest = async () => {
     const issueInfoEditorData: IssueInfoEditorData = {
       issueTitle: issueTitleInput,
@@ -114,7 +113,7 @@ export default function IssueInfoEditor(props: IssueInfoEditorProps) {
             value={issueTitleInput}
             onChange={handleIssueTitleInput}
             type="text"
-            className="bg-gray-30 border border-gray-200 text-gray-900 text-[1.7vw] rounded-lg block focus:border-gray-300 focus:ring-0 w-[65vw] font-suitM ml-[3.6vw] my-auto"
+            className="bg-gray-30 border border-gray-200 text-gray-900 text-[1.7vw] rounded-lg block focus:border-primary-4 focus:ring-primary-4 w-[65vw] font-suitM ml-[3.6vw] my-auto"
           />
         </div>
         <div className=" flex flex-row mx-auto mt-[1vw] w-[80vw]">
@@ -123,7 +122,7 @@ export default function IssueInfoEditor(props: IssueInfoEditorProps) {
             value={issueContentInput}
             onChange={handleIssueContentInput}
             type="text"
-            className="bg-gray-30 border border-gray-200 text-gray-900 text-[1.3vw] rounded-lg block focus:border-gray-300 focus:ring-0 w-[65vw] font-suitM ml-[4vw] my-auto"
+            className="bg-gray-30 border border-gray-200 text-gray-900 text-[1.3vw] rounded-lg block focus:border-primary-4 focus:ring-primary-4 w-[65vw] font-suitM ml-[4vw] my-auto"
           />
         </div>
         <div className="flex flex-row mt-[1vw] w-[80vw]">
