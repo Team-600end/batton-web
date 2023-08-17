@@ -51,10 +51,7 @@ export default function LoginPage() {
   const [email, setEmail] = useState(``);
   const [emailStatus, setEmailStatus] = useState("");
   const [password, setPassword] = useState(``);
-  const [, setCookie, ] = useCookies([
-    "accessToken",
-    "refreshToken",
-  ]);
+  const [, setCookie] = useCookies(["accessToken", "refreshToken"]);
   const [, setUserNickname] = useRecoilState(nicknameState);
   const [, setUserProfileImg] = useRecoilState(profileImgState);
   const [, setUserEmail] = useRecoilState(emailState);
@@ -102,7 +99,10 @@ export default function LoginPage() {
       .then((response) => {
         if (response.data.code == 200) {
           setCookie("accessToken", response.data.result.accessToken, {
-            path: `/`,
+            path: "/",
+            secure: false,
+            httpOnly: false,
+            sameSite: "strict",
           });
           setCookie("refreshToken", response.data.result.refreshToken, {
             path: `/`,

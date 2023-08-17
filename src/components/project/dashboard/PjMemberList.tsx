@@ -46,7 +46,7 @@ export default function PjMemberList() {
   return (
     <>
       <div className="w-[22vw] h-[400px] bg-white rounded-xl shadow-md">
-        <p className="pt-[20px] ml-[20px] text-black text-base font-suitB">프로젝트 멤버</p>
+        <p className="pt-[20px] ml-[20px] text-black text-base font-suitB mb-5">프로젝트 멤버</p>
         <div>
           {/* map 반복문 사용 */}
           {memberList && memberList.map((member) => <PjMember key={member.memberId} member={member} />)}

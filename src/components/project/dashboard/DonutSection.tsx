@@ -105,7 +105,7 @@ export default function DonutSection(props: DonutSectionProps) {
 
   return (
     <div className="relative w-[40vw] h-[320px] bg-white rounded-xl shadow-md">
-      <div className="pt-[20px] ml-[20px] text-black text-base font-suitB">업무 리포트</div>
+      <div className="pt-[20px] ml-[20px] text-black text-base font-suitB mb-4">업무 리포트</div>
       <div
         className="flex flex-row"
         style={{
@@ -117,9 +117,9 @@ export default function DonutSection(props: DonutSectionProps) {
       >
         <div>
           {donutData.toDoCnt === 0 && donutData.progressCnt === 0 && donutData.reviewCnt === 0 && donutData.completeCnt === 0 ? (
-            <ReactApexChart series={emptyDonut.series} options={emptyDonut.options} type="pie" width={320} />
+            <ReactApexChart series={emptyDonut.series} options={emptyDonut.options} type="pie" width={280} />
           ) : (
-            <ReactApexChart series={donutConfig.series} options={donutConfig.options} type="pie" width={320} />
+            <ReactApexChart series={donutConfig.series} options={donutConfig.options} type="pie" width={280} />
           )}
         </div>
         <div className="flex flex-col pt-[20px]">
