@@ -139,6 +139,7 @@ export default function IssueBoardPage() {
         if ((source.droppableId == "REVIEW" || source.droppableId == "DONE") && (destination.droppableId == "TODO" || destination.droppableId == "PROGRESS")) {
           setIssueStatusChanged("반려");
           setIssuCommentModal(true);
+          setIssueId(issueId);
         }
         await patchIssueBoard();
       } else if (response.data.code === 707) {
