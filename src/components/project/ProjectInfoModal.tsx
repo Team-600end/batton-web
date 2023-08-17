@@ -15,13 +15,6 @@ import default_team_logo from "@images/common/team_default.png";
  * @returns
  */
 
-interface EditPjData {
-  projectTitle: string;
-  projectKey: string;
-  projectContent?: string;
-  projectImage?: string;
-}
-
 export default function ProjectInfoModal({ closeModal }) {
   //recoil
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
@@ -38,8 +31,6 @@ export default function ProjectInfoModal({ closeModal }) {
   const [pjKey, setPjKey] = useState("");
   // 프로젝트 설명
   const [pjContent, setPjContent] = useState("");
-  // 프로젝트 이미지 - 현재 사용 안함
-  const [pjImage, setPjImage] = useState("");
   // 프로젝트 멤버 리스트 화면 상태관리
   const [pjMemList, setPjMemList] = useState<CpMember[]>([]);
   // 프로젝트 멤버 리스트 요청 상태관리
@@ -61,11 +52,10 @@ export default function ProjectInfoModal({ closeModal }) {
   const emailRegex = /\S+@\S+\.\S+/;
 
   const [viewImg, setViewImg] = useState<string>("");
+  const [imgFile, setImgFile] = useState<any>();
 
   // 저장 확인 모달
   const [isSaveModal, setIsSaveModal] = useState(false);
-
-  
 
   const handleEdit = () => {
     setIsEdit(!isEdit);
@@ -80,18 +70,11 @@ export default function ProjectInfoModal({ closeModal }) {
 
   /** 프로젝트  */
   const saveProject = () => {
-    const createPjData: EditPjData = {
-      projectTitle: pjTitle,
-      projectKey: pjKey,
-      projectContent: pjContent,
-      projectImage: pjImage,
-    };
-
     const formData = new FormData();
     formData.append('projectTitle', pjTitle);
     formData.append('projectKey', pjKey);
     formData.append('projectContent', pjContent);
-    formData.append('projectImage', pjImage);
+    formData.append('projectImage', imgFile);
 
     console.log("=========수정요청==========");
     console.log(formData);
@@ -103,12 +86,11 @@ export default function ProjectInfoModal({ closeModal }) {
             setPjTitle(pjTitle);
             setPjKey(pjKey);
             setPjContent(pjContent);
-            setPjImage(pjImage);
           } else if (response.data.code === 707) {
             setPjTitle("");
             setPjKey("");
             setPjContent("");
-            setPjImage("");
+            setViewImg("");
           }
         })
         .catch((error) => {
@@ -130,7 +112,8 @@ export default function ProjectInfoModal({ closeModal }) {
         setViewImg(reader.result.toString());
       };
       reader.readAsDataURL(file);
-    }
+    } 
+    setImgFile(file);
   };
 
   const onTitleChangeHandler = (e) => {
@@ -154,12 +137,12 @@ export default function ProjectInfoModal({ closeModal }) {
             setPjTitle(response.data.result.projectTitle);
             setPjKey(response.data.result.projectKey);
             setPjContent(response.data.result.projectContent);
-            setPjImage(response.data.result.projectImage);
+            setViewImg(response.data.result.projectLogo);
           } else if (response.data.code === 707) {
             setPjTitle("");
             setPjKey("");
             setPjContent("");
-            setPjImage("");
+            setViewImg("");
           }
         })
         .catch((error) => {
@@ -212,7 +195,7 @@ export default function ProjectInfoModal({ closeModal }) {
                   프로젝트 로고
                 </p>
                 <label className="my-auto mx-auto">
-                  <img className="w-[18vw] rounded-full object-cover cursor-pointer border border-gray-700 ml-[2.5vw] mr-[-2.5vw]" src={(viewImg == null || viewImg == "") ? default_team_logo : viewImg} />
+                  <img className="w-[18vw] h-[18vw] rounded-full object-cover cursor-pointer border border-gray-700 ml-[2.5vw] mr-[-2.5vw]" src={(viewImg == null || viewImg == "") ? default_team_logo : viewImg} />
                   <input
                     id="dropzone-file"
                     type="file"
