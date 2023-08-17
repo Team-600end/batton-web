@@ -26,3 +26,11 @@ export interface PjMember {
   nickname: string;
   profileImage: string;
 }
+
+export interface IssueMember {
+  belongId: number;
+  grade: UserGrade;
+  memberId: number;
+  nickname: string;
+  profileImage?: string;
+}

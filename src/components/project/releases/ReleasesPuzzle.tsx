@@ -28,10 +28,9 @@ export default function ReleasesPuzzle() {
       .then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
-          // setReleasesList(response.data.result && [...response.data.result].reverse());
           setReleasesList(response.data.result);
-      
           setPuzzle(puzzleState);
+
         } else if (response.data.code == 710) {
           //TODO: 에러코드 확인 필요
           alert("릴리즈가 없습니다.");

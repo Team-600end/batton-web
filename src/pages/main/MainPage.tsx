@@ -10,7 +10,7 @@ import chevron_up from "@images/common/chevron_up.png";
 import chevron_down from "@images/common/chevron_down.png";
 import search_img from "@images/icons/search_outline.png";
 import { ProjectCard } from "@typess/project";
-import { IssueType, MyIssues } from "@typess/Issue";
+import { IssueStatus, IssueType, MyIssues } from "@typess/Issue";
 import IssueBadge from "@components/project/issue/IssueBadge";
 import { instanceAuth } from "@src/types/AxiosInterface";
 import IssueStatusBadge from "@src/components/project/issue/IssueStatusBadge";
@@ -23,9 +23,12 @@ export default function MainPage() {
   const [pjCards, setPjcards] = useState<ProjectCard[]>([]);
   const [myIssues, setMyissues] = useState<MyIssues[]>([]);
   // 드롭다운
-  const [dropdownValue, setDropdownValue] = useState("전체");
+  const [dropdownValue, setDropdownValue] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
+
+  // 검색 필터링
+  const [searchValue, setSearchValue] = useState("");
 
   const chunkArray = (arr, chunkSize) => {
     const chunks = [];
@@ -71,6 +74,10 @@ export default function MainPage() {
 
   const totalPage = Math.ceil(myIssues.length / itemsPerPage);
 
+  const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
+  };
+
   // 컴포넌트가 마운트될 때와 화면 크기가 변경될 때마다 화면 너비에 따라 cardNum 값을 업데이트.
   useEffect(() => {
     setCardNumByWidth();
@@ -101,8 +108,6 @@ export default function MainPage() {
     };
   }, []);
 
-  // useEffect(() => {});
-
   useEffect(() => {
     //메인페이지 접속 시. 모든 프로젝트를 가져옴
     (async () => {
@@ -121,7 +126,7 @@ export default function MainPage() {
         });
 
       //메인페이지 접속 시, 내 이슈들을 가져옴
-      instanceAuth.get(`/issues/list/`).then((response) => {
+      instanceAuth.get(`/issues/list/`, { params: { status: dropdownValue, keyword: searchValue } }).then((response) => {
         console.log(response.data);
         if (response.data.code == 200) {
           setMyissues(response.data.result);
@@ -131,6 +136,20 @@ export default function MainPage() {
       });
     })();
   }, []);
+
+  // 내 이슈 목록 필터링
+  useEffect(() => {
+    (async () => {
+      instanceAuth.get(`issues/list`, { params: { status: dropdownValue, keyword: searchValue } }).then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setMyissues(response.data.result);
+        } else if (response.data.code == 704) {
+          setMyissues([]);
+        }
+      });
+    })();
+  }, [dropdownValue, searchValue]);
 
   return (
     <div className="mt-[7vh]" style={{ overflowY: "auto" }}>
@@ -148,7 +167,7 @@ export default function MainPage() {
             + 새 프로젝트 생성
           </button>
         </div>
-        <div className="flex flex-row items-center justify-center w-full h-[300px] px-10">
+        <div className="flex flex-row items-center justify-center w-full h-[300px] px-10 cursor-pointer">
           {pjCards.length === 0 ? (
             // 프로젝트가 없을 때
             <div onClick={() => navigate("/new-project")}>
@@ -188,10 +207,10 @@ export default function MainPage() {
             <div className="relative flex justify-center">
               <button
                 onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-                className="flex items-center justify-between w-[140px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3 py-1.5"
+                className="flex items-center justify-between w-[110px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3 py-1.5"
               >
                 <div className="flex items-center justify-center">
-                  {dropdownValue === "전체" ? <div className="ml-2 text-sm">전체</div> : <IssueBadge issueType={dropdownValue as IssueType} />}
+                  {dropdownValue === null ? <div className="ml-2 text-sm">전체</div> : <IssueStatusBadge issueStatus={dropdownValue as IssueStatus} />}
                 </div>
                 <div className="flex items-center justify-center">
                   {isDropdownOpen ? (
@@ -204,10 +223,10 @@ export default function MainPage() {
               {isDropdownOpen && (
                 <div
                   ref={dropdownRef}
-                  className="flex justify-center z-10 absolute top-full left-0 mt-2 w-32 bg-white divide-y divide-gray-100 rounded-lg shadow"
+                  className="flex justify-center z-10 absolute top-full left-0 mt-2 w-[90px] bg-white divide-y divide-gray-100 rounded-lg shadow"
                 >
                   <ul className="p-1 space-y-1 text-sm text-grey-2">
-                    {["전체", "NEW", "FEATURE", "CHANGED", "FIXED", "DEPRECATED"].map((value) => (
+                    {[null, "TODO", "PROGRESS", "REVIEW", "DONE", "RELEASED"].map((value) => (
                       <li key={value}>
                         <div className="flex items-center justify-center p-1 rounded hover:bg-gray-100">
                           <div
@@ -217,7 +236,7 @@ export default function MainPage() {
                             }}
                             className="flex items-center justify-center w-full  text-xs font-suitM text-gray-900 rounded"
                           >
-                            {value === "전체" ? <div className="text-sm">전체</div> : <IssueBadge issueType={value as IssueType} />}
+                            {value === null ? <div className="text-sm">전체</div> : <IssueStatusBadge issueStatus={value as IssueStatus} />}
                           </div>
                         </div>
                       </li>
@@ -239,7 +258,8 @@ export default function MainPage() {
                 type="text"
                 id="table-search"
                 className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-[#4AA366] focus:border-[#4AA366]"
-                placeholder="검색"
+                placeholder="이슈 검색"
+                onChange={handleSearchValue}
               />
             </div>
           </div>
@@ -255,7 +275,7 @@ export default function MainPage() {
                   이슈 태그
                 </th>
                 <th scope="col" className="px-6 py-3">
-                  이슈명
+                  이슈 제목
                 </th>
                 <th scope="col" className="px-6 py-3">
                   최종 수정 날짜

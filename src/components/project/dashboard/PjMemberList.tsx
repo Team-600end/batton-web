@@ -8,6 +8,7 @@ import { instanceAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@typess/project";
+import PjMemberAddModal from "@components/project/dashboard/PjMemberAddModal";
 
 export default function PjMemberList() {
   const [memberList, setMemberList] = useState<MemberList[]>([]);
@@ -17,22 +18,30 @@ export default function PjMemberList() {
 
   const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
+  //모달
+  const [modalOpen, setModalOpen] = useState(false);
+  const handleOnClose = () => {
+    patchMemberList();
+    setModalOpen(false);
+  };
+
+  const patchMemberList = async () => {
+    instanceAuth
+      .get(`/belongs/list/${pj.projectId}`)
+      .then((response) => {
+        console.log(response.data);
+        if (response.data.code === 200) {
+          setMemberList(response.data.result);
+        } else if (response.data.code === 707) {
+          setMemberList([]);
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
+  };
   useEffect(() => {
-    (async () => {
-      instanceAuth
-        .get(`/belongs/list/${pj.projectId}`)
-        .then((response) => {
-          console.log(response.data);
-          if (response.data.code === 200) {
-            setMemberList(response.data.result);
-          } else if (response.data.code === 707) {
-            setMemberList([]);
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })();
+    patchMemberList();
   }, []);
   return (
     <>
@@ -41,12 +50,17 @@ export default function PjMemberList() {
         <div>
           {/* map 반복문 사용 */}
           {memberList && memberList.map((member) => <PjMember key={member.memberId} member={member} />)}
-
-          <div className="flex flex-row h-[30px] w-[15vw] mx-auto my-[16] items-center justify-center text-primary-3 bg-white border border-primary-4 font-suitM rounded-lg hover:bg-gray-50 text-sm px-5 py-2.5 mt-2">
+          <div
+            onClick={() => {
+              setModalOpen(true);
+            }}
+            className="flex flex-row h-[30px] w-[15vw] mx-auto my-[16] items-center justify-center text-primary-3 bg-white border border-primary-4 font-suitM rounded-lg hover:bg-gray-50 text-sm px-5 py-2.5 mt-2 cursor-pointer"
+          >
             <p className="mx-auto">+</p>
             <p className="mx-auto">멤버 추가</p>
           </div>
         </div>
+        {modalOpen && <PjMemberAddModal projectId={pj.projectId} onClose={handleOnClose} />}
       </div>
     </>
   );

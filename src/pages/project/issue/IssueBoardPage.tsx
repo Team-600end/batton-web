@@ -134,7 +134,9 @@ export default function IssueBoardPage() {
           setIssuCommentModal(true);
           setIssueId(issueId);
         }
-        if ((source.droppableId == "REVIEW" && destination.droppableId == "TODO") || destination.droppableId == "PROGRESS") {
+        // if ((source.droppableId == "REVIEW" && destination.droppableId == "TODO") || destination.droppableId == "PROGRESS") {
+
+        if ((source.droppableId == "REVIEW" || source.droppableId == "DONE") && (destination.droppableId == "TODO" || destination.droppableId == "PROGRESS")) {
           setIssueStatusChanged("반려");
           setIssuCommentModal(true);
         }

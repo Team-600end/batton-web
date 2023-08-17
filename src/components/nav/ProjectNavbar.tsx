@@ -41,7 +41,7 @@ export default function ProjectNavbar() {
                   : "block text-gray-900 hover:text-[#5AAE8A]"
               }
             >
-              이슈 보드
+              이슈보드
             </button>
           </li>
           <li>
