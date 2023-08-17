@@ -117,7 +117,7 @@ export default function Navbar() {
         <button
           className="flex items-center flex-1"
           style={{ marginLeft: "-2vw" }}
-          onClick={() => navigate("/")}
+          onClick={() => navigate("/main")}
         >
           <img src={batton_logo_img} className="h-8 mr-3 select-none pointer-events-none" alt="Flowbite Logo" />
         </button>
