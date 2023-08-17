@@ -4,6 +4,7 @@ import { emailState, nicknameState, profileImgState } from "@src/state/userState
 import { instanceAuth, instanceImageAuth } from "@src/types/AxiosInterface";
 import { useNavigate } from "react-router-dom";
 import default_profile from "@images/common/default_profile.png";
+import CommonModal from "@src/components/CommonModal";
 
 export default function MyPage() {
   const navigate = useNavigate();
@@ -17,6 +18,8 @@ export default function MyPage() {
   const [profileImg, setProfileImg] = useState(userProfileImg);
 
   const [viewImg, setViewImg] = useState(userProfileImg);
+
+  const [isEditSuccess, setIsEditSuccess] = useState(false);
 
   const nicknameChange = (event) => {
     setNickname(event.target.value);
@@ -48,9 +51,7 @@ export default function MyPage() {
         if (response.data.code == 200) {
           setUserNickname(nickname)
           setUserProfileImg(response.data.result)
-
-          alert("정보가 변경되었습니다.");
-          navigate(`/main`);
+          setIsEditSuccess(true);
         }
         else if (response.data.code == 600) {
           console.log("존재하지 않는 유저입니다.");
@@ -138,6 +139,14 @@ export default function MyPage() {
           </button>
         </div>
       </div>
+      {isEditSuccess && (
+        <CommonModal
+          title="안내메세지"
+          description="사용자 정보가 정상적으로 수정되었습니다."
+          btnTitle="확인"
+          closeModal={() => setIsEditSuccess(false)}
+        />
+      )}
     </>
   );
 }

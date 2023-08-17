@@ -520,7 +520,7 @@ export default function RnoteEditPage() {
                         onClick={() =>
                           navigate(`/project/${projectKey}/releasesnote`)
                         }
-                        className="focus:outline-none text-gray-900 bg-white hover:bg-grey-300 focus:ring-4 focus:ring-grey-900 font-suitM text-[0.8vw] py-2 w-[5.3vw] ml-[1vw] h-[3.7vh] border-r-2 border-gray-200"
+                        className="focus:outline-none text-gray-900 bg-white hover:bg-grey-300 focus:ring-0 focus:border-none font-suitM text-[0.8vw] py-2 w-[5.3vw] ml-[1vw] h-[3.7vh] border-r-2 border-gray-200"
                       >
                         나가기
                       </button>
