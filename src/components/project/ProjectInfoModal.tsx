@@ -1,4 +1,4 @@
-import { instanceAuth } from "@src/types/AxiosInterface";
+import { instanceAuth, instanceImageAuth } from "@src/types/AxiosInterface";
 import { CpMember, Member } from "@src/types/Users";
 import { useEffect, useState } from "react";
 import { useRecoilState } from "recoil";
@@ -20,8 +20,6 @@ interface EditPjData {
   projectKey: string;
   projectContent?: string;
   projectImage?: string;
-  projectMemberList?: Member[];
-  nickname: string;
 }
 
 export default function ProjectInfoModal({ closeModal }) {
@@ -62,20 +60,12 @@ export default function ProjectInfoModal({ closeModal }) {
   const [projects, setProjects] = useRecoilState(projectNavs);
   const emailRegex = /\S+@\S+\.\S+/;
 
-  const [profileImg, setProjectLogo] = useState<string | ArrayBuffer>("");
-  const [viewImg, setViewImg] = useState<string | ArrayBuffer>("");
+  const [viewImg, setViewImg] = useState<string>("");
 
   // 저장 확인 모달
   const [isSaveModal, setIsSaveModal] = useState(false);
 
-  const createPjData: EditPjData = {
-    projectTitle: pjTitle,
-    projectKey: pjKey,
-    projectContent: pjContent,
-    projectImage: pjImage,
-    nickname: userNickname,
-    projectMemberList: pjMemReqList,
-  };
+  
 
   const handleEdit = () => {
     setIsEdit(!isEdit);
@@ -88,17 +78,32 @@ export default function ProjectInfoModal({ closeModal }) {
     getProjectInfo();
   };
 
+  /** 프로젝트  */
   const saveProject = () => {
+    const createPjData: EditPjData = {
+      projectTitle: pjTitle,
+      projectKey: pjKey,
+      projectContent: pjContent,
+      projectImage: pjImage,
+    };
+
+    const formData = new FormData();
+    formData.append('projectTitle', pjTitle);
+    formData.append('projectKey', pjKey);
+    formData.append('projectContent', pjContent);
+    formData.append('projectImage', pjImage);
+
+    console.log("=========수정요청==========");
+    console.log(formData);
     (async () => {
-      instanceAuth
-        .patch(`/projects/${pj.projectId}`, createPjData)
+      instanceImageAuth
+        .patch(`/projects/${pj.projectId}`, formData)
         .then((response) => {
-          //   console.log(response.data);
           if (response.data.code === 200) {
-            setPjTitle(response.data.result.projectTitle);
-            setPjKey(response.data.result.projectKey);
-            setPjContent(response.data.result.projectContent);
-            setPjImage(response.data.result.projectImage);
+            setPjTitle(pjTitle);
+            setPjKey(pjKey);
+            setPjContent(pjContent);
+            setPjImage(pjImage);
           } else if (response.data.code === 707) {
             setPjTitle("");
             setPjKey("");
@@ -122,11 +127,10 @@ export default function ProjectInfoModal({ closeModal }) {
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
-        setViewImg(reader.result);
+        setViewImg(reader.result.toString());
       };
       reader.readAsDataURL(file);
     }
-    setProjectLogo(file);
   };
 
   const onTitleChangeHandler = (e) => {
@@ -139,6 +143,7 @@ export default function ProjectInfoModal({ closeModal }) {
     setContentInputCount(e.target.value.length);
   };
 
+  /** 프로젝트 정보 조회 요청 */
   const getProjectInfo = () => {
     (async () => {
       instanceAuth
@@ -207,7 +212,7 @@ export default function ProjectInfoModal({ closeModal }) {
                   프로젝트 로고
                 </p>
                 <label className="my-auto mx-auto">
-                  <img className="w-[18vw] rounded-full object-cover cursor-pointer border border-gray-700 ml-[2.5vw] mr-[-2.5vw]" src={(pj.projectLogo == null || pj.projectLogo == "") ? default_team_logo : pj.projectLogo} />
+                  <img className="w-[18vw] rounded-full object-cover cursor-pointer border border-gray-700 ml-[2.5vw] mr-[-2.5vw]" src={(viewImg == null || viewImg == "") ? default_team_logo : viewImg} />
                   <input
                     id="dropzone-file"
                     type="file"

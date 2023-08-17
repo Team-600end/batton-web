@@ -116,8 +116,8 @@ export default function PjMemberAddModal({ projectId, onClose }) {
   };
 
   return (
-    <>
-      <div className="fixed flex flex-col justify-center items-center bg-black bg-opacity-30 z-1 md:inset-0 w-full h-full">
+    <div className="m-0">
+      <div className="fixed flex flex-col justify-center items-center bg-black bg-opacity-30 z-50 md:inset-0 w-full h-full">
         <div className="flex max-h-full m-auto">
           <div className="bg-white rounded-lg shadow dark:bg-gray-700 p-3">
             {/* title */}
@@ -311,6 +311,6 @@ export default function PjMemberAddModal({ projectId, onClose }) {
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }

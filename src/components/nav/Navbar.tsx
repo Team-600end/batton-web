@@ -106,7 +106,7 @@ export default function Navbar() {
 
   return (
     <nav
-      className="bg-white border-gray-200 fixed top-0 w-screen z-50 shadow-sm h-[8vh] flex justify-between px-[3vw]"
+      className="bg-white border-gray-200 fixed top-0 w-screen z-40 shadow-sm h-[8vh] flex justify-between px-[3vw]"
       ref={outside}
       onClick={(e) => {
         if (e.target !== outside.current) {

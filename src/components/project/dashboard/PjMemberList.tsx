@@ -8,7 +8,7 @@ import { instanceAuth } from "@src/types/AxiosInterface";
 import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@typess/project";
-import PjMemberAddModal from "./PjMemberAddModal";
+import PjMemberAddModal from "@components/project/dashboard/PjMemberAddModal";
 
 export default function PjMemberList() {
   const [memberList, setMemberList] = useState<MemberList[]>([]);

@@ -122,7 +122,7 @@ export default function MyPage() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row justify-center space-x-5" style={{ marginTop: "6.2159vh" }}>
+        <div className="flex flex-row justify-center space-x-5 mt-[6.2vh] ml-[5vw]">
           <button
             type="button"
             className="text-white bg-error-3 hover:bg-error-2 focus:ring-4 focus:ring-error-2 font-suitM rounded-lg text-sm px-9 py-3.5 mr-2 mb-2 focus:outline-none"
