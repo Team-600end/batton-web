@@ -53,7 +53,7 @@ export interface BoardIssue {
   issueTag: IssueType;
   issueStatus: IssueStatus;
   nickname: string;
-  profileImg: string;
+  profileImage: string;
 }
 
 export interface DonutData {
