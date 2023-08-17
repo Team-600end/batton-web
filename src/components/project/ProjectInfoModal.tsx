@@ -69,34 +69,32 @@ export default function ProjectInfoModal({ closeModal }) {
   };
 
   /** 프로젝트  */
-  const saveProject = () => {
+  const saveProject = async () => {
     const formData = new FormData();
-    formData.append('projectTitle', pjTitle);
-    formData.append('projectKey', pjKey);
-    formData.append('projectContent', pjContent);
-    formData.append('projectImage', imgFile);
+    formData.append("projectTitle", pjTitle);
+    formData.append("projectKey", pjKey);
+    formData.append("projectContent", pjContent);
+    formData.append("projectImage", imgFile);
 
     console.log("=========수정요청==========");
     console.log(formData);
-    (async () => {
-      instanceImageAuth
-        .patch(`/projects/${pj.projectId}`, formData)
-        .then((response) => {
-          if (response.data.code === 200) {
-            setPjTitle(pjTitle);
-            setPjKey(pjKey);
-            setPjContent(pjContent);
-          } else if (response.data.code === 707) {
-            setPjTitle("");
-            setPjKey("");
-            setPjContent("");
-            setViewImg("");
-          }
-        })
-        .catch((error) => {
-          console.log(error);
-        });
-    })();
+    instanceImageAuth
+      .patch(`/projects/${pj.projectId}`, formData)
+      .then((response) => {
+        if (response.data.code === 200) {
+          setPjTitle(pjTitle);
+          setPjKey(pjKey);
+          setPjContent(pjContent);
+        } else if (response.data.code === 707) {
+          setPjTitle("");
+          setPjKey("");
+          setPjContent("");
+          setViewImg("");
+        }
+      })
+      .catch((error) => {
+        console.log(error);
+      });
   };
 
   const handleDelete = async () => {
@@ -112,7 +110,7 @@ export default function ProjectInfoModal({ closeModal }) {
         setViewImg(reader.result.toString());
       };
       reader.readAsDataURL(file);
-    } 
+    }
     setImgFile(file);
   };
 
@@ -138,6 +136,7 @@ export default function ProjectInfoModal({ closeModal }) {
             setPjKey(response.data.result.projectKey);
             setPjContent(response.data.result.projectContent);
             setViewImg(response.data.result.projectLogo);
+            setImgFile(response.data.result.projectLogo);
           } else if (response.data.code === 707) {
             setPjTitle("");
             setPjKey("");
@@ -195,7 +194,14 @@ export default function ProjectInfoModal({ closeModal }) {
                   프로젝트 로고
                 </p>
                 <label className="my-auto mx-auto">
-                  <img className="w-[18vw] h-[18vw] rounded-full object-cover cursor-pointer border border-gray-700 ml-[2.5vw] mr-[-2.5vw]" src={(viewImg == null || viewImg == "") ? default_team_logo : viewImg} />
+                  <img
+                    className="w-[18vw] h-[18vw] rounded-full object-cover cursor-pointer border border-gray-700 ml-[2.5vw] mr-[-2.5vw]"
+                    src={
+                      viewImg == null || viewImg == ""
+                        ? default_team_logo
+                        : viewImg
+                    }
+                  />
                   <input
                     id="dropzone-file"
                     type="file"

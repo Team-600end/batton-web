@@ -181,12 +181,12 @@ export default function Navbar() {
       <div className="flex items-center mr-3">
         {/*알람 버튼*/}
         <button
-          className="inline-flex items-center text-sm font-suitM text-center text-gray-500 hover:text-gray-900 focus:outline-none mr-3"
+          className="inline-flex items-center text-sm font-suitM text-center text-gray-500 hover:text-gray-900 focus:outline-none mr-5"
           type="button"
           onClick={handleNoticeDd}
         >
           <svg
-            className="w-5 h-5 mr-2"
+            className="w-6 h-6 mr-2"
             aria-hidden="true"
             xmlns="http://www.w3.org/2000/svg"
             fill="currentColor"
@@ -202,10 +202,9 @@ export default function Navbar() {
         {/* 유저 버튼 */}
         <button
           type="button"
-          className="flex text-sm bg-gray-800 rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
+          className="flex text-sm bg-white rounded-full md:mr-0 focus:ring-4 focus:ring-gray-300"
           onClick={handleProfileDd}
         >
-          <span className="sr-only">Open user menu</span>
           <img className="w-8 h-8 rounded-full object-cover select-none pointer-events-none" src={(userProfileImg == '' || userProfileImg == null) ? default_profile_img : userProfileImg} />
         </button>
       </div>

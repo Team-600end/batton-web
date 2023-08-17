@@ -2,6 +2,7 @@ import React, { useState, useEffect } from "react";
 import { CpMember, Member, UserGrade } from "@src/types/Users";
 import CreatePjMember from "../CreatePjMember";
 import { instanceAuth } from "@src/types/AxiosInterface";
+import CommonModal from "@src/components/CommonModal";
 /**
  * 프로젝트 멤버 추가 모달
  * @returns
@@ -20,6 +21,8 @@ export default function PjMemberAddModal({ projectId, onClose }) {
   const emailRegex = /\S+@\S+\.\S+/;
   //드롭다운
   const [dropdownOpen, setDropdownOpen] = useState(false);
+  
+  const [isInviteSuccess, setIsInviteSuccess] = useState(false);
 
   const onGradeChangeHandler = (grade: UserGrade) => {
     setGrade(grade);
@@ -109,6 +112,19 @@ export default function PjMemberAddModal({ projectId, onClose }) {
       });
   };
 
+  const addMemberRequest = () => {
+    instanceAuth
+      .post(`/belongs/${projectId}`, pjMemReqList)
+      .then((response) => {
+        if (response.data.code == 200) {
+          setIsInviteSuccess(true);
+        }
+      })
+      .finally(() => onClose());
+  };
+
+  // /belongs/{projectId}
+  
   // 팀원 삭제
   const handleRemoveMember = (memberToRemove: CpMember) => {
     const updatedList = pjMemList.filter((member) => member.memberId !== memberToRemove.memberId);
@@ -302,7 +318,7 @@ export default function PjMemberAddModal({ projectId, onClose }) {
             <div className="flex justify-end">
               <button
                 className="ml-auto w-[100px] h-[40px] text-white font-suitB bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 rounded-lg text-sm mr-2 mb-2 dark:bg-primary-4 dark:hover:bg-primary-2 focus:outline-none dark:focus:ring-primary-5"
-                // onClick={addMemberRequest}
+                onClick={addMemberRequest}
                 type="button"
               >
                 초대하기
@@ -311,6 +327,14 @@ export default function PjMemberAddModal({ projectId, onClose }) {
           </div>
         </div>
       </div>
+      {isInviteSuccess && (
+        <CommonModal
+          title="안내메세지"
+          description="프로젝트가 정상적으로 생성되었습니다."
+          btnTitle="이동하기"
+          closeModal={() => setIsInviteSuccess(false)}
+        />
+      )}
     </div>
   );
 }
