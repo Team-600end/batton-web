@@ -231,11 +231,9 @@ export default function SignupPage() {
       };
 
       instanceNonAuth.post(`/auth/signup`, signupData).then((response) => {
-        console.log("===회원가입데이터===");
-        console.log(signupData);
         if (response.data.code == 200) {
           setCanSignup(true);
-          navigate(`/login`);
+          // navigate(`/login`);
         }
       });
     } catch (error) {
@@ -353,7 +351,7 @@ export default function SignupPage() {
             closeModal={() => setIsModalOpen(false)}
           />
         )}
-        <form className="space-y-6 w-[30vw]">
+        <form className="space-y-3 w-[30vw]">
           <h4 className="text-2xl font-suitM text-gray-900">회원가입</h4>
           <div>
             <label
@@ -588,7 +586,7 @@ export default function SignupPage() {
           title="회원가입이 완료되었습니다."
           description="로그인을 진행해 주세요."
           btnTitle="로그인하기"
-          closeModal={() => setCanSignup(false)}
+          closeModal={() => {setCanSignup(false); navigate(`/login`);}}
         />
       )}
     </div>

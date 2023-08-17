@@ -35,7 +35,7 @@ export default function NoticeDetailPage() {
   
   useEffect(() => {
     if (activeButton == "전체")
-      uri = "/notices/all/1";
+      uri = "/notices/1";
     else if (activeButton == "이슈")
       uri = "/notices/issues/1"
     else

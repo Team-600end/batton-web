@@ -38,7 +38,7 @@ function Notice() {
 
   useEffect(() => {
     if (activeButton == "전체")
-      uri = "/notices/all/0";
+      uri = "/notices/0";
     else if (activeButton == "이슈")
       uri = "/notices/issues/0"
     else

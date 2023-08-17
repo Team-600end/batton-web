@@ -5,14 +5,18 @@ import puzzle_minor from "@images/releasesPuzzle/puzzle_minor.svg";
 import puzzle_patch from "@images/releasesPuzzle/puzzle_patch.svg";
 import PuzzleHoverItem from "./PuzzleHoverItem";
 import { Release } from "@src/types/Release";
+import { useNavigate } from "react-router-dom";
 
 type PuzzleViewProps = {
   release: Release;
+  projectKey: string;
 };
 
 export default function PuzzleView(props: PuzzleViewProps) {
   const [isHovered, setIsHovered] = useState(false);
   let puzzleImage;
+
+  const navigate = useNavigate();
 
   if (props.release.versionChanged === "Major") {
     puzzleImage = puzzle_major;
@@ -29,12 +33,17 @@ export default function PuzzleView(props: PuzzleViewProps) {
     setIsHovered(false);
   };
 
+  const handleOnClick = () => {
+    navigate(`/project/${props.projectKey}/releasesnote/${props.release.releasesId}`)
+  };
+
   return (
     <>
       <div
         onMouseEnter={handleMouseEnter}
         onMouseLeave={handleMouseLeave}
         className={`relative w-[80px] h-[70px] mx-[-10px] my-[-13px] dark:bg-gray-800 dark:hover:bg-gray-700`}
+        onClick={handleOnClick}
         style={{ cursor: "pointer" }}
       >
         <img src={puzzleImage} alt="changed_version_img" className="w-full h-full object-cover" />

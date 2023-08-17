@@ -93,7 +93,7 @@ export default function ReleasesPuzzle() {
                   <tr key={rowIndex}>
                     {arrayPuzzle.map((element, colIndex) => (
                       <td key={colIndex}>
-                        <PuzzleView release={element} />
+                        <PuzzleView release={element} projectKey={pj.projectKey} />
                       </td>
                     ))}
                   </tr>

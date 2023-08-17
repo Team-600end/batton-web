@@ -8,6 +8,7 @@ import chevron_down from "@images/common/chevron_down.png";
 import { instanceAuth } from "@src/types/AxiosInterface";
 import { ProjectSearch } from "@src/types/project";
 import default_team_logo from "@images/common/team_default.png";
+import { useNavigate } from "react-router-dom";
 
 interface BoardS {
   issueList: AbsIssue[];
@@ -18,6 +19,7 @@ interface BoardS {
 }
 
 export default function BoardPage() {
+  const navigate = useNavigate();
   const [cardNum, setCardNum] = useState(3);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
@@ -103,6 +105,10 @@ export default function BoardPage() {
       });
     })();
   }, [searchProject, searchValue]);
+
+  const boardReleasesButton = (releasesId: number) => {
+    navigate(`/releasesnote/${releasesId}`);
+  };
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center mt-[100px]">
@@ -227,7 +233,7 @@ export default function BoardPage() {
           </thead>
           <tbody>
             {getCurrentPageItems().map((board) => (
-              <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50">
+              <tr className="text-center bg-white font-suitM border-b hover:bg-gray-50 cursor-pointer" onClick={() => boardReleasesButton(board.releasesId)}>
                 <th scope="row" className="py-4">
                   {board.projectTitle}
                 </th>
