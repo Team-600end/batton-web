@@ -1,7 +1,6 @@
-import React, { useState, useEffect, useCallback, useRef } from "react";
-import type { CustomFlowbiteTheme } from "flowbite-react";
+import React, { useState, useEffect, useRef } from "react";
 import IssueBadge from "@src/components/project/issue/IssueBadge";
-import { IssueType } from "@src/types/Issue";
+import { AbsIssue } from "@src/types/Issue";
 import search_img from "@images/icons/search_outline.png";
 import titleBox_img from "@images/common/title_box.svg";
 import chevron_up from "@images/common/chevron_up.png";
@@ -11,22 +10,11 @@ import { ProjectSearch } from "@src/types/project";
 import default_team_logo from "@images/common/team_default.png";
 
 interface BoardS {
-  projecttId: number;
-  releaseId: number;
+  issueList: AbsIssue[];
   projectTitle: string;
-  releaseVersion: string;
-  issueTags: IssueType[];
-  releaseDate: Date;
-}
-
-// export interface ProjectSearch {
-//   projectId: number;
-//   projectTitle: string;
-//   projectLogo?: string;
-// }
-
-function getFullDate(delimiter: string, year: number, month: number, date: number): string {
-  return `${year}${delimiter}${month.toString().padStart(2, "0")}${delimiter}${date.toString().padStart(2, "0")}`;
+  publishedDate: Date;
+  releasesId: number;
+  version: string;
 }
 
 export default function BoardPage() {
@@ -41,7 +29,7 @@ export default function BoardPage() {
   const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
 
   //필터링
-  const [searchValue, setSearchValue] = useState("");
+  const [searchValue, setSearchValue] = useState(null);
   //TODO: 테스트 성공 후 아래 코드 주석 풀고 그 밑에꺼 지우기
   const [boards, setBoards] = useState<BoardS[]>([]);
   const [searchProject, setSearchProject] = useState("전체");
@@ -108,29 +96,13 @@ export default function BoardPage() {
         console.log(response.data);
         if (response.data.code == 200) {
           setBoards(response.data.result);
-          setBoards(boards);
+          // setBoards(boards);
         } else {
           setBoards([]);
         }
       });
     })();
   }, [searchProject, searchValue]);
-
-  // // 게시판 페이지 첫 접속 시 렌더링
-  // useEffect(() => {
-  //   (async () => {
-  //     instanceAuth.get(`/releases`, { params: { projectId: searchProjectId, keyword: searchValue } }).then((response) => {
-  //       console.log(response.data);
-  //       if (response.data.code == 200) {
-  //         //TODO: 테스트 성공 후 아래 코드 주석 풀고 그 밑에꺼 지우기
-  //         setBoards(response.data.result);
-  //         setBoards(boards);
-  //       } else {
-  //         setBoards([]);
-  //       }
-  //     });
-  //   })();
-  // });
 
   return (
     <div className="relative w-screen h-screen flex flex-col items-center mt-[100px]">
@@ -156,10 +128,7 @@ export default function BoardPage() {
                       className=" items-center justify-center w-5 h-5 mr-2 my-auto rounded-full"
                       src={searchProjectLogo === "" || searchProjectLogo === null ? default_team_logo : searchProjectLogo}
                     />
-                    <div className="w-full overflow-auto">
-                      {/* {searchProject.length > 7 ? <div className="ml-2 text-sm">{searchProject.substring(0, 7)}...</div> : <>{searchProject}</>} */}
-                      {searchProject}
-                    </div>
+                    <div className="w-full overflow-auto">{searchProject}</div>
                   </div>
                 )}
               </div>
@@ -262,13 +231,13 @@ export default function BoardPage() {
                 <th scope="row" className="py-4">
                   {board.projectTitle}
                 </th>
-                <td className="py-4">{board.releaseVersion}</td>
+                <td className="py-4">{board.version}</td>
                 <td className="py-4 space-x-1">
-                  {board.issueTags.map((issue) => (
-                    <IssueBadge issueType={issue} />
+                  {board.issueList.map((issue) => (
+                    <IssueBadge issueType={issue.issueTag} />
                   ))}
                 </td>
-                <td className="py-4">{getFullDate(". ", board.releaseDate.getFullYear(), board.releaseDate.getMonth(), board.releaseDate.getDate())}</td>
+                <td className="py-4">{board.publishedDate.toLocaleString()}</td>
               </tr>
             ))}
           </tbody>
@@ -317,158 +286,3 @@ export default function BoardPage() {
     </div>
   );
 }
-
-// const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
-//   root: {
-//     base: "relative h-[270px] w-full mx-4",
-//     leftControl: "absolute top-0 left-0 flex h-full items-center justify-center px-4 focus:outline-none",
-//     rightControl: "absolute top-0 right-0 flex h-full items-center justify-center px-4 focus:outline-none",
-//   },
-//   indicators: {
-//     active: {
-//       off: "bg-[#f3f4f6] hover:bg-white",
-//       on: "bg-[#d1d5db]",
-//     },
-//     base: "h-3 w-3 rounded-full",
-//     wrapper: "absolute -bottom-3 left-1/2 flex -translate-x-1/2 space-x-3",
-//   },
-//   item: {
-//     base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2",
-//     wrapper: "w-full flex-shrink-0 transform cursor-grab snap-center",
-//   },
-//   scrollContainer: {
-//     base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-smooth rounded-lg",
-//     snap: "snap-x",
-//   },
-// };
-
-// const boards: BoardS[] = [
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "KEA",
-//     releaseVersion: "v2.3.0",
-//     issueTags: ["NEW", "FEATURE"],
-//     releaseDate: new Date(2023, 6, 2),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "dktechin",
-//     releaseVersion: "v3.0.0",
-//     issueTags: ["NEW", "CHANGED", "FEATURE"],
-//     releaseDate: new Date(2023, 7, 28),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "600&",
-//     releaseVersion: "v2.0.1",
-//     issueTags: ["FIXED"],
-//     releaseDate: new Date(2023, 7, 27),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "KEA",
-//     releaseVersion: "v2.2.0",
-//     issueTags: ["CHANGED", "FEATURE"],
-//     releaseDate: new Date(2023, 6, 2),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "dktechin",
-//     releaseVersion: "v2.1.0",
-//     issueTags: ["CHANGED", "FEATURE"],
-//     releaseDate: new Date(2023, 7, 22),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "600&",
-//     releaseVersion: "v1.1.2",
-//     issueTags: ["DEPRECATED"],
-//     releaseDate: new Date(2023, 7, 18),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "KEA",
-//     releaseVersion: "v2.0.1",
-//     issueTags: ["FIXED", "DEPRECATED"],
-//     releaseDate: new Date(2023, 6, 2),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "600&",
-//     releaseVersion: "v1.1.1",
-//     issueTags: ["CHANGED", "FIXED"],
-//     releaseDate: new Date(2023, 7, 18),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "KEA",
-//     releaseVersion: "v2.0.0",
-//     issueTags: ["NEW"],
-//     releaseDate: new Date(2023, 7, 17),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "dktechin",
-//     releaseVersion: "v2.0.1",
-//     issueTags: ["FIXED"],
-//     releaseDate: new Date(2023, 7, 17),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "dktechin",
-//     releaseVersion: "v2.0.0",
-//     issueTags: ["NEW", "FEATURE", "DEPRECATED"],
-//     releaseDate: new Date(2023, 7, 10),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "KEA",
-//     releaseVersion: "v1.2.0",
-//     issueTags: ["FEATURE", "FIXED"],
-//     releaseDate: new Date(2023, 6, 2),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "dktechin",
-//     releaseVersion: "v1.2.0",
-//     issueTags: ["NEW", "CHANGED"],
-//     releaseDate: new Date(2023, 7, 3),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "600&",
-//     releaseVersion: "v1.0.1",
-//     issueTags: ["NEW"],
-//     releaseDate: new Date(2023, 7, 2),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "KEA",
-//     releaseVersion: "v1.0.0",
-//     issueTags: ["NEW"],
-//     releaseDate: new Date(2023, 6, 22),
-//   },
-//   {
-//     projecttId: 1,
-//     releaseId: 1,
-//     projectTitle: "dktechin",
-//     releaseVersion: "v1.0.0",
-//     issueTags: ["NEW", "FEATURE"],
-//     releaseDate: new Date(2023, 6, 2),
-//   },
-// ];
