@@ -6,6 +6,9 @@ import search_img from "@images/icons/search_outline.png";
 import titleBox_img from "@images/common/title_box.svg";
 import chevron_up from "@images/common/chevron_up.png";
 import chevron_down from "@images/common/chevron_down.png";
+import { instanceAuth } from "@src/types/AxiosInterface";
+import { ProjectSearch } from "@src/types/project";
+import default_team_logo from "@images/common/team_default.png";
 
 interface BoardS {
   projecttId: number;
@@ -16,20 +19,34 @@ interface BoardS {
   releaseDate: Date;
 }
 
+// export interface ProjectSearch {
+//   projectId: number;
+//   projectTitle: string;
+//   projectLogo?: string;
+// }
+
 function getFullDate(delimiter: string, year: number, month: number, date: number): string {
   return `${year}${delimiter}${month.toString().padStart(2, "0")}${delimiter}${date.toString().padStart(2, "0")}`;
 }
 
 export default function BoardPage() {
-  const [, setCardNum] = useState(3);
+  const [cardNum, setCardNum] = useState(3);
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
-  // 드롭다운
-  const [dropdownValue, setDropdownValue] = useState("전체");
-  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
 
-  const [searchInput, setSearchInput] = useState("");
+  // 드롭다운
+  const [searchProjects, setSearchProjects] = useState<ProjectSearch[]>([]);
+  const [dropdownValue, setDropdownValue] = useState(null); //TODO: 프로젝트 목록 필터링 구현 후 지우기
+  const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
+
+  //필터링
+  const [searchValue, setSearchValue] = useState("");
+  //TODO: 테스트 성공 후 아래 코드 주석 풀고 그 밑에꺼 지우기
+  const [boards, setBoards] = useState<BoardS[]>([]);
+  const [searchProject, setSearchProject] = useState("전체");
+  const [searchProjectId, setSearchProjectId] = useState(null);
+  const [searchProjectLogo, setSearchProjectLogo] = useState(null);
 
   const setIssueNumByHeight = () => {
     const screenHeight = window.innerHeight;
@@ -50,8 +67,8 @@ export default function BoardPage() {
     return boards.slice(startIndex, endIndex);
   };
 
-  const handleSearchInputChange = (e: React.ChangeEvent<HTMLInputElement>) => {
-    setSearchInput(e.target.value);
+  const handleSearchValue = (e: React.ChangeEvent<HTMLInputElement>) => {
+    setSearchValue(e.target.value);
   };
 
   const totalPage = Math.ceil(boards.length / itemsPerPage);
@@ -70,6 +87,51 @@ export default function BoardPage() {
     };
   }, []);
 
+  // 프로젝트 목록 검색 조회
+  useEffect(() => {
+    (async () => {
+      instanceAuth.get(`/projects/list`).then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setSearchProjects(response.data.result);
+        } else {
+          setSearchProjects([]);
+        }
+      });
+    })();
+  }, [isDropdownOpen]);
+
+  // 릴리즈 게시판 필터링
+  useEffect(() => {
+    (async () => {
+      instanceAuth.get(`/releases`, { params: { projectId: searchProjectId, keyword: searchValue } }).then((response) => {
+        console.log(response.data);
+        if (response.data.code == 200) {
+          setBoards(response.data.result);
+          setBoards(boards);
+        } else {
+          setBoards([]);
+        }
+      });
+    })();
+  }, [searchProject, searchValue]);
+
+  // // 게시판 페이지 첫 접속 시 렌더링
+  // useEffect(() => {
+  //   (async () => {
+  //     instanceAuth.get(`/releases`, { params: { projectId: searchProjectId, keyword: searchValue } }).then((response) => {
+  //       console.log(response.data);
+  //       if (response.data.code == 200) {
+  //         //TODO: 테스트 성공 후 아래 코드 주석 풀고 그 밑에꺼 지우기
+  //         setBoards(response.data.result);
+  //         setBoards(boards);
+  //       } else {
+  //         setBoards([]);
+  //       }
+  //     });
+  //   })();
+  // });
+
   return (
     <div className="relative w-screen h-screen flex flex-col items-center mt-[100px]">
       <div className="flex flex-row items-center justify-left w-full px-8 py-3 ml-40">
@@ -83,10 +145,23 @@ export default function BoardPage() {
           <div className="relative flex justify-center">
             <button
               onClick={() => setIsDropdownOpen(!isDropdownOpen)}
-              className="flex items-center justify-between w-[140px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3 py-1.5"
+              className="flex items-center justify-between w-[160px] h-[40px] text-[#1F2A37] bg-white border border-gray-300 focus:outline-none hover:bg-gray-100 focus:ring-2 focus:ring-gray-200 font-suitM rounded-lg text-xs px-3 py-1.5"
             >
-              <div className="flex items-center justify-center">
-                {dropdownValue === "전체" ? <div className="ml-2 text-sm">전체</div> : <IssueBadge issueType={dropdownValue as IssueType} />}
+              <div className="flex items-center justify-center text-sm ml-2">
+                {searchProject === "전체" ? (
+                  <div>전체</div>
+                ) : (
+                  <div className="flex">
+                    <img
+                      className=" items-center justify-center w-5 h-5 mr-2 my-auto rounded-full"
+                      src={searchProjectLogo === "" || searchProjectLogo === null ? default_team_logo : searchProjectLogo}
+                    />
+                    <div className="w-full overflow-auto">
+                      {/* {searchProject.length > 7 ? <div className="ml-2 text-sm">{searchProject.substring(0, 7)}...</div> : <>{searchProject}</>} */}
+                      {searchProject}
+                    </div>
+                  </div>
+                )}
               </div>
               <div className="flex items-center justify-center">
                 {isDropdownOpen ? (
@@ -99,20 +174,41 @@ export default function BoardPage() {
             {isDropdownOpen && (
               <div
                 ref={dropdownRef}
-                className="flex justify-center z-10 absolute top-full left-0 mt-2 w-32 bg-white divide-y divide-gray-100 rounded-lg shadow"
+                className="flex items-start justify-center z-10 absolute top-full left-0 mt-2 w-[160px] max-h-[230px] bg-white divide-y divide-gray-100 rounded-lg shadow overflow-auto "
               >
-                <ul className="p-1 space-y-1 text-sm text-grey-2">
-                  {["전체", "NEW", "FEATURE", "CHANGED", "FIXED", "DEPRECATED"].map((value) => (
-                    <li key={value}>
-                      <div className="flex items-center justify-center p-1 rounded hover:bg-gray-100">
+                <ul className="w-[160px] p-2 space-y-1 text-sm text-grey-2">
+                  <li>
+                    <div
+                      onClick={() => {
+                        setSearchProject("전체");
+                        setSearchProjectId(null);
+                        setIsDropdownOpen(false);
+                      }}
+                      className="flex items-center justify-start ml-3 p-1 rounded hover:bg-gray-50 w-full text-sm font-suitM text-gray-900 cursor-pointer"
+                    >
+                      전체 프로젝트
+                    </div>
+                  </li>
+                  {searchProjects.map((project) => (
+                    <li key={project.projectId}>
+                      <hr className="h-px mb-1 bg-gray-200 border-0 mx-auto w-[140px] overflow-x-hidden" />
+                      <div className="flex items-center justify-center p-1 rounded hover:bg-gray-50">
                         <div
                           onClick={() => {
-                            setDropdownValue(value);
+                            setSearchProject(project.projectTitle);
+                            setSearchProjectId(project.projectId);
+                            setSearchProjectLogo(project.projectLogo);
                             setIsDropdownOpen(false);
                           }}
-                          className="flex items-center justify-center w-full  text-xs font-suitM text-gray-900 rounded"
+                          className="flex items-center justify-between w-full text-sm font-suitM text-gray-900 rounded cursor-pointer"
                         >
-                          {value === "전체" ? <div className="text-sm">전체</div> : <IssueBadge issueType={value as IssueType} />}
+                          <div className="flex">
+                            <img
+                              className=" items-center justify-center w-5 h-5 mr-2 my-auto rounded-full"
+                              src={project.projectLogo === "" || project.projectLogo === null ? default_team_logo : project.projectLogo}
+                            />
+                            <div className="w-full overflow-auto">{project.projectTitle}</div>
+                          </div>
                         </div>
                       </div>
                     </li>
@@ -129,9 +225,9 @@ export default function BoardPage() {
             </div>
             <input
               type="text"
-              onChange={handleSearchInputChange}
+              onChange={handleSearchValue}
               className="block p-2 pl-10 text-sm text-gray-900 border border-gray-300 rounded-lg w-80 bg-gray-50 focus:ring-[#4AA366] focus:border-[#4AA366]"
-              placeholder="검색"
+              placeholder="릴리즈 내용 검색"
             />
           </div>
         </div>
@@ -222,157 +318,157 @@ export default function BoardPage() {
   );
 }
 
-const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
-  root: {
-    base: "relative h-[270px] w-full mx-4",
-    leftControl: "absolute top-0 left-0 flex h-full items-center justify-center px-4 focus:outline-none",
-    rightControl: "absolute top-0 right-0 flex h-full items-center justify-center px-4 focus:outline-none",
-  },
-  indicators: {
-    active: {
-      off: "bg-[#f3f4f6] hover:bg-white",
-      on: "bg-[#d1d5db]",
-    },
-    base: "h-3 w-3 rounded-full",
-    wrapper: "absolute -bottom-3 left-1/2 flex -translate-x-1/2 space-x-3",
-  },
-  item: {
-    base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2",
-    wrapper: "w-full flex-shrink-0 transform cursor-grab snap-center",
-  },
-  scrollContainer: {
-    base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-smooth rounded-lg",
-    snap: "snap-x",
-  },
-};
+// const customCarouselTheme: CustomFlowbiteTheme["carousel"] = {
+//   root: {
+//     base: "relative h-[270px] w-full mx-4",
+//     leftControl: "absolute top-0 left-0 flex h-full items-center justify-center px-4 focus:outline-none",
+//     rightControl: "absolute top-0 right-0 flex h-full items-center justify-center px-4 focus:outline-none",
+//   },
+//   indicators: {
+//     active: {
+//       off: "bg-[#f3f4f6] hover:bg-white",
+//       on: "bg-[#d1d5db]",
+//     },
+//     base: "h-3 w-3 rounded-full",
+//     wrapper: "absolute -bottom-3 left-1/2 flex -translate-x-1/2 space-x-3",
+//   },
+//   item: {
+//     base: "absolute top-1/2 left-1/2 block w-full -translate-x-1/2 -translate-y-1/2",
+//     wrapper: "w-full flex-shrink-0 transform cursor-grab snap-center",
+//   },
+//   scrollContainer: {
+//     base: "flex h-full snap-mandatory overflow-y-hidden overflow-x-scroll scroll-smooth rounded-lg",
+//     snap: "snap-x",
+//   },
+// };
 
-const boards: BoardS[] = [
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v2.3.0",
-    issueTags: ["NEW", "FEATURE"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v3.0.0",
-    issueTags: ["NEW", "CHANGED", "FEATURE"],
-    releaseDate: new Date(2023, 7, 28),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "600&",
-    releaseVersion: "v2.0.1",
-    issueTags: ["FIXED"],
-    releaseDate: new Date(2023, 7, 27),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v2.2.0",
-    issueTags: ["CHANGED", "FEATURE"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v2.1.0",
-    issueTags: ["CHANGED", "FEATURE"],
-    releaseDate: new Date(2023, 7, 22),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "600&",
-    releaseVersion: "v1.1.2",
-    issueTags: ["DEPRECATED"],
-    releaseDate: new Date(2023, 7, 18),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v2.0.1",
-    issueTags: ["FIXED", "DEPRECATED"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "600&",
-    releaseVersion: "v1.1.1",
-    issueTags: ["CHANGED", "FIXED"],
-    releaseDate: new Date(2023, 7, 18),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v2.0.0",
-    issueTags: ["NEW"],
-    releaseDate: new Date(2023, 7, 17),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v2.0.1",
-    issueTags: ["FIXED"],
-    releaseDate: new Date(2023, 7, 17),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v2.0.0",
-    issueTags: ["NEW", "FEATURE", "DEPRECATED"],
-    releaseDate: new Date(2023, 7, 10),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v1.2.0",
-    issueTags: ["FEATURE", "FIXED"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v1.2.0",
-    issueTags: ["NEW", "CHANGED"],
-    releaseDate: new Date(2023, 7, 3),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "600&",
-    releaseVersion: "v1.0.1",
-    issueTags: ["NEW"],
-    releaseDate: new Date(2023, 7, 2),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "KEA",
-    releaseVersion: "v1.0.0",
-    issueTags: ["NEW"],
-    releaseDate: new Date(2023, 6, 22),
-  },
-  {
-    projecttId: 1,
-    releaseId: 1,
-    projectTitle: "dktechin",
-    releaseVersion: "v1.0.0",
-    issueTags: ["NEW", "FEATURE"],
-    releaseDate: new Date(2023, 6, 2),
-  },
-];
+// const boards: BoardS[] = [
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v2.3.0",
+//     issueTags: ["NEW", "FEATURE"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v3.0.0",
+//     issueTags: ["NEW", "CHANGED", "FEATURE"],
+//     releaseDate: new Date(2023, 7, 28),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "600&",
+//     releaseVersion: "v2.0.1",
+//     issueTags: ["FIXED"],
+//     releaseDate: new Date(2023, 7, 27),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v2.2.0",
+//     issueTags: ["CHANGED", "FEATURE"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v2.1.0",
+//     issueTags: ["CHANGED", "FEATURE"],
+//     releaseDate: new Date(2023, 7, 22),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "600&",
+//     releaseVersion: "v1.1.2",
+//     issueTags: ["DEPRECATED"],
+//     releaseDate: new Date(2023, 7, 18),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v2.0.1",
+//     issueTags: ["FIXED", "DEPRECATED"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "600&",
+//     releaseVersion: "v1.1.1",
+//     issueTags: ["CHANGED", "FIXED"],
+//     releaseDate: new Date(2023, 7, 18),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v2.0.0",
+//     issueTags: ["NEW"],
+//     releaseDate: new Date(2023, 7, 17),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v2.0.1",
+//     issueTags: ["FIXED"],
+//     releaseDate: new Date(2023, 7, 17),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v2.0.0",
+//     issueTags: ["NEW", "FEATURE", "DEPRECATED"],
+//     releaseDate: new Date(2023, 7, 10),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v1.2.0",
+//     issueTags: ["FEATURE", "FIXED"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v1.2.0",
+//     issueTags: ["NEW", "CHANGED"],
+//     releaseDate: new Date(2023, 7, 3),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "600&",
+//     releaseVersion: "v1.0.1",
+//     issueTags: ["NEW"],
+//     releaseDate: new Date(2023, 7, 2),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "KEA",
+//     releaseVersion: "v1.0.0",
+//     issueTags: ["NEW"],
+//     releaseDate: new Date(2023, 6, 22),
+//   },
+//   {
+//     projecttId: 1,
+//     releaseId: 1,
+//     projectTitle: "dktechin",
+//     releaseVersion: "v1.0.0",
+//     issueTags: ["NEW", "FEATURE"],
+//     releaseDate: new Date(2023, 6, 2),
+//   },
+// ];

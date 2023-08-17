@@ -1,6 +1,6 @@
 import React, { useState, useRef, useCallback, useEffect } from "react";
 import "@assets/index.css";
-import profile_img from "@images/common/default_profile.png";
+import default_profile_img from "@images/common/default_profile.png";
 import Tag from "@src/components/project/issue/IssueBadge";
 import TagDisabled from "@src/components/project/issue/IssueBadgeDisabled";
 import { IssueType } from "@src/types/Issue";
@@ -11,7 +11,7 @@ import { useParams } from "react-router-dom";
 import { instanceAuth } from "@src/types/AxiosInterface";
 import chevron_up from "@images/common/chevron_up.png";
 import chevron_down from "@images/common/chevron_down.png";
-import { PjMember } from "@src/types/Users";
+import { IssueMember } from "@src/types/Users";
 interface CreateIssueData {
   projectId: number;
   issueTag: IssueType;
@@ -24,12 +24,13 @@ export default function CreateIssueModal({ visible, onClose }) {
   const [activeTag, setActiveTag] = useState(null);
   const [issueTitle, setIssueTitle] = useState("");
   const [issueContent, setIssueContent] = useState("");
-  const [belongId, setBelongId] = useState(0); //TODO: 담당자 id
+  const [belongId, setBelongId] = useState(0);
+  const [userProfileImg, setUserProfileImg] = useState("");
   // 프로젝트 멤버 모달
   const [isMemberDropdownOpen, setIsMemberDropdownOpen] = useState(false);
   const [memberDropdownValue, setMemberDropdownValue] = useState("멤버 선택");
   const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
-  const [memberList, setMemberList] = useState<PjMember[]>([]);
+  const [memberList, setMemberList] = useState<IssueMember[]>([]);
 
   // //member list
   // const [isOpenMemberList, setIsOpenMemberList] = useState(false);
@@ -55,14 +56,6 @@ export default function CreateIssueModal({ visible, onClose }) {
   };
 
   if (!visible) return null;
-
-  const createIssueData: CreateIssueData = {
-    projectId: pj.projectId,
-    issueTag: activeTag,
-    issueTitle: issueTitle,
-    issueContent: issueContent,
-    belongId: belongId,
-  };
 
   const handleMemberDropdown = () => {
     setIsMemberDropdownOpen(!isMemberDropdownOpen);
@@ -101,6 +94,14 @@ export default function CreateIssueModal({ visible, onClose }) {
       return;
     }
 
+    const createIssueData: CreateIssueData = {
+      projectId: pj.projectId,
+      issueTag: activeTag,
+      issueTitle: issueTitle,
+      issueContent: issueContent,
+      belongId: belongId,
+    };
+
     instanceAuth
       .post(`/issues`, createIssueData)
       .then((response) => {
@@ -116,7 +117,7 @@ export default function CreateIssueModal({ visible, onClose }) {
       });
   };
 
-  // 드롭다운
+  // 드롭다운 외부 클릭 시 막기
   // useEffect(() => {
   //   const handleClickOutside = (e: MouseEvent) => {
   //     if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
@@ -193,7 +194,10 @@ export default function CreateIssueModal({ visible, onClose }) {
                           <div className="ml-2 text-sm text-grey-4">멤버 선택</div>
                         ) : (
                           <div className="flex flex-row items-center">
-                            <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" alt="Profile" />
+                            <img
+                              className="w-6 h-6 rounded-full m-2 object-cover select-none pointer-events-none"
+                              src={userProfileImg == "" || userProfileImg == null ? default_profile_img : userProfileImg}
+                            />
                             <div className="ml-2 text-sm">{memberDropdownValue}</div>
                           </div>
                         )}
@@ -214,11 +218,17 @@ export default function CreateIssueModal({ visible, onClose }) {
                               className="flex flex-row py-2 px-4 cursor-pointer hover:bg-gray-100"
                               onClick={() => {
                                 setMemberDropdownValue(member.nickname);
-                                setBelongId(member.memberId);
+                                setBelongId(member.belongId);
                                 setIsMemberDropdownOpen(false);
+                                setUserProfileImg(member.profileImage);
                               }}
                             >
-                              <img id="manager_icon" src={(member.profileImage == null || member.profileImage == "") ? profile_img : member.profileImage} alt="M" className="w-6 h-6 ml-4 mr-3" />
+                              <img
+                                id="manager_icon"
+                                src={member.profileImage == null || member.profileImage == "" ? default_profile_img : member.profileImage}
+                                alt="M"
+                                className="w-6 h-6 ml-4 mr-3 rounded-full"
+                              />
                               <div className="ml-2 text-sm">{member.nickname}</div>
                             </div>
                           ))
