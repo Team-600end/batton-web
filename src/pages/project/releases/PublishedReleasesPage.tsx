@@ -20,7 +20,7 @@ interface ReleasesData {
 
 export default function PublishedReleasesPage() {
   const navigate = useNavigate();
-  const { projectKey, releaseId } = useParams();
+  const { releaseId } = useParams();
   const [editorData, setEditorData] = useState<string>("");
   const [releasesData, setReleasesData] = useState<ReleasesData>({
     id: null,
@@ -71,7 +71,7 @@ export default function PublishedReleasesPage() {
 
   return (
     <div className="flex flex-col mt-[10vh]">
-      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col h-screen">
+      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col min-h-screen h-fit">
         {isModalOpen && (
           <Modal
             title={modalData.title}
@@ -80,7 +80,7 @@ export default function PublishedReleasesPage() {
             closeModal={() => modalData.closeModal()}
           />
         )}
-        <div className="bg-gray-50 rounded-t-lg border border-gray-300 w-[70vw] m-auto mt-[5vh] flex flex-col h-screen">
+        <div className="bg-gray-50 rounded-t-lg border border-gray-300 w-[70vw] m-auto mt-[5vh] flex flex-col min-h-screen h-fit">
           <div className="max-w-screen-xl flex items-start flex-wrap mx-auto p-4 justify-end mt-5 mb-3 w-[65vw]">
           </div>
           <div className="max-w-screen-xl flex-column items-start flex-wrap mx-auto p-4 mt-3 mb-3 w-[50vw]">

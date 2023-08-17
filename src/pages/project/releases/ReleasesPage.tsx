@@ -119,7 +119,7 @@ export default function ReleasesPage() {
     <div className="flex flex-col">
       <MilestoneNavbar />
       <ProjectNavbar />
-      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col h-screen">
+      <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col min-h-screen h-fit">
         {isModalOpen && (
           <Modal
             title={modalData.title}
@@ -128,7 +128,7 @@ export default function ReleasesPage() {
             closeModal={() => modalData.closeModal()}
           />
         )}
-        <div className="bg-gray-50 rounded-t-lg border border-gray-300 w-[70vw] m-auto mt-[5vh] flex flex-col h-screen">
+        <div className="bg-gray-50 rounded-t-lg border border-gray-300 w-[70vw] m-auto mt-[5vh] flex flex-col min-h-screen h-fit">
           <div className="max-w-screen-xl flex items-start flex-wrap mx-auto p-4 justify-end mt-5 mb-3 w-[65vw]">
             {releasesData.isPublished == "UNPUBLISH" && (
               <div>
