@@ -1,9 +1,7 @@
 import axios, {
   AxiosInstance,
 } from "axios";
-import { getCookie } from "@src/state/tokenState";
-// import { getCookie, setCookie } from "@state/tokenState";
-
+import { getCookie, setCookie } from "@src/state/tokenState";
 
 // axios instance without Auth
 export const instanceNonAuth: AxiosInstance = axios.create({
@@ -40,7 +38,6 @@ export const instanceAuth: AxiosInstance = axios.create({
 instanceAuth.interceptors.request.use(
   function (config) {
     config.headers['Content-Type'] = 'application/json';
-    // config.headers['Refresh-Token'] = cookies.refreshToken;
     console.log(getCookie('accessToken'));
     config.headers['Authorization'] = `Bearer ${getCookie('accessToken')}`
     return config;
@@ -59,15 +56,14 @@ instanceAuth.interceptors.response.use(
     return response;
   },
   async function (err) {
-    console.log("======err")
-    console.log(err.response.status);
+    const originalConfig = err.config;
     if (err.response && err.response.status == 401) {
       try {
-        console.log("만료 확인");
-        // 기존에 쿠키에 저장된 refresh token을 가져옴
-        axios.defaults.headers.common["refreshToken"] = getCookie("refreshToken");;
-		    // 토큰을 다시 발급 받는 api 호출 함수 
-        // refreshAccessToken();
+        const refreshToken = await getCookie("refreshToken");
+        axios.defaults.headers.common["refreshToken"] = refreshToken;
+        refreshAccessToken();
+
+        return instanceImageAuth.request(originalConfig);
       } catch (err: any) {
         console.log("error", err.response);
         // navigate("/");
@@ -91,7 +87,6 @@ export const instanceImageAuth: AxiosInstance = axios.create({
 instanceImageAuth.interceptors.request.use(
   function (config) {
     config.headers['Content-Type'] = 'multipart/form-data';
-    // config.headers['Refresh-Token'] = cookies.refreshToken;
     console.log(getCookie('accessToken'));
     config.headers['Authorization'] = `Bearer ${getCookie('accessToken')}`
     return config;
@@ -108,17 +103,16 @@ instanceImageAuth.interceptors.response.use(
     return response;
   },
   async function (err) {
-    // const originalConfig = err.config;
+    const originalConfig = err.config;
     console.log(err);
     if (err.response && err.response.data.status === "TokenExpired") {
       try {
-        // // 기존에 쿠키에 저장된 refresh token을 가져옴
-        // const refreshToken = await getCookie("refreshToken");
-        // axios.defaults.headers.common["refreshToken"] = refreshToken;
-		    // 토큰을 다시 발급 받는 api 호출 함수 
-        // refreshAccessToken();
+        const refreshToken = await getCookie("refreshToken");
+        axios.defaults.headers.common["refreshToken"] = refreshToken;
+        refreshAccessToken();
+
+        return instanceImageAuth.request(originalConfig);
       } catch (err: any) {
-        console.log("error", err.response);
         // navigate("/");
       }
       return Promise.reject(err);
@@ -127,13 +121,13 @@ instanceImageAuth.interceptors.response.use(
   }
 );
 
-// const refreshAccessToken = async () => {
-//   const response = await axios.post("http://localhost:8080/member/reissue", {
-//     headers: { Authorization: "Bearer " + getCookie("accessToken"), RefreshToken: getCookie("refreshToken") },
-//   });
-// 	// response를 받고 header부분에 token을 받아서 쿠키에 담기 
-//   const access_token = response.headers["authorization"];
-//   setCookie("access_token", access_token, { path: "/", secure: false, httpOnly: false, sameSite: "none" }); 
-// 	// 화면에 바로 반영이 안돼서 강제적으로 reload 시킴..?
-//   // window.location.reload();
-// };
+const refreshAccessToken = async () => {
+  const response = await axios.post("http://localhost:8080/member/reissue", {
+    headers: { Authorization: "Bearer " + getCookie("accessToken"), RefreshToken: getCookie("refreshToken") },
+  });
+	// response를 받고 header부분에 token을 받아서 쿠키에 담기 
+  const access_token = response.headers["authorization"];
+  setCookie("access_token", access_token, { path: "/", secure: false, httpOnly: false, sameSite: "none" }); 
+
+  window.location.reload();
+};

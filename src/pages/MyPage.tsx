@@ -85,7 +85,7 @@ export default function MyPage() {
                 id="nickname"
                 value={nickname}
                 onChange={nicknameChange}
-                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-primary-4 focus:ring-primary-4 focus:outline-primary-4 block w-full p-2.5"
                 required
               />
             </div>
@@ -122,7 +122,7 @@ export default function MyPage() {
             </div>
           </div>
         </div>
-        <div className="flex flex-row justify-center space-x-5" style={{ marginTop: "6.2159vh" }}>
+        <div className="flex flex-row justify-center space-x-5 mt-[6.2vh] ml-[5vw]">
           <button
             type="button"
             className="text-white bg-error-3 hover:bg-error-2 focus:ring-4 focus:ring-error-2 font-suitM rounded-lg text-sm px-9 py-3.5 mr-2 mb-2 focus:outline-none"

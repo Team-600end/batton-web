@@ -147,7 +147,6 @@ export default function IssueManagePage() {
           setManagerId(response.data.result.managerId);
           setNickname(response.data.result.nickname);
           setProfileImage(response.data.result.profileImage);
-          setIsMine(response.data.result.isMine);
         } else {
           console.log("response after error");
         }

@@ -15,7 +15,7 @@ export interface CommonModalInterface {
 
 export default function CommonModal({ title, description, btnTitle, closeModal }: CommonModalInterface) {
   return (
-    <>
+    <div className="m-0">
       <div className="fixed flex justify-center items-center z-50 p-20 overflow-x-hidden overflow-y-hidden md:inset-0 w-full h-full max-h-full bg-black bg-opacity-30">
         <div className="flex max-w-full max-h-full">
           <div className="bg-white rounded-lg shadow dark:bg-gray-700">
@@ -51,6 +51,6 @@ export default function CommonModal({ title, description, btnTitle, closeModal }
           </div>
         </div>
       </div>
-    </>
+    </div>
   );
 }
