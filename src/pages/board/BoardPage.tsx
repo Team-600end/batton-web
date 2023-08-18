@@ -26,13 +26,12 @@ export default function BoardPage() {
 
   // 드롭다운
   const [searchProjects, setSearchProjects] = useState<ProjectSearch[]>([]);
-  const [dropdownValue, setDropdownValue] = useState(null); //TODO: 프로젝트 목록 필터링 구현 후 지우기
+  const [dropdownValue, setDropdownValue] = useState(null);
   const [isDropdownOpen, setIsDropdownOpen] = useState(false);
   const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
 
   //필터링
   const [searchValue, setSearchValue] = useState(null);
-  //TODO: 테스트 성공 후 아래 코드 주석 풀고 그 밑에꺼 지우기
   const [boards, setBoards] = useState<BoardS[]>([]);
   const [searchProject, setSearchProject] = useState("전체");
   const [searchProjectId, setSearchProjectId] = useState(null);
@@ -81,7 +80,6 @@ export default function BoardPage() {
   useEffect(() => {
     (async () => {
       instanceAuth.get(`/projects/list`).then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           setSearchProjects(response.data.result);
         } else {
@@ -95,7 +93,6 @@ export default function BoardPage() {
   useEffect(() => {
     (async () => {
       instanceAuth.get(`/releases`, { params: { projectId: searchProjectId, keyword: searchValue } }).then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           setBoards(response.data.result);
           // setBoards(boards);

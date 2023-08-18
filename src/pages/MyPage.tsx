@@ -27,10 +27,9 @@ export default function MyPage() {
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log(file)
     if (file) {
       const reader = new FileReader();
-      reader.onloadend = () => { 
+      reader.onloadend = () => {
         setViewImg(reader.result);
       };
       reader.readAsDataURL(file);
@@ -41,25 +40,20 @@ export default function MyPage() {
   // 유저 정보 수정 API
   const modifyMemberRequest = async () => {
     const formData = new FormData();
-    formData.append('profileImg', profileImg);
-    formData.append('nickname', nickname)
+    formData.append("profileImg", profileImg);
+    formData.append("nickname", nickname);
 
     instanceImageAuth
       .patch(`/members`, formData)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
-          setUserNickname(nickname)
-          setUserProfileImg(response.data.result)
+          setUserNickname(nickname);
+          setUserProfileImg(response.data.result);
           setIsEditSuccess(true);
-        }
-        else if (response.data.code == 600) {
-          console.log("존재하지 않는 유저입니다.");
+        } else if (response.data.code == 600) {
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   return (
@@ -71,7 +65,7 @@ export default function MyPage() {
         </div>
         <div className="flex flex-row w-screen " style={{}}>
           <div className="flex flex-col w-screen mt-[40px] items-center" style={{ width: "13.8889vw", marginLeft: "24.2540vw" }}>
-            <img className="w-[20vw] h-[14vw] rounded-full object-cover" src={(viewImg == "" || viewImg == null) ? default_profile : viewImg}></img>
+            <img className="w-[20vw] h-[14vw] rounded-full object-cover" src={viewImg == "" || viewImg == null ? default_profile : viewImg}></img>
             <p className="text-[16px] font-suitM text-gray-900 mt-[20px]">계정</p>
             <p className="text-[20px] font-suitSB text-gray-900 mt-[4px]">{userEmail}</p>
           </div>
@@ -140,12 +134,7 @@ export default function MyPage() {
         </div>
       </div>
       {isEditSuccess && (
-        <CommonModal
-          title="안내메세지"
-          description="사용자 정보가 정상적으로 수정되었습니다."
-          btnTitle="확인"
-          closeModal={() => setIsEditSuccess(false)}
-        />
+        <CommonModal title="안내메세지" description="사용자 정보가 정상적으로 수정되었습니다." btnTitle="확인" closeModal={() => setIsEditSuccess(false)} />
       )}
     </>
   );

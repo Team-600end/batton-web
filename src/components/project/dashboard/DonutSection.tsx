@@ -31,31 +31,26 @@ export default function DonutSection(props: DonutSectionProps) {
     toDoCnt: toDoCnt,
     progressCnt: progressCnt,
     reviewCnt: reviewCnt,
-    completeCnt: completeCnt
+    completeCnt: completeCnt,
   };
 
   const getDonutRequest = async () => {
     instanceAuth
       .get(`/issues/chart/${props.projectId}`)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           setToDoCnt(response.data.result.toDoCnt);
           setProgressCnt(response.data.result.progressCnt);
           setReviewCnt(response.data.result.reviewCnt);
           setCompleteCnt(response.data.result.completeCnt);
-        }
-        else if (response.data.code == 700) {
-          console.log("프로젝트 아이디 값을 확인해주세요.");
+        } else if (response.data.code == 700) {
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
-    getDonutRequest()
+    getDonutRequest();
   }, []);
 
   //데이터가 없을 때 회색 도넛 차트

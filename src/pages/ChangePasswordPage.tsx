@@ -14,15 +14,15 @@ export default function ChangePasswordPage() {
   const [checkPasswordStatus, setCheckPasswordStatus] = useState("");
 
   interface ModifyPasswordBody {
-    currentPassword: string,
-    changedPassword: string,
-    checkChangedPassword: string
+    currentPassword: string;
+    changedPassword: string;
+    checkChangedPassword: string;
   }
 
-  const modifyPasswordBody : ModifyPasswordBody = {
+  const modifyPasswordBody: ModifyPasswordBody = {
     currentPassword: currentPassword,
     changedPassword: password,
-    checkChangedPassword: checkPassword
+    checkChangedPassword: checkPassword,
   };
 
   type ValidNOProps = {
@@ -90,27 +90,17 @@ export default function ChangePasswordPage() {
     instanceAuth
       .patch(`/members/password`, modifyPasswordBody)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           alert("비밀번호가 변경되었습니다.");
           navigate(`/main`);
-        }
-        else if (response.data.code == 600) {
-          console.log("존재하지 않는 유저입니다.");
-        }
-        else if (response.data.code == 602) {
-          console.log("두 비밀번호를 같게 입력해주세요.");
+        } else if (response.data.code == 600) {
+        } else if (response.data.code == 602) {
           alert("두 비밀번호를 같게 입력해주세요.");
-        }
-        else if (response.data.code == 603) {
-          console.log("현재 비밀번호가 일치하지 않습니다.")
+        } else if (response.data.code == 603) {
           alert("현재 비밀번호가 일치하지 않습니다.");
         }
-        
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   return (

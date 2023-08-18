@@ -1,11 +1,7 @@
 import { instanceAuth } from "@src/types/AxiosInterface";
 import React, { useState } from "react";
 
-export default function IssueComment({
-  issueStatusChanged,
-  closeModal,
-  issueId,
-}) {
+export default function IssueComment({ issueStatusChanged, closeModal, issueId }) {
   const [commentContent, setCommentContent] = useState("");
   const handleIssueComment = (e) => {
     setCommentContent(e.target.value);
@@ -19,19 +15,13 @@ export default function IssueComment({
   };
 
   const createIssueComment = async () => {
-    //TODO: 이슈 코멘트 생성 api
-    console.log(issueCommentData);
-    instanceAuth
-      .post(`/reports/comments/${issueId}`, issueCommentData)
-      .then((response) => {
-        console.log("이슈 아이디 : " + issueId)
-        console.log(response.data);
-        if (response.data.code == 200) {
-          closeModal();
-        } else {
-          alert("이슈 코멘트 생성에 실패했습니다.");
-        }
-      });
+    instanceAuth.post(`/reports/comments/${issueId}`, issueCommentData).then((response) => {
+      if (response.data.code == 200) {
+        closeModal();
+      } else {
+        alert("이슈 코멘트 생성에 실패했습니다.");
+      }
+    });
   };
 
   return (
@@ -42,28 +32,14 @@ export default function IssueComment({
             <div className="bg-white rounded-lg shadow dark:bg-gray-700 px-7">
               {/* title */}
               <div className="flex items-start justify-between pt-10 rounded-t dark:border-gray-600">
-                <h3 className="text-[20px] font-suitB text-gray-900 dark:text-white">
-                  이슈 코멘트
-                </h3>
+                <h3 className="text-[20px] font-suitB text-gray-900 dark:text-white">이슈 코멘트</h3>
                 <button
                   type="button"
                   onClick={closeModal}
                   className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center"
                 >
-                  <svg
-                    className="w-3 h-3"
-                    aria-hidden="true"
-                    xmlns="http://www.w3.org/2000/svg"
-                    fill="none"
-                    viewBox="0 0 14 14"
-                  >
-                    <path
-                      stroke="currentColor"
-                      strokeLinecap="round"
-                      strokeLinejoin="round"
-                      strokeWidth="2"
-                      d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                    />
+                  <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                    <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                   </svg>
                 </button>
               </div>
@@ -79,10 +55,7 @@ export default function IssueComment({
                 >
                   {issueStatusChanged}
                 </p>
-                <p className="text-base font-suitSB leading-relaxed text-gray-900 mt-6 mb-2 ml-1">
-                  {" "}
-                  코멘트를 작성해 주세요.
-                </p>
+                <p className="text-base font-suitSB leading-relaxed text-gray-900 mt-6 mb-2 ml-1"> 코멘트를 작성해 주세요.</p>
               </div>
 
               {/* 코멘트 */}

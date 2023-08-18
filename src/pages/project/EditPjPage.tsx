@@ -21,7 +21,7 @@ export default function EditPjPage() {
   const [titleInputCount, setTitleInputCount] = useState(0);
   const [keyInputCount, setKeyInputCount] = useState(0);
   const [contentInputCount, setContentInputCount] = useState(0);
-  const [findByEmail, setFindByEmail] = useState('');
+  const [findByEmail, setFindByEmail] = useState("");
   const emailRegex = /\S+@\S+\.\S+/;
   const [emailStatus, setEmailStatus] = useState("");
 
@@ -42,7 +42,7 @@ export default function EditPjPage() {
   };
 
   const onKeyChangeHandler = (e) => {
-    e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, '');
+    e.target.value = e.target.value.toLowerCase().replace(/[^a-z0-9]/g, "");
     setPjKey(e.target.value);
     setKeyInputCount(e.target.value.length);
   };
@@ -52,24 +52,17 @@ export default function EditPjPage() {
     setContentInputCount(e.target.value.length);
   };
 
-  // const createPjData: CreatePjData = {
-  //   projectTitle: pjTitle,
-  //   projectKey: pjKey,
-  //   projectContent: pjContent,
-  //   projectImage: pjImage,
-  //   projectMemberList: pjMemList,
-  // };
-
   const createPjRequest = async () => {
-    instanceAuth.post(`/projects`, null).then((response) => {
-      console.log(response.data);
-      if (response.data.code == 200) {
-        navigate(`/project/${response.data.result}/dashboard`);
-      } else {
-        alert("오류")
-      }
-    })
-    .catch(() => alert("정상적인 접근이 아닙니다."));
+    instanceAuth
+      .post(`/projects`, null)
+      .then((response) => {
+        if (response.data.code == 200) {
+          navigate(`/project/${response.data.result}/dashboard`);
+        } else {
+          alert("오류");
+        }
+      })
+      .catch(() => alert("정상적인 접근이 아닙니다."));
   };
 
   useEffect(() => {
@@ -77,9 +70,7 @@ export default function EditPjPage() {
     const $targetEl = document.getElementById("dropdownMenu") as HTMLDivElement;
 
     // set the element that trigger the dropdown menu on click
-    const $triggerEl = document.getElementById(
-      "dropdownButton"
-    ) as HTMLButtonElement | null;
+    const $triggerEl = document.getElementById("dropdownButton") as HTMLButtonElement | null;
 
     // options with default values
     const options: DropdownOptions = {
@@ -95,11 +86,7 @@ export default function EditPjPage() {
      * triggerEl: required
      * options: optional
      */
-    const dropdown: DropdownInterface = new Dropdown(
-      $targetEl,
-      $triggerEl,
-      options
-    );
+    const dropdown: DropdownInterface = new Dropdown($targetEl, $triggerEl, options);
 
     // show the dropdown
     // dropdown.show();
@@ -109,20 +96,13 @@ export default function EditPjPage() {
     <>
       <div className="relative w-screen h-screen flex flex-col mt-[100px]">
         {/* 프로젝트 생성하기 타이틀 */}
-        <div
-          className="flex flex-row items-center"
-          style={{ marginLeft: "16.9312vw" }}
-        >
+        <div className="flex flex-row items-center" style={{ marginLeft: "16.9312vw" }}>
           <div className="w-[10px] h-[27px] bg-primary-5 mr-[10px]"></div>
-          <p className="text-[28px] font-bold text-gray-900">
-            프로젝트 수정 : {pj.projectKey}
-          </p>
+          <p className="text-[28px] font-bold text-gray-900">프로젝트 수정 : {pj.projectKey}</p>
         </div>
         <div className="flex flex-col items-center">
           <div className="flex flex-row mt-[8vh]">
-            <p className="w-[21vw] text-[20px] font-medium text-gray-900">
-              프로젝트명
-            </p>
+            <p className="w-[21vw] text-[20px] font-medium text-gray-900">프로젝트명</p>
             <div>
               <input
                 type="text"
@@ -131,18 +111,13 @@ export default function EditPjPage() {
                 onChange={onTitleChangeHandler}
                 className="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-primary-4 focus:border-primary-4 block p-2.5 w-[31.0847vw]"
               />
-              <p
-                className="font-medium text-[14px] text-gray-400 text-right mt-[4px]"
-                style={{ width: "31.0847vw" }}
-              >
+              <p className="font-medium text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
                 {titleInputCount}/20
               </p>
             </div>
           </div>
           <div className="flex flex-row mt-[6vh]">
-            <p className="w-[21vw] text-[20px] font-medium text-gray-900">
-              프로젝트 설명
-            </p>
+            <p className="w-[21vw] text-[20px] font-medium text-gray-900">프로젝트 설명</p>
             <div>
               <textarea
                 placeholder=""
@@ -155,10 +130,7 @@ export default function EditPjPage() {
                   minHeight: "14.6640vh",
                 }}
               />
-              <p
-                className="font-medium text-[14px] text-gray-400 text-right mt-[4px]"
-                style={{ width: "31.0847vw" }}
-              >
+              <p className="font-medium text-[14px] text-gray-400 text-right mt-[4px]" style={{ width: "31.0847vw" }}>
                 {contentInputCount}/200
               </p>
             </div>

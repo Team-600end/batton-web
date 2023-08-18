@@ -20,9 +20,7 @@ export default function ProjectInfoModal({ closeModal }) {
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
   let { projectKey } = useParams();
 
-  const pj = projectNav.find(
-    (element: ProjectNav) => element.projectKey.toString() == projectKey
-  );
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   const [isEdit, setIsEdit] = useState(false);
   // 프로젝트의 이름
@@ -76,8 +74,6 @@ export default function ProjectInfoModal({ closeModal }) {
     formData.append("projectContent", pjContent);
     formData.append("projectImage", imgFile);
 
-    console.log("=========수정요청==========");
-    console.log(formData);
     instanceImageAuth
       .patch(`/projects/${pj.projectId}`, formData)
       .then((response) => {
@@ -92,18 +88,13 @@ export default function ProjectInfoModal({ closeModal }) {
           setViewImg("");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
-  const handleDelete = async () => {
-    //TODO: 프로젝트 삭제 api 요청
-  };
+  const handleDelete = async () => {};
 
   const handleFileChange = (event) => {
     const file = event.target.files[0];
-    console.log(file);
     if (file) {
       const reader = new FileReader();
       reader.onloadend = () => {
@@ -126,12 +117,10 @@ export default function ProjectInfoModal({ closeModal }) {
 
   /** 프로젝트 정보 조회 요청 */
   const getProjectInfo = () => {
-    console.log("keykeykey" + pj.projectKey);
     (async () => {
       instanceAuth
         .get(`/projects/${pj.projectId}`)
         .then((response) => {
-          //   console.log(response.data);
           if (response.data.code === 200) {
             setPjTitle(response.data.result.projectTitle);
             setPjKey(response.data.result.projectKey);
@@ -145,9 +134,7 @@ export default function ProjectInfoModal({ closeModal }) {
             setViewImg("");
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     })();
   };
 
@@ -162,28 +149,14 @@ export default function ProjectInfoModal({ closeModal }) {
           <div className="bg-white rounded-lg shadow dark:bg-gray-700">
             {/* title */}
             <div className="flex items-start justify-between px-10 pt-10 rounded-t dark:border-gray-600">
-              <h3 className="mr-20 text-[24px] font-suitB text-gray-900 dark:text-white">
-                프로젝트{" "}
-              </h3>
+              <h3 className="mr-20 text-[24px] font-suitB text-gray-900 dark:text-white">프로젝트 </h3>
               <button
                 type="button"
                 onClick={closeModal}
                 className="text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm w-8 h-8 ml-auto inline-flex justify-center items-center dark:hover:bg-gray-600 dark:hover:text-white"
               >
-                <svg
-                  className="w-3 h-3"
-                  aria-hidden="true"
-                  xmlns="http://www.w3.org/2000/svg"
-                  fill="none"
-                  viewBox="0 0 14 14"
-                >
-                  <path
-                    stroke="currentColor"
-                    strokeLinecap="round"
-                    strokeLinejoin="round"
-                    strokeWidth="2"
-                    d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6"
-                  />
+                <svg className="w-3 h-3" aria-hidden="true" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 14 14">
+                  <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="m1 1 6 6m0 0 6 6M7 7l6-6M7 7l-6 6" />
                 </svg>
               </button>
             </div>
@@ -191,32 +164,19 @@ export default function ProjectInfoModal({ closeModal }) {
             <div className="flex">
               {/** 프로젝트 로고 */}
               <div className="flex flex-col px-14 py-5">
-                <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
-                  프로젝트 로고
-                </p>
+                <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">프로젝트 로고</p>
                 <label className="my-auto mx-auto">
                   <img
                     className="w-[18vw] h-[18vw] rounded-full object-cover cursor-pointer border border-gray-700 ml-[2.5vw] mr-[-2.5vw]"
-                    src={
-                      viewImg == null || viewImg == ""
-                        ? default_team_logo
-                        : viewImg
-                    }
+                    src={viewImg == null || viewImg == "" ? default_team_logo : viewImg}
                   />
-                  <input
-                    id="dropzone-file"
-                    type="file"
-                    className="hidden"
-                    onChange={handleFileChange}
-                  />
+                  <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} />
                 </label>
               </div>
               <div className="flex flex-col">
                 {/* 내용 */}
                 <div className="px-14 py-5">
-                  <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
-                    프로젝트 명
-                  </p>
+                  <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">프로젝트 명</p>
                   {isEdit ? (
                     <input
                       value={pjTitle}
@@ -234,9 +194,7 @@ export default function ProjectInfoModal({ closeModal }) {
                 </div>
 
                 <div className="px-14 pb-5">
-                  <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
-                    프로젝트 키
-                  </p>
+                  <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">프로젝트 키</p>
                   <input
                     type="pj-key"
                     readOnly
@@ -246,9 +204,7 @@ export default function ProjectInfoModal({ closeModal }) {
                 </div>
 
                 <div className="px-14 pb-5">
-                  <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">
-                    프로젝트 설명
-                  </p>
+                  <p className="text-[16px] font-suitSB leading-relaxed text-gray-900">프로젝트 설명</p>
                   {isEdit ? (
                     <div>
                       <input

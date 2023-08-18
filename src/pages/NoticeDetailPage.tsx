@@ -3,11 +3,11 @@ import arrow_left from "@images/icons/arrow_left.png";
 import { useNavigate } from "react-router-dom";
 import { NoticeMessage } from "@typess/Notice";
 import { instanceAuth } from "@src/types/AxiosInterface";
-import default_profile from "@assets/images/common/default_profile.png"
+import default_profile from "@assets/images/common/default_profile.png";
 
 export default function NoticeDetailPage() {
   const navigate = useNavigate();
-  let uri : string;
+  let uri: string;
 
   const [activeButton, setActiveButton] = useState<string>("전체");
   const [notices, setNotices] = useState<NoticeMessage[]>([]);
@@ -20,27 +20,19 @@ export default function NoticeDetailPage() {
     instanceAuth
       .get(uri)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
-          setNotices(response.data.result)
-        }
-        else if (response.data.code == 1300) {
-          console.log("유저 아이디 값을 확인해주세요.");
+          setNotices(response.data.result);
+        } else if (response.data.code == 1300) {
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
-  
+
   useEffect(() => {
-    if (activeButton == "전체")
-      uri = "/notices/1";
-    else if (activeButton == "이슈")
-      uri = "/notices/issues/1"
-    else
-      uri = "/notices/projects/1"
-    
+    if (activeButton == "전체") uri = "/notices/1";
+    else if (activeButton == "이슈") uri = "/notices/issues/1";
+    else uri = "/notices/projects/1";
+
     getNoticeRequest();
   }, [activeButton]);
 
@@ -54,15 +46,24 @@ export default function NoticeDetailPage() {
         <div className="flex flex-col">
           <div className="text-black text-3xl font-suitB">내 알림함</div>
           <div className="mt-10 w-32 text-sm text-center font-suitM text-black bg-white border border-gray-200 rounded-lg">
-            <button className={`block w-full px-4 py-2 bg-[#DDF1E9] border-b border-gray-200 rounded-t-lg cursor-pointer hover:bg-gray-100 ${
-                  activeButton === "전체" ? "bg-[#DDF1E9]" : "bg-[#FFFFFF]"
-                }`} onClick={() => handleClick("전체")}>
+            <button
+              className={`block w-full px-4 py-2 bg-[#DDF1E9] border-b border-gray-200 rounded-t-lg cursor-pointer hover:bg-gray-100 ${
+                activeButton === "전체" ? "bg-[#DDF1E9]" : "bg-[#FFFFFF]"
+              }`}
+              onClick={() => handleClick("전체")}
+            >
               전체
             </button>
-            <button className="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-[#DDF1E9]" onClick={() => handleClick("이슈")}>
+            <button
+              className="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-[#DDF1E9]"
+              onClick={() => handleClick("이슈")}
+            >
               이슈
             </button>
-            <button className="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-[#DDF1E9]" onClick={() => handleClick("프로젝트")}>
+            <button
+              className="block w-full px-4 py-2 border-b border-gray-200 cursor-pointer hover:bg-gray-100 focus:outline-none focus:bg-[#DDF1E9]"
+              onClick={() => handleClick("프로젝트")}
+            >
               프로젝트
             </button>
           </div>
@@ -71,10 +72,10 @@ export default function NoticeDetailPage() {
           {notices.map((notice) => (
             <div className="pl-5 py-3 border-b border-gray-200 items-center gap-7 inline-flex">
               {notice.senderProfileImage ? (
-                   <img className="w-11 h-11 relative rounded-full" src={notice.senderProfileImage} />
-                ) : (
-                  <img className="w-11 h-11 relative rounded-full" src={default_profile} />
-                )}
+                <img className="w-11 h-11 relative rounded-full" src={notice.senderProfileImage} />
+              ) : (
+                <img className="w-11 h-11 relative rounded-full" src={default_profile} />
+              )}
               <div className="flex justify-start items-center gap-1.5">
                 <div className="w-[430px] break-all text-[0.850rem] font-suitM">{notice.noticeContent}</div>
                 <div className="w-24 text-right text-primary-4 text-xs font-suitL leading-none flex">{notice.noticeDate}</div>

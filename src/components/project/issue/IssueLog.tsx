@@ -10,7 +10,6 @@ import { useParams } from "react-router-dom";
 import IssueStatusBadge from "./IssueStatusBadge";
 import default_profile_img from "@images/common/default_profile.png";
 
-
 export default function IssueLog() {
   const [itemsPerPage, setItemsPerPage] = useState(3);
   const [currentPage, setCurrentPage] = useState(1);
@@ -30,11 +29,9 @@ export default function IssueLog() {
 
   const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
   useEffect(() => {
-    // async() => {
     instanceAuth
       .get(`/issues/projects/list/${pj.projectId}`)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           setBoardissues(response.data.result);
           setTotalPage(Math.ceil(boardissues.length / itemsPerPage));
@@ -42,10 +39,7 @@ export default function IssueLog() {
           setBoardissues([]);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
-    // };
+      .catch((error) => {});
   }, []);
 
   return (
@@ -81,9 +75,15 @@ export default function IssueLog() {
                   <th scope="row" className="px-6 py-4 font-suitM text-gray-900 whitespace-nowrap dark:text-white">
                     {item.issueTitle}
                   </th>
-                  <td className="px-6 py-4"><IssueStatusBadge issueStatus={item.issueStatus}/></td>
+                  <td className="px-6 py-4">
+                    <IssueStatusBadge issueStatus={item.issueStatus} />
+                  </td>
                   <td className="px-6 py-4 flex justify-center items-center ">
-                    <img className="w-6 h-6 rounded-full mr-[10px] object-cover select-none pointer-events-none" src={(item.profileImage == "" || item.profileImage == null) ? default_profile_img : item.profileImage} alt="Profile" />
+                    <img
+                      className="w-6 h-6 rounded-full mr-[10px] object-cover select-none pointer-events-none"
+                      src={item.profileImage == "" || item.profileImage == null ? default_profile_img : item.profileImage}
+                      alt="Profile"
+                    />
                     {item.nickname}
                   </td>
                 </tr>

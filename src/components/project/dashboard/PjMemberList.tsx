@@ -29,16 +29,13 @@ export default function PjMemberList() {
     instanceAuth
       .get(`/belongs/list/${pj.projectId}`)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code === 200) {
           setMemberList(response.data.result);
         } else if (response.data.code === 707) {
           setMemberList([]);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
   useEffect(() => {
     patchMemberList();

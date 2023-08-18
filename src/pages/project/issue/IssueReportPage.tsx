@@ -54,7 +54,6 @@ export default function IssueReportPage() {
     instanceAuth
       .get(`/issues/reports/${issueId}`)
       .then((response) => {
-        console.log(response.data.result);
         if (response.data.code == 200) {
           setIssueTitle(response.data.result.issueTitle as string);
           setIssueContent(response.data.result.issueContent as string);
@@ -65,13 +64,9 @@ export default function IssueReportPage() {
           setEditorData(response.data.result.reportContent);
           setCommentList(response.data.result.commentList as IssueComment[]);
         } else {
-          console.log("response after error");
-          console.log(response.data);
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const issueCommentRequest = async () => {
@@ -86,12 +81,9 @@ export default function IssueReportPage() {
           setCommentInputText("");
           issueReportRequest(); // fetch
         } else {
-          console.log("response after error");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const viewer = new Viewer({

@@ -4,13 +4,13 @@ import { useRecoilState } from "recoil";
 import { navbarNoticeDd } from "@src/state/modalState";
 import { NoticeMessage } from "@typess/Notice";
 import { instanceAuth } from "@src/types/AxiosInterface";
-import default_profile from "@assets/images/common/default_profile.png"
+import default_profile from "@assets/images/common/default_profile.png";
 
 function Notice() {
   const [activeButton, setActiveButton] = useState<string>("전체");
   const [noticeDropdown, setNoticeDropdown] = useRecoilState(navbarNoticeDd);
   const [notices, setNotices] = useState<NoticeMessage[]>([]);
-  let uri : string;
+  let uri: string;
 
   const handleClick = (text: string) => {
     setActiveButton(text);
@@ -23,27 +23,19 @@ function Notice() {
     instanceAuth
       .get(uri)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
-          setNotices(response.data.result)
-        }
-        else if (response.data.code == 1300) {
-          console.log("유저 아이디 값을 확인해주세요.");
+          setNotices(response.data.result);
+        } else if (response.data.code == 1300) {
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
-    if (activeButton == "전체")
-      uri = "/notices/0";
-    else if (activeButton == "이슈")
-      uri = "/notices/issues/0"
-    else
-      uri = "/notices/projects/0"
-    
+    if (activeButton == "전체") uri = "/notices/0";
+    else if (activeButton == "이슈") uri = "/notices/issues/0";
+    else uri = "/notices/projects/0";
+
     getNoticeRequest();
   }, [activeButton]);
 

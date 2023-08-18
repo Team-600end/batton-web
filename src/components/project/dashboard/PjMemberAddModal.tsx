@@ -21,7 +21,7 @@ export default function PjMemberAddModal({ projectId, onClose }) {
   const emailRegex = /\S+@\S+\.\S+/;
   //드롭다운
   const [dropdownOpen, setDropdownOpen] = useState(false);
-  
+
   const [isInviteSuccess, setIsInviteSuccess] = useState(false);
 
   const onGradeChangeHandler = (grade: UserGrade) => {
@@ -37,16 +37,13 @@ export default function PjMemberAddModal({ projectId, onClose }) {
       instanceAuth
         .get(`/belongs/list/${projectId}`)
         .then((response) => {
-          console.log(response.data);
           if (response.data.code === 200) {
             setCurPjMemList(response.data.result);
           } else if (response.data.code === 707) {
             setCurPjMemList([]);
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     })();
   }, []);
 
@@ -91,8 +88,6 @@ export default function PjMemberAddModal({ projectId, onClose }) {
     instanceAuth
       .get(`/members/list/${findByEmail}`)
       .then((response) => {
-        console.log(response.data);
-
         if (response.data.code === 200) {
           const memberInfo = { ...(response.data.result as CpMember), grade: grade };
           setPjMemList((pjMemList) => [...pjMemList, memberInfo]);
@@ -107,9 +102,7 @@ export default function PjMemberAddModal({ projectId, onClose }) {
           alert("정상적인 접근이 아닙니다.");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const addMemberRequest = () => {
@@ -124,7 +117,7 @@ export default function PjMemberAddModal({ projectId, onClose }) {
   };
 
   // /belongs/{projectId}
-  
+
   // 팀원 삭제
   const handleRemoveMember = (memberToRemove: CpMember) => {
     const updatedList = pjMemList.filter((member) => member.memberId !== memberToRemove.memberId);
@@ -328,12 +321,7 @@ export default function PjMemberAddModal({ projectId, onClose }) {
         </div>
       </div>
       {isInviteSuccess && (
-        <CommonModal
-          title="안내메세지"
-          description="프로젝트가 정상적으로 생성되었습니다."
-          btnTitle="이동하기"
-          closeModal={() => setIsInviteSuccess(false)}
-        />
+        <CommonModal title="안내메세지" description="프로젝트가 정상적으로 생성되었습니다." btnTitle="이동하기" closeModal={() => setIsInviteSuccess(false)} />
       )}
     </div>
   );

@@ -42,7 +42,7 @@ export default function IssueManagePage() {
   const [memberDropdownValue, setMemberDropdownValue] = useState("멤버 선택");
   const dropdownRef = useRef(null); //이외의 영역 클릭 시 드롭다운 버튼 숨기기
   const [memberList, setMemberList] = useState<PjMember[]>([]);
-  const [belongId, setBelongId] = useState(0); //TODO: 담당자 id
+  const [belongId, setBelongId] = useState(0);
 
   // Project Recoil
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
@@ -62,8 +62,6 @@ export default function IssueManagePage() {
     instanceAuth
       .get(`/issues/${issueId}`)
       .then((response) => {
-        console.log(response.data);
-        console.log(response.data.result);
         if (response.data.code == 200) {
           setIssueTitle(response.data.result.issueTitle as string);
           setIssueKey(response.data.result.issueKey as number);
@@ -76,12 +74,9 @@ export default function IssueManagePage() {
           setIssueStatus(response.data.result.issueStatus as IssueStatus);
           setEditorData(response.data.result.reportContent as string);
         } else {
-          console.log("response after error");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   useEffect(() => {
@@ -92,34 +87,24 @@ export default function IssueManagePage() {
     instanceAuth
       .delete(`/issues/${issueId}`)
       .then((response) => {
-        console.log(response.data);
-        console.log(response.data.result);
         if (response.data.code == 200) {
           navigate(`/project/${projectKey}/issueboard`);
         } else {
-          console.log("response after error");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const issueReportPatchRequest = async () => {
     instanceAuth
       .patch(`/reports/${issueId}`, editorData)
       .then((response) => {
-        console.log(response.data);
-        console.log(response.data.result);
         if (response.data.code == 200) {
           setIsReportModalOpen(true);
         } else {
-          console.log("response after error");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const issueReportFetchRequest = async () => {
@@ -130,12 +115,9 @@ export default function IssueManagePage() {
           editorRef.current?.getInstance().setHTML(response.data.result.reportContent as string);
           setEditorData(editorRef.current.getInstance().getHTML());
         } else {
-          console.log("response after error");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const issueInfoEditFetch = async () => {
@@ -150,12 +132,9 @@ export default function IssueManagePage() {
           setNickname(response.data.result.nickname);
           setProfileImage(response.data.result.profileImage);
         } else {
-          console.log("response after error");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const handleMemberDropdown = () => {
@@ -164,16 +143,13 @@ export default function IssueManagePage() {
       instanceAuth
         .get(`/belongs/list/${pj.projectId}`)
         .then((response) => {
-          console.log(response.data);
           if (response.data.code === 200) {
             setMemberList(response.data.result);
           } else if (response.data.code === 707) {
             setMemberList([]);
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     }
   };
 
@@ -351,7 +327,7 @@ export default function IssueManagePage() {
                 hooks={{
                   addImageBlobHook: async (blob, callback) => {
                     const imgData = new FormData();
-                    imgData.append('profileImg', blob);
+                    imgData.append("profileImg", blob);
                     instanceImageAuth
                       .post(`/releases/images/upload`, imgData)
                       .then((response) => {
@@ -361,8 +337,8 @@ export default function IssueManagePage() {
                       })
                       .catch(() => {
                         callback("");
-                    })
-                  }
+                      });
+                  },
                 }}
               />
             </div>
@@ -388,12 +364,7 @@ export default function IssueManagePage() {
         </div>
       )}
       {isReportModalOpen && (
-        <CommonModal
-          title="안내메세지"
-          description="이슈레포트가 정상적으로 수정되었습니다."
-          btnTitle="확인"
-          closeModal={() => setIsReportModalOpen(false)}
-        />
+        <CommonModal title="안내메세지" description="이슈레포트가 정상적으로 수정되었습니다." btnTitle="확인" closeModal={() => setIsReportModalOpen(false)} />
       )}
     </div>
   );

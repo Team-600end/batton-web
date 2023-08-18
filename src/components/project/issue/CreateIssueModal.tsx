@@ -59,23 +59,18 @@ export default function CreateIssueModal({ visible, onClose }) {
 
   const handleMemberDropdown = () => {
     setIsMemberDropdownOpen(!isMemberDropdownOpen);
-    // (async () => {
     if (!isMemberDropdownOpen) {
       instanceAuth
         .get(`/belongs/list/${pj.projectId}`)
         .then((response) => {
-          console.log(response.data);
           if (response.data.code === 200) {
             setMemberList(response.data.result);
           } else if (response.data.code === 707) {
             setMemberList([]);
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
     }
-    // })();
   };
 
   const handleCreateIssue = async () => {
@@ -105,31 +100,14 @@ export default function CreateIssueModal({ visible, onClose }) {
     instanceAuth
       .post(`/issues`, createIssueData)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code === 200) {
           handleOnClose();
         } else {
           alert("이슈 생성에 실패했습니다.");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
-
-  // 드롭다운 외부 클릭 시 막기
-  // useEffect(() => {
-  //   const handleClickOutside = (e: MouseEvent) => {
-  //     if (dropdownRef.current && !dropdownRef.current.contains(e.target)) {
-  //       setIsMemberDropdownOpen(false);
-  //     }
-  //   };
-
-  //   document.addEventListener("mousedown", handleClickOutside);
-  //   return () => {
-  //     document.removeEventListener("mousedown", handleClickOutside);
-  //   };
-  // }, []);
 
   return (
     <div className="m-0">

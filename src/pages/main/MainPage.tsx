@@ -114,20 +114,16 @@ export default function MainPage() {
       instanceAuth
         .get(`/projects/joined-list`)
         .then((response) => {
-          console.log(response.data);
           if (response.data.code == 200) {
             setPjcards(response.data.result);
           } else if (response.data.code == 707) {
             setPjcards([]);
           }
         })
-        .catch((error) => {
-          console.log(error);
-        });
+        .catch((error) => {});
 
       //메인페이지 접속 시, 내 이슈들을 가져옴
       instanceAuth.get(`/issues/list/`, { params: { status: dropdownValue, keyword: searchValue } }).then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           setMyissues(response.data.result);
         } else if (response.data.code == 704) {
@@ -141,7 +137,6 @@ export default function MainPage() {
   useEffect(() => {
     (async () => {
       instanceAuth.get(`issues/list`, { params: { status: dropdownValue, keyword: searchValue } }).then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           setMyissues(response.data.result);
         } else if (response.data.code == 704) {

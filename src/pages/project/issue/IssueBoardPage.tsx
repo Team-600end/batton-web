@@ -78,12 +78,9 @@ export default function IssueBoardPage() {
           setReviewIssues((response.data.result.reviewList as Issue[]) ?? []);
           setDoneIssues((response.data.result.doneList as Issue[]) ?? []);
         } else {
-          console.log("response after error");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
   const handleDragEnd = async ({ source, destination }: DropResult) => {
     // 유효하지 않는 곳으로 drag시 이벤트를 종료한다.
@@ -125,16 +122,12 @@ export default function IssueBoardPage() {
 
     try {
       const response = await instanceAuth.patch(`/issues/board/status/${issueId}`, modifyIssueBoardBody);
-      // console.log("issudId: " + issueId); //TODO: 해결 후 삭제
-      // console.log(modifyIssueBoardBody); //TODO: 해결 후 삭제
-
       if (response.data.code === 200) {
         if (destination.droppableId == "DONE" && source.droppableId !== destination.droppableId) {
           setIssueStatusChanged("승인");
           setIssuCommentModal(true);
           setIssueId(issueId);
         }
-        // if ((source.droppableId == "REVIEW" && destination.droppableId == "TODO") || destination.droppableId == "PROGRESS") {
 
         if ((source.droppableId == "REVIEW" || source.droppableId == "DONE") && (destination.droppableId == "TODO" || destination.droppableId == "PROGRESS")) {
           setIssueStatusChanged("반려");
@@ -143,20 +136,10 @@ export default function IssueBoardPage() {
         }
         await patchIssueBoard();
       } else if (response.data.code === 707) {
-        //TODO: 에러 변경. 이슈 변경 권한이 없을 떄 발생하는 에러
         setCannotMoveIssueModal(true);
-        // <CommonModal
-        //   title="이슈 변경 권한이 없습니다."
-        //   description="이슈는 프로젝트 리더만 변경할 수 있습니다."
-        //   btnTitle="확인"
-        //   closeModal={() => setCannotMoveIssueModal(false)}
-        // />;
       } else {
-        console.log("잘못된 접근입니다.");
       }
-    } catch (error) {
-      console.log(error);
-    }
+    } catch (error) {}
   };
 
   return (
@@ -166,13 +149,6 @@ export default function IssueBoardPage() {
       <div>
         <div className="bg-gray-100 rounded-t-lg border border-gray-300 w-[90vw] m-auto mt-[2vh] flex flex-col shadow-inner h-screen">
           <div className="flex justify-end mr-[2.5vw] mt-[2vw] space-x-2">
-            {/** 히스토리 임시 보류 */}
-            {/* <button
-              onClick={() => navigate(`/project/${projectKey}/issue-history`)}
-              className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] px-[1vw] items-center font-suitM text-[1vw] hover:bg-primary-5"
-            >
-              히스토리
-            </button> */}
             <button
               onClick={() => setCreateIssueModal(true)}
               className="rounded-md bg-white text-primary-4 p-4 border border-primary-4 flex py-[0.8vh] mx-[0.5vw] items-center hover:bg-primary-5 font-suitM text-[1vw]"

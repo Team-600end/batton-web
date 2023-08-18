@@ -1,11 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
-import {
-  DoneIssue,
-  EnrolledIssue,
-  IssueType,
-  Manager,
-  UsedIssue,
-} from "@typess/Issue";
+import { DoneIssue, EnrolledIssue, IssueType, Manager, UsedIssue } from "@typess/Issue";
 import RnoteIssueCard from "@components/project/releases/RnoteIssueCard";
 import refresh_img from "@assets/images/icons/refresh.svg";
 import "@toast-ui/editor/dist/toastui-editor.css";
@@ -13,12 +7,7 @@ import colorSyntax from "@toast-ui/editor-plugin-color-syntax";
 import "@toast-ui/editor-plugin-color-syntax/dist/toastui-editor-plugin-color-syntax.css";
 import { Editor } from "@toast-ui/react-editor";
 import "@toast-ui/editor/dist/i18n/ko-kr";
-import {
-  DragDropContext,
-  Draggable,
-  Droppable,
-  DropResult,
-} from "react-beautiful-dnd";
+import { DragDropContext, Draggable, Droppable, DropResult } from "react-beautiful-dnd";
 import Modal, { CommonModalInterface } from "@src/components/CommonModal";
 import RnoteUsedIssueCard from "@components/project/releases/RnoteUsedIssueCard";
 import MilestoneNavbar from "@src/components/nav/MilestoneNavbar";
@@ -35,9 +24,7 @@ export default function RnoteEditPage() {
 
   // Project Recoil
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
-  const pj = projectNav.find(
-    (element: ProjectNav) => element.projectKey.toString() == projectKey
-  );
+  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
 
   const [editorData, setEditorData] = useState("");
   const [doneIssueList, setDoneIssueList] = useState<DoneIssue[]>([]);
@@ -82,42 +69,27 @@ export default function RnoteEditPage() {
     instanceAuth
       .get(`/releases/editor/${releaseId}`)
       .then((response) => {
-        console.log("---------");
-        console.log(response.data);
         if (response.data.code == 200) {
           setVersionMajor(response.data.result.versionMajor as number);
           setVersionMinor(response.data.result.versionMinor as number);
           setVersionPatch(response.data.result.versionPatch as number);
           setEditorData(response.data.result.releaseContent as string);
           setUsedIssueList(response.data.result.issueList as UsedIssue[]);
-          const usedIssueListRepl = response.data.result
-            .issueList as UsedIssue[];
+          const usedIssueListRepl = response.data.result.issueList as UsedIssue[];
           instanceAuth
             .get(`/issues/${pj.projectId}/done-list`)
             .then((response) => {
               if (response.data.code == 200) {
-                const usedIssueIds = usedIssueListRepl.map(
-                  (issue) => issue.issueId
-                );
-                setDoneIssueList(
-                  (response.data.result as DoneIssue[]).filter(
-                    (issue) => !usedIssueIds.includes(issue.issueId)
-                  )
-                );
+                const usedIssueIds = usedIssueListRepl.map((issue) => issue.issueId);
+                setDoneIssueList((response.data.result as DoneIssue[]).filter((issue) => !usedIssueIds.includes(issue.issueId)));
               } else {
-                console.log("response after error");
               }
             })
-            .catch((error) => {
-              console.log(error);
-            });
+            .catch((error) => {});
         } else {
-          console.log("response error");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   const rnotePublishRequest = async () => {
@@ -133,7 +105,6 @@ export default function RnoteEditPage() {
     instanceAuth
       .patch(`/releases/${releaseId}`, rnotePatchData)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           instanceAuth
             .patch(`/releases/${releaseId}/publish`)
@@ -149,18 +120,15 @@ export default function RnoteEditPage() {
                   },
                 });
               } else {
-                console.log("response error");
               }
             })
-            .catch((error) => {
-              console.log(error);
-            })
+            .catch((error) => {})
             .finally(() => {
               setIsModalOpen(true);
             });
         }
       })
-      .catch(() => console.log("error"));
+      .catch(() => {});
   };
 
   /** 사용 이슈 삭제 요청 */
@@ -172,26 +140,14 @@ export default function RnoteEditPage() {
       .getInstance()
       .setHTML(
         [
-          editorRef.current
-            .getInstance()
-            .getHTML()
-            .slice(0, targetStartPosition),
-          editorRef.current
-            .getInstance()
-            .getHTML()
-            .slice(
-              targetEndPosition,
-              editorRef.current.getInstance().getHTML().length
-            ),
+          editorRef.current.getInstance().getHTML().slice(0, targetStartPosition),
+          editorRef.current.getInstance().getHTML().slice(targetEndPosition, editorRef.current.getInstance().getHTML().length),
         ].join("")
       );
     setEditorData(editorRef.current.getInstance().getHTML());
     for (let num = targetIndex + 1; num < usedIssueList.length; num++) {
-      // console.log("=====이슈 삭제 이벤트 발생=====");
-      // console.log(usedIssueList[num].startPosition + " / " + usedIssueList[num].endPosition);
       usedIssueList[num].startPosition -= targetSize;
       usedIssueList[num].endPosition -= targetSize;
-      // console.log(usedIssueList[num].startPosition + " / " + usedIssueList[num].endPosition);
     }
     const targetItem = usedIssueList[targetIndex];
     usedIssueList!.splice(targetIndex, 1);
@@ -221,10 +177,7 @@ export default function RnoteEditPage() {
       } else if ((destination.droppableId = "Editor")) {
         // let tmpPosition = editorData.length;
 
-        await getIssueReportRequest(
-          doneIssueList[sourceIndex].issueId,
-          sourceIndex
-        );
+        await getIssueReportRequest(doneIssueList[sourceIndex].issueId, sourceIndex);
       } else return; // 이외의 목적지인 경우, 리턴
 
       // 시작지가 Used인 경우
@@ -237,92 +190,38 @@ export default function RnoteEditPage() {
         let sourceEndPositon = usedIssueList[sourceIndex].endPosition;
         let targetStartPosition = usedIssueList[destinationIndex].startPosition;
         let targetEndPosition = usedIssueList[destinationIndex].endPosition;
-        let sourceSize =
-          usedIssueList[sourceIndex].endPosition -
-          usedIssueList[sourceIndex].startPosition;
-        let sourceContent = editorRef.current
-          .getInstance()
-          .getHTML()
-          .slice(sourceStartPosition, sourceEndPositon);
+        let sourceSize = usedIssueList[sourceIndex].endPosition - usedIssueList[sourceIndex].startPosition;
+        let sourceContent = editorRef.current.getInstance().getHTML().slice(sourceStartPosition, sourceEndPositon);
 
         if (sourceIndex > destinationIndex) {
           // 상위로 옮길 경우
-
-          // console.log("=======상위전환=======")
-          // console.log("원본 시작 : " + sourceStartPosition + " / 원본 끝 : " + sourceEndPositon);
-          // console.log("@" + sourceContent + "@");
-          // console.log("목적지 시작 : " + targetStartPosition + " / 목적지 끝 : " + targetEndPosition);
-
-          // console.log("==세부사항 출력==");
-          // console.log("목적지 앞 : " + "@" + editorRef.current.getInstance().getHTML().slice(0,targetStartPosition) + "@");
-          // console.log("소스 : " + "@" + sourceContent + "@");
-          // console.log("목적지 앞 ~ 소스 앞 : " + "@" + editorRef.current.getInstance().getHTML().slice(targetStartPosition,sourceStartPosition) + "@");
-          // console.log("소스 뒤 : " + "@" + editorRef.current.getInstance().getHTML().slice(sourceEndPositon,editorRef.current.getInstance().getHTML().length) + "@");
-
           editorRef.current
             .getInstance()
             .setHTML(
               [
-                editorRef.current
-                  .getInstance()
-                  .getHTML()
-                  .slice(0, targetStartPosition),
+                editorRef.current.getInstance().getHTML().slice(0, targetStartPosition),
                 sourceContent,
-                editorRef.current
-                  .getInstance()
-                  .getHTML()
-                  .slice(targetStartPosition, sourceStartPosition),
-                editorRef.current
-                  .getInstance()
-                  .getHTML()
-                  .slice(
-                    sourceEndPositon,
-                    editorRef.current.getInstance().getHTML().length
-                  ),
+                editorRef.current.getInstance().getHTML().slice(targetStartPosition, sourceStartPosition),
+                editorRef.current.getInstance().getHTML().slice(sourceEndPositon, editorRef.current.getInstance().getHTML().length),
               ].join("")
             );
           setEditorData(editorRef.current.getInstance().getHTML());
           usedIssueList[sourceIndex].startPosition = targetStartPosition;
-          usedIssueList[sourceIndex].endPosition =
-            targetStartPosition + sourceSize;
+          usedIssueList[sourceIndex].endPosition = targetStartPosition + sourceSize;
           for (let num = destinationIndex; num < sourceIndex; num++) {
             usedIssueList[num].startPosition += sourceSize;
             usedIssueList[num].endPosition += sourceSize;
           }
         } else {
           // 하위로 옮길 경우
-
-          // console.log("=======하위전환=======")
-          // console.log("원본 시작 : " + sourceStartPosition + "/ 원본 끝 : " + sourceEndPositon);
-          // console.log("@" + sourceContent + "@");
-          // console.log("목적지 시작 : " + targetStartPosition + "/ 목적지 끝 : " + targetEndPosition);
-
-          // console.log("==세부사항 출력==");
-          // console.log("소스 앞 : " + "@" + editorRef.current.getInstance().getHTML().slice(0,sourceStartPosition) + "@");
-          // console.log("소스 뒤 ~ 목적지 뒤 : " + "@" + editorRef.current.getInstance().getHTML().slice(sourceEndPositon,targetEndPosition) + "@");
-          // console.log("소스 컨텐츠 : " + "@" + sourceContent + "@");
-          // console.log("목적지 뒤 : " + "@" + editorRef.current.getInstance().getHTML().slice(targetEndPosition,editorRef.current.getInstance().getHTML().length) + "@");
-
           editorRef.current
             .getInstance()
             .setHTML(
               [
-                editorRef.current
-                  .getInstance()
-                  .getHTML()
-                  .slice(0, sourceStartPosition),
-                editorRef.current
-                  .getInstance()
-                  .getHTML()
-                  .slice(sourceEndPositon, targetEndPosition),
+                editorRef.current.getInstance().getHTML().slice(0, sourceStartPosition),
+                editorRef.current.getInstance().getHTML().slice(sourceEndPositon, targetEndPosition),
                 sourceContent,
-                editorRef.current
-                  .getInstance()
-                  .getHTML()
-                  .slice(
-                    targetEndPosition,
-                    editorRef.current.getInstance().getHTML().length
-                  ),
+                editorRef.current.getInstance().getHTML().slice(targetEndPosition, editorRef.current.getInstance().getHTML().length),
               ].join("")
             );
           setEditorData(editorRef.current.getInstance().getHTML());
@@ -330,10 +229,8 @@ export default function RnoteEditPage() {
             usedIssueList[num].startPosition -= sourceSize;
             usedIssueList[num].endPosition -= sourceSize;
           }
-          usedIssueList[sourceIndex].startPosition =
-            usedIssueList[destinationIndex].endPosition;
-          usedIssueList[sourceIndex].endPosition =
-            usedIssueList[sourceIndex].startPosition + sourceSize;
+          usedIssueList[sourceIndex].startPosition = usedIssueList[destinationIndex].endPosition;
+          usedIssueList[sourceIndex].endPosition = usedIssueList[sourceIndex].startPosition + sourceSize;
         }
 
         const sourceItem = usedIssueList![sourceIndex];
@@ -344,10 +241,7 @@ export default function RnoteEditPage() {
   };
 
   /** 완료 이슈 내용 삽입 요청 */
-  const getIssueReportRequest = async (
-    issueId: number,
-    sourceIndex: number
-  ): Promise<any> => {
+  const getIssueReportRequest = async (issueId: number, sourceIndex: number): Promise<any> => {
     instanceAuth
       .get(`/reports/releases/${issueId}`)
       .then((response) => {
@@ -355,37 +249,19 @@ export default function RnoteEditPage() {
           let tmpPosition = editorData.length;
           editorRef.current
             ?.getInstance()
-            .setHTML(
-              editorData +
-                `<h2>${response.data.result.issueTitle}</h2><p>${
-                  response.data.result.reportContent ?? ""
-                }</p><br>`
-            );
+            .setHTML(editorData + `<h2>${response.data.result.issueTitle}</h2><p>${response.data.result.reportContent ?? ""}</p><br>`);
           setEditorData(editorRef.current.getInstance().getHTML());
 
-          usedIssueList!.splice(
-            usedIssueList.length,
-            0,
-            doneIssueList[sourceIndex]
-          );
+          usedIssueList!.splice(usedIssueList.length, 0, doneIssueList[sourceIndex]);
 
           usedIssueList[usedIssueList.length - 1].startPosition = tmpPosition;
-          usedIssueList[usedIssueList.length - 1].endPosition =
-            editorRef.current.getInstance().getHTML().length;
+          usedIssueList[usedIssueList.length - 1].endPosition = editorRef.current.getInstance().getHTML().length;
 
-          doneIssueList!.splice(sourceIndex, 1); // 원래 위치에서 제거
-          // setEditorDate(editorRef.current.getInstance().getHTML());
-          //   return {
-          //     issueTitle: response.data.result.issueTitle,
-          //     reportContent: response.data.result.reportContent
-          // };
+          doneIssueList!.splice(sourceIndex, 1);
         } else {
-          console.log("response after error");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   /** 릴리즈 레포트 수정 요청 */
@@ -402,7 +278,6 @@ export default function RnoteEditPage() {
     instanceAuth
       .patch(`/releases/${releaseId}`, rnotePatchData)
       .then((response) => {
-        console.log(response.data);
         if (response.data.code == 200) {
           setModalData({
             title: "안내 메세지",
@@ -411,7 +286,6 @@ export default function RnoteEditPage() {
             closeModal: () => setIsModalOpen(false),
           });
         } else {
-          console.log("response error");
         }
       })
       .catch(() => {
@@ -432,38 +306,19 @@ export default function RnoteEditPage() {
       <MilestoneNavbar />
       <div className="flex flex-row w-screen mt-[1vh]">
         {isModalOpen && (
-          <Modal
-            title={modalData.title}
-            description={modalData.description}
-            btnTitle={modalData.btnTitle}
-            closeModal={() => modalData.closeModal()}
-          />
+          <Modal title={modalData.title} description={modalData.description} btnTitle={modalData.btnTitle} closeModal={() => modalData.closeModal()} />
         )}
         <div className="flex flex-row rounded-t-lg border border-gray-300 bg-gray-100 w-[95vw] mx-auto mt-[2vh] shadow-inner h-screen px-2 py-5">
           <DragDropContext onDragEnd={handleDragEnd}>
             <div className="border rounded-t-lg ml-[2vw] mr-[2vw] bg-white w-[19vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.1)] mt-[2vh]">
-              <div className="border-b font-suitSB border-gray-400 p-[1vw] flex justify-between drop-shadow-lg">
-                완료 이슈 리스트
-              </div>
+              <div className="border-b font-suitSB border-gray-400 p-[1vw] flex justify-between drop-shadow-lg">완료 이슈 리스트</div>
               <Droppable droppableId="DONE" key="DONE">
                 {(provided) => (
-                  <div
-                    className="pt-[2vh]"
-                    ref={provided.innerRef}
-                    {...provided.droppableProps}
-                  >
+                  <div className="pt-[2vh]" ref={provided.innerRef} {...provided.droppableProps}>
                     {doneIssueList.map((issue, index) => (
-                      <Draggable
-                        draggableId={issue.issueId.toString()}
-                        key={issue.issueId.toString()}
-                        index={index}
-                      >
+                      <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
                         {(provided) => (
-                          <div
-                            ref={provided.innerRef}
-                            {...provided.draggableProps}
-                            {...provided.dragHandleProps}
-                          >
+                          <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
                             <RnoteIssueCard key={issue.issueId} issue={issue} />
                           </div>
                         )}
@@ -517,9 +372,7 @@ export default function RnoteEditPage() {
                     <div className="flex ml-auto items-center">
                       <button
                         type="button"
-                        onClick={() =>
-                          navigate(`/project/${projectKey}/releasesnote`)
-                        }
+                        onClick={() => navigate(`/project/${projectKey}/releasesnote`)}
                         className="focus:outline-none text-gray-900 bg-white hover:bg-grey-300 focus:ring-0 focus:border-none font-suitM text-[0.8vw] py-2 w-[5.3vw] ml-[1vw] h-[3.7vh] border-r-2 border-gray-200"
                       >
                         나가기
@@ -572,7 +425,7 @@ export default function RnoteEditPage() {
                             hooks={{
                               addImageBlobHook: async (blob, callback) => {
                                 const imgData = new FormData();
-                                imgData.append('imgData', blob);
+                                imgData.append("imgData", blob);
                                 instanceImageAuth
                                   .post(`/releases/images/upload`, imgData)
                                   .then((response) => {
@@ -582,8 +435,8 @@ export default function RnoteEditPage() {
                                   })
                                   .catch(() => {
                                     callback("");
-                                })
-                              }
+                                  });
+                              },
                             }}
                           />
                         </div>
@@ -594,35 +447,16 @@ export default function RnoteEditPage() {
                   <div className="border rounded-t-lg ml-[1.5vw] mr-[1vw] bg-white w-[18vw] shadow-[2px_2px_10px_2px_rgba(0,0,0,0.1)] mt-[2vh]">
                     <div className="border-b font-suitSB border-gray-400 p-[1vw] flex justify-between drop-shadow-lg">
                       등록 이슈 리스트
-                      <p className="font-suitM text-lg text-grey-3 mr-[1vw]">
-                        {usedIssueList.length}
-                      </p>
+                      <p className="font-suitM text-lg text-grey-3 mr-[1vw]">{usedIssueList.length}</p>
                     </div>
                     <Droppable droppableId="Used" key="Used">
                       {(provided) => (
-                        <div
-                          ref={provided.innerRef}
-                          {...provided.droppableProps}
-                          className="flex flex-col mb-[1vh] pt-[1vw]"
-                        >
+                        <div ref={provided.innerRef} {...provided.droppableProps} className="flex flex-col mb-[1vh] pt-[1vw]">
                           {usedIssueList.map((issue, index) => (
-                            <Draggable
-                              draggableId={issue.issueId.toString()}
-                              key={issue.issueId.toString()}
-                              index={index}
-                            >
+                            <Draggable draggableId={issue.issueId.toString()} key={issue.issueId.toString()} index={index}>
                               {(provided) => (
-                                <div
-                                  ref={provided.innerRef}
-                                  {...provided.draggableProps}
-                                  {...provided.dragHandleProps}
-                                >
-                                  <RnoteUsedIssueCard
-                                    key={index}
-                                    issue={issue}
-                                    index={index}
-                                    onDelClick={handleDelete}
-                                  />
+                                <div ref={provided.innerRef} {...provided.draggableProps} {...provided.dragHandleProps}>
+                                  <RnoteUsedIssueCard key={index} issue={issue} index={index} onDelClick={handleDelete} />
                                 </div>
                               )}
                             </Draggable>

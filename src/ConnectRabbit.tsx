@@ -24,17 +24,12 @@ export function ConnectRabbit(props: MemberIdProps) {
     const stompClient = new Client({
       brokerURL: brokerURL,
       connectHeaders: headers,
-      debug: (msg) => {
-        //console.log(msg);
-      },
+      debug: (msg) => {},
     });
 
     stompClient.onConnect = (frame) => {
-      console.log("Connected");
       const subscription = stompClient.subscribe(queueName, (message: Message) => {
         const body = JSON.parse(message.body) as NoticeMessage;
-
-        console.log("Received NoticeMessage:", body);
 
         setMessage(body);
 

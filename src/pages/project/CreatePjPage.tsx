@@ -136,8 +136,6 @@ export default function CreatePjPage() {
     instanceAuth
       .get(`/members/list/${findByEmail}`)
       .then((response) => {
-        console.log(response.data);
-
         if (response.data.code === 200) {
           const memberInfo = { ...(response.data.result as CpMember), grade: grade };
           setPjMemList((pjMemList) => [...pjMemList, memberInfo]);
@@ -152,9 +150,7 @@ export default function CreatePjPage() {
           alert("정상적인 접근이 아닙니다.");
         }
       })
-      .catch((error) => {
-        console.log(error);
-      });
+      .catch((error) => {});
   };
 
   // 프로젝트 키 중복 체크 요청
@@ -167,7 +163,6 @@ export default function CreatePjPage() {
     await instanceAuth
       .get(`/projects/project-key/${pjKey}`)
       .then((response) => {
-        console.log(response.data);
         if (response.data.isSuccess == true) {
           setKeyChecked(1);
         } else {
@@ -175,7 +170,6 @@ export default function CreatePjPage() {
         }
       })
       .catch((error) => {
-        console.log(error);
         alert("정상적인 접근이 아닙니다.");
       });
   };
@@ -239,19 +233,15 @@ export default function CreatePjPage() {
           await instanceAuth
             .get(`/projects/navbar`)
             .then((response) => {
-              console.log(response.data);
               if (response.data.code == 200) {
                 setProjects(response.data.result as ProjectNav[]);
                 setIsCreateSuccess(true);
               } else if (response.data.code == 707) {
                 setProjects([]);
               } else {
-                console.log("잘못된 접근입니다.");
               }
             })
-            .catch((error) => {
-              console.log(error);
-            });
+            .catch((error) => {});
         } else {
           alert("요청 실패");
         }
@@ -484,7 +474,10 @@ export default function CreatePjPage() {
           title="안내메세지"
           description="프로젝트가 정상적으로 생성되었습니다."
           btnTitle="이동하기"
-          closeModal={() => {setIsCreateSuccess(false); navigate(`/project/${pjKey}/dashboard`);}}
+          closeModal={() => {
+            setIsCreateSuccess(false);
+            navigate(`/project/${pjKey}/dashboard`);
+          }}
         />
       )}
     </>
