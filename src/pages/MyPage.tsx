@@ -1,6 +1,10 @@
 import React, { useState } from "react";
 import { useRecoilValue, useRecoilState } from "recoil";
-import { emailState, nicknameState, profileImgState } from "@src/state/userState";
+import {
+  emailState,
+  nicknameState,
+  profileImgState,
+} from "@src/state/userState";
 import { instanceAuth, instanceImageAuth } from "@src/types/AxiosInterface";
 import { useNavigate } from "react-router-dom";
 import default_profile from "@images/common/default_profile.png";
@@ -20,6 +24,7 @@ export default function MyPage() {
   const [viewImg, setViewImg] = useState(userProfileImg);
 
   const [isEditSuccess, setIsEditSuccess] = useState(false);
+  const [alert, setAlert] = useState(false);
 
   const nicknameChange = (event) => {
     setNickname(event.target.value);
@@ -38,28 +43,36 @@ export default function MyPage() {
   };
 
   // 유저 정보 수정 API
-  const modifyMemberRequest = async () => {
-    const formData = new FormData();
-    formData.append("profileImg", profileImg);
-    formData.append("nickname", nickname);
+  // const modifyMemberRequest = async () => {
+  //   const formData = new FormData();
+  //   formData.append('profileImg', profileImg);
+  //   formData.append('nickname', nickname)
 
-    instanceImageAuth
-      .patch(`/members`, formData)
-      .then((response) => {
-        if (response.data.code == 200) {
-          setUserNickname(nickname);
-          setUserProfileImg(response.data.result);
-          setIsEditSuccess(true);
-        } else if (response.data.code == 600) {
-        }
-      })
-      .catch((error) => {});
-  };
+  //   instanceImageAuth
+  //     .patch(`/members`, formData)
+  //     .then((response) => {
+  //       console.log(response.data);
+  //       if (response.data.code == 200) {
+  //         setUserNickname(nickname)
+  //         setUserProfileImg(response.data.result)
+  //         setIsEditSuccess(true);
+  //       }
+  //       else if (response.data.code == 600) {
+  //         console.log("존재하지 않는 유저입니다.");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   return (
     <>
       <div className="relative w-screen h-screen flex flex-col mt-12">
-        <div className="flex flex-row items-center mt-[40px]" style={{ marginLeft: "16.9312vw" }}>
+        <div
+          className="flex flex-row items-center mt-[40px]"
+          style={{ marginLeft: "16.9312vw" }}
+        >
           <div className="w-[10px] h-[27px] bg-primary-5 mr-[10px]"></div>
           <p className="text-[28px] font-suitB text-gray-900">내 정보 수정</p>
         </div>
@@ -69,9 +82,15 @@ export default function MyPage() {
             <p className="text-[16px] font-suitM text-gray-900 mt-[20px]">계정</p>
             <p className="text-[20px] font-suitSB text-gray-900 mt-[4px]">{userEmail}</p>
           </div>
-          <div className="flex flex-col mt-[40px] ml-[64px]" style={{ width: "28.3730vw" }}>
+          <div
+            className="flex flex-col mt-[40px] ml-[64px]"
+            style={{ width: "28.3730vw" }}
+          >
             <div>
-              <label id="nickname" className="block mb-2 text-sm font-suitM text-gray-900">
+              <label
+                id="nickname"
+                className="block mb-2 text-sm font-suitM text-gray-900"
+              >
                 닉네임
               </label>
               <input
@@ -85,7 +104,10 @@ export default function MyPage() {
               />
             </div>
             <div className=" mt-[16px]">
-              <label id="dropzone" className="block mb-2 text-sm font-suitM text-gray-900 dark:text-white">
+              <label
+                id="dropzone"
+                className="block mb-2 text-sm font-suitM text-gray-900 dark:text-white"
+              >
                 프로필 사진 수정
               </label>
               <div className="flex items-center justify-center w-full">
@@ -107,11 +129,19 @@ export default function MyPage() {
                       />
                     </svg>
                     <p className="mb-2 text-sm text-gray-500 dark:text-gray-400">
-                      <span className="font-suitSB"></span>이미지를 클릭하거나 드래그하여 업로드하세요
+                      <span className="font-suitSB"></span>이미지를 클릭하거나
+                      드래그하여 업로드하세요
                     </p>
-                    <p className="text-xs text-gray-500 dark:text-gray-400">SVG, PNG, JPG or GIF (MAX. 800x400px)</p>
+                    <p className="text-xs text-gray-500 dark:text-gray-400">
+                      SVG, PNG, JPG or GIF (MAX. 800x400px)
+                    </p>
                   </div>
-                  <input id="dropzone-file" type="file" className="hidden" onChange={handleFileChange} />
+                  <input
+                    id="dropzone-file"
+                    type="file"
+                    className="hidden"
+                    onChange={handleFileChange}
+                  />
                 </label>
               </div>
             </div>
@@ -127,7 +157,7 @@ export default function MyPage() {
           <button
             type="button"
             className="text-white bg-primary-4 hover:bg-primary-2 focus:ring-4 focus:ring-primary-5 font-suitM rounded-lg text-sm px-9 py-3.5 mr-2 mb-2 focus:outline-none"
-            onClick={modifyMemberRequest}
+            onClick={() => setAlert(true)}
           >
             수정하기
           </button>
@@ -135,6 +165,14 @@ export default function MyPage() {
       </div>
       {isEditSuccess && (
         <CommonModal title="안내메세지" description="사용자 정보가 정상적으로 수정되었습니다." btnTitle="확인" closeModal={() => setIsEditSuccess(false)} />
+      )}
+      {alert && (
+        <CommonModal
+          title="안내메시지"
+          description="해커톤 기간에는 이 기능을 제공하지 않습니다."
+          btnTitle="확인"
+          closeModal={() => setAlert(false)}
+        />
       )}
     </>
   );

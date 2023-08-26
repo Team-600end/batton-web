@@ -44,9 +44,13 @@ export default function IssueManagePage() {
   const [memberList, setMemberList] = useState<PjMember[]>([]);
   const [belongId, setBelongId] = useState(0);
 
+  const [alert, setAlert] = useState(false);
+
   // Project Recoil
   const [projectNav, setProjectNav] = useRecoilState(projectNavs);
-  const pj = projectNav.find((element: ProjectNav) => element.projectKey.toString() == projectKey);
+  const pj = projectNav.find(
+    (element: ProjectNav) => element.projectKey.toString() == projectKey
+  );
 
   const navigate = useNavigate();
 
@@ -112,7 +116,9 @@ export default function IssueManagePage() {
       .get(`/reports/${issueId}`)
       .then((response) => {
         if (response.data.code == 200) {
-          editorRef.current?.getInstance().setHTML(response.data.result.reportContent as string);
+          editorRef.current
+            ?.getInstance()
+            .setHTML(response.data.result.reportContent as string);
           setEditorData(editorRef.current.getInstance().getHTML());
         } else {
         }
@@ -158,8 +164,12 @@ export default function IssueManagePage() {
       <MilestoneNavbar />
       {/* 이슈 정보 */}
       <div className="flex items-center justify-start ml-auto mr-auto mt-[5vh] h-[5vh] w-[90vw]">
-        <p className="font-bold text-[1.6vw] text-gray-900 ml-[2vw]">이슈 정보</p>
-        {issueEditForm && <p className=" text-primary-3 ml-[1vw] text-[1.6vw]">수정중</p>}
+        <p className="font-bold text-[1.6vw] text-gray-900 ml-[2vw]">
+          이슈 정보
+        </p>
+        {issueEditForm && (
+          <p className=" text-primary-3 ml-[1vw] text-[1.6vw]">수정중</p>
+        )}
       </div>
 
       {/* [프로젝트명-이슈키] 이슈타이틀 */}
@@ -206,34 +216,50 @@ export default function IssueManagePage() {
       ) : (
         <div className="space-y-[1.7vh]">
           <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
-            <p className="font-suitB text-[2vw] text-gray-900 pl-[2.5vw]">제목</p>
-            <p className="font-suitM text-[1.7vw] text-gray-900 ml-[3.6vw] my-auto">{issueTitle}</p>
+            <p className="font-suitB text-[2vw] text-gray-900 pl-[2.5vw]">
+              제목
+            </p>
+            <p className="font-suitM text-[1.7vw] text-gray-900 ml-[3.6vw] my-auto">
+              {issueTitle}
+            </p>
           </div>
 
           <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
-            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">설명</p>
-            <p className="font-suitM text-[1.3vw] text-gray-900 ml-[4vw] my-auto">{issueContent}</p>
+            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">
+              설명
+            </p>
+            <p className="font-suitM text-[1.3vw] text-gray-900 ml-[4vw] my-auto">
+              {issueContent}
+            </p>
           </div>
 
           <div className="flex flex-row mx-auto mt-[1vw] w-[80vw] ">
-            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">상태</p>
+            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">
+              상태
+            </p>
             <div className="ml-[4vw] my-auto">
               <IssueStatusBadge issueStatus={issueStatus} />
             </div>
           </div>
 
           <div className="flex flex-row mx-auto mt-[1vw] w-[80vw]">
-            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">태그</p>
+            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[3vw]">
+              태그
+            </p>
             <div className="ml-[4vw] my-auto">
               <IssueBadge issueType={issueTag} />
             </div>
           </div>
 
           <div className="flex flex-row mx-auto mt-[1vw] w-[80vw]">
-            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[1.8vw]">담당자</p>
+            <p className="font-suitM text-[1.5vw] text-gray-900 pl-[1.8vw]">
+              담당자
+            </p>
             <div className="flex flex-row ml-[3.7vw] my-auto">
               <img className="w-6 h-6 m-auto mr-3" src={profile_img} />
-              <p className="font-suitM text-[1.3vw] text-gray-900 m-auto">{nickname}</p>
+              <p className="font-suitM text-[1.3vw] text-gray-900 m-auto">
+                {nickname}
+              </p>
             </div>
           </div>
         </div>
@@ -244,8 +270,13 @@ export default function IssueManagePage() {
       <div className="flex flex-col mx-auto my-[2vw] w-[80vw]">
         <div className="flex flex-col space-y-3">
           <div className="flex my-auto mb-[1vw]">
-            <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
-            <p className="font-suitB text-[1.6vw] text-gray-900 my-auto">바톤 넘겨주기</p>
+            <img
+              className="mr-2 select-none pointer-events-none"
+              src={titleBox_img}
+            />
+            <p className="font-suitB text-[1.6vw] text-gray-900 my-auto">
+              바톤 넘겨주기
+            </p>
           </div>
           <div className=" relative flex items-center justify-start ml-[2vw] my-auto ">
             <button
@@ -257,17 +288,29 @@ export default function IssueManagePage() {
                   <div className="ml-2 text-sm text-grey-4 ">멤버 선택</div>
                 ) : (
                   <div className="flex items-center">
-                    <img id="manager_icon" src={profile_img} className="w-6 h-6 ml-4 mr-3" alt="Profile" />
+                    <img
+                      id="manager_icon"
+                      src={profile_img}
+                      className="w-6 h-6 ml-4 mr-3"
+                      alt="Profile"
+                    />
                     <div className="ml-2 text-sm">{memberDropdownValue}</div>
                   </div>
                 )}
               </div>
               <div className="flex items-center justify-center">
-                <img className="m-1 w-[9px] h-[6px]" src={isMemberDropdownOpen ? chevron_up : chevron_down} alt="Dropdown Icon" />
+                <img
+                  className="m-1 w-[9px] h-[6px]"
+                  src={isMemberDropdownOpen ? chevron_up : chevron_down}
+                  alt="Dropdown Icon"
+                />
               </div>
             </button>
             {isMemberDropdownOpen && (
-              <div ref={dropdownRef} className=" absolute z-10 top-full left-auto mt-2 w-[140px] bg-white divide-y divide-gray-100 rounded-lg shadow">
+              <div
+                ref={dropdownRef}
+                className=" absolute z-10 top-full left-auto mt-2 w-[140px] bg-white divide-y divide-gray-100 rounded-lg shadow"
+              >
                 {/* 멤버 리스트 목록 map으로 보이기 */}
                 {memberList.length === 0 ? (
                   <div className="py-2 px-4 text-center">멤버 없음</div>
@@ -281,7 +324,12 @@ export default function IssueManagePage() {
                         setBelongId(member.memberId);
                       }}
                     >
-                      <img id="manager_icon" src={member.profileImage} alt="M" className="w-6 h-6 ml-4 mr-3" />
+                      <img
+                        id="manager_icon"
+                        src={member.profileImage}
+                        alt="M"
+                        className="w-6 h-6 ml-4 mr-3"
+                      />
                       <div className="ml-2 text-sm">{member.nickname}</div>
                     </div>
                   ))
@@ -289,7 +337,9 @@ export default function IssueManagePage() {
               </div>
             )}
           </div>
-          <p className="text-[1.6vh] font-suitL text-gray-400 ml-[2vw] my-auto">이슈 알림을 받을 멤버를 선택하실 수 있습니다.</p>
+          <p className="text-[1.6vh] font-suitL text-gray-400 ml-[2vw] my-auto">
+            이슈 알림을 받을 멤버를 선택하실 수 있습니다.
+          </p>
         </div>
       </div>
 
@@ -299,8 +349,13 @@ export default function IssueManagePage() {
         <div className="mb-[5vh]">
           <div className="flex flex-col mx-auto w-[80vw] mt-[2vh]">
             <div className="flex my-auto">
-              <img className="mr-2 select-none pointer-events-none" src={titleBox_img} />
-              <p className="font-bold text-[1.6vw] text-gray-900 mt-1">이슈 레포트</p>
+              <img
+                className="mr-2 select-none pointer-events-none"
+                src={titleBox_img}
+              />
+              <p className="font-bold text-[1.6vw] text-gray-900 mt-1">
+                이슈 레포트
+              </p>
             </div>
           </div>
           <div className="border border-primary-5 rounded-lg bg-white p-[0.2vw] w-[80vw] font-suitM my-[3vh] mx-auto">
@@ -326,18 +381,8 @@ export default function IssueManagePage() {
                 ]}
                 hooks={{
                   addImageBlobHook: async (blob, callback) => {
-                    const imgData = new FormData();
-                    imgData.append("profileImg", blob);
-                    instanceImageAuth
-                      .post(`/releases/images/upload`, imgData)
-                      .then((response) => {
-                        if (response.data.code == 200) {
-                          callback(response.data.result);
-                        }
-                      })
-                      .catch(() => {
-                        callback("");
-                      });
+                    callback("");
+                    setAlert(true);
                   },
                 }}
               />
@@ -365,6 +410,14 @@ export default function IssueManagePage() {
       )}
       {isReportModalOpen && (
         <CommonModal title="안내메세지" description="이슈레포트가 정상적으로 수정되었습니다." btnTitle="확인" closeModal={() => setIsReportModalOpen(false)} />
+      )}
+      {alert && (
+        <CommonModal
+          title="안내메시지"
+          description="해커톤 기간에는 이 기능을 제공하지 않습니다."
+          btnTitle="확인"
+          closeModal={() => setAlert(false)}
+        />
       )}
     </div>
   );

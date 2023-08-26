@@ -16,6 +16,7 @@ import { useRecoilState } from "recoil";
 import { projectNavs } from "@src/state/projectState";
 import { ProjectNav } from "@src/types/project";
 import { useNavigate, useParams } from "react-router-dom";
+import CommonModal from "@src/components/CommonModal";
 
 export default function RnoteEditPage() {
   const { projectKey, releaseId } = useParams();
@@ -32,6 +33,8 @@ export default function RnoteEditPage() {
   const [versionMajor, setVersionMajor] = useState<number>(0);
   const [versionMinor, setVersionMinor] = useState<number>(0);
   const [versionPatch, setVersionPatch] = useState<number>(0);
+
+  const [alert, setAlert] = useState(false);
 
   // CommonModal 표시
   const [isModalOpen, setIsModalOpen] = useState<boolean>(false);
@@ -424,19 +427,9 @@ export default function RnoteEditPage() {
                             ]}
                             hooks={{
                               addImageBlobHook: async (blob, callback) => {
-                                const imgData = new FormData();
-                                imgData.append("imgData", blob);
-                                instanceImageAuth
-                                  .post(`/releases/images/upload`, imgData)
-                                  .then((response) => {
-                                    if (response.data.code == 200) {
-                                      callback(response.data.result);
-                                    }
-                                  })
-                                  .catch(() => {
-                                    callback("");
-                                  });
-                              },
+                                callback("");
+                                setAlert(true);
+                              }
                             }}
                           />
                         </div>
@@ -472,6 +465,14 @@ export default function RnoteEditPage() {
           </DragDropContext>
         </div>
       </div>
+      {alert && (
+        <CommonModal
+          title="안내메시지"
+          description="해커톤 기간에는 이 기능을 제공하지 않습니다."
+          btnTitle="확인"
+          closeModal={() => setAlert(false)}
+        />
+      )}
     </div>
   );
 }

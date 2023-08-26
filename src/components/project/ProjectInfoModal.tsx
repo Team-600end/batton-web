@@ -55,41 +55,45 @@ export default function ProjectInfoModal({ closeModal }) {
   // 저장 확인 모달
   const [isSaveModal, setIsSaveModal] = useState(false);
 
+  const [alert, setAlert] = useState(false);
+
   const handleEdit = () => {
     setIsEdit(!isEdit);
   };
 
   const handleSave = () => {
-    setIsSaveModal(true);
+    setAlert(true);
     setIsEdit(false);
-    saveProject();
-    getProjectInfo();
   };
 
   /** 프로젝트  */
-  const saveProject = async () => {
-    const formData = new FormData();
-    formData.append("projectTitle", pjTitle);
-    formData.append("projectKey", pjKey);
-    formData.append("projectContent", pjContent);
-    formData.append("projectImage", imgFile);
+  // const saveProject = async () => {
+  //   const formData = new FormData();
+  //   formData.append("projectTitle", pjTitle);
+  //   formData.append("projectKey", pjKey);
+  //   formData.append("projectContent", pjContent);
+  //   formData.append("projectImage", imgFile);
 
-    instanceImageAuth
-      .patch(`/projects/${pj.projectId}`, formData)
-      .then((response) => {
-        if (response.data.code === 200) {
-          setPjTitle(pjTitle);
-          setPjKey(pjKey);
-          setPjContent(pjContent);
-        } else if (response.data.code === 707) {
-          setPjTitle("");
-          setPjKey("");
-          setPjContent("");
-          setViewImg("");
-        }
-      })
-      .catch((error) => {});
-  };
+  //   console.log("=========수정요청==========");
+  //   console.log(formData);
+  //   instanceImageAuth
+  //     .patch(`/projects/${pj.projectId}`, formData)
+  //     .then((response) => {
+  //       if (response.data.code === 200) {
+  //         setPjTitle(pjTitle);
+  //         setPjKey(pjKey);
+  //         setPjContent(pjContent);
+  //       } else if (response.data.code === 707) {
+  //         setPjTitle("");
+  //         setPjKey("");
+  //         setPjContent("");
+  //         setViewImg("");
+  //       }
+  //     })
+  //     .catch((error) => {
+  //       console.log(error);
+  //     });
+  // };
 
   const handleDelete = async () => {};
 
@@ -285,6 +289,14 @@ export default function ProjectInfoModal({ closeModal }) {
           </div>
         </div>
       </div>
+      {alert && (
+        <CommonModal
+        title="안내메시지"
+        description="해커톤 기간에는 이 기능을 제공하지 않습니다."
+        btnTitle="확인"
+        closeModal={() => setAlert(false)}
+        />
+      )}
     </>
   );
 }
